@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "671071465626",
+    "firebase_url": "https://apphotrotimkiemnhatro-default-rtdb.firebaseio.com",
+    "project_id": "apphotrotimkiemnhatro",
+    "storage_bucket": "apphotrotimkiemnhatro.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671071465626:android:294f2b477ab94d25cc2f23",
+        "android_client_info": {
+          "package_name": "com.example.appnhatro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "671071465626-k2hm3l9rabdi67qq3q5h411frop5sqgk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjj-qJn49hNxqtpHoSAHuRlPw1EJie570"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "671071465626-k2hm3l9rabdi67qq3q5h411frop5sqgk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
