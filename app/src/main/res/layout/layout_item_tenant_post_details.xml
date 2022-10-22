@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_gravity="center"
-        android:layout_height="0dp"
+        android:layout_height="200dp"
         android:scaleX="2.25"
         android:scaleY="2"
-        android:layout_weight="1"
         >
         <ImageView
             android:layout_width="match_parent"
@@ -21,8 +24,7 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:layout_weight="2">
+        android:layout_height="500dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -36,6 +38,7 @@
                 android:paddingLeft="10dp"
                 android:textColor="@color/black"></TextView>
             <TextView
+                android:id="@+id/txtHouse_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Phòng đẹp thoáng mát khu Phú Lợi, P7,Q.8"
@@ -44,6 +47,7 @@
                 android:paddingLeft="10dp"
                 android:textColor="@color/black"></TextView>
             <TextView
+                android:id="@+id/txtAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Địa chỉ: 134/15G Đường Nguyễn Thị Thập, Phường Bình Thuận, Quận 7, Hồ Chí Minh"
@@ -56,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
+                    android:id="@+id/txtPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="1.700.000 đ/tháng"
@@ -63,19 +68,32 @@
                     android:paddingLeft="10dp"
                     android:textColor="#E31313"></TextView>
                 <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="30 m2"
+                android:textSize="7pt"
+                android:paddingTop="20dp"
+                android:paddingLeft="10dp"
+                android:textColor="#E31313"></TextView>
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="30 m2"
+                    android:text="Tình trạng: cho thuê"
                     android:textSize="7pt"
                     android:paddingTop="20dp"
                     android:paddingLeft="10dp"
-                    android:textColor="#E31313"></TextView>
+                    android:textColor="@color/black"></TextView>
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_save"></ImageView>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
+                    android:id="@+id/txtArea"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="30 m2"
@@ -113,18 +131,22 @@
                 android:paddingTop="5dp"
                 android:paddingLeft="10dp"
                 android:textColor="@color/black"></TextView>
-            <TextView
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="sssssssssssssssssssssssssssssssssssssss
-                sssssssssssssssssssssssssssssssssssssssssssssssssssss
-sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
-                android:textSize="7pt"
-                android:textStyle="bold"
-                android:paddingTop="2dp"
-                android:paddingRight="20dp"
-                android:paddingLeft="10dp"
-                android:textColor="@color/black"></TextView>
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="fdsfdsfdfdsfds"
+                    android:maxLines="4"
+                    android:textSize="7pt"
+                    android:textStyle="bold"
+                    android:paddingTop="2dp"
+                    android:paddingRight="20dp"
+                    android:paddingLeft="10dp"
+                    android:singleLine="false"
+                    android:textColor="@color/black"></TextView>
+            </ScrollView>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -159,27 +181,27 @@ sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/star"
+                    android:src="@drawable/ic_star"
                     android:layout_margin="11dp"></ImageView>
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/star"
+                    android:src="@drawable/ic_star"
                     android:layout_margin="11dp"></ImageView>
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/star"
+                    android:src="@drawable/ic_star"
                     android:layout_margin="11dp"></ImageView>
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/star"
+                    android:src="@drawable/ic_star"
                     android:layout_margin="11dp"></ImageView>
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/star"
+                    android:src="@drawable/ic_star"
                     android:layout_margin="11dp"></ImageView>
             </LinearLayout>
         </LinearLayout>
@@ -211,4 +233,5 @@ sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
                 ></androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
