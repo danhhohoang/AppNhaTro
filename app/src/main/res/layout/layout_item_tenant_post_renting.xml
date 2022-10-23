@@ -44,13 +44,13 @@
                 android:text="Địa chỉ: 134/15G Đường Nguyễn Thị Thập, Phường Bình Thuận, Quận 7, Hồ Chí Minh"
                 android:textColor="@color/black"></TextView>
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_width="65dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/ic_roommate"
+                    android:src="@drawable/house"
                     android:layout_marginTop="3dp"></ImageView>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -66,12 +66,8 @@
                         android:text="17000000 đ/tháng"
                         android:textColor="#E31C1C"></TextView>
                 </LinearLayout>
-                <ImageView
-                    android:layout_width="65dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/ic_save"
-                    android:layout_marginTop="3dp"></ImageView>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>
