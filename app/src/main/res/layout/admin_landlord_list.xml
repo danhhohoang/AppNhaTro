@@ -56,15 +56,13 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:layout_weight="1.5"
-            android:background="?android:attr/selectableItemBackground"
-            android:drawableLeft="@drawable/ic_dieukhoan"
-            app:icon="@drawable/ic_add"
+            android:background="@drawable/button_cricle"
+            android:drawableLeft="@drawable/ic_add"
+            app:backgroundTint="@null"
             tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
     <ListView
         android:id="@+id/lvDanhSach_CT"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
-
 </LinearLayout>

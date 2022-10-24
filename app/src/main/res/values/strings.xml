@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">AppNhaTro</string>
+    <string-array name="quanhuyen_array">
+        <item>Chọn quận/huyện...</item>
+        <item>Item1</item>
+        <item>Item2</item>
+        <item>Item3</item>
+    </string-array>
+    <string-array name="phuongxa_array">
+        <item>Chọn phường/xã...</item>
+        <item>Item1</item>
+        <item>Item2</item>
+        <item>Item3</item>
+    </string-array>
 </resources>
