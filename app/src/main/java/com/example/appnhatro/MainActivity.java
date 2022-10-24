@@ -20,6 +20,13 @@ import com.example.appnhatro.fragment.HomeFragment;
 import com.example.appnhatro.fragment.PostFrgment;
 import com.example.appnhatro.fragment.ReportFragment;
 import com.google.android.material.navigation.NavigationView;
+import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -32,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private DrawerLayout mDrawerLayout;
-
+    TextView a;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         replaceFragment(new ReportFragment());
         navigationView.getMenu().findItem(R.id.nav_Report).setChecked(true);
 
+        setContentView(R.layout.activity_main);
+        //writeDatabase();
+        //readDatabase();
     }
 
 
@@ -89,6 +99,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+
+    }
+    private void Tri(){
+    }
+    //Tri
+    private void writeDatabase(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference dulieu = database.getReference("test");
+        dulieu.setValue("thucnghiem");
+    }
+    private void readDatabase(){
+        // Read from the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference Lop = database.getReference("test");
+        Lop.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                a.setText(value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
     }
     private void replaceFragment(Fragment fragment){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
