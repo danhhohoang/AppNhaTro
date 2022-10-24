@@ -1,3 +1,49 @@
 <resources>
     <string name="app_name">AppNhaTro</string>
+
+    <string-array name="string_spn_district">
+        <item>Thành Phố Thủ Đức</item>
+        <item>Quận 1</item>
+        <item>Quận 3</item>
+        <item>Quận 4</item>
+        <item>Quận 5</item>
+        <item>Quận 6</item>
+        <item>Quận 7</item>
+        <item>Quận 8</item>
+        <item>Quận 10</item>
+        <item>Quận 11</item>
+        <item>Quận 12</item>
+        <item>Quận Bình Tân</item>
+        <item>Quận Bình Thạnh</item>
+        <item>Quận Gò Vấp</item>
+        <item>Quận Phú Nhuận</item>
+        <item>Quận Tân Bình</item>
+        <item>Quận Tân Phú</item>
+        <item>Huyện Bình Chánh</item>
+        <item>Huyện Cần Giờ</item>
+        <item>Huyện Củ Chi</item>
+        <item>Huyện Hóc Môn</item>
+        <item>Huyện Nhà Bè</item>
+
+
+    </string-array>
+    <string-array name="string_spn_area">
+        <item>dưới 20m2</item>
+        <item>20m2 - 30m2</item>
+        <item>30m2 - 40m2</item>
+        <item>40m2 - 50m2</item>
+        <item>50m2 trở lên</item>
+
+    </string-array>
+    <string-array name="string_spn_price">
+        <item>Dưới 1 triệu</item>
+        <item>1 triệu - 2 triệu</item>
+        <item>2 triệu - 4 triệu</item>
+        <item>4 triệu - 6 triệu</item>
+        <item>6 triệu - 8 triệu</item>
+        <item>8 triệu - 12 triệu</item>
+        <item>12 triệu - 18 triệu</item>
+        <item>18 triệu trở lên</item>
+    </string-array>
+
 </resources>
