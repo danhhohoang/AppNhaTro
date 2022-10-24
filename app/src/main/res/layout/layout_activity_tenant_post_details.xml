@@ -38,19 +38,17 @@
                 android:paddingLeft="10dp"
                 android:textColor="@color/black"></TextView>
             <TextView
-                android:id="@+id/txtHouse_name"
+                android:id="@+id/txt_tpdHousename"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Phòng đẹp thoáng mát khu Phú Lợi, P7,Q.8"
                 android:textStyle="bold"
                 android:textSize="9pt"
                 android:paddingLeft="10dp"
                 android:textColor="@color/black"></TextView>
             <TextView
-                android:id="@+id/txtAddress"
+                android:id="@+id/txt_tpdAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Địa chỉ: 134/15G Đường Nguyễn Thị Thập, Phường Bình Thuận, Quận 7, Hồ Chí Minh"
                 android:textSize="7pt"
                 android:paddingTop="10dp"
                 android:paddingLeft="10dp"
@@ -60,17 +58,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/txtPrice"
+                    android:id="@+id/txt_tpdPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="1.700.000 đ/tháng"
                     android:textSize="7pt"
                     android:paddingLeft="10dp"
                     android:textColor="#E31313"></TextView>
                 <TextView
+                android:id="@+id/txt_tpdArea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="30 m2"
                 android:textSize="7pt"
                 android:paddingTop="20dp"
                 android:paddingLeft="10dp"
@@ -92,15 +89,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/txtArea"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="30 m2"
-                    android:textSize="7pt"
+                <ImageView
+                    android:src="@drawable/ic_user"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:paddingTop="10dp"
-                    android:paddingLeft="10dp"
-                    android:textColor="#E31313"></TextView>
+                    android:paddingLeft="10dp"></ImageView>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
