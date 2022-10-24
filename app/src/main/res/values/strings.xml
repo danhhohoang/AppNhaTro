@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">AppNhaTro</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_favorite">Favorite</string>
+    <string name="nav_history">History</string>
+    <string name="nav_account">Account</string>
+    <string name="nav_my_profile">My profile</string>
+    <string name="nav_change_password">Change Password</string>
+    <string name="nav_report">Report</string>
+    <string name="nav_post">Post</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.appnhatro;
+package com.example.appnhatro.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,11 +9,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Button;
 
 import com.example.appnhatro.R;
 import com.example.appnhatro.fragment.HomeFragment;
@@ -21,7 +18,7 @@ import com.example.appnhatro.fragment.PostFrgment;
 import com.example.appnhatro.fragment.ReportFragment;
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int FRAGMENT_HOME = 0;
     private static final int FRAGMENT_REPORT = 1;
@@ -32,12 +29,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private DrawerLayout mDrawerLayout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_bar);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //ánh xạ view
@@ -53,6 +48,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         replaceFragment(new ReportFragment());
         navigationView.getMenu().findItem(R.id.nav_Report).setChecked(true);
 
+    }
+
+    private void replaceFragment(ReportFragment reportFragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.content_frame, reportFragment);
     }
 
 
@@ -72,9 +72,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         } else if (id == R.id.nav_post) {
             if (mCurrentFragment != FRAGMENT_POST) {
-
-             replaceFragment(new PostFrgment());
-             mCurrentFragment = FRAGMENT_POST;
+                replaceFragment(new PostFrgment());
+                mCurrentFragment = FRAGMENT_POST;
             }
         }
 

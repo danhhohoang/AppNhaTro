@@ -13,117 +13,131 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp">
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="168dp"
+            android:layout_marginStart="110dp"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
-            android:text="REPORT"
+            android:text="Đặt lịch xem phòng"
             android:textColor="#FAFAFA"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="Tên bài đăng" />
+            android:text="Tên người đặt phòng" />
 
         <EditText
-            android:id="@+id/tenbaidang"
+            android:id="@+id/tennguoidatphong"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="ID người đăng" />
+            android:text="Số điện thoại" />
 
         <EditText
-            android:id="@+id/idnguoidang"
+            android:id="@+id/SDT"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="Tên người gửi" />
+            android:text="Thời gian đến xem phòng" />
 
-        <EditText
-            android:id="@+id/tennguoigui"
+        <Button
+            android:id="@+id/timeButton"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:onClick="popTimePicker"
+            android:text="00 : 00"
+            android:background="@color/white"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintVertical_bias="0.1" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="Tiêu đề" />
+            android:text="Ngày đến xem phòng" />
 
-        <EditText
-            android:id="@+id/tieude"
+        <Button
+            android:id="@+id/dayButton"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:onClick="openDatePicker"
+            android:text="DD/MM/YY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintVertical_bias="0.1" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="Nội dung report" />
+            android:text="Ghi chú thêm" />
 
         <EditText
             android:id="@+id/noidungreport"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="6"
+            android:hint="@string/app_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/bthuy"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="2"
+            android:background="#F11909"
             android:layout_gravity="center"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:layout_marginBottom="10dp">
+            android:text="Đặt lịch xem phòng"
+            android:textColor="#000000"
+            tools:ignore="TouchTargetSizeCheck" />
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_weight="4"
-                android:background="#F11909"
-                android:text="Hủy bỏ"
-                tools:ignore="TouchTargetSizeCheck" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="2"
+            android:background="#03A9F4"
+            android:layout_gravity="center"
+            android:text="Hủy bỏ"
+            android:textColor="#4A148C"
+            tools:ignore="TouchTargetSizeCheck" />
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_weight="4"
-                android:background="#03A9F4"
 
-                android:text="Gửi" />
-        </LinearLayout>
+
+
     </LinearLayout>
 </LinearLayout>
