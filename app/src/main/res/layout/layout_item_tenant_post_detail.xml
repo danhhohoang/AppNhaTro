@@ -9,20 +9,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
             android:scaleType="fitXY"
             android:background="@drawable/border_radius"
             android:src="@drawable/house"></ImageView>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="120dp">
         <TextView
             android:id="@+id/txt_tpdHousename"
             android:layout_width="match_parent"
@@ -31,14 +25,14 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="8pt"
-            android:paddingLeft="10dp"></TextView>
+            android:paddingLeft="10dp"/>
         <TextView
             android:id="@+id/txt_tpdArea"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="20m"
             android:textSize="8pt"
-            android:paddingLeft="10dp"></TextView>
+            android:paddingLeft="10dp"/>
         <TextView
             android:id="@+id/txt_tpdPrice"
             android:layout_width="match_parent"
@@ -46,6 +40,8 @@
             android:text="3000000"
             android:textSize="8pt"
             android:paddingLeft="10dp"
-            android:textColor="#F44336"></TextView>
+            android:textColor="#F44336"/>
+
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>
