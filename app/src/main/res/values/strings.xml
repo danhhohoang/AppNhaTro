@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">AppNhaTro</string>
+    <string name="txt_search">Tìm</string>
+    <string name="btn_fillter_des">Open Fillter Function (screen)</string>
+    <string name="btn_notification_des">open notification dialog</string>
+    <string name="btn_menu_des">Open menu side-bar</string>
 
     <string-array name="string_spn_district">
+        <item>--Chọn Quận--</item>
         <item>Thành Phố Thủ Đức</item>
         <item>Quận 1</item>
         <item>Quận 3</item>
@@ -28,6 +33,7 @@
 
     </string-array>
     <string-array name="string_spn_area">
+        <item>--Chọn diện tích--</item>
         <item>dưới 20m2</item>
         <item>20m2 - 30m2</item>
         <item>30m2 - 40m2</item>
@@ -36,6 +42,7 @@
 
     </string-array>
     <string-array name="string_spn_price">
+        <item>--Chọn khoảng giá--</item>
         <item>Dưới 1 triệu</item>
         <item>1 triệu - 2 triệu</item>
         <item>2 triệu - 4 triệu</item>
