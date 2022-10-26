@@ -6,9 +6,9 @@
             android:title="@string/nav_home"
             android:icon="@drawable/ic_home"/>
 
-        <item android:id="@+id/nav_favorite"
-            android:title="@string/nav_favorite"
-            android:icon="@drawable/ic_favorite"/>
+        <item android:id="@+id/nav_notification"
+            android:title="@string/nav_notification"
+            android:icon="@drawable/ic_notifications"/>
 
         <item android:id="@+id/nav_history"
             android:title="@string/nav_history"

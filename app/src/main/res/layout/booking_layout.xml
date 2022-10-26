@@ -12,96 +12,70 @@
         android:layout_height="0dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:orientation="vertical"
         android:layout_marginBottom="10dp">
-
-
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="110dp"
-            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:text="Đặt lịch xem phòng"
+            android:textStyle="bold"
+            android:text="ĐẶT LỊCH XEM PHÒNG"
             android:textColor="#FAFAFA"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            style="@style/TextBooking"
             android:text="Tên người đặt phòng" />
 
         <EditText
             android:id="@+id/tennguoidatphong"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="SpeakableTextPresentCheck" />
+            style="@style/edittextBooking"/>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            style="@style/TextBooking"
             android:text="Số điện thoại" />
 
         <EditText
-            android:id="@+id/SDT"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            style="@style/edittextBooking"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            style="@style/TextBooking"
             android:text="Thời gian đến xem phòng" />
 
         <Button
             android:id="@+id/timeButton"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:onClick="popTimePicker"
             android:text="00 : 00"
-            android:background="@color/white"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintVertical_bias="0.1" />
+            android:background="@drawable/txt_background_login"
+            app:backgroundTint="@null"
+            android:textColor="@color/black"/>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            style="@style/TextBooking"
             android:text="Ngày đến xem phòng" />
 
         <Button
             android:id="@+id/dayButton"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_weight="3"
+            android:background="@drawable/txt_background_login"
             android:onClick="openDatePicker"
+            app:backgroundTint="@null"
             android:text="DD/MM/YY"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintVertical_bias="0.1" />
+            android:textColor="@color/black"/>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            style="@style/TextBooking"
             android:text="Ghi chú thêm" />
 
         <EditText
@@ -109,35 +83,31 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="6"
-            android:hint="@string/app_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:background="@drawable/txt_background_login" />
 
         <Button
             android:id="@+id/bthuy"
-            android:layout_width="wrap_content"
+            android:layout_width="273dp"
             android:layout_height="0dp"
+            android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:layout_weight="2"
-            android:background="#F11909"
-            android:layout_gravity="center"
+            android:background="@drawable/btn_blu"
             android:text="Đặt lịch xem phòng"
-            android:textColor="#000000"
+            android:textColor="@color/white"
+            app:backgroundTint="@null"
             tools:ignore="TouchTargetSizeCheck" />
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="0dp"
+            android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:layout_weight="2"
-            android:background="#03A9F4"
-            android:layout_gravity="center"
+            android:background="@drawable/btn_red"
             android:text="Hủy bỏ"
-            android:textColor="#4A148C"
+            android:textColor="#F6F5F8"
+            app:backgroundTint="@null"
             tools:ignore="TouchTargetSizeCheck" />
-
-
-
-
     </LinearLayout>
 </LinearLayout>

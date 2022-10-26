@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         replaceFragment(new ReportFragment());
         navigationView.getMenu().findItem(R.id.nav_Report).setChecked(true);
 
-        setContentView(R.layout.activity_main);
+
         //writeDatabase();
         //readDatabase();
     }
@@ -130,4 +130,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         transaction.replace(R.id.content_frame, fragment);
         transaction.commit();
     }
+
+    
 }

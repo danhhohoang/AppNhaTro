@@ -13,4 +13,36 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="TextBooking" parent="">
+        <!-- Primary brand color. -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:gravity">center|left</item>
+        <!-- Secondary brand color. -->
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">#FAFAFA</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <style name="edittextBooking" parent="">
+        <!-- Primary brand color. -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <!-- Secondary brand color. -->
+        <item name="android:layout_weight">2</item>
+        <item name="android:background">@drawable/txt_background_login</item>
+    </style>
+
+    <style name="editfillter" parent="">
+        <!-- Primary brand color. -->
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <!-- Secondary brand color. -->
+        <item name="android:layout_weight">2</item>
+        <item name="android:gravity"></item>
+        <item name="android:textColor">#FAFAFA</item>
+        <item name="android:textSize">18dp</item>
+    </style>
 </resources>

@@ -16,11 +16,12 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="168dp"
+            android:gravity="center"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
+            android:textStyle="bold"
             android:text="REPORT"
             android:textColor="#FAFAFA"
             android:textSize="20sp"
@@ -28,100 +29,71 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            style="@style/TextBooking"
             android:text="Tên bài đăng" />
 
         <EditText
             android:id="@+id/tenbaidang"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            style="@style/edittextBooking"/>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            style="@style/TextBooking"
             android:text="ID người đăng" />
 
         <EditText
             android:id="@+id/idnguoidang"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            style="@style/edittextBooking"/>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            style="@style/TextBooking"
             android:text="Tên người gửi" />
 
         <EditText
             android:id="@+id/tennguoigui"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            style="@style/edittextBooking" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            style="@style/TextBooking"
             android:text="Tiêu đề" />
 
         <EditText
             android:id="@+id/tieude"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            style="@style/edittextBooking" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            style="@style/TextBooking"
             android:text="Nội dung report" />
 
         <EditText
             android:id="@+id/noidungreport"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
             android:layout_weight="6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            style="@style/edittextBooking"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:orientation="horizontal"
             android:layout_marginBottom="10dp">
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginRight="10dp"
                 android:layout_weight="4"
-                android:background="#F11909"
+                android:background="@drawable/btn_red"
                 android:text="Hủy bỏ"
+                app:backgroundTint="@null"
                 tools:ignore="TouchTargetSizeCheck" />
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginRight="10dp"
                 android:layout_weight="4"
-                android:background="#03A9F4"
+                app:backgroundTint="@null"
+                android:background="@drawable/btn_blu"
 
                 android:text="Gửi" />
         </LinearLayout>

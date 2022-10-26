@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:orientation="vertical">
@@ -15,9 +16,10 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="140dp"
+            android:textStyle="bold"
+            android:gravity="center"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:text="ĐĂNG BÀI"
@@ -25,34 +27,33 @@
             android:textSize="20sp" />
 
         <LinearLayout
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
+                style="@style/editfillter"
                 android:text="Tình trạng" />
 
-            <EditText
-                android:id="@+id/edtxtinhtrang"
+            <Spinner
+                android:id="@+id/spntinhtrang"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2" />
+                android:background="@drawable/spinner_bodert"
+                android:layout_weight="4" />
         </LinearLayout>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            style="@style/TextBooking"
             android:text="Địa chỉ" />
 
         <EditText
             android:id="@+id/edtdiachi"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            style="@style/edittextBooking"
             android:layout_weight="2" />
 
         <LinearLayout
@@ -62,15 +63,49 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
+                style="@style/editfillter"
                 android:text="Giới tính: " />
 
-            <EditText
-                android:id="@+id/edtxgioitinh"
+            <Spinner
+                android:id="@+id/gioitinh"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:background="@drawable/spinner_bodert"
+                android:layout_weight="2" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/editfillter"
+                android:text="Độ tuổi: " />
+
+            <EditText
+                android:id="@+id/edtxdotuoi"
+                android:layout_width="0dp"
+                android:background="@drawable/spinner_bodert"
+                android:layout_height="match_parent"
+                android:layout_weight="2" />
+
+            <TextView
+                style="@style/editfillter"
+                android:layout_marginLeft="5dp"
+                android:text="Đến" />
+
+            <EditText
+                android:id="@+id/edtxden"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/spinner_bodert"
                 android:layout_weight="2" />
         </LinearLayout>
 
@@ -78,49 +113,18 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Độ tuổi: " />
-
-            <EditText
-                android:id="@+id/edtxdotuoi"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Đến " />
-
-            <EditText
-                android:id="@+id/edtxden"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
+                style="@style/editfillter"
                 android:text="Số lượng người ở: " />
 
             <Spinner
                 android:id="@+id/spnSl"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:background="@drawable/spinner_bodert"
                 android:layout_weight="2" />
         </LinearLayout>
 
@@ -128,37 +132,34 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Gía: " />
+                style="@style/editfillter"
+                android:text="Giá: " />
 
             <EditText
                 android:id="@+id/edtxgia"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2" />
+                android:background="@drawable/spinner_bodert"
+                android:layout_weight="4" />
         </LinearLayout>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+           style="@style/TextBooking"
             android:text="Yêu cầu khác: " />
 
         <EditText
             android:id="@+id/edtyeuccaukhac"
             android:layout_width="match_parent"
+            style="@style/edittextBooking"
             android:layout_height="0dp"
-            android:layout_weight="2" />
+            android:layout_weight="4" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+           style="@style/TextBooking"
             android:text="Ảnh: " />
 
         <LinearLayout
@@ -171,6 +172,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
+
 
             <ImageButton
                 android:layout_width="0dp"
@@ -195,9 +197,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="2"
-                android:background="#F11909"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/btn_red"
+                app:backgroundTint="@null"
                 android:text="Hủy bỏ"
-                android:textColor="#000000" />
+                android:textColor="#FFFDFD" />
 
             <Button
                 android:id="@+id/btdang"
@@ -205,11 +209,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="2"
-                android:background="#03A9F4"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/btn_blu"
+                app:backgroundTint="@null"
                 android:text="Đăng"
                 android:textColor="#FCFFFFFF" />
-
         </LinearLayout>
     </LinearLayout>
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>
