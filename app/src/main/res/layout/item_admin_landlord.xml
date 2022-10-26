@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="140dp"
     android:orientation="horizontal"
+    android:layout_marginTop="10dp"
+    android:paddingTop="5dp"
     android:background="@drawable/item_admin_landlord">
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/civdanhsach_CT"
@@ -16,31 +18,27 @@
         android:gravity="center"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/tvID_CT"
+            android:id="@+id/txt_alID"
             android:layout_width="match_parent"
             android:textColor="@color/black"
-            android:text="ID:   CT01"
             android:layout_marginBottom="5dp"
             android:layout_height="25dp"/>
         <TextView
-            android:id="@+id/tvSDT_CT"
+            android:id="@+id/txt_alSDT"
             android:layout_width="match_parent"
             android:textColor="@color/black"
-            android:text="SDT:   023256468"
             android:layout_marginBottom="5dp"
             android:layout_height="25dp"/>
         <TextView
-            android:id="@+id/tvTinhTrang_CT"
+            android:id="@+id/txt_alStatus"
             android:layout_width="match_parent"
             android:textColor="@color/black"
-            android:text="Tình trạng:   Đã đóng"
             android:layout_marginBottom="5dp"
             android:layout_height="25dp"/>
         <TextView
-            android:id="@+id/tvSoTienCanDong_CT"
+            android:id="@+id/txt_alMoneyhavepay"
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:text="Số tiền cần đóng:   1.500.000Đ"
             android:layout_marginBottom="5dp"
             android:textColor="@color/black"/>
 

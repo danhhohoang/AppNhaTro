@@ -61,8 +61,8 @@
             app:backgroundTint="@null"
             tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
-    <ListView
-        android:id="@+id/lvDanhSach_CT"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_al"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>
