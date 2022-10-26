@@ -26,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_tenant_layout);
         Tri();
+//        setContentView(R.layout.activity_main);
+//        a.findViewById(R.id.texx);
+////        writeDatabase();
+////        readDatabase();
     }
     private void Tri(){
 //        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.cardViewImageHome);
