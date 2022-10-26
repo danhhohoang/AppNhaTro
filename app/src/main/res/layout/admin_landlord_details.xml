@@ -16,27 +16,17 @@
         android:layout_marginBottom="20dp"
         android:orientation="horizontal">
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
+            style="@style/al_ButtonNavigationbar_add_detail"
             android:background="?android:attr/selectableItemBackground"
             android:drawableLeft="@drawable/button_menu"
             tools:ignore="SpeakableTextPresentCheck" />
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:gravity="center"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:text="THÊM CHỦ TRỌ"
-            android:textColor="@color/white"/>
+            style="@style/al_textviewNavigationbar_add_detail"
+            android:text="CHI TIẾT CHỦ TRỌ" />
 
         <Button
             android:id="@+id/btnThongbao"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
+            style="@style/al_ButtonNavigationbar_add_detail"
             android:background="?android:attr/selectableItemBackground"
             android:drawableRight="@drawable/bell_32x32"
             tools:ignore="SpeakableTextPresentCheck" />
@@ -45,137 +35,74 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:weightSum="32"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginBottom="10dp"
+            style="@style/al_imglandlord_add_detail"
             android:src="@drawable/background"/>
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textStyle="bold"
+            style="@style/al_textview_add_detail"
             android:text="Mã chủ trọ:"/>
 
         <EditText
+            style="@style/al_edittext_add_detail"
             android:id="@+id/txtMachutro"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/edittext_border_ct_admin"
-            android:hint="Hoàng Danh"
-            android:paddingLeft="20dp"
-            android:textColor="@color/black"
-            android:textSize="15dp" />
+            android:hint="Hoàng Danh" />
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textStyle="bold"
+            style="@style/al_textview_add_detail"
             android:text="Tên chủ trọ:"/>
 
         <EditText
+            style="@style/al_edittext_add_detail"
             android:id="@+id/txtTenchutro"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/edittext_border_ct_admin"
-            android:hint="Hoàng Danh"
-            android:paddingLeft="20dp"
-            android:textColor="@color/black"
-            android:textSize="15dp" />
+            android:hint="Hoàng Danh" />
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textStyle="bold"
+            style="@style/al_textview_add_detail"
             android:text="Địa chỉ:"/>
         <EditText
             android:id="@+id/txtDiachi"
-            android:layout_width="match_parent"
-            android:background="@drawable/edittext_border_ct_admin"
-            android:textSize="15dp"
-            android:hint="Địa chỉ"
-            android:paddingLeft="20dp"
-            android:textColor="@color/black"
-            android:layout_marginBottom="20dp"
-            android:layout_height="100dp"/>
+            style="@style/al_edtaddress_add_detail"
+            android:hint="Địa chỉ" />
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textStyle="bold"
+            style="@style/al_textview_add_detail"
             android:text="Số điện thoại:"/>
 
         <EditText
+            style="@style/al_edittext_add_detail"
             android:id="@+id/txtSodienthoai"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/edittext_border_ct_admin"
-            android:hint="0232165654"
-            android:paddingLeft="20dp"
-            android:textColor="@color/black"
-            android:textSize="15dp" />
+            android:hint="0232165654"/>
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textStyle="bold"
+            style="@style/al_textview_add_detail"
             android:text="CMND:"/>
         <EditText
             android:id="@+id/txtCMND"
-            android:layout_width="match_parent"
-            android:background="@drawable/edittext_border_ct_admin"
-            android:textSize="15dp"
-            android:hint="123456789"
-            android:paddingLeft="20dp"
-            android:textColor="@color/black"
-            android:layout_marginBottom="20dp"
-            android:layout_height="40dp"/>
+            style="@style/al_edittext_add_detail"
+            android:hint="123456789" />
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textStyle="bold"
+            style="@style/al_textview_add_detail"
             android:text="Tên tài khoản:"/>
         <EditText
             android:id="@+id/txtTentaikhoan"
-            android:layout_width="match_parent"
-            android:background="@drawable/edittext_border_ct_admin"
-            android:textSize="15dp"
-            android:textColor="@color/black"
-            android:layout_marginBottom="20dp"
-            android:hint="acb123@gmail.com"
-            android:paddingLeft="20dp"
-            android:layout_height="40dp"/>
+            style="@style/al_edittext_add_detail"
+            android:hint="acb123@gmail.com" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:orientation="horizontal">
             <Button
                 android:id="@+id/btnKhoaTK_CT"
-                android:layout_gravity="center"
-                android:layout_width="150dp"
                 android:text="Khoá tài khoản"
-                android:layout_marginRight="40dp"
                 app:backgroundTint="@null"
                 android:background="@drawable/button_themct_admin_border"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"/>
+                style="@style/al_Button_left_detail"/>
             <Button
                 android:id="@+id/btnSuaTK_CT"
-                android:layout_gravity="center"
-                android:layout_width="150dp"
                 android:text="Sửa tài khoản"
                 app:backgroundTint="@null"
-                android:layout_marginLeft="40dp"
-                android:background="@drawable/button_themct_admin_border"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"/>
+                style="@style/al_Button_right_detail"/>
         </LinearLayout>
 
 

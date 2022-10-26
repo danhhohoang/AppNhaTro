@@ -13,27 +13,18 @@
         android:orientation="horizontal">
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
+            style="@style/al_ButtonNavigationbar_add_detail"
             android:background="?android:attr/selectableItemBackground"
             android:drawableLeft="@drawable/button_menu"
             tools:ignore="SpeakableTextPresentCheck" />
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:gravity="center"
-            android:textSize="20dp"
-            android:textStyle="bold"
+            style="@style/al_textviewNavigationbar_add_detail"
             android:text="DANH SÁCH CHỦ TRỌ"
             android:textColor="@color/white"/>
 
         <Button
             android:id="@+id/btnThongbao"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
+            style="@style/al_ButtonNavigationbar_add_detail"
             android:background="?android:attr/selectableItemBackground"
             android:drawableRight="@drawable/bell_32x32"
             tools:ignore="SpeakableTextPresentCheck" />
@@ -44,20 +35,11 @@
         android:orientation="horizontal">
         <androidx.appcompat.widget.SearchView
             android:id="@+id/svDSChuTro"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="8.5"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/searchview_borderbottom_ct_admin"
-            android:layout_marginLeft="30dp"/>
+            style="@style/al_Searhbar_list"/>
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_weight="1.5"
-            android:background="@drawable/button_cricle"
-            android:drawableLeft="@drawable/ic_add"
+            android:id="@+id/btnAddList"
+            style="@style/al_button_addct_list"
             app:backgroundTint="@null"
             tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>

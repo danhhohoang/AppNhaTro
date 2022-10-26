@@ -14,7 +14,6 @@ import java.util.List;
 public class AdminLandlordList extends AppCompatActivity {
     RecyclerView al;
     AdminLandlordListAdapter adminLandlordListAdapter;
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
