@@ -100,6 +100,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
 
+        setContentView(R.layout.activity_main);
+//        a.findViewById(R.id.texx);
+////        writeDatabase();
+////        readDatabase();
     }
     private void Tri(){
     }
@@ -130,6 +134,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         transaction.replace(R.id.content_frame, fragment);
         transaction.commit();
     }
-
-    
 }

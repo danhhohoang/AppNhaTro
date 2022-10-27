@@ -31,17 +31,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/txt_tprHouseName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
-                android:text="Homestay ở ghép Q7, 1,7 triệu/người BAO TẤT CẢ PHÍ"
                 android:textColor="@color/black"
-                android:textStyle="bold"></TextView>
+                android:textStyle="bold">
+
+            </TextView>
             <TextView
+                android:id="@+id/txt_tprAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
-                android:text="Địa chỉ: 134/15G Đường Nguyễn Thị Thập, Phường Bình Thuận, Quận 7, Hồ Chí Minh"
                 android:textColor="@color/black"></TextView>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,13 +59,14 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
+                        android:id="@+id/txt_tprArea"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="30m2"></TextView>
                     <TextView
+                        android:id="@+id/txt_tprPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="17000000 đ/tháng"
                         android:textColor="#E31C1C"></TextView>
                 </LinearLayout>
             </LinearLayout>

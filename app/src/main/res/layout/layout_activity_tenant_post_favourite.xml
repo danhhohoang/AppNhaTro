@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <androidx.appcompat.widget.SearchView
@@ -19,6 +19,7 @@
                 android:background="@drawable/drawable_item_tenant_post_favourite"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="0dp"
+                android:layout_weight="8"
                 android:layout_marginTop="3dp"
                 app:queryHint="Search"
                 app:iconifiedByDefault="false">
@@ -26,16 +27,17 @@
             <ImageView
                 android:layout_width="80dp"
                 android:layout_height="50dp"
+                android:layout_weight="2"
                 android:src="@drawable/ic_bell"></ImageView>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_tpf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-        </ListView>
+        </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 </LinearLayout>

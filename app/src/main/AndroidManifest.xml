@@ -19,6 +19,8 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity android:name=".TenantPostFavourite"
+            android:exported="true"></activity>
         <activity
             android:name=".Activity.BookingActivity"
             android:exported="true" >
@@ -32,6 +34,8 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity android:name=".TenantPostDetail"></activity>
+        <activity android:name=".TenantPostList"></activity>
     </application>
 
 </manifest>
