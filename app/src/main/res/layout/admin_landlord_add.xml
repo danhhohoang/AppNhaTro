@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="10"
+        android:background="@drawable/background"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:layout_weight="0.5"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
+        <Button
+            style="@style/al_ButtonNavigationbar_add_detail"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawableLeft="@drawable/button_menu"
+            tools:ignore="SpeakableTextPresentCheck" />
+        <TextView
+            style="@style/al_textviewNavigationbar_add_detail"
+            android:text="THÊM CHỦ TRỌ" />
+
+        <Button
+            android:id="@+id/btnThongbao"
+            android:drawableRight="@drawable/bell_32x32"
+            android:background="?android:attr/selectableItemBackground"
+            style="@style/al_ButtonNavigationbar_add_detail"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="9.5"
+        android:weightSum="32"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            style="@style/al_imglandlord_add_detail"
+            android:src="@drawable/background"/>
+        <TextView
+            style="@style/al_textview_add_detail"
+            android:text="Mã chủ trọ:"/>
+        <EditText
+            style="@style/al_edittext_add_detail"
+            android:id="@+id/txtMachutro"
+            android:hint="Hoàng Danh" />
+        <TextView
+            style="@style/al_textview_add_detail"
+            android:text="Tên chủ trọ:"/>
+        <EditText
+            android:id="@+id/txtTenchutro"
+            style="@style/al_edittext_add_detail"
+            android:hint="Hoàng Danh" />
+        <TextView
+            style="@style/al_textview_add_detail"
+            android:text="Địa chỉ:"/>
+        <EditText
+            android:id="@+id/txtDiachi"
+            style="@style/al_edtaddress_add_detail"
+            android:hint="Địa chỉ" />
+        <TextView
+            style="@style/al_textview_add_detail"
+            android:text="Số điện thoại:"/>
+        <EditText
+            android:id="@+id/txtSodienthoai"
+            style="@style/al_edittext_add_detail"
+            android:hint="0232165654" />
+        <TextView
+            style="@style/al_textview_add_detail"
+            android:text="CMND:"/>
+        <EditText
+            style="@style/al_edittext_add_detail"
+            android:id="@+id/txtCMND"
+            android:hint="123456789" />
+        <TextView
+            style="@style/al_textview_add_detail"
+            android:text="Tên tài khoản:"/>
+        <EditText
+            style="@style/al_edittext_add_detail"
+            android:id="@+id/txtTentaikhoan"
+            android:hint="acb123@gmail.com" />
+        <TextView
+            style="@style/al_textview_add_detail"
+            android:text="Mật khẩu:"/>
+        <EditText
+            style="@style/al_edittext_add_detail"
+            android:id="@+id/txtMatkhau123"
+            android:hint="123456789" />
+        <Button
+            android:id="@+id/btnThemCT"
+            style="@style/al_Button_add"
+            app:backgroundTint="@null"
+            android:background="@drawable/button_themct_admin_border"
+            android:text="Thêm" />
+    </LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    android:orientation="horizontal"
+    android:layout_marginTop="10dp"
+    android:paddingTop="5dp"
+    android:background="@drawable/item_admin_landlord">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civdanhsach_CT"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/background" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/txt_alID"
+            android:layout_width="match_parent"
+            android:textColor="@color/black"
+            android:layout_marginBottom="5dp"
+            android:layout_height="25dp"/>
+        <TextView
+            android:id="@+id/txt_alSDT"
+            android:layout_width="match_parent"
+            android:textColor="@color/black"
+            android:layout_marginBottom="5dp"
+            android:layout_height="25dp"/>
+        <TextView
+            android:id="@+id/txt_alStatus"
+            android:layout_width="match_parent"
+            android:textColor="@color/black"
+            android:layout_marginBottom="5dp"
+            android:layout_height="25dp"/>
+        <TextView
+            android:id="@+id/txt_alMoneyhavepay"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+</LinearLayout>
