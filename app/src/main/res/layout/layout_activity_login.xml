@@ -2,107 +2,117 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@drawable/background">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_weight="1"
+        android:layout_height="0dp"
+        android:layout_weight="4"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="10dp"
             android:text="Đăng nhập"
-            android:textAlignment="center"
             android:textColor="@color/white"
-            android:textStyle="bold"
             android:textSize="15pt"
-            android:paddingTop="10dp"></TextView>
+            android:textStyle="bold" />
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:paddingTop="20dp"
-            android:src="@drawable/ic_user"></ImageView>
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:src="@drawable/ic_user"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="40dp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="4"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:gravity="center"
         android:orientation="vertical">
         <EditText
+            android:id="@+id/txtTenDangNhap"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:background="@drawable/txt_background_login"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
             android:hint="Nhập tên đăng nhập"
-            android:paddingLeft="20dp"></EditText>
+            android:paddingLeft="20dp"/>
         <EditText
+            android:id="@+id/txtMatKhauLogin"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/txt_background_login"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
-            android:hint="Nhập mật khẩu"
-            android:paddingLeft="20dp"></EditText>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_login"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_marginTop="20dp"
-            android:layout_marginRight="110dp"
-            android:layout_marginLeft="110dp"
+            android:background="@drawable/txt_background_login"
+            android:hint="Nhập mật khẩu"
+            android:paddingLeft="20dp"/>
+        <Button
+            android:id="@+id/btnDangNhap"
+            android:layout_marginTop="10dp"
+            android:layout_width="150dp"
+            android:layout_height="0dp"
+            android:background="@drawable/btn_login"
+            android:layout_weight="1"
             android:text="Đăng nhập">
         </Button>
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/tvQuenMatKhau"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:text="Quên mật khẩu ?"
-            android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="8pt"
-            android:paddingTop="10dp"></TextView>
+            android:paddingTop="10dp"/>
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="Hoặc đăng nhập với"
-            android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="8pt"
-            android:paddingTop="50dp"></TextView>
+            />
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/btnGoogle"
+            android:layout_width="250dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:background="@drawable/btn_google_login"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="70dp"
-            android:layout_marginLeft="70dp"
+            app:backgroundTint="@null"
             android:text="Google">
         </Button>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
         android:orientation="vertical">
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/tvDangKy"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:text="Chưa có tài khoản? Đăng ký tại đây"
-            android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="8pt"
-            android:paddingTop="50dp"></TextView>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Điều khoản và chính sách"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="8pt"
-            android:paddingTop="10dp"></TextView>
-    </LinearLayout>
+            android:textSize="8pt" />
 
+        <TextView
+            android:id="@+id/tvDieuKhoanVaChinhSach_Login"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="Điều khoản và chính sách"
+            android:textColor="@color/white"
+            android:textSize="8pt" />
+    </LinearLayout>
 </LinearLayout>
