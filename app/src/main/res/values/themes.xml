@@ -45,4 +45,5 @@
         <item name="android:textColor">#FAFAFA</item>
         <item name="android:textSize">18dp</item>
     </style>
+
 </resources>

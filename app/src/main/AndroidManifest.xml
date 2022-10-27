@@ -20,6 +20,17 @@
                 android:value="" />
         </activity>
         <activity android:name=".TenantPostFavourite"
+
+
+            android:name=".HomeTenantActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".MainActivity"
+
             android:exported="true">
         </activity>
         <activity
@@ -35,8 +46,8 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".TenantPostDetail"></activity>
-        <activity android:name=".TenantPostList"></activity>
+        <activity android:name=".TenantPostDetail" />
+        <activity android:name=".TenantPostList" />
     </application>
 
 </manifest>
