@@ -38,6 +38,18 @@ public class ViewHolderImageHome extends RecyclerView.Adapter<ViewHolderImageHom
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             String hinhh =personList.get(position);
+        if (hinhh.equals("haha")) {
+            holder.hinh.setImageResource(R.drawable.house);
+        }
+        else if (hinhh.equals("hoho")) {
+            holder.hinh.setImageResource(R.drawable.background);
+        }
+        else if (hinhh.equals("hehe")) {
+            holder.hinh.setImageResource(R.drawable.house);
+        }
+        else {
+            holder.hinh.setImageResource(R.mipmap.ic_launcher);
+        }
     }
 
     @Override

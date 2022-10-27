@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,29 +21,18 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     TextView a;
-    private ArrayList<String> persons = new ArrayList<String>();
-    private ViewHolderImageHome adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_tenant_layout);
-        Tri();
 //        setContentView(R.layout.activity_main);
-//        a.findViewById(R.id.texx);
+        Intent intent = new Intent(this, HomeTenantActivity.class);
+        startActivity(intent);
 ////        writeDatabase();
 ////        readDatabase();
     }
     private void Tri(){
-//        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.cardViewImageHome);
-//        persons.add("haha");
-//        persons.add("hoho");
-//        persons.add("hehe");
-//        adapter = new ViewHolderImageHome(this, R.layout.list_view_item_home_tenant, persons);
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-//        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-//        recyclerView.setLayoutManager(linearLayoutManager);
-//        recyclerView.setAdapter(adapter);
-//        adapter.notifyDataSetChanged();
+
     }
     //Tri
     private void writeDatabase(){
