@@ -36,7 +36,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int FRAGMENT_HOME = 0;
@@ -113,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 //        a.findViewById(R.id.texx);
 //        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
         Intent intent = new Intent(this, HomeTenantActivity.class);
         startActivity(intent);
 ////        writeDatabase();
