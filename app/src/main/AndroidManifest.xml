@@ -26,6 +26,7 @@
                 android:value="" />
         </activity>
         <activity android:name=".TenantPostDetail"></activity>
+        <activity android:name=".TenantPostList"></activity>
     </application>
 
 </manifest>
