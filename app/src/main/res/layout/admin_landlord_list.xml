@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            style="@style/al_ButtonNavigationbar_add_detail"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawableLeft="@drawable/button_menu"
+            tools:ignore="SpeakableTextPresentCheck" />
+        <TextView
+            style="@style/al_textviewNavigationbar_add_detail"
+            android:text="DANH SÁCH CHỦ TRỌ"
+            android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/btnThongbao"
+            style="@style/al_ButtonNavigationbar_add_detail"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawableRight="@drawable/bell_32x32"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal">
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/svDSChuTro"
+            style="@style/al_Searhbar_list"/>
+
+        <Button
+            android:id="@+id/btnAddList"
+            style="@style/al_button_addct_list"
+            app:backgroundTint="@null"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_al"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+</LinearLayout>
