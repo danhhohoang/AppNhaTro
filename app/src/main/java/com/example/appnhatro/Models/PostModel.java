@@ -4,7 +4,7 @@ public class PostModel {
 
 
     private String _id;
-    private String _userId;
+    private String _userID;
     private String _title;
     private int _price;
     private int _limitMonth;
@@ -16,7 +16,7 @@ public class PostModel {
 
     public PostModel(String id, String userId, String title, int price, int limitMonth, int area, String image1, String image2, String image3) {
         _id = id;
-        _userId = userId;
+        _userID = userId;
         _title = title;
         _price = price;
         _limitMonth = limitMonth;
@@ -34,12 +34,12 @@ public class PostModel {
         this._id = _id;
     }
 
-    public String get_userId() {
-        return _userId;
+    public String get_userID() {
+        return _userID;
     }
 
-    public void set_userId(String _userId) {
-        this._userId = _userId;
+    public void set_userID(String _userID) {
+        this._userID = _userID;
     }
 
     public String get_title() {
@@ -103,9 +103,9 @@ public class PostModel {
         type = type.toLowerCase();
 
         if (type.equals("readable")) {
-            result = "id: " + get_id() + " ,userID: " + get_userId() + " ,title: " + get_title() + " ,price: " + get_price() + " ,limit-month: " + get_limitMonth() + " ,area: " + get_area() + " image1: " + get_image1() + " image2: " + get_image2() + " image3: " + get_image3() + "";
+            result = "id: " + get_id() + " ,userID: " + get_userID() + " ,title: " + get_title() + " ,price: " + get_price() + " ,limit-month: " + get_limitMonth() + " ,area: " + get_area() + " image1: " + get_image1() + " image2: " + get_image2() + " image3: " + get_image3() + "";
         } else {
-            result = "" + get_id() + "," + get_userId() + "," + get_title() + "," + get_price() + "," + get_limitMonth() + "," + get_area() + "," + get_image1() + "," + get_image2() + "," + get_image3() + "";
+            result = "" + get_id() + "," + get_userID() + "," + get_title() + "," + get_price() + "," + get_limitMonth() + "," + get_area() + "," + get_image1() + "," + get_image2() + "," + get_image3() + "";
         }
 
         return result;
