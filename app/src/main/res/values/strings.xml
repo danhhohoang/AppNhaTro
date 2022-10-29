@@ -87,4 +87,9 @@
         <item>5</item>
     </string-array>
 
+    <string name="txt_search">Tìm</string>
+    <string name="btn_fillter_des">Open Fillter Function (screen)</string>
+    <string name="btn_notification_des">open notification dialog</string>
+    <string name="btn_menu_des">Open menu side-bar</string>
+
 </resources>
