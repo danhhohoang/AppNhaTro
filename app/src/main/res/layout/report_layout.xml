@@ -30,42 +30,42 @@
 
         <TextView
             style="@style/TextBooking"
-            android:text="Tên bài đăng" />
+            android:text="@string/t_n_b_i_ng" />
 
         <EditText
-            android:id="@+id/tenbaidang"
+            android:id="@+id/txtTenBaiDang"
             style="@style/edittextBooking"/>
 
         <TextView
             style="@style/TextBooking"
-            android:text="ID người đăng" />
+            android:text="@string/id_ng_i_ng" />
 
         <EditText
-            android:id="@+id/idnguoidang"
+            android:id="@+id/txt"
             style="@style/edittextBooking"/>
 
         <TextView
             style="@style/TextBooking"
-            android:text="Tên người gửi" />
+            android:text="@string/t_n_ng_i_g_i" />
 
         <EditText
-            android:id="@+id/tennguoigui"
+            android:id="@+id/txtSenderIsName"
             style="@style/edittextBooking" />
 
         <TextView
             style="@style/TextBooking"
-            android:text="Tiêu đề" />
+            android:text="@string/ti_u" />
 
         <EditText
-            android:id="@+id/tieude"
-            style="@style/edittextBooking" />
+            android:id="@+id/txtTitle"
+            style="@style/edittextBooking"/>
 
         <TextView
             style="@style/TextBooking"
-            android:text="Nội dung report" />
+            android:text="@string/n_i_dung_report" />
 
         <EditText
-            android:id="@+id/noidungreport"
+            android:id="@+id/txtContentReport"
             android:layout_weight="6"
             style="@style/edittextBooking"/>
 
@@ -83,7 +83,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="4"
                 android:background="@drawable/btn_red"
-                android:text="Hủy bỏ"
+                android:text="@string/h_y_b"
                 app:backgroundTint="@null"
                 tools:ignore="TouchTargetSizeCheck" />
 
@@ -94,7 +94,6 @@
                 android:layout_weight="4"
                 app:backgroundTint="@null"
                 android:background="@drawable/btn_blu"
-
                 android:text="Gửi" />
         </LinearLayout>
     </LinearLayout>

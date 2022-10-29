@@ -13,6 +13,15 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="y_u_c_u_kh_c">Yêu cầu khác:</string>
+    <string name="gi_i_t_nh">Giới tính:</string>
+    <string name="a_ch">Địa chỉ</string>
+    <string name="t_n_b_i_ng">Tên bài đăng</string>
+    <string name="id_ng_i_ng">ID người đăng</string>
+    <string name="t_n_ng_i_g_i">Tên người gửi</string>
+    <string name="ti_u">Tiêu đề</string>
+    <string name="n_i_dung_report">Nội dung report</string>
+    <string name="h_y_b">Hủy bỏ</string>
 
     <string-array name="string_spn_district">
         <item>Thành Phố Thủ Đức</item>
