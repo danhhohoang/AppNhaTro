@@ -48,7 +48,7 @@
 
         <EditText
             style="@style/al_edittext_add_detail"
-            android:id="@+id/txtMachutro"
+            android:id="@+id/txt_aldMachutro"
             android:hint="Hoàng Danh" />
         <TextView
             style="@style/al_textview_add_detail"
@@ -56,13 +56,13 @@
 
         <EditText
             style="@style/al_edittext_add_detail"
-            android:id="@+id/txtTenchutro"
+            android:id="@+id/txt_aldTenchutro"
             android:hint="Hoàng Danh" />
         <TextView
             style="@style/al_textview_add_detail"
             android:text="Địa chỉ:"/>
         <EditText
-            android:id="@+id/txtDiachi"
+            android:id="@+id/txt_aldDiachi"
             style="@style/al_edtaddress_add_detail"
             android:hint="Địa chỉ" />
         <TextView
@@ -71,20 +71,20 @@
 
         <EditText
             style="@style/al_edittext_add_detail"
-            android:id="@+id/txtSodienthoai"
+            android:id="@+id/txt_aldSdt"
             android:hint="0232165654"/>
         <TextView
             style="@style/al_textview_add_detail"
             android:text="CMND:"/>
         <EditText
-            android:id="@+id/txtCMND"
+            android:id="@+id/txt_aldCMND"
             style="@style/al_edittext_add_detail"
             android:hint="123456789" />
         <TextView
             style="@style/al_textview_add_detail"
             android:text="Tên tài khoản:"/>
         <EditText
-            android:id="@+id/txtTentaikhoan"
+            android:id="@+id/txt_aldTentaikhoan"
             style="@style/al_edittext_add_detail"
             android:hint="acb123@gmail.com" />
         <LinearLayout
