@@ -1,36 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    android:orientation="vertical">
+    tools:context=".Activity.PostActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:textStyle="bold"
-            android:gravity="center"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_weight="1"
+            android:gravity="center"
             android:text="ĐĂNG BÀI"
             android:textColor="#FAFAFA"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <LinearLayout
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -46,20 +41,19 @@
         </LinearLayout>
 
         <TextView
-            style="@style/TextBooking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="Địa chỉ" />
 
         <EditText
             android:id="@+id/edtdiachi"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
             style="@style/edittextBooking"
-            android:layout_weight="2" />
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
@@ -68,10 +62,11 @@
 
             <Spinner
                 android:id="@+id/spngioitinh"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/spinner_bodert"
-                android:layout_weight="2" />
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="2"
+                android:background="@drawable/spinner_bodert" />
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -79,10 +74,9 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -91,10 +85,10 @@
 
             <EditText
                 android:id="@+id/edtxdotuoi"
-                android:layout_width="0dp"
-                android:background="@drawable/spinner_bodert"
-                android:layout_height="match_parent"
-                android:layout_weight="2" />
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="2"
+                android:background="@drawable/spinner_bodert" />
 
             <TextView
                 style="@style/editfillter"
@@ -103,16 +97,15 @@
 
             <EditText
                 android:id="@+id/edtxden"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/spinner_bodert"
-                android:layout_weight="2" />
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="2"
+                android:background="@drawable/spinner_bodert" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
@@ -122,16 +115,15 @@
 
             <Spinner
                 android:id="@+id/spnSl"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/spinner_bodert"
-                android:layout_weight="2" />
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="2"
+                android:background="@drawable/spinner_bodert" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
@@ -141,79 +133,114 @@
 
             <EditText
                 android:id="@+id/edtxgia"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/spinner_bodert"
-                android:layout_weight="4" />
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="4"
+                android:background="@drawable/spinner_bodert" />
         </LinearLayout>
 
         <TextView
-           style="@style/TextBooking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="Yêu cầu khác: " />
 
         <EditText
             android:id="@+id/edtyeuccaukhac"
-            android:layout_width="match_parent"
             style="@style/edittextBooking"
-            android:layout_height="0dp"
-            android:layout_weight="4" />
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp" />
+
 
         <TextView
-           style="@style/TextBooking"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
             android:text="Ảnh: " />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
-            <ImageButton
-                android:layout_width="0dp"
+            <ImageView
+                android:id="@+id/firebaseimage1"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_marginVertical="30dp"
+                android:layout_weight="1"
+                app:layout_constraintBottom_toTopOf="@+id/selectImagebtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                tools:srcCompat="@tools:sample/avatars" />
 
-
-            <ImageButton
-                android:layout_width="0dp"
+            <ImageView
+                android:id="@+id/firebaseimage2"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_marginVertical="30dp"
+                android:layout_weight="1"
+                app:layout_constraintBottom_toTopOf="@+id/selectImagebtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                tools:srcCompat="@tools:sample/avatars" />
 
-            <ImageButton
-                android:layout_width="0dp"
+            <ImageView
+                android:id="@+id/firebaseimage3"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_marginVertical="30dp"
+                android:layout_weight="1"
+                app:layout_constraintBottom_toTopOf="@+id/selectImagebtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                tools:srcCompat="@tools:sample/avatars" />
+
+
         </LinearLayout>
+
+        <Button
+            android:id="@+id/selectImagebtn"
+            android:layout_width="385dp"
+            android:layout_height="69dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="32dp"
+            android:text="Select Image"
+            app:layout_constraintBottom_toTopOf="@+id/uploadimagebtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/bthuy"
-                android:layout_width="0dp"
+                android:layout_width="137dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_weight="2"
                 android:layout_marginRight="5dp"
+                android:layout_weight="2"
                 android:background="@drawable/btn_red"
-                app:backgroundTint="@null"
                 android:text="Hủy bỏ"
-                android:textColor="#FFFDFD" />
+                android:textColor="#FFFDFD"
+                app:backgroundTint="@null" />
 
             <Button
-                android:id="@+id/btdang"
-                android:layout_width="0dp"
+                android:id="@+id/uploadimagebtn"
+                android:layout_width="137dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="2"
-                android:layout_marginLeft="5dp"
+                android:text="Upload Image"
                 android:background="@drawable/btn_blu"
                 app:backgroundTint="@null"
-                android:text="Đăng"
-                android:textColor="#FCFFFFFF" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" />
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>
