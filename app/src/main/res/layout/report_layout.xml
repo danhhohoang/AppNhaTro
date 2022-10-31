@@ -1,12 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:text="REPORT"
+            android:textColor="#FAFAFA"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            style="@style/TextBooking"
+            android:text="@string/t_n_b_i_ng" />
+
+        <EditText
+            android:id="@+id/txtTenBaiDang"
+            style="@style/edittextBooking"/>
+
+        <TextView
+            style="@style/TextBooking"
+            android:text="@string/id_ng_i_ng" />
+
+        <EditText
+            android:id="@+id/txt"
+            style="@style/edittextBooking"/>
+
+        <TextView
+            style="@style/TextBooking"
+            android:text="@string/t_n_ng_i_g_i" />
+
+        <EditText
+            android:id="@+id/txtSenderIsName"
+            style="@style/edittextBooking" />
+
+        <TextView
+            style="@style/TextBooking"
+            android:text="@string/ti_u" />
+
+        <EditText
+            android:id="@+id/txtTitle"
+            style="@style/edittextBooking"/>
+
+        <TextView
+            style="@style/TextBooking"
+            android:text="@string/n_i_dung_report" />
+
+        <EditText
+            android:id="@+id/txtContentReport"
+            android:layout_weight="6"
+            style="@style/edittextBooking"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="4"
+                android:background="@drawable/btn_red"
+                android:text="@string/h_y_b"
+                app:backgroundTint="@null"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="4"
+                app:backgroundTint="@null"
+                android:background="@drawable/btn_blu"
+                android:text="Gửi" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

@@ -1,12 +1,29 @@
 <resources>
     <string name="app_name">AppNhaTro</string>
-    <string name="txt_search">Tìm</string>
-    <string name="btn_fillter_des">Open Fillter Function (screen)</string>
-    <string name="btn_notification_des">open notification dialog</string>
-    <string name="btn_menu_des">Open menu side-bar</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_favorite">Favorite</string>
+    <string name="nav_history">History</string>
+    <string name="nav_account">Account</string>
+    <string name="nav_my_profile">My profile</string>
+    <string name="nav_change_password">Change Password</string>
+    <string name="nav_report">Report</string>
+    <string name="nav_post">Post</string>
+    <string name="nav_notification">Notification</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="y_u_c_u_kh_c">Yêu cầu khác:</string>
+    <string name="gi_i_t_nh">Giới tính:</string>
+    <string name="a_ch">Địa chỉ</string>
+    <string name="t_n_b_i_ng">Tên bài đăng</string>
+    <string name="id_ng_i_ng">ID người đăng</string>
+    <string name="t_n_ng_i_g_i">Tên người gửi</string>
+    <string name="ti_u">Tiêu đề</string>
+    <string name="n_i_dung_report">Nội dung report</string>
+    <string name="h_y_b">Hủy bỏ</string>
 
     <string-array name="string_spn_district">
-        <item>--Chọn Quận--</item>
         <item>Thành Phố Thủ Đức</item>
         <item>Quận 1</item>
         <item>Quận 3</item>
@@ -33,7 +50,6 @@
 
     </string-array>
     <string-array name="string_spn_area">
-        <item>--Chọn diện tích--</item>
         <item>dưới 20m2</item>
         <item>20m2 - 30m2</item>
         <item>30m2 - 40m2</item>
@@ -42,7 +58,6 @@
 
     </string-array>
     <string-array name="string_spn_price">
-        <item>--Chọn khoảng giá--</item>
         <item>Dưới 1 triệu</item>
         <item>1 triệu - 2 triệu</item>
         <item>2 triệu - 4 triệu</item>
@@ -52,5 +67,38 @@
         <item>12 triệu - 18 triệu</item>
         <item>18 triệu trở lên</item>
     </string-array>
+
+    <string-array name="string_status">
+        <item>Ở ghép</item>
+        <item>Phòng cho thuê</item>
+    </string-array>
+
+    <string-array name="string_sex">
+        <item>Nam</item>
+        <item>Nữ</item>
+        <item>Cả hai</item>
+    </string-array>
+
+    <string-array name="string_amount">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string name="txt_search">Tìm</string>
+    <string name="btn_fillter_des">Open Fillter Function (screen)</string>
+    <string name="btn_notification_des">open notification dialog</string>
+    <string name="btn_menu_des">Open menu side-bar</string>
+    <string name="title_activity_post">PostActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
 </resources>
