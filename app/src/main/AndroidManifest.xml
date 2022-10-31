@@ -25,7 +25,6 @@
         </activity>
         <activity
             android:name=".MainActivity"
-
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,6 +38,8 @@
         </activity>
         <activity android:name=".TenantPostDetail" />
         <activity android:name=".TenantPostList" />
+<!--        <activity android:name=".HomeTenantActivity" />-->
+        <activity android:name=".LoginActivity" />
         <activity android:name=".AdminLandlordDetails" />
     </application>
 
