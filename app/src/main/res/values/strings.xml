@@ -110,5 +110,10 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="x_ph_ng">X.Phòng</string>
+    <string name="t_c_c">Đặt cọc</string>
+    <string name="report">report</string>
+    <string name="m_t">Mô tả:</string>
+    <string name="xo">Xoá</string>
 
 </resources>
