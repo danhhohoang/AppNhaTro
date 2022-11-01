@@ -1,40 +1,26 @@
 package com.example.appnhatro;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
-import android.app.DatePickerDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.view.MenuItem;
-import android.widget.Button;
-
-import com.example.appnhatro.R;
 import com.example.appnhatro.fragment.HomeFragment;
 import com.example.appnhatro.fragment.PostFrgment;
 import com.example.appnhatro.fragment.ReportFragment;
 import com.google.android.material.navigation.NavigationView;
-import android.widget.TextView;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -53,21 +39,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_bar);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        //ánh xạ view
-        mDrawerLayout = findViewById(R.id.linear_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.navigation_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        //mặc định khi mở là màn hìnhh
-        replaceFragment(new ReportFragment());
-        navigationView.getMenu().findItem(R.id.nav_Report).setChecked(true);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        //ánh xạ view
+//        mDrawerLayout = findViewById(R.id.linear_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        mDrawerLayout.addDrawerListener(toggle);
+//        toggle.syncState();
+//
+//        NavigationView navigationView = findViewById(R.id.navigation_view);
+//        navigationView.setNavigationItemSelectedListener(this);
+//
+//        //mặc định khi mở là màn hìnhh
+//        replaceFragment(new ReportFragment());
+//        navigationView.getMenu().findItem(R.id.nav_Report).setChecked(true);
 
 
         //writeDatabase();
