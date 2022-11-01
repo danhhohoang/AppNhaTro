@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeTenantActivity extends AppCompatActivity {
-    private ArrayList<Post> persons = new ArrayList<>();
+    private ArrayList<String> persons = new ArrayList<>();
     private ViewHolderImageHome adapter;
     //List horizone
     private MyRecyclerViewAdapter myRecyclerViewAdapterOthue;
@@ -41,6 +41,9 @@ public class HomeTenantActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_tenant_layout);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.cardViewImageHome);
+        persons.add("ptro4.jpg");
+        persons.add("ptro2.jpg");
+        persons.add("ptro1.jpg");
         adapter = new ViewHolderImageHome(this, R.layout.list_view_item_home_tenant, persons);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);

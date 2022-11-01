@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -13,13 +14,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/rvImageDetail"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:orientation="horizontal"-->
-<!--            />-->
+        <!--        <androidx.recyclerview.widget.RecyclerView-->
+        <!--            android:id="@+id/rvImageDetail"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_marginTop="20dp"-->
+        <!--            android:orientation="horizontal"-->
+        <!--            />-->
         <ImageView
             android:id="@+id/imgRoomPostDetail"
             android:layout_width="match_parent"
@@ -49,8 +50,8 @@
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp"
                     android:text="Cho thuê"
-                    app:backgroundTint="@null"
-                    android:textColor="@color/blue" />
+                    android:textColor="@color/blue"
+                    app:backgroundTint="@null" />
 
                 <TextView
                     android:id="@+id/tvNamePostDetail"
@@ -80,9 +81,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:textColor="@color/red"
                         android:paddingLeft="10dp"
-                        android:text="Giá Tiền" />
+                        android:text="Giá Tiền"
+                        android:textColor="@color/red" />
 
                     <TextView
                         android:id="@+id/tvAreaPostDetail"
@@ -144,79 +145,146 @@
                             android:textSize="7pt" />
                     </LinearLayout>
                 </LinearLayout>
+
                 <TextView
                     android:id="@+id/textView30"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
                     android:paddingTop="5dp"
-                    android:text="Mô tả:"
+                    android:text="@string/m_t"
                     android:textColor="@color/black"
                     android:textSize="7pt"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
-                    android:paddingTop="2dp"
+                    android:paddingTop="20dp"
                     android:paddingRight="20dp"
                     android:singleLine="false"
                     android:text="Phòng ok la phết,Phòng ok la phếtPhòng ok la phếtPhòng ok la phếtPhòng ok la phếtPhòng ok la phếtPhòng ok la phếtPhòng ok la phếtPhòng ok la phết"
                     android:textColor="@color/black"
-                    android:textSize="7pt"
-                    />
+                    android:textSize="7pt" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="9"
+                        android:background="#8E8787"
+                        android:backgroundTint="@color/white"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imgRating1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/icon_rating" />
+
+                        <ImageView
+                            android:id="@+id/imgRating2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/icon_rating" />
+
+                        <ImageView
+                            android:id="@+id/imgRating3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/icon_rating" />
+
+                        <ImageView
+                            android:id="@+id/imgRating4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/icon_rating" />
+
+                        <ImageView
+                            android:id="@+id/imgRating5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/icon_rating" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnXoaDetailPost"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:background="@drawable/btn_login"
+                        android:text="@string/xo"
+                        app:backgroundTint="@null"
+                        android:visibility="gone"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/btnRepost"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="20dp"
                         android:layout_weight="1"
-                        android:layout_margin="24dp"
-                        android:text="report"
-                        app:backgroundTint="@null"
                         android:background="@drawable/btn_login"
-                        android:textSize="5pt" />
+                        android:text="@string/report"
+                        android:textSize="5pt"
+                        app:backgroundTint="@null" />
 
                     <Button
                         android:id="@+id/btnDatCoc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="20dp"
                         android:layout_weight="1"
-                        android:layout_margin="24dp"
-                        android:text="Đặt cọc"
-                        app:backgroundTint="@null"
                         android:background="@drawable/btn_login"
-                        android:textSize="5pt" />
+                        android:text="@string/t_c_c"
+                        android:textSize="5pt"
+                        app:backgroundTint="@null" />
 
                     <Button
                         android:id="@+id/btnXPhong"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="20dp"
                         android:layout_weight="1"
-                        android:layout_margin="24dp"
-                        android:text="X.Phòng"
-                        app:backgroundTint="@null"
                         android:background="@drawable/btn_login"
-                        android:textSize="5pt" />
+                        android:text="@string/x_ph_ng"
+                        android:textSize="5pt"
+                        app:backgroundTint="@null" />
                 </LinearLayout>
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Các bài viết liên quan"/>
+                    android:text="Các bài viết liên quan" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcvPostAnotherDetail"
