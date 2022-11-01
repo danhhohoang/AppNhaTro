@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int FRAGMENT_POST = 2;
 
     //gán màn hình chính
-    private int mCurrentFragment = FRAGMENT_REPORT;
+    private int mCurrentFragment = FRAGMENT_HOME;
 
 
     private DrawerLayout mDrawerLayout;
@@ -52,24 +52,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.menu_bar);
+//        setContentView(R.layout.menu_bar);
+//
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        //ánh xạ view
+//        mDrawerLayout = findViewById(R.id.linear_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        mDrawerLayout.addDrawerListener(toggle);
+//        toggle.syncState();
+//
+//        NavigationView navigationView = findViewById(R.id.navigation_view);
+//        navigationView.setNavigationItemSelectedListener(this);
+//
+//        //mặc định khi mở là màn hìnhh
+//        replaceFragment(new HomeFragment());
+//        navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        //ánh xạ view
-        mDrawerLayout = findViewById(R.id.linear_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.navigation_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        //mặc định khi mở là màn hìnhh
-        replaceFragment(new ReportFragment());
-        navigationView.getMenu().findItem(R.id.nav_Report).setChecked(true);
-
-
+        Intent intent = new Intent(this,HomeTenantActivity.class);
+        startActivity(intent);
         //writeDatabase();
         //readDatabase();
     }
@@ -91,12 +92,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         } else if (id == R.id.nav_post) {
             if (mCurrentFragment != FRAGMENT_POST) {
-
              replaceFragment(new PostFrgment());
              mCurrentFragment = FRAGMENT_POST;
             }
         }
-
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -112,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 //        a.findViewById(R.id.texx);
 //        setContentView(R.layout.activity_main);
-        setContentView(R.layout.activity_main);
         Intent intent = new Intent(this, HomeTenantActivity.class);
         startActivity(intent);
 ////        writeDatabase();

@@ -2,6 +2,7 @@ package com.example.appnhatro;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +12,17 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appnhatro.Firebase.FireBaseThueTro;
+import com.example.appnhatro.Models.Post;
+
 import java.util.ArrayList;
 
 public class ViewHolderImageHome extends RecyclerView.Adapter<ViewHolderImageHome.ViewHolder>{
     private Activity context;
     private int LayoutID;
-    private ArrayList<String> personList;
-
-    public ViewHolderImageHome(Activity context, int layoutId, ArrayList<String> personList) {
+    private ArrayList<Post> personList;
+    private FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
+    public ViewHolderImageHome(Activity context, int layoutId, ArrayList<Post> personList) {
         this.context = context;
         this.LayoutID = layoutId;
         this.personList = personList;
@@ -37,19 +41,8 @@ public class ViewHolderImageHome extends RecyclerView.Adapter<ViewHolderImageHom
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            String hinhh =personList.get(position);
-        if (hinhh.equals("haha")) {
-            holder.hinh.setImageResource(R.drawable.house);
-        }
-        else if (hinhh.equals("hoho")) {
-            holder.hinh.setImageResource(R.drawable.background);
-        }
-        else if (hinhh.equals("hehe")) {
-            holder.hinh.setImageResource(R.drawable.house);
-        }
-        else {
-            holder.hinh.setImageResource(R.mipmap.ic_launcher);
-        }
+        Post post =personList.get(position);
+
     }
 
     @Override
@@ -64,5 +57,4 @@ public class ViewHolderImageHome extends RecyclerView.Adapter<ViewHolderImageHom
             hinh=itemView.findViewById(R.id.imageHoma);
         }
     }
-
 }
