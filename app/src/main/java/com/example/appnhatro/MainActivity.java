@@ -76,12 +76,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         } else if (id == R.id.nav_post) {
             if (mCurrentFragment != FRAGMENT_POST) {
-
              replaceFragment(new PostFrgment());
              mCurrentFragment = FRAGMENT_POST;
             }
         }
-
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -97,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 //        a.findViewById(R.id.texx);
 //        setContentView(R.layout.activity_main);
-        setContentView(R.layout.activity_main);
         Intent intent = new Intent(this, HomeTenantActivity.class);
         startActivity(intent);
 ////        writeDatabase();

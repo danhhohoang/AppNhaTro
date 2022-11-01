@@ -18,7 +18,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class ConverImage {
-    public void layAnh(Bitmap bitMap){
+    public void layAnh(BitMap bitMap){
         StorageReference storageReference;
         storageReference= FirebaseStorage.getInstance().getReference(bitMap.getTenHinh());
         try {
