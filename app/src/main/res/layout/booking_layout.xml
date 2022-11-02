@@ -33,7 +33,7 @@
             android:text="Tên người đặt phòng" />
 
         <EditText
-            android:id="@+id/tennguoidatphong"
+            android:id="@+id/edtname"
             style="@style/edittextBooking"/>
 
         <TextView
@@ -41,6 +41,7 @@
             android:text="Số điện thoại" />
 
         <EditText
+            android:id="@+id/edtphone"
             style="@style/edittextBooking"
             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -79,14 +80,14 @@
             android:text="Ghi chú thêm" />
 
         <EditText
-            android:id="@+id/noidungreport"
+            android:id="@+id/edtnotes"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="6"
             android:background="@drawable/txt_background_login" />
 
         <Button
-            android:id="@+id/bthuy"
+            android:id="@+id/btnBook"
             android:layout_width="273dp"
             android:layout_height="0dp"
             android:layout_gravity="center"

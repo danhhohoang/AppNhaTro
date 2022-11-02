@@ -1,18 +1,15 @@
 package com.example.appnhatro;
 
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.appnhatro.Firebase.FireBaseThueTro;
 import com.example.appnhatro.Models.Favorite;
@@ -24,7 +21,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 
@@ -42,6 +38,7 @@ public class TenantPostDetail extends AppCompatActivity {
     String it_idLogin;
     boolean isFavorite = false;
     StorageReference storageReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,11 +55,11 @@ public class TenantPostDetail extends AppCompatActivity {
         imgFavorite = findViewById(R.id.imgFavoritePostDetail);
         hinh = findViewById(R.id.imgRoomPostDetail);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rcvPostAnotherDetail);
-        myRecyclerViewAdapterLienQuan = new MyRecyclerViewAdapter(this,R.layout.layout_item_list_horizontal,listLienQuan);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
+        myRecyclerViewAdapterLienQuan = new MyRecyclerViewAdapter(this, R.layout.layout_item_list_horizontal, listLienQuan);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
-        fireBaseThueTro.docListPost(listLienQuan,myRecyclerViewAdapterLienQuan);
+        fireBaseThueTro.docListPost(listLienQuan, myRecyclerViewAdapterLienQuan);
         myRecyclerViewAdapterLienQuan.setOnItemClickListener(new MyRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(int position, View view) {
@@ -70,12 +67,12 @@ public class TenantPostDetail extends AppCompatActivity {
             }
         });
         recyclerView.setAdapter(myRecyclerViewAdapterLienQuan);
-        fireBaseThueTro.readOnePost(this,it_id);
+        fireBaseThueTro.readOnePost(this, it_id);
         loadFavoritePost(it_id, it_idLogin);
         setImageIcon();
     }
 
-    public void setDuLieu(Post post, Bitmap bitmap){
+    public void setDuLieu(Post post, Bitmap bitmap) {
         house_name.setText(post.getHour_name());
         address.setText(post.getAddress());
         area.setText(post.getArea() + "m2");
@@ -84,7 +81,8 @@ public class TenantPostDetail extends AppCompatActivity {
         userId.setText("id:" + post.getUserID());
         hinh.setImageBitmap(bitmap);
     }
-    public void setName(user User){
+
+    public void setName(user User) {
         nameUser.setText(User.getName());
     }
 
@@ -119,7 +117,8 @@ public class TenantPostDetail extends AppCompatActivity {
             }
         });
     }
-        private void addToFavorite(String postId, String userId) {
+
+    private void addToFavorite(String postId, String userId) {
         Favorite favorite = new Favorite(userId, postId);
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Like");

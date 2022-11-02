@@ -44,33 +44,33 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:text="Địa chỉ"
             android:textColor="@color/white"
-            android:text="Địa chỉ" />
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/edtdiachi"
-            android:background="@drawable/spinner_bodert"
             android:layout_width="match_parent"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:background="@drawable/spinner_bodert" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:text="Số Điện Thoại"
             android:textColor="@color/white"
-            android:text="Số Điện Thoại" />
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/edtPhoneMunber"
-            android:background="@drawable/spinner_bodert"
             android:layout_width="match_parent"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:background="@drawable/spinner_bodert" />
 
         <LinearLayout
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -159,24 +159,24 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:text="Yêu cầu khác: "
             android:textColor="@color/white"
-            android:text="Yêu cầu khác: " />
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/edtyeuccaukhac"
-            android:background="@drawable/spinner_bodert"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:background="@drawable/spinner_bodert" />
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:textSize="18sp"
+            android:text="Ảnh: "
             android:textColor="@color/white"
-            android:text="Ảnh: " />
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -188,34 +188,28 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
+                android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"/>
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recylerview"
+                android:id="@+id/Recylerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical"
+                android:scrollbarStyle="outsideInset"
                 android:layout_marginTop="5dp"/>
-
-
-
-
-
 
         </LinearLayout>
 
         <Button
             android:id="@+id/selectImagebtn"
-            android:layout_width="385dp"
-            android:layout_height="69dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="32dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="Select Image"
-            app:layout_constraintBottom_toTopOf="@+id/uploadimagebtn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:backgroundTint="@null"
+            android:background="@drawable/btn_login"
+            app:layout_constraintBottom_toTopOf="@+id/uploadimagebtn" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -227,7 +221,6 @@
                 android:layout_width="137dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="5dp"
                 android:layout_weight="2"
                 android:background="@drawable/btn_red"
                 android:text="Hủy bỏ"
@@ -240,9 +233,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="2"
-                android:text="Upload Image"
-                android:background="@drawable/btn_blu"
-                app:backgroundTint="@null"/>
+                android:background="@drawable/btn_login"
+                android:text="Đăng Bài"
+                android:textColor="#FFFDFD"
+                app:backgroundTint="@null" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

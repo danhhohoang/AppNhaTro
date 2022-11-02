@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //readDatabase();
     }
 
-
     @Override
     //set sự kiện chọn màn hình
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -93,8 +92,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         setContentView(R.layout.activity_main);
-//        a.findViewById(R.id.texx);
-//        setContentView(R.layout.activity_main);
+        a.findViewById(R.id.texx);
+       setContentView(R.layout.activity_main);
         Intent intent = new Intent(this, HomeTenantActivity.class);
         startActivity(intent);
 ////        writeDatabase();

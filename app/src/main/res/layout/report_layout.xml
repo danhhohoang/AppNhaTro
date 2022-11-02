@@ -41,7 +41,7 @@
             android:text="@string/id_ng_i_ng" />
 
         <EditText
-            android:id="@+id/txt"
+            android:id="@+id/txtidnguoidang"
             style="@style/edittextBooking"/>
 
         <TextView
@@ -88,6 +88,7 @@
                 tools:ignore="TouchTargetSizeCheck" />
 
             <Button
+                android:id="@+id/btngui"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
