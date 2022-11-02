@@ -67,7 +67,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Log.d("test", "taaa");
                     bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
                     holder.hinhAnh.setImageBitmap(bitMap.getHinh());
                 }
