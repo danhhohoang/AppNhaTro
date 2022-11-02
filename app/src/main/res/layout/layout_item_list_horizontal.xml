@@ -5,34 +5,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_margin="5dp"
     app:cardCornerRadius="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
+        android:orientation="vertical"
+        android:layout_margin="10dp">
         <ImageView
             android:id="@+id/imgRoom"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="6"
-            android:src="@drawable/house"></ImageView>
-
-        <TextView
-            android:id="@+id/txtTenPhong"
+            android:layout_weight="2"
+            android:scaleType="fitXY"
+            android:src="@drawable/house"/>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
-            android:text="Tên phòng"
-            ></TextView>
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/lblTenPhong"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:maxLines="1"
+                android:text="Tên Phòng"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/txtGia"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:text="Giá"></TextView>
+            <TextView
+                android:id="@+id/lblDienTich"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="DienTich" />
+            <TextView
+                android:id="@+id/lblGia"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Giá Phòng" />
+            <TextView
+                android:id="@+id/lblTinhTrang"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Tình Trạng" />
+
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

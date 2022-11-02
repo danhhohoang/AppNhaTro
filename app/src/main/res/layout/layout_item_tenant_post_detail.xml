@@ -16,7 +16,7 @@
             android:layout_height="120dp"
             android:scaleType="fitXY"
             android:background="@drawable/border_radius"
-            android:src="@drawable/house"></ImageView>
+            android:src="@drawable/house"/>
         <TextView
             android:id="@+id/txt_tpdHousename"
             android:layout_width="match_parent"

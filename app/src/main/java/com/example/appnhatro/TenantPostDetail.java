@@ -1,72 +1,267 @@
 package com.example.appnhatro;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.TextView;
-import android.widget.Toolbar;
-
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.appnhatro.Firebase.FireBaseThueTro;
+import com.example.appnhatro.Models.Favorite;
+import com.example.appnhatro.Models.Post;
+import com.example.appnhatro.Models.user;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
-public class TenantPostDetail extends AppCompatActivity implements RecyclerViewInterface{
-    TextView house_name,area,price,address;
-    RecyclerView tpd;
-    TenantPostDetailAdapter tenantPostDetailAdapter;
-
-    @SuppressLint("MissingInflatedId")
+public class TenantPostDetail extends AppCompatActivity {
+    TextView house_name, area, price, address, title, userId, nameUser;
+    MyRecyclerViewAdapter myRecyclerViewAdapterLienQuan;
+    ArrayList<Post> postList = new ArrayList<>();
+    ArrayList<Post> listLienQuan = new ArrayList<>();
+    FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
+    ImageView imgRating1,imgRating2,imgRating3,imgRating4,imgRating5,hinh,imgFavorite;
+    String it_id,it_idLogin;
+    boolean isFavorite = false;
+    Button btnXoa,btnReport,btnDatCoc,btnXemPhong;
+    DecimalFormat formatter = new DecimalFormat("#,###,###");
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_activity_tenant_post_details);
-
-        tpd = findViewById(R.id.rcv_tpd);
-        tenantPostDetailAdapter = new TenantPostDetailAdapter(this,this);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false);
-        tpd.setLayoutManager(linearLayoutManager);
-
-        tenantPostDetailAdapter.setData(getPostList());
-        tpd.setAdapter(tenantPostDetailAdapter);
-
-        String it_housename = getIntent().getStringExtra("it_house_name");
-        String it_address = getIntent().getStringExtra("it_address");
-        String it_area = getIntent().getStringExtra("it_area");
-        String it_price = getIntent().getStringExtra("it_price");
-
-        house_name = findViewById(R.id.txt_tpdHousename);
-        address = findViewById(R.id.txt_tpdAddress);
-        area = findViewById(R.id.txt_tpdArea);
-        price = findViewById(R.id.txt_tpdPrice);
-
-        house_name.setText(it_housename);
-        address.setText(it_address);
-        area.setText(it_area);
-        price.setText(it_price);
+        it_idLogin = getIntent().getStringExtra("it_idLogin");
+        it_id = getIntent().getStringExtra("it_id");
+        control();
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rcvPostAnotherDetail);
+        myRecyclerViewAdapterLienQuan = new MyRecyclerViewAdapter(this,R.layout.layout_item_list_horizontal,listLienQuan);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
+        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        fireBaseThueTro.docListPost(listLienQuan,myRecyclerViewAdapterLienQuan);
+        myRecyclerViewAdapterLienQuan.setOnItemClickListener(new MyRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(int position, View view) {
+                fireBaseThueTro.readDataItem(position, listLienQuan, TenantPostDetail.this);
+            }
+        });
+        recyclerView.setAdapter(myRecyclerViewAdapterLienQuan);
+        event();
+        fireBaseThueTro.readOnePost(this,it_id);
+        fireBaseThueTro.getRatingPost(this,it_id,it_idLogin);
+        loadFavoritePost(it_id, it_idLogin);
+        setImageIcon();
     }
 
-    private List<PostList> getPostList(){
-        List<PostList> postList = new ArrayList<>();
-        postList.add(new PostList(1,1,30,17000000,"Homestay ở ghép Q7, 1,7 triệu/người BAO TẤT CẢ PHÍ","Địa chỉ: 134/15G Đường Nguyễn Thị Thập, Phường Bình Thuận, Quận 7, Hồ Chí Minh","Null","Cho thuê","Check"));
-        postList.add(new PostList(2,2,30,20000000,"Phòng đẹp thoáng mát khu Phú Lợi, P7,Q.8","Địa chỉ: 288/62 Đường Dương Bá Trạc, Phường 2, Quận 8, Hồ Chí Minh","Null","Cho thuê","Check"));
-        postList.add(new PostList(1,1,30,17000000,"Phòng full nội thất trong chung cư Quận 8","Địa chỉ: 21/1 Đường Trường Sơn, Phường 4, Tân Bình, Hồ Chí Minh","Null","Cho thuê","Check"));
-        postList.add(new PostList(1,1,30,17000000,"Hẽm 60 Đường Số 2 Hiệp Bình Phước, Thủ Đức","Địa chỉ: Hẽm 60 Đường Số 2 Hiệp Bình Phước, Thủ Đức","Null","Cho thuê","Check"));
-        postList.add(new PostList(1,1,30,17000000,"DT 25m2 có gác ở 3-4 người Ngay SPKT. Vincom Q9","Địa chỉ: Đường Phạm Văn Đồng, Phường Linh Tây, Thủ Đức, Hồ Chí Minh","Null","Cho thuê","Check"));
-        return postList;
+    private void control() {
+        btnXoa = findViewById(R.id.btnXoaDetailPost);
+        house_name = findViewById(R.id.tvNamePostDetail);
+        address = findViewById(R.id.tvDiaChiPostDetail);
+        area = findViewById(R.id.tvAreaPostDetail);
+        price = findViewById(R.id.tvGiaPostDetail);
+        title = findViewById(R.id.tvTitle);
+        userId = findViewById(R.id.tvIdUserPostDetail);
+        nameUser = findViewById(R.id.tvNameUserPostDetail);
+        imgFavorite = findViewById(R.id.imgFavoritePostDetail);
+        hinh = findViewById(R.id.imgRoomPostDetail);
+        imgRating1 = findViewById(R.id.imgRating1);
+        imgRating2 = findViewById(R.id.imgRating2);
+        imgRating3 =findViewById(R.id.imgRating3);
+        imgRating4=findViewById(R.id.imgRating4);
+        imgRating5=findViewById(R.id.imgRating5);
+        btnXoa = findViewById(R.id.btnXoaDetailPost);
     }
 
-    @Override
-    public void onItemClick(int position) {
-        Intent intent = new Intent(this,TenantPostDetail.class);
-        intent.putExtra("it_house_name",getPostList().get(position).getHouse_name());
-        intent.putExtra("it_address",getPostList().get(position).getAddress());
-        intent.putExtra("it_area",getPostList().get(position).getArea());
-        intent.putExtra("it_price",getPostList().get(position).getPrice());
-        startActivity(intent);
+    public void setDuLieu(Post post, Bitmap bitmap){
+        house_name.setText(post.getHour_name());
+        address.setText(post.getAddress());
+        area.setText(formatter.format(Integer.valueOf(post.getArea())) + "m2");
+        price.setText(formatter.format(Integer.valueOf(post.getPrice())) + " đ/Tháng");
+        title.setText(post.getTitle());
+        userId.setText("id:" + post.getUserID());
+        hinh.setImageBitmap(bitmap);
     }
+    public void setName(user User){
+        nameUser.setText(User.getName());
+    }
+    public void setRating(int rating){
+        if(rating==5){
+            imgRating1.setSelected(true);
+            imgRating2.setSelected(true);
+            imgRating3.setSelected(true);
+            imgRating4.setSelected(true);
+            imgRating5.setSelected(true);
+            btnXoa.setVisibility(View.VISIBLE);
+        } else if(rating==4){
+            imgRating1.setSelected(true);
+            imgRating2.setSelected(true);
+            imgRating3.setSelected(true);
+            imgRating4.setSelected(true);
+            btnXoa.setVisibility(View.VISIBLE);
+        }
+        else if(rating==3){
+            imgRating1.setSelected(true);
+            imgRating2.setSelected(true);
+            imgRating3.setSelected(true);
+            btnXoa.setVisibility(View.VISIBLE);
+        }
+        else if(rating==2){
+            imgRating1.setSelected(true);
+            imgRating2.setSelected(true);
+            btnXoa.setVisibility(View.VISIBLE);
+        }else if(rating==1){
+            imgRating1.setSelected(true);
+            btnXoa.setVisibility(View.VISIBLE);
+        }
+    }
+    public void event(){
+        imgRating1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imgRating1.setSelected(true);
+                imgRating2.setSelected(false);
+                imgRating3.setSelected(false);
+                imgRating4.setSelected(false);
+                imgRating5.setSelected(false);
+                btnXoa.setVisibility(View.VISIBLE);
+                fireBaseThueTro.addRating(it_id,it_idLogin,"1");
+            }
+        });
+        imgRating2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imgRating1.setSelected(true);
+                imgRating2.setSelected(true);
+                imgRating3.setSelected(false);
+                imgRating4.setSelected(false);
+                imgRating5.setSelected(false);
+                btnXoa.setVisibility(View.VISIBLE);
+                fireBaseThueTro.addRating(it_id,it_idLogin,"2");
+            }
+        });
+        imgRating3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imgRating1.setSelected(true);
+                imgRating2.setSelected(true);
+                imgRating3.setSelected(true);
+                imgRating4.setSelected(false);
+                imgRating5.setSelected(false);
+                btnXoa.setVisibility(View.VISIBLE);
+                fireBaseThueTro.addRating(it_id,it_idLogin,"3");
+            }
+        });
+        imgRating4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imgRating1.setSelected(true);
+                imgRating2.setSelected(true);
+                imgRating3.setSelected(true);
+                imgRating4.setSelected(true);
+                imgRating5.setSelected(false);
+                btnXoa.setVisibility(View.VISIBLE);
+                fireBaseThueTro.addRating(it_id,it_idLogin,"4");
+            }
+        });
+        imgRating5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imgRating1.setSelected(true);
+                imgRating2.setSelected(true);
+                imgRating3.setSelected(true);
+                imgRating4.setSelected(true);
+                imgRating5.setSelected(true);
+                btnXoa.setVisibility(View.VISIBLE);
+                fireBaseThueTro.addRating(it_id,it_idLogin,"5");
+            }
+        });
+        btnXoa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fireBaseThueTro.deleteRating(it_idLogin,it_id);
+                imgRating1.setSelected(false);
+                imgRating2.setSelected(false);
+                imgRating3.setSelected(false);
+                imgRating4.setSelected(false);
+                imgRating5.setSelected(false);
+                btnXoa.setVisibility(View.GONE);
+            }
+        });
+    }
+    public void setImageIcon() {
+        imgFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isFavorite) {
+                    deleteFromFavorite(it_id, it_idLogin);
+                } else {
+                    addToFavorite(it_id, it_idLogin);
+                }
+            }
+        });
+    }
+    private void loadFavoritePost(String postId, String userId) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Like").child(userId).child(postId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue() != null) {
+                    isFavorite = true;
+                    imgFavorite.setSelected(isFavorite);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void addToFavorite(String postId, String userId) {
+        Favorite favorite = new Favorite(userId, postId);
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference("Like");
+        databaseReference.child(userId).child(postId).setValue(favorite)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        isFavorite = true;
+                        imgFavorite.setSelected(true);
+                    }
+                });
+    }
+
+    private void deleteFromFavorite(String postId, String userId) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference("Like");
+        databaseReference.child(userId).child(postId).removeValue().addOnCompleteListener(
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(
+                            @NonNull Task<Void> task) {
+                        isFavorite = false;
+                        imgFavorite.setSelected(false);
+                    }
+                });
+    }
+
 }
