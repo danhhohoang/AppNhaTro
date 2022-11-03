@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/background">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,49 +38,56 @@
             android:layout_height="150dp"
             android:src="@drawable/ic_user"/>
         <EditText
+            android:id="@+id/edt_suName"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/txt_background_login"
             android:layout_marginTop="70dp"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
-            android:hint="Nhập tên đăng nhập"
+            android:hint="Nhập tên"
             android:paddingLeft="20dp"/>
         <EditText
+            android:id="@+id/edt_suSDT"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/txt_background_login"
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
-            android:hint="Nhập tên đăng nhập"
+            android:hint="Nhập sdt"
             android:paddingLeft="20dp"/>
         <EditText
+            android:id="@+id/edt_suEmail"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/txt_background_login"
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
-            android:hint="Nhập tên đăng nhập"
+            android:hint="Nhập email"
             android:paddingLeft="20dp"/>
         <EditText
+            android:id="@+id/edt_suPass"
+            android:password="true"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/txt_background_login"
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
-            android:hint="Nhập tên đăng nhập"
+            android:hint="Nhập mật khẩu"
             android:paddingLeft="20dp"/>
         <EditText
+            android:id="@+id/edt_suRePass"
+            android:password="true"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/txt_background_login"
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
-            android:hint="Nhập tên đăng nhập"
+            android:hint="Nhập lại mật khẩu"
             android:paddingLeft="20dp"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -96,12 +107,14 @@
                 android:textColor="@color/white"/>
         </LinearLayout>
         <Button
+            android:id="@+id/btn_suSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_login"
             android:text="Tạo tài khoản"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="110dp"
             android:layout_marginRight="110dp"/>
     </LinearLayout>
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
