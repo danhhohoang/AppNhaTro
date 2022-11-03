@@ -46,6 +46,7 @@
             android:textStyle="bold"
             android:textSize="20dp" />
         <EditText
+            android:id="@+id/txtHoten_TSP"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:paddingLeft="35dp"
@@ -66,6 +67,7 @@
             android:textStyle="bold"
             android:textSize="20dp" />
         <EditText
+            android:id="@+id/txtNgaysinh_TSP"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:paddingLeft="35dp"
@@ -85,6 +87,7 @@
             android:textStyle="bold"
             android:textSize="20dp" />
         <EditText
+            android:id="@+id/txtEmail_TSP"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:paddingLeft="35dp"
@@ -104,6 +107,7 @@
             android:textStyle="bold"
             android:textSize="20dp" />
         <EditText
+            android:id="@+id/txtSDT_TSP"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:paddingLeft="35dp"
@@ -132,18 +136,20 @@
                 android:paddingLeft="35dp"
                 android:layout_width="0dp"
                 android:layout_weight="2"
+                android:entries="@array/string_spn_district"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/textview_transparent_borderbottom"
                 android:layout_height="40dp" />
 
-            <Spinner
-                android:id="@+id/spnPhuongXa"
-                android:paddingLeft="35dp"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/textview_transparent_borderbottom"
-                android:layout_height="40dp" />
+<!--            <Spinner-->
+<!--                android:id="@+id/spnPhuongXa"-->
+<!--                android:paddingLeft="35dp"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_weight="2"-->
+<!--                android:entries=""-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:background="@drawable/textview_transparent_borderbottom"-->
+<!--                android:layout_height="40dp" />-->
         </LinearLayout>
         <TextView
             android:layout_width="match_parent"
@@ -157,18 +163,21 @@
             android:textStyle="bold"
             android:textSize="20dp" />
         <EditText
+            android:id="@+id/txtGioithieu_TSP"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:paddingLeft="20dp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:hint="Nhập giới thiệu"
             android:layout_marginLeft="35dp"
+            android:scrollbars="vertical"
             android:layout_marginRight="35dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/edittext_border_tenant_setting"
             android:textSize="15dp"/>
 
         <Button
+            android:id="@+id/btnLuu_TSP"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
