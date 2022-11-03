@@ -9,11 +9,28 @@ public class Post {
     private String userID;
     private String title;
     private String address;
+    private String address_district;
     private String price;
     private String limitMonth;
     private String area;
-    private String hour_name;
+    private String house_name;
     private String image;
+
+    public Post() {
+    }
+
+    public Post(String id, String userID, String title, String address, String address_district, String price, String limitMonth, String area, String house_name, String image) {
+        this.id = id;
+        this.userID = userID;
+        this.title = title;
+        this.address = address;
+        this.address_district = address_district;
+        this.price = price;
+        this.limitMonth = limitMonth;
+        this.area = area;
+        this.house_name = house_name;
+        this.image = image;
+    }
 
     public String getId() {
         return id;
@@ -47,18 +64,12 @@ public class Post {
         this.address = address;
     }
 
-
-
-    public String getHour_name() {
-        return hour_name;
+    public String getAddress_district() {
+        return address_district;
     }
 
-    public void setHour_name(String hour_name) {
-        this.hour_name = hour_name;
-    }
-
-
-    public Post() {
+    public void setAddress_district(String address_district) {
+        this.address_district = address_district;
     }
 
     public String getPrice() {
@@ -85,16 +96,12 @@ public class Post {
         this.area = area;
     }
 
-    public Post(String id, String userID, String title, String address, String price, String limitMonth, String area, String hour_name, String image) {
-        this.id = id;
-        this.userID = userID;
-        this.title = title;
-        this.address = address;
-        this.price = price;
-        this.limitMonth = limitMonth;
-        this.area = area;
-        this.hour_name = hour_name;
-        this.image = image;
+    public String getHouse_name() {
+        return house_name;
+    }
+
+    public void setHouse_name(String house_name) {
+        this.house_name = house_name;
     }
 
     public String getImage() {
