@@ -1,26 +1,22 @@
-package com.example.appnhatro;
+package com.example.appnhatro.Adapters;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appnhatro.Firebase.FireBaseThueTro;
 import com.example.appnhatro.Models.BitMap;
 import com.example.appnhatro.Models.Post;
+import com.example.appnhatro.R;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -30,36 +26,34 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder>{
+public class LandLordHomeListAdapter extends RecyclerView.Adapter<LandLordHomeListAdapter.MyViewHolder>{
     private Activity context;
     private int resource;
     private ArrayList<Post> personList;
-    private  OnItemClickListener onItemClickLisner;
-    public MyRecyclerViewAdapter(Activity context, int layoutId, ArrayList<Post> personList) {
+    private OnItemClickListener onItemClickLisner;
+
+    public LandLordHomeListAdapter(Activity context, int resource, ArrayList<Post> personList) {
         this.context = context;
-        this.resource = layoutId;
+        this.resource = resource;
         this.personList = personList;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        CardView cardViewItem = (CardView) context.getLayoutInflater().
-                inflate(viewType, parent, false);
-//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_list_horizontal,parent,false);
-
-        return new MyViewHolder(cardViewItem);
+        View view = LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.lanlord_home_item_layout, parent, false);
+        return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Post post = personList.get(position);
-        holder.tenPhong.setText(post.getHouse_name());
+        holder.tvTenPhong.setText(post.getHouse_name());
+        holder.tvDiaChi.setText(post.getAddress());
         DecimalFormat formatter = new DecimalFormat("#,###,###");
-        holder.Gia.setText(formatter.format(Integer.valueOf(post.getPrice())));
-        holder.tinhTrang.setText(post.getTitle());
-        holder.dienTich.setText(formatter.format(Integer.valueOf(post.getArea())));
+        holder.tvGia.setText(formatter.format(Integer.valueOf(post.getPrice())));
+        holder.tvDienTich.setText(formatter.format(Integer.valueOf(post.getArea())));
         BitMap bitMap = new BitMap(post.getImage(),null);
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(bitMap.getTenHinh());
         try {
@@ -68,15 +62,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
-                    holder.hinhAnh.setImageBitmap(bitMap.getHinh());
+                    holder.hinh.setImageBitmap(bitMap.getHinh());
                 }
             });
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //Event processing
         final int pos = position;
-        holder.onClickListener=new View.OnClickListener() {
+        holder.onItemClickLisner=new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(onItemClickLisner!=null){
@@ -91,35 +84,28 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         return personList.size();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return resource;
-    }
-
-    // View holder definition
-    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView hinhAnh;
-        TextView tenPhong;
-        TextView Gia;
-        TextView dienTich;
-        TextView tinhTrang;
-        View.OnClickListener onClickListener;
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        View.OnClickListener onItemClickLisner;
+        ImageView hinh;
+        TextView tvTenPhong,tvDiaChi,tvGia,tvDienTich,tvTrangThai;
+        Button btnXoa;
         CardView item;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            hinhAnh = itemView.findViewById(R.id.imgRoom);
-            tenPhong = itemView.findViewById(R.id.lblTenPhong);
-            Gia = itemView.findViewById(R.id.lblGia);
-            dienTich = itemView.findViewById(R.id.lblDienTich);
-            tinhTrang = itemView.findViewById(R.id.lblTinhTrang);
-            item = itemView.findViewById(R.id.cardListHorizontal);
+            hinh =itemView.findViewById(R.id.imgItemHomeHouse);
+            tvTenPhong=itemView.findViewById(R.id.tvItemHomeNameHouse);
+            tvDiaChi=itemView.findViewById(R.id.tvItemHomeAddress);
+            tvGia=itemView.findViewById(R.id.tvItemGiaHome);
+            tvDienTich=itemView.findViewById(R.id.tvItemAreaHome);
+            item = itemView.findViewById(R.id.rcv_HomeLanLord_Item);
             item.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            if (onClickListener != null) {
-                onClickListener.onClick(view);
+            if (onItemClickLisner != null) {
+                onItemClickLisner.onClick(view);
             }
         }
     }
