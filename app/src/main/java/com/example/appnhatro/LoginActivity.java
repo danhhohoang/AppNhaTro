@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.appnhatro.Activity.VertifyPhoneNumberActivity;
 import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.Models.user;
 import com.google.firebase.database.DataSnapshot;
@@ -20,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
-
     EditText txtEmail;
     EditText txtPassword;
     TextView tvQuenMatKhau;
@@ -75,6 +76,15 @@ public class LoginActivity extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError error) {
                     }
                 });
+            }
+        });
+
+        tvQuenMatKhau.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, VertifyPhoneNumberActivity.class);
+                intent.putExtra("email_check",txtEmail.getText().toString());
+                startActivity(intent);
             }
         });
     }

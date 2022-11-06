@@ -90,7 +90,7 @@ public class TenantPostDetail extends AppCompatActivity {
     }
 
     public void setDuLieu(Post post, Bitmap bitmap){
-        house_name.setText(post.getHour_name());
+        house_name.setText(post.getHouse_name());
         address.setText(post.getAddress());
         area.setText(formatter.format(Integer.valueOf(post.getArea())) + "m2");
         price.setText(formatter.format(Integer.valueOf(post.getPrice())) + " đ/Tháng");

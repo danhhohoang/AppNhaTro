@@ -37,10 +37,13 @@
                 android:value="" />
         </activity>
         <activity android:name=".TenantPostDetail" />
+<!--        <activity android:name=".Activity.LandLordHomeActivity" />-->
         <activity android:name=".TenantPostList" />
 <!--        <activity android:name=".HomeTenantActivity" />-->
-        <activity android:name=".LoginActivity" />
+<!--        <activity android:name=".Activity.VertifyPhoneNumberActivity" />-->
         <activity android:name=".AdminLandlordDetails" />
+<!--        <activity android:name=".Activity.ResetPasswordOTPActivity" />-->
+<!--        <activity android:name=".Activity.ReserPasswordChangeActivity" />-->
     </application>
 
 </manifest>
