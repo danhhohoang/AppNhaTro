@@ -11,22 +11,29 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.appnhatro.Adapters.TenantPostSearchAdapter;
+import com.example.appnhatro.Adapters.TenantSearchAdapter;
 import com.example.appnhatro.FakeModels.PostFake;
+import com.example.appnhatro.Firebase.FireBaseTenantSearch;
+import com.example.appnhatro.Models.Post;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TenantSearchActivity extends AppCompatActivity {
 
-    RecyclerView rv_Post;
-    ArrayList<PostFake> li_Post;
-    TenantPostSearchAdapter adp_Post;
-    Spinner spnDistric;
-    Spinner spnArea;
-    Spinner spnPrice;
+
+    ArrayList<Post> li_Post;
+    FireBaseTenantSearch fireBaseTenantSearch = new FireBaseTenantSearch();
+    TenantSearchAdapter tenantSearchAdapter;
+    RecyclerView recyclerView;
+    Spinner spnDistrict,
+            spnArea,
+            spnPrice;
+
     Button btnSearch;
     SearchView searchView;
 
@@ -35,83 +42,98 @@ public class TenantSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tenant_search_layout);
 
-
         //mapping
-        searchView = findViewById(R.id.search_bar);
+        setControl();
+        SpinnerSet();
+        setEvent();
+
+
+        //
+        tenantSearchAdapter = new TenantSearchAdapter(this,R.layout.item_tenant_search,li_Post);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        //
+        fireBaseTenantSearch.getPostsFormDB(li_Post,tenantSearchAdapter);
+        tenantSearchAdapter.setOnItemClickListener(new TenantSearchAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(int position, View view) {
+
+            }
+        });
+
+        //
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+
+                fillterList(li_Post, query);
+
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                fillterList(newText);
+//                fillterList(newText);
 
-                return true;
+                return false;
             }
+
         });
 
+
+    }
+
+    private void setEvent() {
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fireBaseTenantSearch.reTurnPostBySpinner(li_Post
+                        ,tenantSearchAdapter
+                        ,spnDistrict.getSelectedItem().toString()
+                        ,spnDistrict.getSelectedItemPosition()
+                        ,Integer.parseInt(spnPrice.getSelectedItem().toString())
+                        ,Integer.parseInt(spnArea.getSelectedItem().toString())
+                        );
+            }
+        });
+    }
+
+    private void setControl() {
+        //item
+
+
+        //
+        recyclerView = findViewById(R.id.recycler_tenant_search);
         btnSearch = findViewById(R.id.btn_search);
-        rv_Post = findViewById(R.id.recycler_tenant_search);
-        li_Post = new ArrayList<>();
-        //
-        PostFake post1 = new PostFake("căn hộ chung cư cao cấp ở quận 9 - giá bình dân cực hạt dẻ thích hợp cho sinh viên thuê nhưng là sinh viên RMIT", "s1.01 Vinhomes Grandpark, Nguyễn Xiển, Long Thạnh Mỹ, Thành Phố Thủ Đức, Hồ Chí Minh, Việt Nam",
-                "string", "string", 45, 12000000, "Cho Thuê");
-        PostFake post2 = new PostFake("Tieu de 2", "Dia chi 1",
-                "string", "string", 20, 2, "Status2");
-        PostFake post3 = new PostFake("Tieu de 3", "Dia chi 1",
-                "string", "string", 30, 3, "Status3");
-        PostFake post4 = new PostFake("Tieu de 4", "Dia chi 1",
-                "string", "string", 40, 4, "Status4");
-        PostFake post5 = new PostFake("Tieu de 5", "Dia chi 1",
-                "string", "string", 50, 5, "Status5");
-        PostFake post6 = new PostFake("Tieu de 6", "Dia chi 1",
-                "string", "string", 60, 6, "Status6");
-        PostFake post7 = new PostFake("Tieu de 7", "Dia chi 1",
-                "string", "string", 70, 7, "Status7");
 
-        li_Post.add(post1);
-        li_Post.add(post2);
-        li_Post.add(post3);
-        li_Post.add(post4);
-        li_Post.add(post5);
-        li_Post.add(post6);
-        li_Post.add(post7);
-        //
-
-        adp_Post = new TenantPostSearchAdapter(li_Post);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        rv_Post.setLayoutManager(linearLayoutManager);
-        rv_Post.setAdapter(adp_Post);
-
-        SpinnerSet();
+        searchView = findViewById(R.id.search_bar);
+        spnDistrict = findViewById(R.id.spn_district);
+        spnArea = findViewById(R.id.spn_area);
+        spnPrice = findViewById(R.id.spn_price);
     }
 
     private void SpinnerSet() {
-        spnDistric = findViewById(R.id.spn_district);
-        spnArea = findViewById(R.id.spn_area);
-        spnPrice = findViewById(R.id.spn_price);
+
 
         ArrayAdapter districAdapter = new ArrayAdapter<String>(this, R.layout.text_spinner, getResources().getStringArray(R.array.string_spn_district));
-        ArrayAdapter areaAdapter = new ArrayAdapter<String>(this,R.layout.text_spinner, getResources().getStringArray(R.array.string_spn_area));
-        ArrayAdapter priceAdapter = new ArrayAdapter<>(this,R.layout.text_spinner, getResources().getStringArray(R.array.string_spn_price));
+        ArrayAdapter areaAdapter = new ArrayAdapter<String>(this, R.layout.text_spinner, getResources().getStringArray(R.array.string_spn_area));
+        ArrayAdapter priceAdapter = new ArrayAdapter<>(this, R.layout.text_spinner, getResources().getStringArray(R.array.string_spn_price));
 
         districAdapter.setDropDownViewResource(R.layout.text_spinner);
         areaAdapter.setDropDownViewResource(R.layout.text_spinner);
         priceAdapter.setDropDownViewResource(R.layout.text_spinner);
 
-        spnDistric.setAdapter(districAdapter);
+        spnDistrict.setAdapter(districAdapter);
         spnArea.setAdapter(areaAdapter);
         spnPrice.setAdapter(priceAdapter);
 
 
-        spnDistric.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spnDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                Toast.makeText(TenantSearchActivity.this, String.valueOf(spnDistric.getSelectedItemPosition()), Toast.LENGTH_SHORT).show();
+                Toast.makeText(TenantSearchActivity.this, String.valueOf(spnDistrict.getSelectedItemPosition()), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -147,20 +169,20 @@ public class TenantSearchActivity extends AppCompatActivity {
         });
     }
 
-    private void fillterList(String text) {
-        List<PostFake> fillterList = new ArrayList<>();
+    private void fillterList(ArrayList<Post> li_Post, String text) {
 
-        for (PostFake item : li_Post)
+
+        for (Post item : li_Post)
         {
-            if (item.getPostTitle().toLowerCase().contains(text.toLowerCase())) {
-                fillterList.add(item);
+            if (item.getTitle().toLowerCase().contains(text.toLowerCase())) {
+                li_Post.add(item);
             }
 
         }
-        if(fillterList.isEmpty()){
+        if(li_Post.isEmpty()){
             Toast.makeText(this, "Không tìm thấy kết quả", Toast.LENGTH_LONG).show();
         }else {
-            adp_Post.setFillterList(fillterList);
+            tenantSearchAdapter.setDataBySearchView(li_Post);
         }
     }
 }

@@ -44,6 +44,7 @@
         <activity android:name=".AdminLandlordDetails" />
         <activity android:name=".Activity.ResetPasswordOTPActivity" />
         <activity android:name=".Activity.ReserPasswordChangeActivity" />
+        <activity android:name=".TenantSearchActivity"/>
     </application>
 
 </manifest>
