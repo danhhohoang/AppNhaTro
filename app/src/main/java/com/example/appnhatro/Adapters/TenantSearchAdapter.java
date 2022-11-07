@@ -3,10 +3,10 @@ package com.example.appnhatro.Adapters;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.BitmapFactory;
-import android.view.LayoutInflater;
+
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,10 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appnhatro.FakeModels.PostFake;
 import com.example.appnhatro.Models.BitMap;
 import com.example.appnhatro.Models.Post;
-import com.example.appnhatro.MyRecyclerViewAdapter;
+
 import com.example.appnhatro.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
@@ -28,13 +27,13 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class TenantSearchAdapter extends RecyclerView.Adapter<TenantSearchAdapter.TenantSearchViewHolder> {
 
-    private Activity context;
-    private int resource;
-    private ArrayList<Post> postList;
+    private final Activity context;
+    private final int resource;
+    private final ArrayList<Post> postList;
     private OnItemClickListener onItemClickListener;
 
     public TenantSearchAdapter(Activity context, int resource, ArrayList<Post> postList) {
