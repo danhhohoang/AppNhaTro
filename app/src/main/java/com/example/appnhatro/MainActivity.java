@@ -22,14 +22,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
-    private static final int FRAGMENT_HOME = 0;
-    private static final int FRAGMENT_REPORT = 1;
-    private static final int FRAGMENT_POST = 2;
+//    private static final int FRAGMENT_HOME = 0;
+//    private static final int FRAGMENT_REPORT = 1;
+//    private static final int FRAGMENT_POST = 2;
 
     //gán màn hình chính
-    private int mCurrentFragment = FRAGMENT_REPORT;
+   // private int mCurrentFragment = FRAGMENT_REPORT;
 
 
     private DrawerLayout mDrawerLayout;
@@ -38,7 +38,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.menu_bar);
+
+
+        Intent intent = new Intent(this, HomeTenantActivity.class);
+        startActivity(intent);
+//          setContentView(R.layout.landlord_notification_list);
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 //        //ánh xạ view
@@ -59,46 +63,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //readDatabase();
     }
 
-    @Override
-    //set sự kiện chọn màn hình
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.nav_home) {
-            if (mCurrentFragment != FRAGMENT_HOME) {
-                replaceFragment(new HomeFragment());
-                mCurrentFragment = FRAGMENT_HOME;
-            }
-        } else if (id == R.id.nav_Report) {
-            if (mCurrentFragment != FRAGMENT_REPORT) {
-                replaceFragment(new ReportFragment());
-                mCurrentFragment = FRAGMENT_REPORT;
-            }
-        } else if (id == R.id.nav_post) {
-            if (mCurrentFragment != FRAGMENT_POST) {
-             replaceFragment(new PostFrgment());
-             mCurrentFragment = FRAGMENT_POST;
-            }
-        }
-        mDrawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
+//    @Override
+//    //set sự kiện chọn màn hình
+//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//        int id = item.getItemId();
+//        if (id == R.id.nav_home) {
+//            if (mCurrentFragment != FRAGMENT_HOME) {
+//                replaceFragment(new HomeFragment());
+//                mCurrentFragment = FRAGMENT_HOME;
+//            }
+//        } else if (id == R.id.nav_Report) {
+//            if (mCurrentFragment != FRAGMENT_REPORT) {
+//                replaceFragment(new ReportFragment());
+//                mCurrentFragment = FRAGMENT_REPORT;
+//            }
+//        } else if (id == R.id.nav_post) {
+//            if (mCurrentFragment != FRAGMENT_POST) {
+//             replaceFragment(new PostFrgment());
+//             mCurrentFragment = FRAGMENT_POST;
+//            }
+//        }
+//        mDrawerLayout.closeDrawer(GravityCompat.START);
+//        return true;
+//    }
 
-    @Override
-    public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawer((GravityCompat.START));
-        } else {
-            super.onBackPressed();
-        }
-
-        setContentView(R.layout.activity_main);
-        a.findViewById(R.id.texx);
-       setContentView(R.layout.activity_main);
-        Intent intent = new Intent(this, HomeTenantActivity.class);
-        startActivity(intent);
+//    @Override
+//    public void onBackPressed() {
+//        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+//            mDrawerLayout.closeDrawer((GravityCompat.START));
+//        } else {
+//            super.onBackPressed();
+//        }
+//
+//        setContentView(R.layout.activity_main);
+//        a.findViewById(R.id.texx);
+//       setContentView(R.layout.activity_main);
+//        Intent intent = new Intent(this, HomeTenantActivity.class);
+//        startActivity(intent);
 ////        writeDatabase();
 ////        readDatabase();
-    }
+    //}
     private void Tri(){
 
     }
@@ -124,9 +128,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
-    private void replaceFragment(Fragment fragment){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_frame, fragment);
-        transaction.commit();
-    }
+//    private void replaceFragment(Fragment fragment){
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.content_frame, fragment);
+//        transaction.commit();
+//    }
 }

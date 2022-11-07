@@ -3,6 +3,8 @@ package com.example.appnhatro.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,8 +25,9 @@ import java.util.Locale;
 
 public class BookingActivity extends AppCompatActivity {
 
-    Button TimeButton, DateButton, Book;
+    Button TimeButton, DateButton, Book, Huy;
     EditText Name, Phone, notes;
+    String it_login;
     int hour, minute;
     private DatePickerDialog datePickerDialog;
 
@@ -41,7 +44,10 @@ public class BookingActivity extends AppCompatActivity {
         Phone = findViewById(R.id.edtphone);
         notes = findViewById(R.id.edtnotes);
         Book = findViewById(R.id.btnBook);
+        it_login = getIntent().getStringExtra("it_ID");
+        Huy = findViewById(R.id.btnHuy);
         initDatePicker();
+        setIntent();
 
 
         //Tải dữ liệu lên firebase
@@ -53,6 +59,39 @@ public class BookingActivity extends AppCompatActivity {
                         DateButton.getText().toString(),
                         notes.getText().toString());
                 addToFavorite(post);
+                androidx.appcompat.app.AlertDialog.Builder a = new androidx.appcompat.app.AlertDialog.Builder(BookingActivity.this);
+                a.setTitle("Thông Báo");
+                a.setMessage("Bạn đã đặt lịch thành công");
+                a.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                androidx.appcompat.app.AlertDialog al = a.create();
+                al.show();
+            }
+        });
+        Huy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                androidx.appcompat.app.AlertDialog.Builder b = new androidx.appcompat.app.AlertDialog.Builder(BookingActivity.this);
+                b.setTitle("Thông Báo");
+                b.setMessage("Xác nhận hủy Đặt lịch xem phòng");
+                b.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                b.setNegativeButton("Không đồng ý", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                androidx.appcompat.app.AlertDialog al = b.create();
+                al.show();
             }
         });
     }
@@ -148,5 +187,8 @@ public class BookingActivity extends AppCompatActivity {
 
     public void openDatePicker(View view) {
         datePickerDialog.show();
+    }
+    private void setIntent() {
+        Intent intent = this.getIntent();
     }
 }

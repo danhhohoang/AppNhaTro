@@ -100,6 +100,7 @@
             tools:ignore="TouchTargetSizeCheck" />
 
         <Button
+            android:id="@+id/btnHuy"
             android:layout_width="130dp"
             android:layout_height="0dp"
             android:layout_gravity="center"

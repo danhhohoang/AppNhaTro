@@ -8,6 +8,8 @@
     tools:context=".Activity.PostActivity">
 
     <LinearLayout
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -180,37 +182,20 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="189dp">
+            android:layout_height="238dp">
 
-            <TextView
-                android:id="@+id/totalphoto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/Recylerview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="vertical"
-                android:scrollbarStyle="outsideInset"
-                android:layout_marginTop="5dp"/>
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="85dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
 
         </LinearLayout>
-
-        <Button
-            android:id="@+id/selectImagebtn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Select Image"
-            app:backgroundTint="@null"
-            android:background="@drawable/btn_login"
-            app:layout_constraintBottom_toTopOf="@+id/uploadimagebtn" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

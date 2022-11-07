@@ -1,4 +1,4 @@
-package com.example.appnhatro.Activity;
+package com.example.appnhatro;
 
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -9,16 +9,16 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appnhatro.R;
-
 import java.util.ArrayList;
 
 public class RecylerAdapter extends RecyclerView.Adapter<RecylerAdapter.ViewHolder> {
 
     private ArrayList<Uri> uriArrayList;
+
     public RecylerAdapter(ArrayList<Uri> uriArrayList){
         this.uriArrayList = uriArrayList;
     }
+
     @NonNull
     @Override
     public RecylerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,7 +35,7 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecylerAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return 0;
+        return uriArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -2,21 +2,31 @@ package com.example.appnhatro.Activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -25,33 +35,35 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Models.Dangbaimodels;
 import com.example.appnhatro.R;
+import com.example.appnhatro.RecylerAdapter;
+import com.example.appnhatro.databinding.ActivityMainBinding;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
-
 public class PostActivity extends AppCompatActivity {
     Spinner spnStatus, spnSex, spnSl;
-    RecyclerView recyclerView;
-    TextView textView;
-    Button UpLoading, UpData;
+    ImageView imgPhoTo;
+    Button UpData, Huy;
     EditText Diachi, SDT, DoTuoi, Den, gia, YeuCauKhac;
-    RecyclerView picture;
-
-    ArrayList<Uri> uri = new ArrayList<>();
-    RecylerAdapter adapter;
-
-    private static final int Read_Permission = 101;
-
+    Uri uri;
+    //firebase
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Image");
+    StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_layout);
         setSpinner();
+        setIntent();
 
 
-        textView = findViewById(R.id.totalphoto);
-        UpLoading = findViewById(R.id.selectImagebtn);
+        imgPhoTo = findViewById(R.id.imageView);
         UpData = findViewById(R.id.uploadimagebtn);
         Diachi = findViewById(R.id.edtdiachi);
         SDT = findViewById(R.id.edtPhoneMunber);
@@ -59,17 +71,8 @@ public class PostActivity extends AppCompatActivity {
         Den = findViewById(R.id.edtxden);
         gia = findViewById(R.id.edtxgia);
         YeuCauKhac = findViewById(R.id.edtyeuccaukhac);
-        picture = findViewById(R.id.Recylerview);
+        Huy = findViewById(R.id.bthuy);
 
-
-        adapter = new RecylerAdapter(uri);
-        picture.setLayoutManager(new GridLayoutManager(PostActivity.this, 4));
-        picture.setAdapter(adapter);
-        if (ContextCompat.checkSelfPermission(PostActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(PostActivity.this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Read_Permission);
-        }
         //Tải dữ liệu lên firebase
         UpData.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,20 +84,47 @@ public class PostActivity extends AppCompatActivity {
                         Den.getText().toString(),
                         spnSl.getSelectedItem().toString(),
                         gia.getText().toString(),
-                        YeuCauKhac.getText().toString(), "hinh Iphone");
-                addToFavorite(post);
+                        YeuCauKhac.getText().toString(), "null");
+
+
+            }
+
+
+            private String getFileExtension(Uri uri) {
+                ContentResolver contentResolver = getContentResolver();
+                MimeTypeMap map = MimeTypeMap.getSingleton();
+                return  map.getExtensionFromMimeType(contentResolver.getType(uri));
+            }
+        });
+        imgPhoTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent y = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(i, 1);
 
             }
         });
-        UpLoading.setOnClickListener(new View.OnClickListener() {
+        Huy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+                AlertDialog.Builder b = new AlertDialog.Builder(PostActivity.this);
+                b.setTitle("Thông Báo");
+                b.setMessage("Xác nhận hủy Report?");
+                b.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                b.setNegativeButton("Không đồng ý", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                AlertDialog al = b.create();
+                al.show();
             }
         });
     }
@@ -102,18 +132,17 @@ public class PostActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && requestCode == Activity.RESULT_OK) {
-            if (data.getClipData() != null) {
-                int x = data.getClipData().getItemCount();
-                for (int i = 0; i < x; i++) {
-                    uri.add(data.getClipData().getItemAt(i).getUri());
-                }
-                adapter.notifyDataSetChanged();
-                textView.setText("Photos (" + uri.size() + ")");
-            } else if (data.getData() != null) {
-                String imageURL = data.getData().getPath();
-                uri.add(Uri.parse(imageURL));
-            }
+
+        if (requestCode==1 && resultCode == RESULT_OK && null != data){
+            uri  =  data.getData();
+            imgPhoTo.setImageURI(uri);
+            String[] filepath={MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(uri, filepath, null, null, null);
+            cursor.moveToFirst();
+            int columneIndex = cursor.getColumnIndex(filepath[0]);
+            String picturepath = cursor.getString(columneIndex);
+            cursor.close();
+            imgPhoTo.setImageBitmap(BitmapFactory.decodeFile(picturepath));
         }
     }
 
@@ -156,6 +185,8 @@ public class PostActivity extends AppCompatActivity {
 
             }
         });
-
+    }
+    private void setIntent() {
+        Intent intent = this.getIntent();
     }
 }

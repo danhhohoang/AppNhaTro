@@ -7,6 +7,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.appnhatro.Activity.RepportActivity;
 import com.example.appnhatro.Models.BitMap;
 import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.Models.user;
@@ -48,6 +49,7 @@ public class FireBaseThueTro {
                     list.add(student);
                 }
                 myRecyclerViewAdapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -168,4 +170,31 @@ public class FireBaseThueTro {
         DatabaseReference databaseReference = firebaseDatabase.getReference("Rating");
         databaseReference.child(postId).child(userId).removeValue();
     }
+    public void autoid(Context context){
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Report").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> dsPost = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    dsPost.add(dataSnapshot.getKey());
+                }
+                String[] temp = dsPost.get(dsPost.size() - 1).split("PR");
+                String id="";
+                if(Integer.parseInt(temp[1]) < 10){
+                    id = "PR0" + (Integer.parseInt(temp[1]) + 1);
+                }else {
+                    id = "PR" + (Integer.parseInt(temp[1]) + 1);
+                }
+                Log.d("test", id);
+                ((RepportActivity) context).SetID(id);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 }
