@@ -41,7 +41,7 @@ public class TenantPostDetailAdapter extends RecyclerView.Adapter<TenantPostDeta
         if (postList == null){
             return;
         }
-        holder.house_name.setText(postList.getHour_name());
+        holder.house_name.setText(postList.getHouse_name());
         holder.area.setText(String.valueOf(postList.getArea()));
         holder.price.setText(String.valueOf(postList.getPrice()));
     }
