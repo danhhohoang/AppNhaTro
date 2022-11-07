@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class FireBaseTenantSearch {
     public FireBaseTenantSearch() {
@@ -27,6 +28,7 @@ public class FireBaseTenantSearch {
                     Post post = dataSnapshot.getValue(Post.class);
                     postList.add(post);
                 }
+                tenantSearchAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -38,14 +40,14 @@ public class FireBaseTenantSearch {
 
     // FireBaseTenantSearch fireBaseTenantSearch;
     // fireBaseTenantSearch(List input, TenantSearchAdapter , value of spnDistrict, position of spnDistrict , position of spnPrice, position of spnArea)
-    public void reTurnPostBySpinner(ArrayList<Post> postList, TenantSearchAdapter tenantSearchAdapter, String spnDistrict, int spnDistrictPos, int spnPrice, int spnArea) {
+    public void reTurnPostByFilter(ArrayList<Post> postList, TenantSearchAdapter tenantSearchAdapter, String spnDistrict, int spnDistrictPos, int spnPricePos, int spnAreaPos, String searchText) {
         int minPrice;
         int maxPrice;
         int minArea;
         int maxArea;
-
+        String finalSearchText =  searchText.toLowerCase();
         //kiem tra position dau vao va set ket qua tuong ung
-        switch (spnPrice) {
+        switch (spnPricePos) {
             case 0:
                 minPrice = 0;
                 maxPrice = 2000000000;
@@ -80,7 +82,7 @@ public class FireBaseTenantSearch {
                 break;
         }
 
-        switch (spnArea) {
+        switch (spnAreaPos) {
             case 0:
                 minArea = 0;
                 maxArea = 10000;
@@ -128,7 +130,10 @@ public class FireBaseTenantSearch {
                                 &&
                                 Integer.parseInt(post.getPrice()) >= minPrice
                                 &&
-                                Integer.parseInt(post.getPrice()) <= maxPrice) {
+                                Integer.parseInt(post.getPrice()) <= maxPrice
+                                &&
+                                post.getHouse_name().toLowerCase().contains(finalSearchText)
+                        ) {
                             postList.add(post);
                         }
 
@@ -142,11 +147,14 @@ public class FireBaseTenantSearch {
                                 &&
                                 Integer.parseInt(post.getPrice()) >= minPrice
                                 &&
-                                Integer.parseInt(post.getPrice()) <= maxPrice) {
+                                Integer.parseInt(post.getPrice()) <= maxPrice
+                                &&
+                                post.getHouse_name().contains(searchText)
+                        ){
                             postList.add(post);
                         }
                     }
-
+                    tenantSearchAdapter.notifyDataSetChanged();
 
                 }
 

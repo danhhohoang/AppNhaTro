@@ -84,7 +84,7 @@ public class TenantPostSearchAdapter extends RecyclerView.Adapter<TenantPostSear
 
         public TenantPostSearchViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvPostTitle = itemView.findViewById(R.id.textview_item_post_title);
+            tvPostTitle = itemView.findViewById(R.id.textview_item_post_housename);
             tvPostAddress = itemView.findViewById(R.id.textview_item_post_address);
             tvPostArea = itemView.findViewById(R.id.textview_item_post_area);
             tvPostPrice = itemView.findViewById(R.id.textview_item_post_price);

@@ -1,5 +1,6 @@
 package com.example.appnhatro.Adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -51,11 +52,14 @@ public class TenantSearchAdapter extends RecyclerView.Adapter<TenantSearchAdapte
         return new TenantSearchViewHolder(cardViewItem);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull TenantSearchViewHolder holder, int position) {
         Post post = postList.get(position);
-        holder.txtTitle.setText(post.getTitle());
-        holder.txtAddress.setText(post.getAddress() + post.getAddress_district());
+        holder.txtHouseName.setText(post.getHouse_name());
+        //do có xung đột trong quá trình thiết kế cơ sở dữ liệu
+        //House_name chính là cái mà người dùng sẽ đặt tên cho căn nhà
+        holder.txtAddress.setText(post.getAddress() + " " + post.getAddress_district());
         DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
         holder.txtPrice.setText(decimalFormat.format(Integer.valueOf(post.getPrice())));
         holder.txtArea.setText(post.getArea());
@@ -87,16 +91,9 @@ public class TenantSearchAdapter extends RecyclerView.Adapter<TenantSearchAdapte
             }
         };
     }
-//    public void setFillterList(List<PostFake> filterList){
-//        this.postFakeList = filterList;
-//        notifyDataSetChanged();
-//    }
 
-    public void setDataBySearchView(ArrayList<Post> filterList)
-    {
-        this.postList = filterList;
-        notifyDataSetChanged();
-    }
+
+
 
 
     @Override
@@ -109,8 +106,8 @@ public class TenantSearchAdapter extends RecyclerView.Adapter<TenantSearchAdapte
         return resource;
     }
 
-    class TenantSearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView txtTitle;
+    static class TenantSearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView txtHouseName;
         TextView txtAddress;
         TextView txtArea;
         TextView txtPrice;
@@ -123,7 +120,7 @@ public class TenantSearchAdapter extends RecyclerView.Adapter<TenantSearchAdapte
 
         public TenantSearchViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtTitle = itemView.findViewById(R.id.textview_item_post_title);
+            txtHouseName = itemView.findViewById(R.id.textview_item_post_housename);
             txtAddress = itemView.findViewById(R.id.textview_item_post_address);
             txtArea = itemView.findViewById(R.id.textview_item_post_area);
             txtPrice = itemView.findViewById(R.id.textview_item_post_price);

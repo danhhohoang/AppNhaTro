@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        replaceFragment(new HomeFragment());
 //        navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
 
-        Intent intent = new Intent(this,HomeTenantActivity.class);
+        Intent intent = new Intent(this,TenantSearchActivity.class);
         startActivity(intent);
         //writeDatabase();
         //readDatabase();

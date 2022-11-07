@@ -17,7 +17,7 @@
             android:layout_width="142dp"
             android:layout_height="142dp"
             android:layout_gravity="left"
-            android:background="@color/black"
+            android:background="@null"
             android:src="@null"
             app:shapeAppearanceOverlay="@style/RoundedImageView"
 
@@ -33,7 +33,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textview_item_post_title"
+                android:id="@+id/textview_item_post_housename"
                 android:layout_width="match_parent"
                 android:layout_height="37dp"
                 android:text="Phòng full nội thất trong chung cư Quận 8"

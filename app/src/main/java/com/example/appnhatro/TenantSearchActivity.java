@@ -14,19 +14,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.appnhatro.Adapters.TenantPostSearchAdapter;
 import com.example.appnhatro.Adapters.TenantSearchAdapter;
-import com.example.appnhatro.FakeModels.PostFake;
+
 import com.example.appnhatro.Firebase.FireBaseTenantSearch;
 import com.example.appnhatro.Models.Post;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class TenantSearchActivity extends AppCompatActivity {
 
-
-    ArrayList<Post> li_Post;
+    ArrayList<Post> li_Post = new ArrayList<>();
+    ArrayList<Post> list = new ArrayList<>();
     FireBaseTenantSearch fireBaseTenantSearch = new FireBaseTenantSearch();
     TenantSearchAdapter tenantSearchAdapter;
     RecyclerView recyclerView;
@@ -34,6 +33,7 @@ public class TenantSearchActivity extends AppCompatActivity {
             spnArea,
             spnPrice;
 
+    TextView textViewEmpty;
     Button btnSearch;
     SearchView searchView;
 
@@ -47,13 +47,13 @@ public class TenantSearchActivity extends AppCompatActivity {
         SpinnerSet();
         setEvent();
 
-
-        //
-        tenantSearchAdapter = new TenantSearchAdapter(this,R.layout.item_tenant_search,li_Post);
+        //Call data form Firebase to recyclerview
+        tenantSearchAdapter = new TenantSearchAdapter(this, R.layout.item_tenant_search, li_Post);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(tenantSearchAdapter);
         //
-        fireBaseTenantSearch.getPostsFormDB(li_Post,tenantSearchAdapter);
+        fireBaseTenantSearch.getPostsFormDB(li_Post, tenantSearchAdapter);
         tenantSearchAdapter.setOnItemClickListener(new TenantSearchAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(int position, View view) {
@@ -67,15 +67,23 @@ public class TenantSearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                fillterList(li_Post, query);
-
-                return true;
+                return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-//                fillterList(newText);
-
+                if (newText.equals("")) {
+                    fireBaseTenantSearch.getPostsFormDB(li_Post, tenantSearchAdapter);
+                }
+                li_Post.clear();
+                fireBaseTenantSearch.reTurnPostByFilter(li_Post
+                        , tenantSearchAdapter
+                        , spnDistrict.getSelectedItem().toString()
+                        , spnDistrict.getSelectedItemPosition()
+                        , spnPrice.getSelectedItemPosition()
+                        , spnPrice.getSelectedItemPosition()
+                        , searchView.getQuery().toString()
+                );
                 return false;
             }
 
@@ -85,16 +93,31 @@ public class TenantSearchActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
+
+        //Event cho nut tim kiem
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fireBaseTenantSearch.reTurnPostBySpinner(li_Post
-                        ,tenantSearchAdapter
-                        ,spnDistrict.getSelectedItem().toString()
-                        ,spnDistrict.getSelectedItemPosition()
-                        ,Integer.parseInt(spnPrice.getSelectedItem().toString())
-                        ,Integer.parseInt(spnArea.getSelectedItem().toString())
-                        );
+                li_Post.clear();
+                fireBaseTenantSearch.reTurnPostByFilter(li_Post
+                        , tenantSearchAdapter
+                        , spnDistrict.getSelectedItem().toString()
+                        , spnDistrict.getSelectedItemPosition()
+                        , spnPrice.getSelectedItemPosition()
+                        , spnPrice.getSelectedItemPosition()
+                        , searchView.getQuery().toString()
+                );
+
+                //Đây là đoạn code để kiểm tra kết quả tìm kiếm, nếu kết quả tìm kiếm là null,
+                //Hiện đoạn text thông báo
+//                if(li_Post.isEmpty()){
+//                    recyclerView.setVisibility(View.GONE);
+//                    textViewEmpty.setVisibility(View.VISIBLE);
+//                }else{
+//                    recyclerView.setVisibility(View.VISIBLE);
+//                    textViewEmpty.setVisibility(View.GONE);
+//                }
+
             }
         });
     }
@@ -104,6 +127,7 @@ public class TenantSearchActivity extends AppCompatActivity {
 
 
         //
+        textViewEmpty = findViewById(R.id.tvDoNotData);
         recyclerView = findViewById(R.id.recycler_tenant_search);
         btnSearch = findViewById(R.id.btn_search);
 
@@ -169,20 +193,4 @@ public class TenantSearchActivity extends AppCompatActivity {
         });
     }
 
-    private void fillterList(ArrayList<Post> li_Post, String text) {
-
-
-        for (Post item : li_Post)
-        {
-            if (item.getTitle().toLowerCase().contains(text.toLowerCase())) {
-                li_Post.add(item);
-            }
-
-        }
-        if(li_Post.isEmpty()){
-            Toast.makeText(this, "Không tìm thấy kết quả", Toast.LENGTH_LONG).show();
-        }else {
-            tenantSearchAdapter.setDataBySearchView(li_Post);
-        }
-    }
 }
