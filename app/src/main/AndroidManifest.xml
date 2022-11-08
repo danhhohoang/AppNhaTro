@@ -42,6 +42,7 @@
 <!--        <activity android:name=".HomeTenantActivity" />-->
         <activity android:name=".Activity.VertifyPhoneNumberActivity" />
         <activity android:name=".AdminLandlordDetails" />
+        <activity android:name=".TenantSearchActivity" />
         <activity android:name=".Activity.ResetPasswordOTPActivity" />
         <activity android:name=".Activity.ReserPasswordChangeActivity" />
     </application>
