@@ -114,5 +114,13 @@
     <string name="report">report</string>
     <string name="m_t">Mô tả:</string>
     <string name="xo">Xoá</string>
+    <string name="s_t">SĐT:</string>
+    <string name="di_n_t_ch">Diện tích:</string>
+    <string name="gi">Giá:</string>
+    <string name="th_m">Thêm</string>
+    <string name="s_a">Sửa</string>
+    <string name="id_ph_ng">Id Phòng</string>
+    <string name="t_n_ph_ng">Tên Phòng</string>
+    <string name="sdt">SDT</string>
 
 </resources>
