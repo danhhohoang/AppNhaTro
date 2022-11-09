@@ -84,4 +84,7 @@ public class PostFindRoomateModel {
         this._hobby = _hobby;
         this._userTenantPhone = _userTenantPhone;
     }
+
+    public PostFindRoomateModel() {
+    }
 }

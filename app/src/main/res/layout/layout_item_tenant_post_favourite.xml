@@ -20,6 +20,7 @@
             android:layout_marginLeft="2dp"
             app:cardCornerRadius="12dp">
             <ImageView
+                android:id="@+id/iv_tpfPicture"
                 android:layout_width="110dp"
                 android:layout_height="120dp"
                 android:scaleType="fitXY"
