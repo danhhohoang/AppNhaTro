@@ -46,6 +46,7 @@
         <activity android:name=".Activity.RepportActivity"/>
         <activity android:name=".Activity.VertifyPhoneNumberActivity" />
         <activity android:name=".AdminLandlordDetails" />
+        <activity android:name=".TenantSearchActivity" />
         <activity android:name=".Activity.ResetPasswordOTPActivity" />
         <activity android:name=".Activity.ReserPasswordChangeActivity" />
         <activity android:name=".Activity.tenant_notification_activity"/>
