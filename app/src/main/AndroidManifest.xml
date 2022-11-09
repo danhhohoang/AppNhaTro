@@ -17,7 +17,6 @@
         android:theme="@style/Theme.AppNhaTro"
         tools:targetApi="31">
         <activity
-
             android:name=".HomeTenantActivity"
             android:exported="false">
             <meta-data
@@ -38,10 +37,12 @@
                 android:value="" />
         </activity>
         <activity android:name=".TenantPostDetail" />
+        <activity android:name=".Activity.LandLordHomeActivity" />
         <activity android:name=".TenantPostList" />
 <!--        <activity android:name=".HomeTenantActivity" />-->
         <activity android:name=".Activity.VertifyPhoneNumberActivity" />
         <activity android:name=".AdminLandlordDetails" />
+        <activity android:name=".TenantSearchActivity" />
         <activity android:name=".Activity.ResetPasswordOTPActivity" />
         <activity android:name=".Activity.ReserPasswordChangeActivity" />
     </application>
