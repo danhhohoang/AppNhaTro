@@ -54,26 +54,34 @@ public class FireBaseTenantSearch {
                 break;
             case 1:
                 minPrice = 0;
-                maxPrice = 2000000;
+                maxPrice = 1000000;
                 break;
             case 2:
+                minPrice = 1000000;
+                maxPrice = 2000000;
+                break;
+            case 3:
                 minPrice = 2000000;
                 maxPrice = 4000000;
                 break;
-            case 3:
+            case 4:
                 minPrice = 4000000;
                 maxPrice = 6000000;
                 break;
-            case 4:
+            case 5:
                 minPrice = 6000000;
                 maxPrice = 8000000;
                 break;
-            case 5:
+            case 6:
                 minPrice = 8000000;
                 maxPrice = 12000000;
                 break;
-            case 6:
+            case 7:
                 minPrice = 12000000;
+                maxPrice = 18000000;
+                break;
+            case 8:
+                minPrice = 18000000;
                 maxPrice = 2000000000;
                 break;
             default:
@@ -128,9 +136,9 @@ public class FireBaseTenantSearch {
                                 &&
                                 Integer.parseInt(post.getArea()) <= maxArea
                                 &&
-                                Integer.parseInt(post.getPrice()) >= minPrice
+                                Integer.valueOf(post.getPrice()) >= minPrice
                                 &&
-                                Integer.parseInt(post.getPrice()) <= maxPrice
+                                Integer.valueOf(post.getPrice()) <= maxPrice
                                 &&
                                 post.getHouse_name().toLowerCase().contains(finalSearchText)
                         ) {
