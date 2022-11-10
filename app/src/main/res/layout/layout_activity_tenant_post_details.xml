@@ -24,7 +24,8 @@
         <ImageView
             android:id="@+id/imgRoomPostDetail"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"/>
     </LinearLayout>
 
     <ScrollView
@@ -284,6 +285,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/white"
                     android:text="Các bài viết liên quan" />
 
                 <androidx.recyclerview.widget.RecyclerView

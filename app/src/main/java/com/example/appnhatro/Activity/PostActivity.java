@@ -1,64 +1,184 @@
 package com.example.appnhatro.Activity;
 
-import android.app.ProgressDialog;
+import android.Manifest;
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appnhatro.Firebase.FireBaseThueTro;
+import com.example.appnhatro.Models.Dangbaimodels;
+import com.example.appnhatro.Models.ReportModels;
 import com.example.appnhatro.R;
-import com.example.appnhatro.databinding.PostLayoutBinding;
-import com.google.android.gms.tasks.OnFailureListener;
+import com.example.appnhatro.RecylerAdapter;
+import com.example.appnhatro.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-public class PostActivity extends AppCompatActivity{
-    PostLayoutBinding binding;
-    Uri imageUri;
-    StorageReference storageReference;
-    ProgressDialog progressDialog;
-
-    Spinner spnStatus;
-    Spinner spnSex;
-    Spinner spnSl;
-
+import java.util.ArrayList;
+public class PostActivity extends AppCompatActivity {
+    private FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
+    Spinner spnStatus, spnSex, spnSl;
+    ImageView imgPhoTo;
+    Button UpData, Huy;
+    EditText Diachi, SDT, DoTuoi, Den, gia, YeuCauKhac;
+    Uri uri;
+    String idPost = "";
+    //firebase
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Image");
+    StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = PostLayoutBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        binding.selectImagebtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                selectImage();
-            }
-        });
-
-        binding.uploadimagebtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                uploadImage();
-            }
-        });
-
-
+        setContentView(R.layout.post_layout);
         setSpinner();
+        setIntent();
+
+
+        imgPhoTo = findViewById(R.id.imageView);
+        UpData = findViewById(R.id.uploadimagebtn);
+        Diachi = findViewById(R.id.edtdiachi);
+        SDT = findViewById(R.id.edtPhoneMunber);
+        DoTuoi = findViewById(R.id.edtxdotuoi);
+        Den = findViewById(R.id.edtxden);
+        gia = findViewById(R.id.edtxgia);
+        YeuCauKhac = findViewById(R.id.edtyeuccaukhac);
+        Huy = findViewById(R.id.bthuy);
+
+        //Tải dữ liệu lên firebase
+        UpData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder a = new AlertDialog.Builder(PostActivity.this);
+                a.setTitle("Thông Báo");
+                a.setMessage("Bạn có muốn đăng bài");
+                a.setPositiveButton("Đăng bài", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                        Dangbaimodels post = new Dangbaimodels(idPost, "KH01", spnStatus.getSelectedItem().toString(),
+                                Diachi.getText().toString(), SDT.getText().toString(), spnSex.getSelectedItem().toString(), DoTuoi.getText().toString(), Den.getText().toString(),
+                                spnSl.getSelectedItem().toString(), YeuCauKhac.getText().toString(), gia.getText().toString(), "1213");
+                        addToFavorite(post);
+                    }
+                });
+                a.setNegativeButton("Hủy bỏ", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                AlertDialog al = a.create();
+                al.show();
+            }
+        });
+        imgPhoTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent y = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(i, 1);
+
+            }
+        });
+        Huy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder b = new AlertDialog.Builder(PostActivity.this);
+                b.setTitle("Thông Báo");
+                b.setMessage("Xác nhận hủy Report?");
+                b.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                b.setNegativeButton("Không đồng ý", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                AlertDialog al = b.create();
+                al.show();
+            }
+        });
+    }
+
+    public void ThongBaoThanhCong(){
+        AlertDialog.Builder b = new AlertDialog.Builder( PostActivity.this);
+        b.setTitle("Thông báo");
+        b.setMessage("Bạn đã đăng bài thành công");
+        b.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+                finish();
+            }
+        });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode==1 && resultCode == RESULT_OK && null != data){
+            uri  =  data.getData();
+            imgPhoTo.setImageURI(uri);
+            String[] filepath={MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(uri, filepath, null, null, null);
+            cursor.moveToFirst();
+            int columneIndex = cursor.getColumnIndex(filepath[0]);
+            String picturepath = cursor.getString(columneIndex);
+            cursor.close();
+            imgPhoTo.setImageBitmap(BitmapFactory.decodeFile(picturepath));
+        }
+    }
+
+    private void addToFavorite(Dangbaimodels post) {
+        Log.d("text", post.getId());
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference("Post_Oghep");
+        databaseReference.child(post.getId()).setValue(post, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                ThongBaoThanhCong();
+            }
+        });
     }
 
     private void setSpinner() {
@@ -67,7 +187,7 @@ public class PostActivity extends AppCompatActivity{
         spnSl = findViewById(R.id.spnSl);
 
 
-        ArrayAdapter spnStatusAdapter = new ArrayAdapter<String>(this,  androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,getResources().getStringArray(R.array.string_status));
+        ArrayAdapter spnStatusAdapter = new ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.string_status));
 
         ArrayAdapter spnSexAdapter = new ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.string_sex));
 
@@ -93,71 +213,16 @@ public class PostActivity extends AppCompatActivity{
 
             }
         });
-
     }
-    private void uploadImage() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading File....");
-        progressDialog.show();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.CANADA);
-        Date now = new Date();
-        String fileName = formatter.format(now);
-        storageReference = FirebaseStorage.getInstance().getReference("images/"+fileName);
-
-
-        storageReference.putFile(imageUri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                        binding.firebaseimage1.setImageURI(null);
-                        Toast.makeText(PostActivity.this,"Successfully Uploaded",Toast.LENGTH_SHORT).show();
-                        if (progressDialog.isShowing())
-                            progressDialog.dismiss();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-
-                        if (progressDialog.isShowing())
-                            progressDialog.dismiss();
-                        Toast.makeText(PostActivity.this,"Failed to Upload",Toast.LENGTH_SHORT).show();
-
-
-                    }
-                });
-
-    }
-    private void selectImage() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,100);
-
-    }
-
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 100 && data != null && data.getData() != null){
-
-            imageUri = data.getData();
-            binding.firebaseimage1.setImageURI(imageUri);
-
-
-        }
+    protected void onResume(){
+        super.onResume();
+        fireBaseThueTro.IdPost(PostActivity.this);
     }
-
-    //
-    private String Status, address, PhoneNumber, Gender, age, arrive, price, OtherRequirements, Imageview;
-
-    public PostActivity() {
-
+    private void setIntent() {
+        Intent intent = this.getIntent();
     }
-    public PostActivity(String Status, String address, String PhoneNumber, String Gender, String age){
-
+    public void setID(String id){
+        idPost = id;
     }
-
 }

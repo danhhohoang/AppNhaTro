@@ -1,12 +1,12 @@
 package com.example.appnhatro;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -29,24 +29,20 @@ import com.example.appnhatro.fragment.HomeFragment;
 import com.example.appnhatro.fragment.PostFrgment;
 import com.example.appnhatro.fragment.ReportFragment;
 import com.google.android.material.navigation.NavigationView;
-import android.widget.TextView;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+public class MainActivity extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-    private static final int FRAGMENT_HOME = 0;
-    private static final int FRAGMENT_REPORT = 1;
-    private static final int FRAGMENT_POST = 2;
+//    private static final int FRAGMENT_HOME = 0;
+//    private static final int FRAGMENT_REPORT = 1;
+//    private static final int FRAGMENT_POST = 2;
 
     //gán màn hình chính
-    private int mCurrentFragment = FRAGMENT_HOME;
+   // private int mCurrentFragment = FRAGMENT_REPORT;
 
 
     private DrawerLayout mDrawerLayout;
@@ -55,8 +51,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.menu_bar);
-//
+
+
+        Intent intent = new Intent(this, HomeTenantActivity.class);
+        startActivity(intent);
+//          setContentView(R.layout.landlord_notification_list);
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 //        //ánh xạ view
@@ -69,56 +68,55 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        navigationView.setNavigationItemSelectedListener(this);
 //
 //        //mặc định khi mở là màn hìnhh
-//        replaceFragment(new HomeFragment());
-//        navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
+//        replaceFragment(new ReportFragment());
+//        navigationView.getMenu().findItem(R.id.nav_Report).setChecked(true);
 
-        Intent intent = new Intent(this, LandLordAddNewPost.class);
-        startActivity(intent);
+
+
         //writeDatabase();
         //readDatabase();
     }
 
+//    @Override
+//    //set sự kiện chọn màn hình
+//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//        int id = item.getItemId();
+//        if (id == R.id.nav_home) {
+//            if (mCurrentFragment != FRAGMENT_HOME) {
+//                replaceFragment(new HomeFragment());
+//                mCurrentFragment = FRAGMENT_HOME;
+//            }
+//        } else if (id == R.id.nav_Report) {
+//            if (mCurrentFragment != FRAGMENT_REPORT) {
+//                replaceFragment(new ReportFragment());
+//                mCurrentFragment = FRAGMENT_REPORT;
+//            }
+//        } else if (id == R.id.nav_post) {
+//            if (mCurrentFragment != FRAGMENT_POST) {
+//             replaceFragment(new PostFrgment());
+//             mCurrentFragment = FRAGMENT_POST;
+//            }
+//        }
+//        mDrawerLayout.closeDrawer(GravityCompat.START);
+//        return true;
+//    }
 
-    @Override
-    //set sự kiện chọn màn hình
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.nav_home) {
-            if (mCurrentFragment != FRAGMENT_HOME) {
-                replaceFragment(new HomeFragment());
-                mCurrentFragment = FRAGMENT_HOME;
-            }
-        } else if (id == R.id.nav_Report) {
-            if (mCurrentFragment != FRAGMENT_REPORT) {
-                replaceFragment(new ReportFragment());
-                mCurrentFragment = FRAGMENT_REPORT;
-            }
-        } else if (id == R.id.nav_post) {
-            if (mCurrentFragment != FRAGMENT_POST) {
-             replaceFragment(new PostFrgment());
-             mCurrentFragment = FRAGMENT_POST;
-            }
-        }
-        mDrawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawer((GravityCompat.START));
-        } else {
-            super.onBackPressed();
-        }
-
-        setContentView(R.layout.activity_main);
-//        a.findViewById(R.id.texx);
+//    @Override
+//    public void onBackPressed() {
+//        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+//            mDrawerLayout.closeDrawer((GravityCompat.START));
+//        } else {
+//            super.onBackPressed();
+//        }
+//
 //        setContentView(R.layout.activity_main);
-        Intent intent = new Intent(this, HomeTenantActivity.class);
-        startActivity(intent);
+//        a.findViewById(R.id.texx);
+//       setContentView(R.layout.activity_main);
+//        Intent intent = new Intent(this, HomeTenantActivity.class);
+//        startActivity(intent);
 ////        writeDatabase();
 ////        readDatabase();
-    }
+    //}
     private void Tri(){
 
     }
@@ -144,9 +142,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
-    private void replaceFragment(Fragment fragment){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_frame, fragment);
-        transaction.commit();
-    }
+//    private void replaceFragment(Fragment fragment){
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.content_frame, fragment);
+//        transaction.commit();
+//    }
 }

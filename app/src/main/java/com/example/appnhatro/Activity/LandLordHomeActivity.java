@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Adapters.LandLordHomeListAdapter;
-import com.example.appnhatro.FakeModels.PostFake;
+//import com.example.appnhatro.FakeModels.PostFake;
 import com.example.appnhatro.Firebase.FireBaseLandLord;
 import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.R;

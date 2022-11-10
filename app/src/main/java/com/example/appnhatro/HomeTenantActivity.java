@@ -12,8 +12,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.appnhatro.Activity.PostActivity;
+import com.example.appnhatro.Activity.RepportActivity;
+import com.example.appnhatro.Activity.tenant_notification_activity;
 import com.example.appnhatro.Firebase.FireBaseThueTro;
 import com.example.appnhatro.Models.Post;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +41,7 @@ public class HomeTenantActivity extends AppCompatActivity {
     //
     private MyRecyclerViewAdapter myRecyclerViewAdapterOGhep;
     private ArrayList<Post> listHorizoneOGhep= new ArrayList<>();
+    LinearLayout Post, notification;
     FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,12 @@ public class HomeTenantActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         loadNhachoThue();
         loadOGhep();
+        control();
+        DangBai();
+    }
+    private void control() {
+        Post = findViewById(R.id.post);
+        notification = findViewById(R.id.notidication);
     }
     @SuppressLint("MissingInflatedId")
     public void loadNhachoThue(){
@@ -83,6 +96,22 @@ public class HomeTenantActivity extends AppCompatActivity {
             @Override
             public void onItemClickListener(int position, View view) {
                 fireBaseThueTro.readDataItem(position,listHorizoneOGhep,HomeTenantActivity.this);
+            }
+        });
+    }
+    public void DangBai(){
+        Post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeTenantActivity.this, PostActivity.class);
+                startActivity(intent);
+            }
+        });
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeTenantActivity.this, tenant_notification_activity.class);
+                startActivity(intent);
             }
         });
     }
