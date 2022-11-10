@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import com.example.appnhatro.Activity.TermAndSerciveActivity;
 import com.example.appnhatro.Activity.LandLordAddNewPost;
 import com.example.appnhatro.Activity.LandLordHomeActivity;
 import com.example.appnhatro.R;

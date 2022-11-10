@@ -11,22 +11,34 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.appnhatro.Adapters.TenantPostSearchAdapter;
-import com.example.appnhatro.FakeModels.PostFake;
+import com.example.appnhatro.Adapters.TenantSearchAdapter;
+
+import com.example.appnhatro.Firebase.FireBaseTenantSearch;
+import com.example.appnhatro.Models.Post;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class TenantSearchActivity extends AppCompatActivity {
 
-    RecyclerView rv_Post;
-    ArrayList<PostFake> li_Post;
-    TenantPostSearchAdapter adp_Post;
-    Spinner spnDistric;
-    Spinner spnArea;
-    Spinner spnPrice;
+    ArrayList<Post> li_Post = new ArrayList<>();
+    ArrayList<Post> listTemp = new ArrayList<>();
+
+    RecyclerView recyclerView;
+
+    FireBaseTenantSearch fireBaseTenantSearch = new FireBaseTenantSearch();
+
+    TenantSearchAdapter tenantSearchAdapter,
+                        cloneAdapter;
+
+    Spinner spnDistrict,
+            spnArea,
+            spnPrice;
+
+    TextView textViewEmpty;
     Button btnSearch;
     SearchView searchView;
 
@@ -35,9 +47,39 @@ public class TenantSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tenant_search_layout);
 
-
         //mapping
-        searchView = findViewById(R.id.search_bar);
+        setControl();
+        SpinnerSet();
+        setEvent();
+
+
+        //Call data form Firebase to recyclerview
+
+
+        tenantSearchAdapter = new TenantSearchAdapter(this
+                , R.layout.item_tenant_search
+                , li_Post);
+        cloneAdapter = new TenantSearchAdapter(this
+                , R.layout.item_tenant_search
+                , listTemp);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        fireBaseTenantSearch.getPostsFormDB(li_Post, tenantSearchAdapter);
+        CloneList(li_Post, listTemp);
+
+        recyclerView.setAdapter(tenantSearchAdapter);
+        //
+
+
+        tenantSearchAdapter.setOnItemClickListener(new TenantSearchAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(int position, View view) {
+                //mo man hinh chi tiet phong tro
+            }
+        });
+
+        //
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -47,84 +89,118 @@ public class TenantSearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                fillterList(newText);
+                if (newText.equals("")) {
+//                    CloneList(li_Post, listTemp);
 
+                    fireBaseTenantSearch.reTurnPostByFilter(li_Post
+                            , tenantSearchAdapter
+                            , spnDistrict.getSelectedItem().toString()
+                            , spnDistrict.getSelectedItemPosition()
+                            , spnPrice.getSelectedItemPosition()
+                            , spnPrice.getSelectedItemPosition()
+                            , newText
+                    );
+                } else {
+                    li_Post.clear();
+                    fireBaseTenantSearch.reTurnPostByFilter(li_Post
+                            , tenantSearchAdapter
+                            , spnDistrict.getSelectedItem().toString()
+                            , spnDistrict.getSelectedItemPosition()
+                            , spnPrice.getSelectedItemPosition()
+                            , spnPrice.getSelectedItemPosition()
+                            , newText
+                    );
+                    recyclerView.setAdapter(tenantSearchAdapter);
+                }
+//                recyclerView.setAdapter(cloneAdapter);
                 return true;
             }
         });
-
-        btnSearch = findViewById(R.id.btn_search);
-        rv_Post = findViewById(R.id.recycler_tenant_search);
-        li_Post = new ArrayList<>();
-        //
-        PostFake post1 = new PostFake("căn hộ chung cư cao cấp ở quận 9 - giá bình dân cực hạt dẻ thích hợp cho sinh viên thuê nhưng là sinh viên RMIT", "s1.01 Vinhomes Grandpark, Nguyễn Xiển, Long Thạnh Mỹ, Thành Phố Thủ Đức, Hồ Chí Minh, Việt Nam",
-                "string", "string", 45, 12000000, "Cho Thuê");
-        PostFake post2 = new PostFake("Tieu de 2", "Dia chi 1",
-                "string", "string", 20, 2, "Status2");
-        PostFake post3 = new PostFake("Tieu de 3", "Dia chi 1",
-                "string", "string", 30, 3, "Status3");
-        PostFake post4 = new PostFake("Tieu de 4", "Dia chi 1",
-                "string", "string", 40, 4, "Status4");
-        PostFake post5 = new PostFake("Tieu de 5", "Dia chi 1",
-                "string", "string", 50, 5, "Status5");
-        PostFake post6 = new PostFake("Tieu de 6", "Dia chi 1",
-                "string", "string", 60, 6, "Status6");
-        PostFake post7 = new PostFake("Tieu de 7", "Dia chi 1",
-                "string", "string", 70, 7, "Status7");
-
-        li_Post.add(post1);
-        li_Post.add(post2);
-        li_Post.add(post3);
-        li_Post.add(post4);
-        li_Post.add(post5);
-        li_Post.add(post6);
-        li_Post.add(post7);
-        //
-
-        adp_Post = new TenantPostSearchAdapter(li_Post);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        rv_Post.setLayoutManager(linearLayoutManager);
-        rv_Post.setAdapter(adp_Post);
-
-        SpinnerSet();
     }
 
-    private void SpinnerSet() {
-        spnDistric = findViewById(R.id.spn_district);
+    public static void CloneList(ArrayList<Post> listIn, ArrayList<Post> listOut) {
+        for (Post item : listIn) {
+            listOut.add(item);
+        }
+    }
+
+    public void setEvent() {
+
+        //Event cho nut tim kiem
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                li_Post.clear();
+
+                fireBaseTenantSearch.reTurnPostByFilter(li_Post
+                        , tenantSearchAdapter
+                        , spnDistrict.getSelectedItem().toString()
+                        , spnDistrict.getSelectedItemPosition()
+                        , spnPrice.getSelectedItemPosition()
+                        , spnArea.getSelectedItemPosition()
+                        , searchView.getQuery().toString()
+                );
+                //recyclerView.setAdapter(cloneAdapter);
+
+                //--Đây là đoạn code để kiểm tra kết quả tìm kiếm, nếu kết quả tìm kiếm là null,
+                //--hiện đoạn text thông báo
+//                if(li_Post.isEmpty()){
+//                    recyclerView.setVisibility(View.GONE);
+//                    textViewEmpty.setVisibility(View.VISIBLE);
+//                }else{
+//                    recyclerView.setVisibility(View.VISIBLE);
+//                    textViewEmpty.setVisibility(View.GONE);
+//                }
+
+            }
+        });
+    }
+
+    public void setControl() {
+        //item
+
+        // Searchview
+        searchView = findViewById(R.id.search_bar);
+
+        //Spinner
+        spnDistrict = findViewById(R.id.spn_district);
         spnArea = findViewById(R.id.spn_area);
         spnPrice = findViewById(R.id.spn_price);
 
+        //ETC
+        textViewEmpty = findViewById(R.id.tvDoNotData);
+        recyclerView = findViewById(R.id.recycler_tenant_search);
+        btnSearch = findViewById(R.id.btn_search);
+    }
+
+    public void SpinnerSet() {
+
         ArrayAdapter districAdapter = new ArrayAdapter<String>(this, R.layout.text_spinner, getResources().getStringArray(R.array.string_spn_district));
-        ArrayAdapter areaAdapter = new ArrayAdapter<String>(this,R.layout.text_spinner, getResources().getStringArray(R.array.string_spn_area));
-        ArrayAdapter priceAdapter = new ArrayAdapter<>(this,R.layout.text_spinner, getResources().getStringArray(R.array.string_spn_price));
+        ArrayAdapter areaAdapter = new ArrayAdapter<String>(this, R.layout.text_spinner, getResources().getStringArray(R.array.string_spn_area));
+        ArrayAdapter priceAdapter = new ArrayAdapter<>(this, R.layout.text_spinner, getResources().getStringArray(R.array.string_spn_price));
 
         districAdapter.setDropDownViewResource(R.layout.text_spinner);
         areaAdapter.setDropDownViewResource(R.layout.text_spinner);
         priceAdapter.setDropDownViewResource(R.layout.text_spinner);
 
-        spnDistric.setAdapter(districAdapter);
+        spnDistrict.setAdapter(districAdapter);
         spnArea.setAdapter(areaAdapter);
         spnPrice.setAdapter(priceAdapter);
 
 
-        spnDistric.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spnDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                Toast.makeText(TenantSearchActivity.this, String.valueOf(spnDistric.getSelectedItemPosition()), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
         spnArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(TenantSearchActivity.this, spnArea.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
-
             }
 
             @Override
@@ -136,31 +212,12 @@ public class TenantSearchActivity extends AppCompatActivity {
         spnPrice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(TenantSearchActivity.this, spnPrice.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
     }
 
-    private void fillterList(String text) {
-        List<PostFake> fillterList = new ArrayList<>();
-
-        for (PostFake item : li_Post)
-        {
-            if (item.getPostTitle().toLowerCase().contains(text.toLowerCase())) {
-                fillterList.add(item);
-            }
-
-        }
-        if(fillterList.isEmpty()){
-            Toast.makeText(this, "Không tìm thấy kết quả", Toast.LENGTH_LONG).show();
-        }else {
-            adp_Post.setFillterList(fillterList);
-        }
-    }
 }
