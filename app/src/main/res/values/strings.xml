@@ -115,4 +115,9 @@
     <string name="m_t">Mô tả:</string>
     <string name="xo">Xoá</string>
 
+
+    <string-array name="string_spn_postStatus">
+        <item>Cho thuê</item>
+        <item>Hết phòng</item>
+    </string-array>
 </resources>

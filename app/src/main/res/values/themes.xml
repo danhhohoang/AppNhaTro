@@ -52,4 +52,21 @@
     <style name="Theme.AppNhaTro.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.AppNhaTro.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="MinhText" parent="">
+        <!-- Primary brand color. -->
+
+        <item name="android:gravity">center|left</item>
+        <!-- Secondary brand color. -->
+
+        <item name="android:textColor">#FAFAFA</item>
+        <item name="android:textSize">16dp</item>
+
+    </style>
+
+    <style name="MinhEditText" parent="">
+        <item name="android:background">@drawable/shape_landlord_editpost_edittext</item>
+    </style>
+
+
+
 </resources>
