@@ -2,19 +2,24 @@ package com.example.appnhatro.Models;
 
 public class ReportModels {
     private String id;
-    private String content;
-    private String id_report;
-    private String id_user;
-    private String post_id;
+    private String Post_Name;
+    private String ID_NguoiDang;
+    private String ID_BaiDang;
+    private String TenNguoiGui;
     private String title;
+    private String content;
 
-    public ReportModels(String id, String content, String id_report, String id_user, String post_id, String title) {
+    public ReportModels(String id, String post_Name, String ID_NguoiDang, String ID_BaiDang, String tenNguoiGui, String title, String content) {
         this.id = id;
-        this.content = content;
-        this.id_report = id_report;
-        this.id_user = id_user;
-        this.post_id = post_id;
+        Post_Name = post_Name;
+        this.ID_NguoiDang = ID_NguoiDang;
+        this.ID_BaiDang = ID_BaiDang;
+        TenNguoiGui = tenNguoiGui;
         this.title = title;
+        this.content = content;
+    }
+
+    public ReportModels() {
     }
 
     public String getId() {
@@ -25,36 +30,36 @@ public class ReportModels {
         this.id = id;
     }
 
-    public String getContent() {
-        return content;
+    public String getPost_Name() {
+        return Post_Name;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setPost_Name(String post_Name) {
+        Post_Name = post_Name;
     }
 
-    public String getId_report() {
-        return id_report;
+    public String getID_NguoiDang() {
+        return ID_NguoiDang;
     }
 
-    public void setId_report(String id_report) {
-        this.id_report = id_report;
+    public void setID_NguoiDang(String ID_NguoiDang) {
+        this.ID_NguoiDang = ID_NguoiDang;
     }
 
-    public String getId_user() {
-        return id_user;
+    public String getID_BaiDang() {
+        return ID_BaiDang;
     }
 
-    public void setId_user(String id_user) {
-        this.id_user = id_user;
+    public void setID_BaiDang(String ID_BaiDang) {
+        this.ID_BaiDang = ID_BaiDang;
     }
 
-    public String getPost_id() {
-        return post_id;
+    public String getTenNguoiGui() {
+        return TenNguoiGui;
     }
 
-    public void setPost_id(String post_id) {
-        this.post_id = post_id;
+    public void setTenNguoiGui(String tenNguoiGui) {
+        TenNguoiGui = tenNguoiGui;
     }
 
     public String getTitle() {
@@ -63,5 +68,13 @@ public class ReportModels {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

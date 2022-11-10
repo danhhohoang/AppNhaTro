@@ -3,6 +3,7 @@ package com.example.appnhatro.Activity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,6 +26,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,11 +35,14 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appnhatro.Firebase.FireBaseThueTro;
 import com.example.appnhatro.Models.Dangbaimodels;
+import com.example.appnhatro.Models.ReportModels;
 import com.example.appnhatro.R;
 import com.example.appnhatro.RecylerAdapter;
 import com.example.appnhatro.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -47,11 +52,13 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 public class PostActivity extends AppCompatActivity {
+    private FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
     Spinner spnStatus, spnSex, spnSl;
     ImageView imgPhoTo;
     Button UpData, Huy;
     EditText Diachi, SDT, DoTuoi, Den, gia, YeuCauKhac;
     Uri uri;
+    String idPost = "";
     //firebase
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Image");
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
@@ -77,23 +84,27 @@ public class PostActivity extends AppCompatActivity {
         UpData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dangbaimodels post = new Dangbaimodels("P_tenant_04", "Pt04", spnStatus.getSelectedItem().toString(),
-                        Diachi.getText().toString(), SDT.getText().toString(),
-                        spnSex.getSelectedItem().toString(),
-                        DoTuoi.getText().toString(),
-                        Den.getText().toString(),
-                        spnSl.getSelectedItem().toString(),
-                        gia.getText().toString(),
-                        YeuCauKhac.getText().toString(), "null");
-
-
-            }
-
-
-            private String getFileExtension(Uri uri) {
-                ContentResolver contentResolver = getContentResolver();
-                MimeTypeMap map = MimeTypeMap.getSingleton();
-                return  map.getExtensionFromMimeType(contentResolver.getType(uri));
+                AlertDialog.Builder a = new AlertDialog.Builder(PostActivity.this);
+                a.setTitle("Thông Báo");
+                a.setMessage("Bạn có muốn đăng bài");
+                a.setPositiveButton("Đăng bài", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                        Dangbaimodels post = new Dangbaimodels(idPost, "KH01", spnStatus.getSelectedItem().toString(),
+                                Diachi.getText().toString(), SDT.getText().toString(), spnSex.getSelectedItem().toString(), DoTuoi.getText().toString(), Den.getText().toString(),
+                                spnSl.getSelectedItem().toString(), YeuCauKhac.getText().toString(), gia.getText().toString(), "1213");
+                        addToFavorite(post);
+                    }
+                });
+                a.setNegativeButton("Hủy bỏ", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                AlertDialog al = a.create();
+                al.show();
             }
         });
         imgPhoTo.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +140,18 @@ public class PostActivity extends AppCompatActivity {
         });
     }
 
+    public void ThongBaoThanhCong(){
+        AlertDialog.Builder b = new AlertDialog.Builder( PostActivity.this);
+        b.setTitle("Thông báo");
+        b.setMessage("Bạn đã đăng bài thành công");
+        b.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+                finish();
+            }
+        });
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -150,7 +173,12 @@ public class PostActivity extends AppCompatActivity {
         Log.d("text", post.getId());
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Post_Oghep");
-        databaseReference.child(post.getId()).setValue(post);
+        databaseReference.child(post.getId()).setValue(post, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                ThongBaoThanhCong();
+            }
+        });
     }
 
     private void setSpinner() {
@@ -186,7 +214,15 @@ public class PostActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        fireBaseThueTro.IdPost(PostActivity.this);
+    }
     private void setIntent() {
         Intent intent = this.getIntent();
+    }
+    public void setID(String id){
+        idPost = id;
     }
 }

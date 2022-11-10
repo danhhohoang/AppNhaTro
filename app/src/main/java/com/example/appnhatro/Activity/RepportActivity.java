@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.appnhatro.Firebase.FireBaseThueTro;
 import com.example.appnhatro.Models.ReportModels;
 import com.example.appnhatro.R;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +29,7 @@ public class RepportActivity extends AppCompatActivity {
     EditText NoiDung;
     Button Huy, Gui;
     String tenbaidang,idbd, idPost,id_login, getIdPost = "";
+    private FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +51,19 @@ public class RepportActivity extends AppCompatActivity {
         Gui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ReportModels post = new ReportModels(IDpost.getText().toString(), NoiDung.getText().toString(),
-                        "KH04", IDnguoiDang.getText().toString(), "4", NoiDung.getText().toString());
-                addToFavorite(post);
                 AlertDialog.Builder a = new AlertDialog.Builder(RepportActivity.this);
                 a.setTitle("Thông Báo");
-                a.setMessage("Bạn đã gửi thành công Report");
-                a.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                a.setMessage("Bạn có chắc muốn gửi report");
+                a.setPositiveButton("Gửi", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                        ReportModels post = new ReportModels(getIdPost, TenBaiDang.getText().toString(), IDnguoiDang.getText().toString(),
+                                IDpost.getText().toString(), TenNguoiGui.getText().toString(), TieuDe.getText().toString(), NoiDung.getText().toString());
+                        addToFavorite(post);
+                    }
+                });
+                a.setNegativeButton("Không gửi", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
@@ -120,6 +128,11 @@ public class RepportActivity extends AppCompatActivity {
         idPost = intent.getStringExtra("IdPost");
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        fireBaseThueTro.autoid(RepportActivity.this);
+    }
     public void SetID(String id){
         getIdPost = id;
     }

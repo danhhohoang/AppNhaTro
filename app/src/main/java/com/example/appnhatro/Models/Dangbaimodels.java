@@ -1,8 +1,6 @@
 package com.example.appnhatro.Models;
 
 public class Dangbaimodels {
-
-
     private String id;
     private String idUser;
     private String Status;
@@ -15,7 +13,8 @@ public class Dangbaimodels {
     private String OtherRequirements;
     private String price;
     private String image1;
-    public Dangbaimodels(){
+
+    public Dangbaimodels() {
     }
 
     public Dangbaimodels(String id, String idUser, String status, String address, String phone, String gender, String age, String arrive, String amount, String otherRequirements, String price, String image1) {

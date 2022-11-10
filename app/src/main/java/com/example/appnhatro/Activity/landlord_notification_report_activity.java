@@ -1,6 +1,5 @@
 package com.example.appnhatro.Activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -8,10 +7,7 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.appnhatro.Models.ReportModel;
 import com.example.appnhatro.R;
-
-import java.util.ArrayList;
 
 public class landlord_notification_report_activity extends AppCompatActivity {
     ImageView Imgavt;

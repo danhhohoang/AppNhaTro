@@ -19,6 +19,8 @@ public class DatLichModels {
         this.id = id;
     }
 
+    public DatLichModels() {
+    }
 
     public String getId() {
         return id;

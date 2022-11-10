@@ -12,9 +12,11 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.appnhatro.Firebase.FireBaseThueTro;
 import com.example.appnhatro.Models.DatLichModels;
 import com.example.appnhatro.R;
 import com.google.firebase.database.DatabaseReference;
@@ -27,11 +29,10 @@ public class BookingActivity extends AppCompatActivity {
 
     Button TimeButton, DateButton, Book, Huy;
     EditText Name, Phone, notes;
-    String it_login;
+    String it_login,  getIdBooking = "";
     int hour, minute;
     private DatePickerDialog datePickerDialog;
-
-
+    private FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,24 +52,54 @@ public class BookingActivity extends AppCompatActivity {
 
 
         //Tải dữ liệu lên firebase
+//        Book.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                AlertDialog.Builder a = new AlertDialog.Builder(BookingActivity.this);
+//                a.setTitle("Thông Báo");
+//                a.setMessage("Bạn có muốn đăng kí đặt lịch xem phòng");
+//                a.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        finish();
+//                        DatLichModels post = new DatLichModels("KH01", Name.getText().toString(), Phone.getText().toString(),
+//                                TimeButton.getText().toString(), DateButton.getText().toString(),
+//                                notes.getText().toString(), getIdBooking);
+//                        addToFavorite(post);
+//                    }
+//                });
+//                a.setNegativeButton("Không gửi", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        dialogInterface.cancel();
+//                    }
+//                });
+//            }
+//        });
+
         Book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatLichModels post = new DatLichModels("BK_04", "123123", Name.getText().toString(),
-                        Phone.getText().toString(), TimeButton.getText().toString(),
-                        DateButton.getText().toString(),
-                        notes.getText().toString());
-                addToFavorite(post);
-                androidx.appcompat.app.AlertDialog.Builder a = new androidx.appcompat.app.AlertDialog.Builder(BookingActivity.this);
-                a.setTitle("Thông Báo");
-                a.setMessage("Bạn đã đặt lịch thành công");
-                a.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                AlertDialog.Builder a = new AlertDialog.Builder(BookingActivity.this);
+                a.setTitle("Thông báo");
+                a.setMessage("Bạn có muốn đăng kí lịch xem phòng");
+                a.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                        DatLichModels post = new DatLichModels("KH01", Name.getText().toString(), Phone.getText().toString(),
+                                TimeButton.getText().toString(), DateButton.getText().toString(),
+                                notes.getText().toString(), getIdBooking);
+                        addToFavorite(post);
+                    }
+                });
+                a.setNegativeButton("Không gửi", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
                     }
                 });
-                androidx.appcompat.app.AlertDialog al = a.create();
+                AlertDialog al = a.create();
                 al.show();
             }
         });
@@ -190,5 +221,14 @@ public class BookingActivity extends AppCompatActivity {
     }
     private void setIntent() {
         Intent intent = this.getIntent();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        fireBaseThueTro.IdBooking(BookingActivity.this);
+    }
+    public void IdBooking(String id){
+        getIdBooking = id;
     }
 }

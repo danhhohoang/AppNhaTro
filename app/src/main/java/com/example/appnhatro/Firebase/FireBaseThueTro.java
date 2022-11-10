@@ -7,6 +7,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.appnhatro.Activity.BookingActivity;
+import com.example.appnhatro.Activity.PostActivity;
 import com.example.appnhatro.Activity.RepportActivity;
 import com.example.appnhatro.Models.BitMap;
 import com.example.appnhatro.Models.Post;
@@ -165,10 +167,10 @@ public class FireBaseThueTro {
                     }
                 });
     }
-    public void deleteRating(String userId, String postId){
+    public void deleteRating(String userId, String ReportID){
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Rating");
-        databaseReference.child(postId).child(userId).removeValue();
+        databaseReference.child(ReportID).child(userId).removeValue();
     }
     public void autoid(Context context){
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -180,12 +182,12 @@ public class FireBaseThueTro {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     dsPost.add(dataSnapshot.getKey());
                 }
-                String[] temp = dsPost.get(dsPost.size() - 1).split("PR");
+                String[] temp = dsPost.get(dsPost.size() - 1).split("RP");
                 String id="";
                 if(Integer.parseInt(temp[1]) < 10){
-                    id = "PR0" + (Integer.parseInt(temp[1]) + 1);
+                    id = "RP0" + (Integer.parseInt(temp[1]) + 1);
                 }else {
-                    id = "PR" + (Integer.parseInt(temp[1]) + 1);
+                    id = "RP" + (Integer.parseInt(temp[1]) + 1);
                 }
                 Log.d("test", id);
                 ((RepportActivity) context).SetID(id);
@@ -196,5 +198,57 @@ public class FireBaseThueTro {
             }
         });
     }
+    public void IdPost(Context context){
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Post_Oghep").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> dsPost = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    dsPost.add(dataSnapshot.getKey());
+                }
+                String[] temp = dsPost.get(dsPost.size()-1).split("P_tenant_");
+                String id="";
+                if (Integer.parseInt(temp[1]) < 10){
+                    id = "P_tenant_0" + (Integer.parseInt(temp[1]) + 1);
+                }else {
+                    id = "P_tenant_0" + (Integer.parseInt(temp[1]) + 1);
+                }
+                Log.d("test", id);
+                ((PostActivity) context).setID(id);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+    }
+    public void IdBooking(Context context) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("booking").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> dsBooking = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    dsBooking.add(dataSnapshot.getKey());
+                }
+                String[] temp = dsBooking.get(dsBooking.size() - 1).split("BK_");
+                String id = "";
+                if (Integer.parseInt(temp[1]) < 10) {
+                    id = "BK_0" + (Integer.parseInt(temp[1]) + 1);
+                } else {
+                    id = "BK_01" + (Integer.parseInt(temp[1]) + 1);
+                }
+                Log.d("test", id);
+                ((BookingActivity) context).IdBooking(id);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }
