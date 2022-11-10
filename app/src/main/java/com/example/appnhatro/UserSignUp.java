@@ -63,7 +63,7 @@ public class UserSignUp extends AppCompatActivity {
 
     private void selectImage() {
         Intent intent = new Intent();
-        intent.setType("images/*");
+        intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent.createChooser(intent,"Select image"),100);
     }

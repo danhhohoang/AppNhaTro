@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.example.appnhatro.Models.LikedPostModel;
 import com.example.appnhatro.Models.Post;
+import com.example.appnhatro.Models.PostAndPostFindPeople;
 import com.example.appnhatro.Models.PostFindRoomateModel;
 import com.example.appnhatro.TenantPostDetail;
 import com.example.appnhatro.TenantPostListAdapter;
@@ -23,38 +24,37 @@ public class FireBasePostListFindPeople {
     public FireBasePostListFindPeople(){
     }
 
-    public void readPostFindPeople(ArrayList<PostFindRoomateModel> list, TenantPostListAdapter tenantPostListAdapter){
+    public void readPostFindPeople(ArrayList<PostAndPostFindPeople> listPFPP, TenantPostListAdapter tenantPostListAdapter){
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
+        FirebaseDatabase firebaseDatabase2 = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference2 = firebaseDatabase.getReference("Post");
         databaseReference.child("PostFindPeople").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    PostFindRoomateModel post = dataSnapshot.getValue(PostFindRoomateModel.class);
-                    list.add(post);
-                    Log.d("test","aa" + post.get_title());
+                    PostAndPostFindPeople postAndPostFindPeople = dataSnapshot.getValue(PostAndPostFindPeople.class);
+                    if (postAndPostFindPeople.getId_user().equals("KH02")){
+                        databaseReference2.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                    PostAndPostFindPeople postAndPostFindPeople1 = dataSnapshot.getValue(PostAndPostFindPeople.class);
+                                    if (postAndPostFindPeople1.getId().equals(postAndPostFindPeople.getPostID())){
+                                        listPFPP.add(postAndPostFindPeople1);
+                                    }
+//                    Log.d("test","aa" + post.getTitle());
+                                }
+                                tenantPostListAdapter.notifyDataSetChanged();
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+//                    Log.d("test","aa" + post.getTitle());
                 }
-                tenantPostListAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    public void readPostList(ArrayList<Post> list, TenantPostListAdapter tenantPostListAdapter){
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference();
-        databaseReference.child("Post").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Post post = dataSnapshot.getValue(Post.class);
-                    list.add(post);
-                }
-                tenantPostListAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -68,11 +68,11 @@ public class FireBasePostListFindPeople {
         PostFindRoomateModel data = list.get(position);
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
-        databaseReference.child("PostFindPeople").child(data.get_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("PostFindPeople").child(data.getTitle()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Intent intent = new Intent(context, TenantPostDetail.class);
-                intent.putExtra("it_id", data.get_id());
+                intent.putExtra("it_id", data.getTitle());
                 intent.putExtra("it_idLogin", "KH02");
                 context.startActivity(intent);
             }

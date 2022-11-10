@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,17 +27,20 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-public class TenantPostFavouriteAdapter extends RecyclerView.Adapter<TenantPostFavouriteAdapter.TenantPostFavourite> {
+public class TenantPostFavouriteAdapter extends RecyclerView.Adapter<TenantPostFavouriteAdapter.TenantPostFavourite> implements Filterable {
     private Activity context;
     private int resource;
     private ArrayList<Post> mPostLists;
+    private ArrayList<Post> mPostListsOld;
     private OnItemClickListener onItemClickLisner;
 
     public TenantPostFavouriteAdapter(Activity context, int resource, ArrayList<Post> posts) {
         this.context = context;
         this.resource = resource;
         this.mPostLists = posts;
+        this.mPostListsOld = posts;
     }
 
     @NonNull
@@ -99,6 +104,7 @@ public class TenantPostFavouriteAdapter extends RecyclerView.Adapter<TenantPostF
         TextView post_id,user_id,area,price,house_name,address,attachment,status,wishlist;
         ImageView picture;
         View.OnClickListener onClickListener;
+        CardView item;
 
         public TenantPostFavourite(@NonNull View itemView) {
             super(itemView);
@@ -107,6 +113,8 @@ public class TenantPostFavouriteAdapter extends RecyclerView.Adapter<TenantPostF
             area = itemView.findViewById(R.id.txt_tpfArea);
             price = itemView.findViewById(R.id.txt_tpfPrice);
             picture = itemView.findViewById(R.id.iv_tpfPicture);
+            item = itemView.findViewById(R.id.cv_tpfCardView);
+            item.setOnClickListener(this);
         }
 
         @Override
@@ -122,5 +130,36 @@ public class TenantPostFavouriteAdapter extends RecyclerView.Adapter<TenantPostF
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickLisner = onItemClickListener;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String strSearch = charSequence.toString();
+                if (strSearch.isEmpty()){
+                    mPostLists = mPostListsOld;
+                } else {
+                    ArrayList<Post> list = new ArrayList<>();
+                    for (Post post : mPostListsOld){
+                        if (post.getHouse_name().toLowerCase().contains(strSearch.toLowerCase())){
+                            list.add(post);
+                        }
+                    }
+                    mPostLists = list;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mPostLists;
+
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mPostLists = (ArrayList<Post>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

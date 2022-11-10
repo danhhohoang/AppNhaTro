@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.app.SearchManager;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,7 +34,10 @@ import java.util.List;
 public class TenantPostFavourite extends AppCompatActivity{
     private ArrayList<String> persons = new ArrayList<>();
     private ViewHolderImageHome adapter;
+    androidx.appcompat.widget.SearchView sv_tpf;
     String idUser;
+
+
     //List horizone
     private TenantPostFavouriteAdapter tenantPostFavouriteAdapter;
     private ArrayList<Post> posts= new ArrayList<>();
@@ -45,7 +51,7 @@ public class TenantPostFavourite extends AppCompatActivity{
 
         ListPost();
 //        idUser="KH02";
-//        databaseReference = FirebaseDatabase.getInstance().getReference("Like");
+//            databaseReference = FirebaseDatabase.getInstance().getReference("Like");
 //        databaseReference.child(idUser).addValueEventListener(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -76,6 +82,20 @@ public class TenantPostFavourite extends AppCompatActivity{
             @Override
             public void onItemClickListener(int position, View view) {
                 fireBasePostFavorite.readDataItem(position,posts,TenantPostFavourite.this);
+            }
+        });
+        sv_tpf = findViewById(R.id.sv_tpf);
+        sv_tpf.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                tenantPostFavouriteAdapter.getFilter().filter(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                tenantPostFavouriteAdapter.getFilter().filter(s);
+                return false;
             }
         });
     }

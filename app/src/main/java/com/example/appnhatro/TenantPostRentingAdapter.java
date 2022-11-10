@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Models.BitMap;
 import com.example.appnhatro.Models.Post;
+import com.example.appnhatro.Models.PostAndPostFindPeople;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
@@ -26,17 +29,19 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TenantPostRentingAdapter extends RecyclerView.Adapter<TenantPostRentingAdapter.TenantPostRenting> {
+public class TenantPostRentingAdapter extends RecyclerView.Adapter<TenantPostRentingAdapter.TenantPostRenting> implements Filterable {
 
     private Activity context;
     private int resource;
     private ArrayList<Post> mPostLists;
+    private ArrayList<Post> mPostListsOld;
     private OnItemClickListener onItemClickLisner;
 
     public TenantPostRentingAdapter(Activity context, int resource, ArrayList<Post> mPostLists) {
         this.context = context;
         this.resource = resource;
         this.mPostLists = mPostLists;
+        this.mPostListsOld = mPostLists;
     }
 
     @NonNull
@@ -97,10 +102,42 @@ public class TenantPostRentingAdapter extends RecyclerView.Adapter<TenantPostRen
         return resource;
     }
 
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String strSearch = charSequence.toString();
+                if (strSearch.isEmpty()){
+                    mPostLists = mPostListsOld;
+                } else {
+                    ArrayList<Post> list = new ArrayList<>();
+                    for (Post post : mPostListsOld){
+                        if (post.getHouse_name().toLowerCase().contains(strSearch.toLowerCase())){
+                            list.add(post);
+                        }
+                    }
+                    mPostLists = list;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mPostLists;
+
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mPostLists = (ArrayList<Post>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
     public static class TenantPostRenting extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView post_id,user_id,area,price,house_name,address,attachment,status,wishlist;
         ImageView picture;
         View.OnClickListener onClickListener;
+        CardView item;
 
         public TenantPostRenting(@NonNull View itemView) {
             super(itemView);
@@ -109,6 +146,8 @@ public class TenantPostRentingAdapter extends RecyclerView.Adapter<TenantPostRen
             area = itemView.findViewById(R.id.txt_tprArea);
             price = itemView.findViewById(R.id.txt_tprPrice);
             picture = itemView.findViewById(R.id.iv_tprPicture);
+            item = itemView.findViewById(R.id.cv_tprCardView);
+            item.setOnClickListener(this);
         }
 
         @Override

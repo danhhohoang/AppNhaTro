@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +31,8 @@ public class TenantPostRenting extends AppCompatActivity {
     //List horizone
     private TenantPostRentingAdapter tenantPostRentingAdapter;
     private ArrayList<Post> posts = new ArrayList<>();
+
+    SearchView sv_tpr;
     FireBasePostRenting fireBasePostRenting = new FireBasePostRenting();
     DatabaseReference databaseReference;
     @Override
@@ -46,7 +49,7 @@ public class TenantPostRenting extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
-        fireBasePostRenting.readPostFindPeople(posts,tenantPostRentingAdapter);
+        fireBasePostRenting.readPostFindPeople(posts,tenantPostRentingAdapter,"KH02");
         recyclerView.setAdapter(tenantPostRentingAdapter);
         tenantPostRentingAdapter.setOnItemClickListener(new TenantPostRentingAdapter.OnItemClickListener() {
             @Override
@@ -54,5 +57,21 @@ public class TenantPostRenting extends AppCompatActivity {
                 fireBasePostRenting.readDataItem(position,posts,TenantPostRenting.this);
             }
         });
+        sv_tpr = findViewById(R.id.sv_tpr);
+        sv_tpr.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                tenantPostRentingAdapter.getFilter().filter(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                tenantPostRentingAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
+
+
     }
 }
