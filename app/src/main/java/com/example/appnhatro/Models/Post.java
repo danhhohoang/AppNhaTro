@@ -11,25 +11,12 @@ public class Post {
     private String address;
     private String address_district;
     private String price;
-    private String limitMonth;
     private String area;
     private String house_name;
     private String image;
+    private String status;
 
     public Post() {
-    }
-
-    public Post(String id, String userID, String title, String address, String address_district, String price, String limitMonth, String area, String house_name, String image) {
-        this.id = id;
-        this.userID = userID;
-        this.title = title;
-        this.address = address;
-        this.address_district = address_district;
-        this.price = price;
-        this.limitMonth = limitMonth;
-        this.area = area;
-        this.house_name = house_name;
-        this.image = image;
     }
 
     public String getId() {
@@ -80,14 +67,6 @@ public class Post {
         this.price = price;
     }
 
-    public String getLimitMonth() {
-        return limitMonth;
-    }
-
-    public void setLimitMonth(String limitMonth) {
-        this.limitMonth = limitMonth;
-    }
-
     public String getArea() {
         return area;
     }
@@ -110,5 +89,26 @@ public class Post {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Post(String id, String userID, String title, String address, String address_district, String price, String area, String house_name, String image, String status) {
+        this.id = id;
+        this.userID = userID;
+        this.title = title;
+        this.address = address;
+        this.address_district = address_district;
+        this.price = price;
+        this.area = area;
+        this.house_name = house_name;
+        this.image = image;
+        this.status = status;
     }
 }

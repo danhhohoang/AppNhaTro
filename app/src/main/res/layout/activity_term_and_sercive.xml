@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="24"
+    android:background="@drawable/background"
+    tools:context=".Activity.TermAndSerciveActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        android:weightSum="12"
+
+        >
+
+        <ImageButton
+            android:id="@+id/imgbutton_menu"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_hamburger_menu" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="10"
+            android:text="CHÍNH SÁCH VÀ QUYỀN LỢI"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+
+            />
+
+        <ImageButton
+            android:id="@+id/imgbutton_notification"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_bell2" />
+
+
+    </LinearLayout>
+
+    <!--    BIG Edit Text-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="19"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_Term_and_Service"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:background="@drawable/shape_term_and_service_textview"
+            android:inputType="textMultiLine"
+
+            />
+
+
+    </LinearLayout>
+
+    <!--    button submit-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="150sp"
+            android:layout_height="50sp"
+            android:background="@drawable/shape_button_term_and_service"
+            android:text="SỬA"
+            app:backgroundTint="@null"
+            android:visibility="visible"
+            android:id="@+id/btn_TermAndSerVice_Submit"
+            />
+        <Button
+            android:layout_marginLeft="10dp"
+            android:layout_width="150sp"
+            android:layout_height="50sp"
+            android:background="@drawable/button_luu_tenant_border"
+            android:text="hủy"
+            app:backgroundTint="@null"
+            android:id="@+id/btn_TermAndSerVice_Cancel"
+            android:visibility="visible"/>
+    </LinearLayout>
+
+
+</LinearLayout>
