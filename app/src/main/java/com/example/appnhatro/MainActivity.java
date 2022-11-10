@@ -22,6 +22,8 @@ import android.view.MenuItem;
 import android.widget.Button;
 
 import com.example.appnhatro.Activity.TermAndSerciveActivity;
+import com.example.appnhatro.Activity.LandLordAddNewPost;
+import com.example.appnhatro.Activity.LandLordHomeActivity;
 import com.example.appnhatro.R;
 import com.example.appnhatro.fragment.HomeFragment;
 import com.example.appnhatro.fragment.PostFrgment;
@@ -70,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        replaceFragment(new HomeFragment());
 //        navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
 
-        Intent intent = new Intent(this, TermAndSerciveActivity.class);
+        Intent intent = new Intent(this, LandLordAddNewPost.class);
         startActivity(intent);
         //writeDatabase();
         //readDatabase();
