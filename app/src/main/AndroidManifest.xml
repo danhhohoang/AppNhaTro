@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -19,7 +19,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppNhaTro"
         tools:targetApi="31">
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -33,28 +32,57 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
-
-
-
-
-        <activity android:name=".TenantPostDetail" android:exported="true"/>
-        <activity android:name=".Activity.LandLordHomeActivity" android:exported="true"/>
-        <activity android:name=".TenantPostList" android:exported="true"/>
-        <activity android:name=".HomeTenantActivity" android:exported="true"/>
-        <activity android:name=".Activity.BookingActivity" android:exported="true"/>
-        <activity android:name=".Activity.PostActivity" android:exported="true"/>
-        <activity android:name=".Activity.RepportActivity" android:exported="true"/>
-<!--        <activity android:name=".TenantPostList" android:exported="true"/> -->
-        <activity android:name=".Activity.VertifyPhoneNumberActivity" android:exported="true"/>
-        <activity android:name=".AdminLandlordDetails" android:exported="true"/>
-        <activity android:name=".Activity.LandLordAddNewPost" android:exported="true"/>
-        <activity android:name=".TenantSearchActivity" android:exported="true"/>
-        <activity android:name=".Activity.ResetPasswordOTPActivity" android:exported="true"/>
-        <activity android:name=".Activity.ReserPasswordChangeActivity" android:exported="true"/>
-        <activity android:name=".Activity.tenant_notification_activity" android:exported="true"/>
-<!--        <activity android:name=".TenantSearchActivity"android:exported="true"/>-->
-        <activity android:name=".Activity.TermAndSerciveActivity" android:exported="true"/>
+        <activity
+            android:name=".TenantPostDetail"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.LandLordHomeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".TenantPostList"
+            android:exported="true" />
+        <activity
+            android:name=".HomeTenantActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.BookingActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.PostActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.RepportActivity"
+            android:exported="true" /> <!-- <activity android:name=".TenantPostList" android:exported="true"/> -->
+        <activity
+            android:name=".Activity.VertifyPhoneNumberActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AdminLandlordDetails"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.LandLordAddNewPost"
+            android:exported="true" />
+        <activity
+            android:name=".TenantSearchActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.ResetPasswordOTPActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.ReserPasswordChangeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.tenant_notification_activity"
+            android:exported="true" /> <!-- <activity android:name=".TenantSearchActivity"android:exported="true"/> -->
+        <activity
+            android:name=".Activity.TermAndSerciveActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.LandLordPostDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.LandLordUpdatePostActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

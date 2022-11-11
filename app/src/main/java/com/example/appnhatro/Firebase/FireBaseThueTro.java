@@ -46,10 +46,13 @@ public class FireBaseThueTro {
         databaseReference.child("Post").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Post> posts = new ArrayList<>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Post student = dataSnapshot.getValue(Post.class);
-                    list.add(student);
+                    posts.add(student);
                 }
+                list.clear();
+                list.addAll(posts);
                 myRecyclerViewAdapter.notifyDataSetChanged();
 
             }
@@ -89,14 +92,13 @@ public class FireBaseThueTro {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Post data = snapshot.getValue(Post.class);
                 BitMap bitMap = new BitMap(data.getImage(), null);
-                StorageReference storageReference = FirebaseStorage.getInstance().getReference(bitMap.getTenHinh());
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/"+bitMap.getTenHinh());
                 try {
-                    final File file = File.createTempFile(bitMap.getTenHinh().substring(0, bitMap.getTenHinh().length() - 4), "jpg");
+                    final File file = File.createTempFile(bitMap.getTenHinh(), "jpg");
                     storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                             bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
-                            Log.d("test", bitMap.getHinh() + "");
                             ((TenantPostDetail) context).setDuLieu(data, bitMap.getHinh());
                             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                             DatabaseReference databaseReference = firebaseDatabase.getReference();

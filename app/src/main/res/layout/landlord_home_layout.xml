@@ -12,6 +12,13 @@
         android:layout_margin="20dp"
         android:iconifiedByDefault="false"
         />
+    <Button
+        android:layout_gravity="right"
+        android:layout_marginRight="40dp"
+        android:text="Thêm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnThemLandLord"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvLLListPostHome"
         android:layout_width="match_parent"
