@@ -41,6 +41,7 @@ import com.example.appnhatro.Models.ReportModels;
 import com.example.appnhatro.R;
 import com.example.appnhatro.RecylerAdapter;
 import com.example.appnhatro.databinding.ActivityMainBinding;
+import com.example.appnhatro.tool.ConverImage;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,12 +54,14 @@ import com.google.firebase.storage.UploadTask;
 import java.util.ArrayList;
 public class PostActivity extends AppCompatActivity {
     private FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
+    private ConverImage converImage = new ConverImage();
     Spinner spnStatus, spnSex, spnSl;
     ImageView imgPhoTo;
     Button UpData, Huy;
     EditText Diachi, SDT, DoTuoi, Den, gia, YeuCauKhac;
     Uri uri;
     String idPost = "";
+    int stt = 1;
     //firebase
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Image");
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
@@ -80,6 +83,7 @@ public class PostActivity extends AppCompatActivity {
         YeuCauKhac = findViewById(R.id.edtyeuccaukhac);
         Huy = findViewById(R.id.bthuy);
 
+
         //Tải dữ liệu lên firebase
         UpData.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,9 +95,10 @@ public class PostActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         finish();
+                        converImage.docAnh(uri, PostActivity.this, idPost + String.valueOf(stt));
                         Dangbaimodels post = new Dangbaimodels(idPost, "KH01", spnStatus.getSelectedItem().toString(),
                                 Diachi.getText().toString(), SDT.getText().toString(), spnSex.getSelectedItem().toString(), DoTuoi.getText().toString(), Den.getText().toString(),
-                                spnSl.getSelectedItem().toString(), YeuCauKhac.getText().toString(), gia.getText().toString(), "1213");
+                                spnSl.getSelectedItem().toString(), YeuCauKhac.getText().toString(), gia.getText().toString(), "danh");
                         addToFavorite(post);
                     }
                 });
