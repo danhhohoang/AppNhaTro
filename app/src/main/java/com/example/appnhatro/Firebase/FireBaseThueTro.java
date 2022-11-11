@@ -238,12 +238,12 @@ public class FireBaseThueTro {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     dsBooking.add(dataSnapshot.getKey());
                 }
-                String[] temp = dsBooking.get(dsBooking.size() - 1).split("BK_");
+                String[] temp = dsBooking.get(dsBooking.size() - 1).split("BK");
                 String id = "";
                 if (Integer.parseInt(temp[1]) < 10) {
-                    id = "BK_0" + (Integer.parseInt(temp[1]) + 1);
+                    id = "BK0" + (Integer.parseInt(temp[1]) + 1);
                 } else {
-                    id = "BK_01" + (Integer.parseInt(temp[1]) + 1);
+                    id = "BK01" + (Integer.parseInt(temp[1]) + 1);
                 }
                 Log.d("test", id);
                 ((BookingActivity) context).IdBooking(id);

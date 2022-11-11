@@ -79,7 +79,6 @@ public class TenantSettingProfile extends AppCompatActivity {
     private void onClickLuuData(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference userRef = database.getReference("user/K01");
-
         TenantModel tenantModel = new TenantModel(
                 "heheh.png",
                 txtNgaysinh_TSP.getText().toString(),

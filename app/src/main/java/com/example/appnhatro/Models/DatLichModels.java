@@ -8,8 +8,9 @@ public class DatLichModels {
     private String Date;
     private String Notes;
     private String id;
+    private String idPost;
 
-    public DatLichModels(String idUser, String name, String phone, String time, String date, String notes, String id) {
+    public DatLichModels(String idUser, String name, String phone, String time, String date, String notes, String id, String idPost) {
         this.idUser = idUser;
         this.name = name;
         Phone = phone;
@@ -17,6 +18,7 @@ public class DatLichModels {
         Date = date;
         Notes = notes;
         this.id = id;
+        this.idPost = idPost;
     }
 
     public DatLichModels() {
@@ -76,5 +78,13 @@ public class DatLichModels {
 
     public void setNotes(String notes) {
         Notes = notes;
+    }
+
+    public String getIdPost() {
+        return idPost;
+    }
+
+    public void setIdPost(String idPost) {
+        this.idPost = idPost;
     }
 }

@@ -1,64 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/background"
-    android:orientation="vertical">
+    android:background="@drawable/background">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
-        <ImageButton
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/ic_back_ios_24" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:gravity="center"
-            android:text="ĐĂNG BÀI"
-            android:textColor="#FAFAFA"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <ImageButton
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/ic_bell2" />
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/sv_timkiem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/drawable_item_tenant_post_favourite"
+                app:iconifiedByDefault="false"
+                app:queryHint="Search"></androidx.appcompat.widget.SearchView>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="7"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
-        <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_TB"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/landlord_notification_report" />
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/landlord_notification_booking" />
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/landlor_nofication_post" />
+            android:layout_height="wrap_content">
+        </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

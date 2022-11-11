@@ -46,6 +46,7 @@
         <activity android:name=".Activity.PostActivity" android:exported="true"/>
         <activity android:name=".Activity.RepportActivity" android:exported="true"/>
 <!--        <activity android:name=".TenantPostList" android:exported="true"/> -->
+        <activity android:name=".Activity.Landlord_Notification_Activity" android:exported="true"/>
         <activity android:name=".Activity.VertifyPhoneNumberActivity" android:exported="true"/>
         <activity android:name=".AdminLandlordDetails" android:exported="true"/>
         <activity android:name=".Activity.LandLordAddNewPost" android:exported="true"/>
