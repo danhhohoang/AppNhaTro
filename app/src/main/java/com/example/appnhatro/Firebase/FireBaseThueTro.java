@@ -1,8 +1,10 @@
 package com.example.appnhatro.Firebase;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -28,7 +30,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -236,12 +240,12 @@ public class FireBaseThueTro {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     dsBooking.add(dataSnapshot.getKey());
                 }
-                String[] temp = dsBooking.get(dsBooking.size() - 1).split("BK_");
+                String[] temp = dsBooking.get(dsBooking.size() - 1).split("BK");
                 String id = "";
                 if (Integer.parseInt(temp[1]) < 10) {
-                    id = "BK_0" + (Integer.parseInt(temp[1]) + 1);
+                    id = "BK0" + (Integer.parseInt(temp[1]) + 1);
                 } else {
-                    id = "BK_01" + (Integer.parseInt(temp[1]) + 1);
+                    id = "BK01" + (Integer.parseInt(temp[1]) + 1);
                 }
                 Log.d("test", id);
                 ((BookingActivity) context).IdBooking(id);
@@ -252,5 +256,35 @@ public class FireBaseThueTro {
 
             }
         });
+    }
+    public void docAnh(Uri filePath, Context context, String tenHinh){
+        if(filePath != null)
+        {
+            final ProgressDialog progressDialog = new ProgressDialog(context);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+            StorageReference ref = FirebaseStorage.getInstance().getReference().child("images/post/"+ tenHinh+".jpg");
+            ref.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                        }
+                    });
+        }
     }
 }

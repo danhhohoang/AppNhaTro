@@ -52,31 +52,6 @@ public class BookingActivity extends AppCompatActivity {
 
 
         //Tải dữ liệu lên firebase
-//        Book.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                AlertDialog.Builder a = new AlertDialog.Builder(BookingActivity.this);
-//                a.setTitle("Thông Báo");
-//                a.setMessage("Bạn có muốn đăng kí đặt lịch xem phòng");
-//                a.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        finish();
-//                        DatLichModels post = new DatLichModels("KH01", Name.getText().toString(), Phone.getText().toString(),
-//                                TimeButton.getText().toString(), DateButton.getText().toString(),
-//                                notes.getText().toString(), getIdBooking);
-//                        addToFavorite(post);
-//                    }
-//                });
-//                a.setNegativeButton("Không gửi", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        dialogInterface.cancel();
-//                    }
-//                });
-//            }
-//        });
-
         Book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,7 +64,7 @@ public class BookingActivity extends AppCompatActivity {
                         finish();
                         DatLichModels post = new DatLichModels("KH01", Name.getText().toString(), Phone.getText().toString(),
                                 TimeButton.getText().toString(), DateButton.getText().toString(),
-                                notes.getText().toString(), getIdBooking);
+                                notes.getText().toString(), getIdBooking, "P01");
                         addToFavorite(post);
                     }
                 });

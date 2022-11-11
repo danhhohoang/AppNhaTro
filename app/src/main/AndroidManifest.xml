@@ -80,9 +80,9 @@
         <activity
             android:name=".Activity.LandLordPostDetailActivity"
             android:exported="true" />
-        <activity
-            android:name=".Activity.LandLordUpdatePostActivity"
-            android:exported="true" />
+<!--        <activity-->
+<!--            android:name=".Activity.LandLordUpdatePostActivity"-->
+<!--            android:exported="true" />-->
     </application>
 
 </manifest>

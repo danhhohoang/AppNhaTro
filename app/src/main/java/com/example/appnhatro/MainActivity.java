@@ -2,33 +2,12 @@ package com.example.appnhatro;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
-import android.app.DatePickerDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.view.MenuItem;
-import android.widget.Button;
-
-import com.example.appnhatro.Activity.TermAndSerciveActivity;
-import com.example.appnhatro.Activity.LandLordAddNewPost;
-import com.example.appnhatro.Activity.LandLordHomeActivity;
-import com.example.appnhatro.R;
-import com.example.appnhatro.fragment.HomeFragment;
-import com.example.appnhatro.fragment.PostFrgment;
-import com.example.appnhatro.fragment.ReportFragment;
-import com.google.android.material.navigation.NavigationView;
+import com.example.appnhatro.Activity.Landlord_Notification_Activity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-        Intent intent = new Intent(this, HomeTenantActivity.class);
+        Intent intent = new Intent(MainActivity.this, HomeTenantActivity.class);
         startActivity(intent);
 //          setContentView(R.layout.landlord_notification_list);
 //        Toolbar toolbar = findViewById(R.id.toolbar);
