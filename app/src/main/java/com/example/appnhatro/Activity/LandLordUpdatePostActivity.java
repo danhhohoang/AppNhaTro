@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.appnhatro.Firebase.FireBaseLandLord;
 import com.example.appnhatro.Models.BitMap;
@@ -24,10 +25,10 @@ public class LandLordUpdatePostActivity extends AppCompatActivity {
     private EditText txtTenPhong, txtDiaChi, txtDienTich, txtGia, txtMoTa,txtIdPost;
     private ImageView imgHinh;
     private Button btnHuy, btnAdd;
-    private Uri uri;
+    private Uri uri=null;
     private BitMap bitmap = null;
     private String idPost = "";
-    private String idUser="";
+    private String idUser="KH01";
     private ConverImage converImage = new ConverImage();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class LandLordUpdatePostActivity extends AppCompatActivity {
         setContentView(R.layout.landlord_update_post_layout_activity);
         idPost = getIntent().getStringExtra("it_id");
         control();
+        fireBaseLandLord.getPost(this,idPost);
         event();
     }
     public void control() {
@@ -52,11 +54,25 @@ public class LandLordUpdatePostActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                converImage.docAnh(uri, LandLordUpdatePostActivity.this, txtTenPhong.getText() + "");
-                Post post= new Post(idPost,idUser,txtMoTa.getText()+"",txtDiaChi.getText()+"","Quận3",txtGia.getText()+"",txtDienTich.getText()+"",txtTenPhong.getText()+"",txtTenPhong.getText()+"","Còn phòng");
-                fireBaseLandLord.addNewPost(post);
+                if(txtTenPhong.getText().toString().equals("")){
+                    txtTenPhong.setError("Vui lòng điền tên phòng");
+                }else if(txtDiaChi.getText().toString().equals("")) {
+                    txtDiaChi.setError("Vui lòng điền Địa chỉ");
+                }else if(txtDienTich.getText().toString().equals("")){
+                    txtDienTich.setError("Vui lòng điền Diện tích");
+                }else if(txtGia.getText().toString().equals("")) {
+                    txtGia.setError("Vui lòng điền Giá");
+                }else if(txtMoTa.getText().toString().equals("")) {
+                    txtMoTa.setError("Vui lòng điền Mô tả");
+                }else if(uri==null) {
+                    Post post = new Post(idPost, idUser, txtMoTa.getText() + "", txtDiaChi.getText() + "", "Quận3", txtGia.getText() + "", txtDienTich.getText() + "", txtTenPhong.getText() + "", idPost + ".jpg", "Còn phòng");
+                    fireBaseLandLord.addUpdatePostNoImage(LandLordUpdatePostActivity.this, post);
+                }else {
+                    Post post = new Post(idPost, idUser, txtMoTa.getText() + "", txtDiaChi.getText() + "", "Quận3", txtGia.getText() + "", txtDienTich.getText() + "", txtTenPhong.getText() + "", idPost + ".jpg", "Còn phòng");
+                    fireBaseLandLord.addUpdatePost(LandLordUpdatePostActivity.this, post, uri);
+                    //Thong báo
+                }
                 //Thong báo
-
             }
         });
         btnHuy.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +110,5 @@ public class LandLordUpdatePostActivity extends AppCompatActivity {
     }
     protected void onResume() {
         super.onResume();
-        fireBaseLandLord.getPost(this,idPost);
     }
 }

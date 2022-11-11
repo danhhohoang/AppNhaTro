@@ -2,6 +2,7 @@ package com.example.appnhatro.Adapters;
 
 import android.app.Activity;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,9 +56,10 @@ public class LandLordHomeListAdapter extends RecyclerView.Adapter<LandLordHomeLi
         holder.tvGia.setText(formatter.format(Integer.valueOf(post.getPrice())));
         holder.tvDienTich.setText(formatter.format(Integer.valueOf(post.getArea())));
         BitMap bitMap = new BitMap(post.getImage(),null);
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference(bitMap.getTenHinh());
+        Log.d("Tri", "image"+ post.getImage());
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/"+bitMap.getTenHinh());
         try {
-            final File file= File.createTempFile(bitMap.getTenHinh().substring(0,bitMap.getTenHinh().length()-4),"jpg");
+            final File file= File.createTempFile(bitMap.getTenHinh(),"jpg");
             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {

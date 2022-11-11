@@ -39,11 +39,10 @@ import java.io.IOException;
 
 public class LandLordAddNewPost extends AppCompatActivity {
     private FireBaseLandLord fireBaseLandLord = new FireBaseLandLord();
-    private EditText txtTenPhong, txtDiaChi, txtSDT, txtDienTich, txtGia, txtMoTa;
+    private EditText txtTenPhong, txtDiaChi, txtDienTich, txtGia, txtMoTa,txtIdPost;
     private ImageView imgHinh;
     private Button btnHuy, btnAdd;
-    private Uri uri;
-    private BitMap bitmap = null;
+    private Uri uri=null;
     private String idPost = "";
     private String idUser="";
     private ConverImage converImage = new ConverImage();
@@ -53,30 +52,43 @@ public class LandLordAddNewPost extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.landlord_add_new_post_activity_layout);
         control();
+        idUser="KH01";
         event();
     }
 
     public void control() {
         txtTenPhong = findViewById(R.id.txtTenPhongLandLordAddNewPost);
         txtDiaChi = findViewById(R.id.txtDiaChiLandLordAddNewPost);
-        txtSDT = findViewById(R.id.txtSDTLandLordAddNewPost);
         txtDienTich = findViewById(R.id.txtDienTichAddNewPostLandLord);
         txtGia = findViewById(R.id.txtGiaNewPostLandLord);
         txtMoTa = findViewById(R.id.txtMoTaAddNewPostLandLord);
         imgHinh = findViewById(R.id.imgAddNewPostLandlord);
         btnAdd = findViewById(R.id.btnAddNewPostLandLord);
         btnHuy = findViewById(R.id.btnHuyAddNewPostLandLord);
+        txtIdPost = findViewById(R.id.txtIdNewPostLandLord);
     }
 
     public void event() {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                converImage.docAnh(uri, LandLordAddNewPost.this, txtTenPhong.getText() + "");
-                Post post= new Post(idPost,idUser,txtMoTa.getText()+"",txtDiaChi.getText()+"","Quận3",txtGia.getText()+"",txtDienTich.getText()+"",txtTenPhong.getText()+"",txtTenPhong.getText()+"","Còn phòng");
-                fireBaseLandLord.addNewPost(post);
-                //Thong báo
-
+                if(txtTenPhong.getText().toString().equals("")){
+                    txtTenPhong.setError("Vui lòng điền tên phòng");
+                }else if(txtDiaChi.getText().toString().equals("")) {
+                    txtDiaChi.setError("Vui lòng điền Địa chỉ");
+                }else if(txtDienTich.getText().toString().equals("")){
+                    txtDienTich.setError("Vui lòng điền Diện tích");
+                }else if(txtGia.getText().toString().equals("")) {
+                    txtGia.setError("Vui lòng điền Giá");
+                }else if(txtMoTa.getText().toString().equals("")) {
+                    txtMoTa.setError("Vui lòng điền Mô tả");
+                }else if(uri==null) {
+                    Toast.makeText(LandLordAddNewPost.this, "Chọn Ảnh", Toast.LENGTH_SHORT).show();
+                }else {
+                    Post post = new Post(idPost, idUser, txtMoTa.getText() + "", txtDiaChi.getText() + "", "Quận3", txtGia.getText() + "", txtDienTich.getText() + "", txtTenPhong.getText() + "", idPost + ".jpg", "Còn phòng");
+                    fireBaseLandLord.addNewPost(LandLordAddNewPost.this, post, uri);
+                    //Thong báo
+                }
             }
         });
         btnHuy.setOnClickListener(new View.OnClickListener() {
@@ -110,5 +122,6 @@ public class LandLordAddNewPost extends AppCompatActivity {
     }
     public void setId(String id) {
         idPost = id;
+        txtIdPost.setText(id);
     }
 }

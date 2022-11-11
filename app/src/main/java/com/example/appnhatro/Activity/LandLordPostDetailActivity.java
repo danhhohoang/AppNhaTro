@@ -53,7 +53,8 @@ public class LandLordPostDetailActivity extends AppCompatActivity {
         btnXoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                fireBaseLandLord.deletePost(idPost);
+                finish();
             }
         });
     }

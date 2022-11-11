@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.appnhatro.Activity.LandLordAddNewPost;
+import com.example.appnhatro.Activity.LandLordUpdatePostActivity;
 import com.example.appnhatro.Models.BitMap;
 import com.example.appnhatro.Models.Post;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -45,18 +47,19 @@ public class ConverImage {
             e.printStackTrace();
         }
     }
-    public void docAnh(Uri filePath, Context context,String tenHinh){
+    public void docAnhAddNewPost(Uri filePath, Context context,String tenHinh){
         if(filePath != null)
         {
             final ProgressDialog progressDialog = new ProgressDialog(context);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
-            StorageReference ref = FirebaseStorage.getInstance().getReference().child("images/post/"+ tenHinh+".jpg");
+            StorageReference ref = FirebaseStorage.getInstance().getReference().child("images/post/"+ tenHinh);
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
+                            ((LandLordAddNewPost) context).finish();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -71,6 +74,39 @@ public class ConverImage {
                             double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
                                     .getTotalByteCount());
                             progressDialog.setMessage("Uploaded "+(int)progress+"%");
+
+                        }
+                    });
+        }
+    }
+    public void docAnhUpdatePost(Uri filePath, Context context,String tenHinh){
+        if(filePath != null)
+        {
+            final ProgressDialog progressDialog = new ProgressDialog(context);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+            StorageReference ref = FirebaseStorage.getInstance().getReference().child("images/post/"+ tenHinh);
+            ref.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+                            ((LandLordUpdatePostActivity) context).finish();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
+
                         }
                     });
         }

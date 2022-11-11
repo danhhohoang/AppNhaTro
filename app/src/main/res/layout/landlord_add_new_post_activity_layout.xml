@@ -68,27 +68,6 @@
                     android:layout_marginTop="20dp"
                     android:gravity="center">
                     <TextView
-                        android:text="@string/sdt"
-                        android:layout_weight="2"
-                        android:layout_width="0dp"
-                        android:textColor="@color/white"
-                        android:textSize="18dp"
-                        android:layout_height="wrap_content"/>
-                    <EditText
-                        android:id="@+id/txtSDTLandLordAddNewPost"
-                        android:layout_width="0dp"
-                        android:inputType="number"
-                        android:layout_height="match_parent"
-                        android:layout_weight="5"
-                        style="@style/edittextAddNewPostLandLord" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="20dp"
-                    android:gravity="center">
-                    <TextView
                         android:text="@string/di_n_t_ch"
                         android:layout_weight="2"
                         android:layout_width="0dp"
