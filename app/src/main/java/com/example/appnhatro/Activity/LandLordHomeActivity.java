@@ -1,6 +1,9 @@
 package com.example.appnhatro.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -13,6 +16,7 @@ import com.example.appnhatro.Adapters.LandLordHomeListAdapter;
 import com.example.appnhatro.Firebase.FireBaseLandLord;
 import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.R;
+import com.example.appnhatro.TenantPostDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +28,7 @@ public class LandLordHomeActivity extends AppCompatActivity {
     ArrayList<Post> listAll = new ArrayList<>();
     FireBaseLandLord fireBaseLandLord = new FireBaseLandLord();
     String userId;
+    Button btnAdd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,11 +39,10 @@ public class LandLordHomeActivity extends AppCompatActivity {
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
         userId = "KH01";
-
         //get Post by userId LandLord
-        fireBaseLandLord.readListPostFromUser(landLordHomeListAdapter, listAll, userId);
         recyclerView.setAdapter(landLordHomeListAdapter);
         searchView = findViewById(R.id.sv_Search_Home_LandLord);
+        btnAdd = findViewById(R.id.btnThemLandLord);
         event();
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -68,6 +72,22 @@ public class LandLordHomeActivity extends AppCompatActivity {
                 return true;
             }
         });
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LandLordHomeActivity.this,LandLordAddNewPost.class);
+                startActivity(intent);
+            }
+        });
+        landLordHomeListAdapter.setOnItemClickListener(new LandLordHomeListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(int position, View view) {
+                Post post = listAll.get(position);
+                Intent intent = new Intent(LandLordHomeActivity.this, LandLordPostDetailActivity.class);
+                intent.putExtra("it_id", post.getId());
+                startActivity(intent);
+            }
+        });
     }
 
     private void fillterList(String text) {
@@ -91,5 +111,9 @@ public class LandLordHomeActivity extends AppCompatActivity {
             searchView = findViewById(R.id.sv_Search_Home_LandLord);
             landLordHomeListAdapter.notifyDataSetChanged();
         }
+    }
+    protected void onResume() {
+        super.onResume();
+        fireBaseLandLord.readListPostFromUser(landLordHomeListAdapter, listAll, userId);
     }
 }

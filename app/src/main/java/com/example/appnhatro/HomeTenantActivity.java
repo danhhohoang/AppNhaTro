@@ -74,13 +74,13 @@ public class HomeTenantActivity extends AppCompatActivity {
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
         fireBaseThueTro.docListPost(listHorizoneOthue,myRecyclerViewAdapterOthue);
+        recyclerView.setAdapter(myRecyclerViewAdapterOthue);
         myRecyclerViewAdapterOthue.setOnItemClickListener(new MyRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(int position, View view) {
                 fireBaseThueTro.readDataItem(position,listHorizoneOthue,HomeTenantActivity.this);
             }
         });
-        recyclerView.setAdapter(myRecyclerViewAdapterOthue);
     }
 
     @SuppressLint("MissingInflatedId")

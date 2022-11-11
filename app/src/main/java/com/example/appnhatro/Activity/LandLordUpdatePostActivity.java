@@ -1,73 +1,55 @@
 package com.example.appnhatro.Activity;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.example.appnhatro.Firebase.FireBaseLandLord;
 import com.example.appnhatro.Models.BitMap;
 import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.R;
-import com.example.appnhatro.item.Rating;
 import com.example.appnhatro.tool.ConverImage;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
-
-public class LandLordAddNewPost extends AppCompatActivity {
+public class LandLordUpdatePostActivity extends AppCompatActivity {
     private FireBaseLandLord fireBaseLandLord = new FireBaseLandLord();
     private EditText txtTenPhong, txtDiaChi, txtDienTich, txtGia, txtMoTa,txtIdPost;
     private ImageView imgHinh;
     private Button btnHuy, btnAdd;
     private Uri uri=null;
+    private BitMap bitmap = null;
     private String idPost = "";
-    private String idUser="";
+    private String idUser="KH01";
     private ConverImage converImage = new ConverImage();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.landlord_add_new_post_activity_layout);
+        setContentView(R.layout.landlord_update_post_layout_activity);
+        idPost = getIntent().getStringExtra("it_id");
         control();
-        idUser="KH01";
+        fireBaseLandLord.getPost(this,idPost);
         event();
     }
-
     public void control() {
-        txtTenPhong = findViewById(R.id.txtTenPhongLandLordAddNewPost);
-        txtDiaChi = findViewById(R.id.txtDiaChiLandLordAddNewPost);
-        txtDienTich = findViewById(R.id.txtDienTichAddNewPostLandLord);
-        txtGia = findViewById(R.id.txtGiaNewPostLandLord);
-        txtMoTa = findViewById(R.id.txtMoTaAddNewPostLandLord);
-        imgHinh = findViewById(R.id.imgAddNewPostLandlord);
-        btnAdd = findViewById(R.id.btnAddNewPostLandLord);
-        btnHuy = findViewById(R.id.btnHuyAddNewPostLandLord);
-        txtIdPost = findViewById(R.id.txtIdNewPostLandLord);
+        txtTenPhong = findViewById(R.id.txtTenPhongLandLordUpdatePost);
+        txtDiaChi = findViewById(R.id.txtDiaChiLandLordUpdatePost);
+        txtDienTich = findViewById(R.id.txtDienTichUpdatePostLandLord);
+        txtGia = findViewById(R.id.txtGiaUpdatePostLandLord);
+        txtMoTa = findViewById(R.id.txtMoTaUpdatePostLandLord);
+        imgHinh = findViewById(R.id.imgUpdatePostLandlord);
+        btnAdd = findViewById(R.id.btnUpdatePostLandLord);
+        btnHuy = findViewById(R.id.btnHuyUpdatePostLandLord);
+        txtIdPost = findViewById(R.id.txtIdUpdatePostLandLord);
     }
-
     public void event() {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,12 +65,14 @@ public class LandLordAddNewPost extends AppCompatActivity {
                 }else if(txtMoTa.getText().toString().equals("")) {
                     txtMoTa.setError("Vui lòng điền Mô tả");
                 }else if(uri==null) {
-                    Toast.makeText(LandLordAddNewPost.this, "Chọn Ảnh", Toast.LENGTH_SHORT).show();
+                    Post post = new Post(idPost, idUser, txtMoTa.getText() + "", txtDiaChi.getText() + "", "Quận3", txtGia.getText() + "", txtDienTich.getText() + "", txtTenPhong.getText() + "", idPost + ".jpg", "Còn phòng");
+                    fireBaseLandLord.addUpdatePostNoImage(LandLordUpdatePostActivity.this, post);
                 }else {
                     Post post = new Post(idPost, idUser, txtMoTa.getText() + "", txtDiaChi.getText() + "", "Quận3", txtGia.getText() + "", txtDienTich.getText() + "", txtTenPhong.getText() + "", idPost + ".jpg", "Còn phòng");
-                    fireBaseLandLord.addNewPost(LandLordAddNewPost.this, post, uri);
+                    fireBaseLandLord.addUpdatePost(LandLordUpdatePostActivity.this, post, uri);
                     //Thong báo
                 }
+                //Thong báo
             }
         });
         btnHuy.setOnClickListener(new View.OnClickListener() {
@@ -106,6 +90,16 @@ public class LandLordAddNewPost extends AppCompatActivity {
         });
     }
 
+    public void setDuLieu(Post post, Bitmap bitmap){
+        txtTenPhong.setText(post.getHouse_name());
+        txtDiaChi.setText(post.getAddress());
+        txtDienTich.setText(post.getArea());
+        txtGia.setText(post.getPrice());
+        txtMoTa.setText(post.getTitle());
+        imgHinh.setImageBitmap(bitmap);
+        txtIdPost.setText(idPost);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -114,14 +108,7 @@ public class LandLordAddNewPost extends AppCompatActivity {
             imgHinh.setImageURI(uri);
         }
     }
-
-    @Override
     protected void onResume() {
         super.onResume();
-        fireBaseLandLord.getId(LandLordAddNewPost.this);
-    }
-    public void setId(String id) {
-        idPost = id;
-        txtIdPost.setText(id);
     }
 }
