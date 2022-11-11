@@ -1,87 +1,100 @@
 package com.example.appnhatro.Models;
 
 public class PostFindRoomateModel {
-    private String _id;
-    private String _postID;
-    private String _userTenantID;
-    private String _title;
-    private int _ageMin;
-    private int _ageMax;
-    private String _hobby;
-    private String _userTenantPhone ;
+    private String id_user;
+    private String postID;
+    private String userTenantID;
+    private String title;
+    private String age_first;
+    private String age_last;
+    private String hobby;
+    private String sdt ;
+    private String description;
 
-    public String get_id() {
-        return _id;
+    public PostFindRoomateModel() {
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public PostFindRoomateModel(String id_user, String postID, String userTenantID, String title, String age_first, String age_last, String hobby, String sdt, String description) {
+        this.id_user = id_user;
+        this.postID = postID;
+        this.userTenantID = userTenantID;
+        this.title = title;
+        this.age_first = age_first;
+        this.age_last = age_last;
+        this.hobby = hobby;
+        this.sdt = sdt;
+        this.description = description;
     }
 
-    public String get_postID() {
-        return _postID;
+    public String getId_user() {
+        return id_user;
     }
 
-    public void set_postID(String _postID) {
-        this._postID = _postID;
+    public void setId_user(String id_user) {
+        this.id_user = id_user;
     }
 
-    public String get_userTenantID() {
-        return _userTenantID;
+    public String getPostID() {
+        return postID;
     }
 
-    public void set_userTenantID(String _userTenantID) {
-        this._userTenantID = _userTenantID;
+    public void setPostID(String postID) {
+        this.postID = postID;
     }
 
-    public String get_title() {
-        return _title;
+    public String getUserTenantID() {
+        return userTenantID;
     }
 
-    public void set_title(String _title) {
-        this._title = _title;
+    public void setUserTenantID(String userTenantID) {
+        this.userTenantID = userTenantID;
     }
 
-    public int get_ageMin() {
-        return _ageMin;
+    public String getTitle() {
+        return title;
     }
 
-    public void set_ageMin(int _ageMin) {
-        this._ageMin = _ageMin;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public int get_ageMax() {
-        return _ageMax;
+    public String getAge_first() {
+        return age_first;
     }
 
-    public void set_ageMax(int _ageMax) {
-        this._ageMax = _ageMax;
+    public void setAge_first(String age_first) {
+        this.age_first = age_first;
     }
 
-    public String get_hobby() {
-        return _hobby;
+    public String getAge_last() {
+        return age_last;
     }
 
-    public void set_hobby(String _hobby) {
-        this._hobby = _hobby;
+    public void setAge_last(String age_last) {
+        this.age_last = age_last;
     }
 
-    public String get_userTenantPhone() {
-        return _userTenantPhone;
+    public String getHobby() {
+        return hobby;
     }
 
-    public void set_userTenantPhone(String _userTenantPhone) {
-        this._userTenantPhone = _userTenantPhone;
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
     }
 
-    public PostFindRoomateModel(String _id, String _postID, String _userTenantID, String _title, int _ageMin, int _ageMax, String _hobby, String _userTenantPhone) {
-        this._id = _id;
-        this._postID = _postID;
-        this._userTenantID = _userTenantID;
-        this._title = _title;
-        this._ageMin = _ageMin;
-        this._ageMax = _ageMax;
-        this._hobby = _hobby;
-        this._userTenantPhone = _userTenantPhone;
+    public String getSdt() {
+        return sdt;
+    }
+
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

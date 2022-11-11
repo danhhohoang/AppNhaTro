@@ -3,10 +3,23 @@ package com.example.appnhatro.Models;
 public class TransactionModel {
 
     private String _id;
-    private String _userTenantID;
-    private String _userLandlordID;
-    private String _postID;
+    private String extraMoney;
+    private String id_user;
+    private String post;
+    private String status;
     private String _commissionFeeID;
+
+    public TransactionModel() {
+    }
+
+    public TransactionModel(String _id, String extraMoney, String id_user, String post, String status, String _commissionFeeID) {
+        this._id = _id;
+        this.extraMoney = extraMoney;
+        this.id_user = id_user;
+        this.post = post;
+        this.status = status;
+        this._commissionFeeID = _commissionFeeID;
+    }
 
     public String get_id() {
         return _id;
@@ -16,28 +29,36 @@ public class TransactionModel {
         this._id = _id;
     }
 
-    public String get_userTenantID() {
-        return _userTenantID;
+    public String getExtraMoney() {
+        return extraMoney;
     }
 
-    public void set_userTenantID(String _userTenantID) {
-        this._userTenantID = _userTenantID;
+    public void setExtraMoney(String extraMoney) {
+        this.extraMoney = extraMoney;
     }
 
-    public String get_userLandlordID() {
-        return _userLandlordID;
+    public String getId_user() {
+        return id_user;
     }
 
-    public void set_userLandlordID(String _userLandlordID) {
-        this._userLandlordID = _userLandlordID;
+    public void setId_user(String id_user) {
+        this.id_user = id_user;
     }
 
-    public String get_postID() {
-        return _postID;
+    public String getPost() {
+        return post;
     }
 
-    public void set_postID(String _postID) {
-        this._postID = _postID;
+    public void setPost(String post) {
+        this.post = post;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String get_commissionFeeID() {
@@ -45,14 +66,6 @@ public class TransactionModel {
     }
 
     public void set_commissionFeeID(String _commissionFeeID) {
-        this._commissionFeeID = _commissionFeeID;
-    }
-
-    public TransactionModel(String _id, String _userTenantID, String _userLandlordID, String _postID, String _commissionFeeID) {
-        this._id = _id;
-        this._userTenantID = _userTenantID;
-        this._userLandlordID = _userLandlordID;
-        this._postID = _postID;
         this._commissionFeeID = _commissionFeeID;
     }
 }
