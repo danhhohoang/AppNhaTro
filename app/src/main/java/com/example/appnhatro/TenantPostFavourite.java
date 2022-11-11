@@ -1,54 +1,102 @@
 package com.example.appnhatro;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.app.SearchManager;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.appnhatro.Firebase.FireBasePostFavorite;
+import com.example.appnhatro.Firebase.FireBaseThueTro;
+import com.example.appnhatro.Models.Favorite;
+import com.example.appnhatro.Models.LikedPostModel;
+import com.example.appnhatro.Models.Post;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TenantPostFavourite extends AppCompatActivity implements RecyclerViewInterface{
+public class TenantPostFavourite extends AppCompatActivity{
+    private ArrayList<String> persons = new ArrayList<>();
+    private ViewHolderImageHome adapter;
+    androidx.appcompat.widget.SearchView sv_tpf;
+    String idUser;
 
-    RecyclerView tpf;
-    TenantPostFavouriteAdapter tenantPostFavouriteAdapter;
 
+    //List horizone
+    private TenantPostFavouriteAdapter tenantPostFavouriteAdapter;
+    private ArrayList<Post> posts= new ArrayList<>();
+    ArrayList<Favorite> likedPostModels = new ArrayList<>();
+    FireBasePostFavorite fireBasePostFavorite = new FireBasePostFavorite();
+    DatabaseReference databaseReference;
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_activity_tenant_post_favourite);
 
-        tpf = findViewById(R.id.rcv_tpf);
-        tenantPostFavouriteAdapter = new TenantPostFavouriteAdapter(this,this);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
-        tpf.setLayoutManager(linearLayoutManager);
-
-        tenantPostFavouriteAdapter.setData(getPostList());
-        tpf.setAdapter(tenantPostFavouriteAdapter);
+        ListPost();
+//        idUser="KH02";
+//            databaseReference = FirebaseDatabase.getInstance().getReference("Like");
+//        databaseReference.child(idUser).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+//                    Favorite post = dataSnapshot.getValue(Favorite.class);
+//                    likedPostModels.add(post);
+//                    Log.d("test","This warning :" + post.getIdPost());
+//                    Log.d("test","This warning :" + post.getIdPost());
+//                }
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
 
-    private List<PostList> getPostList(){
-        List<PostList> listpost = new ArrayList<>();
-        listpost.add(new PostList(1,1,30,17000000,"Homestay ở ghép Q7, 1,7 triệu/người BAO TẤT CẢ PHÍ","Địa chỉ: 134/15G Đường Nguyễn Thị Thập, Phường Bình Thuận, Quận 7, Hồ Chí Minh","Null","Cho thuê","Check"));
-        listpost.add(new PostList(2,2,30,20000000,"Phòng đẹp thoáng mát khu Phú Lợi, P7,Q.8","Địa chỉ: 288/62 Đường Dương Bá Trạc, Phường 2, Quận 8, Hồ Chí Minh","Null","Cho thuê","Check"));
-        listpost.add(new PostList(1,1,30,17000000,"Phòng full nội thất trong chung cư Quận 8","Địa chỉ: 21/1 Đường Trường Sơn, Phường 4, Tân Bình, Hồ Chí Minh","Null","Cho thuê","Check"));
-        listpost.add(new PostList(1,1,30,17000000,"Hẽm 60 Đường Số 2 Hiệp Bình Phước, Thủ Đức","Địa chỉ: Hẽm 60 Đường Số 2 Hiệp Bình Phước, Thủ Đức","Null","Cho thuê","Check"));
-        listpost.add(new PostList(1,1,30,17000000,"DT 25m2 có gác ở 3-4 người Ngay SPKT. Vincom Q9","Địa chỉ: Đường Phạm Văn Đồng, Phường Linh Tây, Thủ Đức, Hồ Chí Minh","Null","Cho thuê","Check"));
-        return listpost;
-    }
+    @SuppressLint("MissingInflatedId")
+    public void ListPost(){
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rcv_tpf);
+        tenantPostFavouriteAdapter =  new TenantPostFavouriteAdapter(this, R.layout.layout_item_tenant_post_favourite,posts);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
+        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        fireBasePostFavorite.readListPost(posts,tenantPostFavouriteAdapter,"KH02");
+        recyclerView.setAdapter(tenantPostFavouriteAdapter);
+        tenantPostFavouriteAdapter.setOnItemClickListener(new TenantPostFavouriteAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(int position, View view) {
+                fireBasePostFavorite.readDataItem(position,posts,TenantPostFavourite.this);
+            }
+        });
+        sv_tpf = findViewById(R.id.sv_tpf);
+        sv_tpf.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                tenantPostFavouriteAdapter.getFilter().filter(s);
+                return false;
+            }
 
-    @Override
-    public void onItemClick(int position) {
-        Intent intent = new Intent(this,TenantPostDetail.class);
-        intent.putExtra("it_house_name",getPostList().get(position).getHouse_name());
-        intent.putExtra("it_address",getPostList().get(position).getAddress());
-        intent.putExtra("it_area",getPostList().get(position).getArea());
-        intent.putExtra("it_price",getPostList().get(position).getPrice());
-        startActivity(intent);
+            @Override
+            public boolean onQueryTextChange(String s) {
+                tenantPostFavouriteAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
     }
 }

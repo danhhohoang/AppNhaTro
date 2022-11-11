@@ -1,50 +1,88 @@
 package com.example.appnhatro;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appnhatro.Models.BitMap;
+import com.example.appnhatro.Models.Post;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-public class TenantPostFavouriteAdapter extends RecyclerView.Adapter<TenantPostFavouriteAdapter.TenantPostFavourite> {
-    private final RecyclerViewInterface recyclerViewInterface;
-    Context context;
-    List<PostList> mPostLists;
+public class TenantPostFavouriteAdapter extends RecyclerView.Adapter<TenantPostFavouriteAdapter.TenantPostFavourite> implements Filterable {
+    private Activity context;
+    private int resource;
+    private ArrayList<Post> mPostLists;
+    private ArrayList<Post> mPostListsOld;
+    private OnItemClickListener onItemClickLisner;
 
-    public TenantPostFavouriteAdapter(Context context,RecyclerViewInterface recyclerViewInterface) {
+    public TenantPostFavouriteAdapter(Activity context, int resource, ArrayList<Post> posts) {
         this.context = context;
-        this.recyclerViewInterface = recyclerViewInterface;
-    }
-
-    public void setData(List<PostList> postLists){
-        this.mPostLists = postLists;
-        notifyDataSetChanged();
+        this.resource = resource;
+        this.mPostLists = posts;
+        this.mPostListsOld = posts;
     }
 
     @NonNull
     @Override
     public TenantPostFavourite onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.layout_item_tenant_post_favourite,parent,false);
-        return new TenantPostFavourite(v,recyclerViewInterface);
+        CardView cardViewItem = (CardView) context.getLayoutInflater().
+                inflate(viewType, parent, false);
+        return new TenantPostFavourite(cardViewItem);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TenantPostFavourite holder, int position) {
-        PostList postList = mPostLists.get(position);
-        if (postList == null){
-            return;
+        Post post = mPostLists.get(position);
+        holder.house_name.setText(post.getHouse_name() );
+        DecimalFormat formatter = new DecimalFormat("#,###,###");
+        holder.price.setText(formatter.format(Integer.valueOf(post.getPrice())));
+        holder.address.setText(post.getAddress());
+        holder.area.setText(formatter.format(Integer.valueOf(post.getArea())));
+        BitMap bitMap = new BitMap(post.getImage(),null);
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference(bitMap.getTenHinh());
+        try {
+            final File file= File.createTempFile(bitMap.getTenHinh().substring(0,bitMap.getTenHinh().length()-4),"jpg");
+            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
+                    holder.picture.setImageBitmap(bitMap.getHinh());
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        holder.house_name.setText(postList.getHouse_name());
-        holder.address.setText(postList.getAddress());
-        holder.area.setText(String.valueOf(postList.getArea()));
-        holder.price.setText(String.valueOf(postList.getPrice()));
+        //Event processing
+        final int pos = position;
+        holder.onClickListener= new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(onItemClickLisner!=null){
+                    onItemClickLisner.onItemClickListener(pos,holder.itemView);
+                }
+            }
+        };
     }
 
     @Override
@@ -55,28 +93,73 @@ public class TenantPostFavouriteAdapter extends RecyclerView.Adapter<TenantPostF
         return 0;
     }
 
-    public static class TenantPostFavourite extends RecyclerView.ViewHolder{
+
+    @Override
+    public int getItemViewType(int position) {
+        return resource;
+    }
+
+    public static class TenantPostFavourite extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView post_id,user_id,area,price,house_name,address,attachment,status,wishlist;
+        ImageView picture;
+        View.OnClickListener onClickListener;
+        CardView item;
 
-        public TenantPostFavourite(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
+        public TenantPostFavourite(@NonNull View itemView) {
             super(itemView);
             house_name = itemView.findViewById(R.id.txt_tpfHousename);
             address = itemView.findViewById(R.id.txt_tpfAddress);
             area = itemView.findViewById(R.id.txt_tpfArea);
             price = itemView.findViewById(R.id.txt_tpfPrice);
+            picture = itemView.findViewById(R.id.iv_tpfPicture);
+            item = itemView.findViewById(R.id.cv_tpfCardView);
+            item.setOnClickListener(this);
+        }
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(recyclerViewInterface != null){
-                        int pos = getAdapterPosition();
-                        if(pos != RecyclerView.NO_POSITION){
-                            recyclerViewInterface.onItemClick(pos);
+        @Override
+        public void onClick(View view) {
+            if (onClickListener != null) {
+                onClickListener.onClick(view);
+            }
+        }
+    }
+    public interface OnItemClickListener {
+        void onItemClickListener(int position, View view);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickLisner = onItemClickListener;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String strSearch = charSequence.toString();
+                if (strSearch.isEmpty()){
+                    mPostLists = mPostListsOld;
+                } else {
+                    ArrayList<Post> list = new ArrayList<>();
+                    for (Post post : mPostListsOld){
+                        if (post.getHouse_name().toLowerCase().contains(strSearch.toLowerCase())){
+                            list.add(post);
                         }
                     }
+                    mPostLists = list;
                 }
-            });
-        }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mPostLists;
+
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mPostLists = (ArrayList<Post>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }
