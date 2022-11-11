@@ -1,6 +1,8 @@
 package com.example.appnhatro.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -13,6 +15,7 @@ import com.example.appnhatro.Adapters.LandLordHomeListAdapter;
 import com.example.appnhatro.Firebase.FireBaseLandLord;
 import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.R;
+import com.example.appnhatro.TenantPostDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +39,6 @@ public class LandLordHomeActivity extends AppCompatActivity {
         userId = "KH01";
 
         //get Post by userId LandLord
-        fireBaseLandLord.readListPostFromUser(landLordHomeListAdapter, listAll, userId);
         recyclerView.setAdapter(landLordHomeListAdapter);
         searchView = findViewById(R.id.sv_Search_Home_LandLord);
         event();
@@ -68,6 +70,15 @@ public class LandLordHomeActivity extends AppCompatActivity {
                 return true;
             }
         });
+        landLordHomeListAdapter.setOnItemClickListener(new LandLordHomeListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(int position, View view) {
+                Post post = listAll.get(position);
+                Intent intent = new Intent(LandLordHomeActivity.this, LandLordPostDetailActivity.class);
+                intent.putExtra("it_id", post.getId());
+                startActivity(intent);
+            }
+        });
     }
 
     private void fillterList(String text) {
@@ -91,5 +102,9 @@ public class LandLordHomeActivity extends AppCompatActivity {
             searchView = findViewById(R.id.sv_Search_Home_LandLord);
             landLordHomeListAdapter.notifyDataSetChanged();
         }
+    }
+    protected void onResume() {
+        super.onResume();
+        fireBaseLandLord.readListPostFromUser(landLordHomeListAdapter, listAll, userId);
     }
 }
