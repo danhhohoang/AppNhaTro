@@ -39,7 +39,6 @@
                     style="@style/TextAddNewPostLandLord"/>
                 <EditText
                     android:id="@+id/txtIdNewPostLandLord"
-                    android:text="KH01"
                     android:gravity="center|left"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
@@ -50,6 +49,7 @@
                     android:text="@string/t_n_ph_ng"
                     style="@style/TextAddNewPostLandLord"/>
                 <EditText
+                    android:id="@+id/txtTenPhongLandLordAddNewPost"
                     android:layout_width="match_parent"
                     android:layout_height="75dp"
                     style="@style/edittextAddNewPostLandLord" />
@@ -57,6 +57,7 @@
                     android:text="@string/a_ch"
                     style="@style/TextAddNewPostLandLord"/>
                 <EditText
+                    android:id="@+id/txtDiaChiLandLordAddNewPost"
                     android:layout_width="match_parent"
                     android:layout_height="75dp"
                     style="@style/edittextAddNewPostLandLord" />
@@ -66,16 +67,17 @@
                     android:orientation="horizontal"
                     android:layout_marginTop="20dp"
                     android:gravity="center">
-                <TextView
-                    android:text="@string/sdt"
-                    android:layout_weight="2"
-                    android:layout_width="0dp"
-                    android:textColor="@color/white"
-                    android:textSize="18dp"
-                   android:layout_height="wrap_content"/>
-                    <EditText
+                    <TextView
+                        android:text="@string/sdt"
+                        android:layout_weight="2"
                         android:layout_width="0dp"
-                        android:inputType="textEmailAddress"
+                        android:textColor="@color/white"
+                        android:textSize="18dp"
+                        android:layout_height="wrap_content"/>
+                    <EditText
+                        android:id="@+id/txtSDTLandLordAddNewPost"
+                        android:layout_width="0dp"
+                        android:inputType="number"
                         android:layout_height="match_parent"
                         android:layout_weight="5"
                         style="@style/edittextAddNewPostLandLord" />
@@ -94,8 +96,9 @@
                         android:textSize="18dp"
                         android:layout_height="wrap_content"/>
                     <EditText
+                        android:id="@+id/txtDienTichAddNewPostLandLord"
                         android:layout_width="0dp"
-                        android:inputType="textEmailAddress"
+                        android:inputType="number"
                         android:layout_height="match_parent"
                         android:layout_weight="5"
                         style="@style/edittextAddNewPostLandLord" />
@@ -114,9 +117,10 @@
                         android:textSize="18dp"
                         android:layout_height="wrap_content"/>
                     <EditText
+                        android:id="@+id/txtGiaNewPostLandLord"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:inputType="textEmailAddress"
+                        android:inputType="number"
                         android:layout_weight="5"
                         style="@style/edittextAddNewPostLandLord" />
                 </LinearLayout>
@@ -124,11 +128,13 @@
                     android:text="@string/m_t"
                     style="@style/TextAddNewPostLandLord"/>
                 <EditText
+                    android:id="@+id/txtMoTaAddNewPostLandLord"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
                     android:maxLength="100"
                     style="@style/edittextAddNewPostLandLord" />
                 <ImageView
+                    android:id="@+id/imgAddNewPostLandlord"
                     android:layout_margin="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
@@ -138,6 +144,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <Button
+                        android:id="@+id/btnHuyAddNewPostLandLord"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -146,6 +153,7 @@
                         app:backgroundTint="@null"
                         android:layout_margin="20dp"/>
                     <Button
+                        android:id="@+id/btnAddNewPostLandLord"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

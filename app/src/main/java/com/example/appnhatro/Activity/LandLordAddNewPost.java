@@ -47,33 +47,32 @@ public class LandLordAddNewPost extends AppCompatActivity {
     private String idPost = "";
     private String idUser="";
     private ConverImage converImage = new ConverImage();
-    int stt = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.landlord_add_new_post_activity_layout);
-//        control();
-//        event();
+        control();
+        event();
     }
 
     public void control() {
-//        txtTenPhong = findViewById(R.id.txtTenPhongLandLordAddNewPost);
-//        txtDiaChi = findViewById(R.id.txtDiaChiLandLordAddNewPost);
-//        txtSDT = findViewById(R.id.txtSDTLandLordAddNewPost);
-//        txtDienTich = findViewById(R.id.txtDienTichAddNewPostLandLord);
-//        txtGia = findViewById(R.id.txtGiaNewPostLandLord);
-//        txtMoTa = findViewById(R.id.txtMoTaAddNewPostLandLord);
-//        imgHinh = findViewById(R.id.imgAddNewPostLandlord);
-//        btnAdd = findViewById(R.id.btnAddNewPostLandLord);
-//        btnHuy = findViewById(R.id.btnHuyAddNewPostLandLord);
+        txtTenPhong = findViewById(R.id.txtTenPhongLandLordAddNewPost);
+        txtDiaChi = findViewById(R.id.txtDiaChiLandLordAddNewPost);
+        txtSDT = findViewById(R.id.txtSDTLandLordAddNewPost);
+        txtDienTich = findViewById(R.id.txtDienTichAddNewPostLandLord);
+        txtGia = findViewById(R.id.txtGiaNewPostLandLord);
+        txtMoTa = findViewById(R.id.txtMoTaAddNewPostLandLord);
+        imgHinh = findViewById(R.id.imgAddNewPostLandlord);
+        btnAdd = findViewById(R.id.btnAddNewPostLandLord);
+        btnHuy = findViewById(R.id.btnHuyAddNewPostLandLord);
     }
 
     public void event() {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                converImage.docAnh(uri, LandLordAddNewPost.this, txtTenPhong.getText() + String.valueOf(stt) + ".jpg");
+                converImage.docAnh(uri, LandLordAddNewPost.this, txtTenPhong.getText() + "");
                 Post post= new Post(idPost,idUser,txtMoTa.getText()+"",txtDiaChi.getText()+"","Quận3",txtGia.getText()+"",txtDienTich.getText()+"",txtTenPhong.getText()+"",txtTenPhong.getText()+"","Còn phòng");
                 fireBaseLandLord.addNewPost(post);
                 //Thong báo
