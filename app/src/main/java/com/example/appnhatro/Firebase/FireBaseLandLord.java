@@ -10,8 +10,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.appnhatro.Activity.LandLordAddNewPost;
+import com.example.appnhatro.Activity.LandLordFeedBack;
 import com.example.appnhatro.Activity.LandLordPostDetailActivity;
 import com.example.appnhatro.Activity.LandLordUpdatePostActivity;
+import com.example.appnhatro.Adapters.LandLordCommentAdapter;
 import com.example.appnhatro.Adapters.LandLordHomeListAdapter;
 import com.example.appnhatro.Models.BitMap;
 import com.example.appnhatro.Models.Post;
@@ -65,6 +67,7 @@ public class FireBaseLandLord {
             }
         });
     }
+
     public void addUpdatePost(Context context, Post post, Uri uri) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Post");
@@ -76,6 +79,7 @@ public class FireBaseLandLord {
                     }
                 });
     }
+
     public void addUpdatePostNoImage(Context context, Post post) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Post");
@@ -87,6 +91,7 @@ public class FireBaseLandLord {
                     }
                 });
     }
+
     public void addNewPost(Context context, Post post, Uri uri) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Post");
@@ -98,6 +103,7 @@ public class FireBaseLandLord {
                     }
                 });
     }
+
     public void getId(Context context) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -165,9 +171,9 @@ public class FireBaseLandLord {
                         }
                         if (sl != 0) {
                             double tong = sum / sl;
-                            ((LandLordPostDetailActivity) context).setLike(String.valueOf(tong));
+                            ((LandLordPostDetailActivity) context).setRating(String.valueOf(tong));
                         } else {
-                            ((LandLordPostDetailActivity) context).setLike(String.valueOf(0));
+                            ((LandLordPostDetailActivity) context).setRating(String.valueOf(0));
                         }
                     }
 
@@ -224,5 +230,134 @@ public class FireBaseLandLord {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
         databaseReference.child("Post").child(idPost).removeValue();
+    }
+
+    public void readOnePostLandLord(Context context, String idPost, ArrayList<Rating> listRating, LandLordCommentAdapter commentAdapter) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        DatabaseReference rating = firebaseDatabase.getReference("Rating");
+        DatabaseReference like = firebaseDatabase.getReference("Like");
+        databaseReference.child("Post").child(idPost).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Post data = snapshot.getValue(Post.class);
+                BitMap bitMap = new BitMap(data.getImage(), null);
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/" + bitMap.getTenHinh());
+                try {
+                    final File file = File.createTempFile(bitMap.getTenHinh(), "jpg");
+                    storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
+                            ((LandLordPostDetailActivity) context).setDuLieu(data, bitMap.getHinh());
+
+
+                            rating.child(idPost).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    ArrayList<Rating> ratings = new ArrayList<>();
+                                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                        Rating data = dataSnapshot.getValue(Rating.class);
+                                        ratings.add(data);
+                                    }
+                                    listRating.clear();
+                                    listRating.addAll(ratings);
+                                    commentAdapter.notifyDataSetChanged();
+                                    like.child(idPost).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            ((LandLordPostDetailActivity) context).setLike(String.valueOf(snapshot.getChildrenCount()));
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                rating.child(data.getId()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        double sum = 0;
+                        double sl = 0;
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            Rating rating = dataSnapshot.getValue(Rating.class);
+                            Log.d("test", rating.getRating());
+                            sum = sum + Double.valueOf(rating.getRating() + "");
+                            sl = sl + 1;
+                        }
+                        if (sl != 0) {
+                            double tong = sum / sl;
+                            ((LandLordPostDetailActivity) context).setRating(String.valueOf(tong));
+                        } else {
+                            ((LandLordPostDetailActivity) context).setRating(String.valueOf(0));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void getNameUserFeedback(Context context,String idUser){
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("user").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    user User = dataSnapshot.getValue(user.class);
+                    if(User.getId().equals(idUser)){
+                        ((LandLordFeedBack) context).setNameUser(User.getName());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void addAndUpdateFeedBackLandLord(Context context,Rating rating){
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Rating").child(rating.getIdPost()).child(rating.getIdUser()).setValue(rating).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                ((LandLordFeedBack) context).finish();
+            }
+        });
+    }
+    public void deleteFeedBack(Rating rating){
+        rating.setFeedback("");
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Rating").child(rating.getIdPost()).child(rating.getIdUser()).setValue(rating);
     }
 }

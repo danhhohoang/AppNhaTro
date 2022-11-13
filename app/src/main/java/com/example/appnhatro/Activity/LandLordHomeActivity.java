@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -28,7 +29,7 @@ public class LandLordHomeActivity extends AppCompatActivity {
     ArrayList<Post> listAll = new ArrayList<>();
     FireBaseLandLord fireBaseLandLord = new FireBaseLandLord();
     String userId;
-    Button btnAdd;
+    ImageView imgAdd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +43,7 @@ public class LandLordHomeActivity extends AppCompatActivity {
         //get Post by userId LandLord
         recyclerView.setAdapter(landLordHomeListAdapter);
         searchView = findViewById(R.id.sv_Search_Home_LandLord);
-        btnAdd = findViewById(R.id.btnThemLandLord);
+        imgAdd = findViewById(R.id.imgThemLandLord);
         event();
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -72,7 +73,7 @@ public class LandLordHomeActivity extends AppCompatActivity {
                 return true;
             }
         });
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+        imgAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LandLordHomeActivity.this,LandLordAddNewPost.class);

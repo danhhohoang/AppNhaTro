@@ -162,7 +162,7 @@ public class FireBaseThueTro {
     }
 
     public void addRating(String postId, String userId, String rating) {
-        Rating rating1 = new Rating(postId, userId, rating);
+        Rating rating1 = new Rating(postId, userId, rating,"Comment tanetn","Comment LandLord","20/11/2020");
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Rating");
         databaseReference.child(postId).child(userId).setValue(rating1)
@@ -195,7 +195,6 @@ public class FireBaseThueTro {
                 }else {
                     id = "RP" + (Integer.parseInt(temp[1]) + 1);
                 }
-                Log.d("test", id);
                 ((RepportActivity) context).SetID(id);
             }
             @Override
@@ -221,7 +220,6 @@ public class FireBaseThueTro {
                 }else {
                     id = "P_tenant_0" + (Integer.parseInt(temp[1]) + 1);
                 }
-                Log.d("test", id);
                 ((PostActivity) context).setID(id);
             }
             @Override
@@ -247,7 +245,6 @@ public class FireBaseThueTro {
                 } else {
                     id = "BK01" + (Integer.parseInt(temp[1]) + 1);
                 }
-                Log.d("test", id);
                 ((BookingActivity) context).IdBooking(id);
             }
 

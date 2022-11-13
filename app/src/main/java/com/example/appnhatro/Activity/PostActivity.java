@@ -121,7 +121,7 @@ public class PostActivity extends AppCompatActivity {
                                                     }
                                                     if (posts.size() >= 1){
                                                         finish();
-                                                        converImage.docAnh(uri, PostActivity.this, idPost + String.valueOf(stt));
+//                                                        converImage.docAnh(uri, PostActivity.this, idPost + String.valueOf(stt));
                                                         Dangbaimodels post1 = new Dangbaimodels(idPost, "KH01", spnStatus.getSelectedItem().toString(),
                                                                 Diachi.getText().toString(), SDT.getText().toString(), spnSex.getSelectedItem().toString(), DoTuoi.getText().toString(), Den.getText().toString(),
                                                                 spnSl.getSelectedItem().toString(), YeuCauKhac.getText().toString(), gia.getText().toString(), "danh");

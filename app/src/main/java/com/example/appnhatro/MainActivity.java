@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.appnhatro.Activity.LandLordHomeActivity;
 import com.example.appnhatro.Activity.Landlord_Notification_Activity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-        Intent intent = new Intent(MainActivity.this, HomeTenantActivity.class);
+        Intent intent = new Intent(MainActivity.this, LandLordHomeActivity.class);
         startActivity(intent);
 //          setContentView(R.layout.landlord_notification_list);
 //        Toolbar toolbar = findViewById(R.id.toolbar);
