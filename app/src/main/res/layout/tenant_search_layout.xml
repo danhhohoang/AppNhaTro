@@ -67,7 +67,7 @@
                 android:contentDescription="@string/btn_notification_des" />
 
             <ImageButton
-                android:id="@+id/imb_filter"
+                android:id="@+id/imb_resetFilter"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

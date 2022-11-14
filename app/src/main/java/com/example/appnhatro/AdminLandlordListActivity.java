@@ -1,6 +1,5 @@
 package com.example.appnhatro;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminLandlordList extends AppCompatActivity implements RecyclerViewInterface{
+public class AdminLandlordListActivity extends AppCompatActivity implements RecyclerViewInterface{
     RecyclerView al;
     AdminLandlordListAdapter adminLandlordListAdapter;
     @Override
@@ -38,7 +37,7 @@ public class AdminLandlordList extends AppCompatActivity implements RecyclerView
 
     @Override
     public void onItemClick(int position) {
-        Intent intent = new Intent(this,AdminLandlordDetails.class);
+        Intent intent = new Intent(this, AdminLandlordDetailsActivity.class);
         intent.putExtra("it_ald_id",getAdminLandLordList().get(position).getID());
         intent.putExtra("it_ald_tenchutro",getAdminLandLordList().get(position).getTenchutro());
         intent.putExtra("it_ald_tentaikhoan",getAdminLandLordList().get(position).getTentaikhoan());

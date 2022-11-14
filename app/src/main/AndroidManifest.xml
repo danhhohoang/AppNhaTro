@@ -60,9 +60,6 @@
             android:name=".Activity.VertifyPhoneNumberActivity"
             android:exported="true" />
         <activity
-            android:name=".AdminLandlordDetails"
-            android:exported="true" />
-        <activity
             android:name=".Activity.LandLordAddNewPost"
             android:exported="true" />
         <activity
@@ -84,6 +81,27 @@
         <activity
             android:name=".Activity.LandLordPostDetailActivity"
             android:exported="true" />
+        <activity
+            android:name=".Activity.LandLordUpdatePostActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.LandLordFeedBack"
+            android:exported="true" />
+<!--        <activity android:name=".HomeTenantActivity" />-->
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".AdminLandlordDetailsActivity" />
+<!--        Tenant-->
+<!--        <activity android:name=".TenantAccountActivity" />-->
+        <activity android:name=".TenantSettingProfileActivity" />
+        <activity android:name=".TenantPasswordChangeActivity" />
+        <activity android:name=".TenantSettingActivity" />
+        <activity android:name=".TenantContactActivity" />
+        <activity android:name=".TenantPostFavourite" />
+<!--Landlord-->
+        <activity android:name=".LandlordPasswordChangeActivity" />
+        <activity android:name=".LandlordAccountActivity" />
+        <activity android:name=".LandlordSettingProfileActivity" />
+        <!--        Admin-->
 
             android:exported="true"/>
         <activity android:name=".Activity.Detail_Notification_Landlor"

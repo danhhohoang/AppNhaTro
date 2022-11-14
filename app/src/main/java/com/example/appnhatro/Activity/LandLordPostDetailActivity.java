@@ -1,17 +1,23 @@
 package com.example.appnhatro.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.appnhatro.Adapters.LandLordCommentAdapter;
+import com.example.appnhatro.Adapters.LandLordHomeListAdapter;
 import com.example.appnhatro.Firebase.FireBaseLandLord;
 import com.example.appnhatro.Firebase.FireBaseThueTro;
 import com.example.appnhatro.Models.Post;
@@ -25,6 +31,7 @@ import java.util.ArrayList;
 public class LandLordPostDetailActivity extends AppCompatActivity {
     RecyclerView rcvComment;
     ArrayList<Rating> listComment = new ArrayList<>();
+    LandLordCommentAdapter commentAdapter;
     FireBaseLandLord fireBaseLandLord = new FireBaseLandLord();
     String idPost="";
     TextView house_name, area, price, address, title,status,sumlike,sumRating;
@@ -47,7 +54,6 @@ public class LandLordPostDetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(LandLordPostDetailActivity.this,LandLordUpdatePostActivity.class);
                 intent.putExtra("it_id", idPost);
                 startActivity(intent);
-                finish();
             }
         });
         btnXoa.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +61,45 @@ public class LandLordPostDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 fireBaseLandLord.deletePost(idPost);
                 finish();
+            }
+        });
+        commentAdapter.setOnItemClickListener(new LandLordCommentAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(int position, View view) {
+                TextView phanhoi = view.findViewById(R.id.tvPhanHoi);
+                phanhoi.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(LandLordPostDetailActivity.this,LandLordFeedBack.class);
+                        intent.putExtra("Rating", listComment.get(position));
+                        startActivity(intent);
+                    }
+                });
+                TextView menu = view.findViewById(R.id.textViewOptions);
+                menu.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PopupMenu popupMenu =  new PopupMenu(v.getContext() , menu);
+                        popupMenu.inflate(R.menu.menu_comment_landlord);
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                switch (item.getItemId()){
+                                    case R.id.xoa:
+                                        fireBaseLandLord.deleteFeedBack(listComment.get(position));
+                                        break;
+                                    case R.id.sua:
+                                        Intent intent = new Intent(LandLordPostDetailActivity.this,LandLordFeedBack.class);
+                                        intent.putExtra("Rating", listComment.get(position));
+                                        startActivity(intent);
+                                        break;
+                                }
+                                return false;
+                            }
+                        });
+                        popupMenu.show();
+                    }
+                });
             }
         });
     }
@@ -67,6 +112,12 @@ public class LandLordPostDetailActivity extends AppCompatActivity {
         hinh.setImageBitmap(bitmap);
     }
     private void control() {
+        rcvComment = (RecyclerView) findViewById(R.id.rcvCommentPostDetailLandLord);
+        commentAdapter = new LandLordCommentAdapter(this, R.layout.landlord_item_comment_post_layout,listComment);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
+        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        rcvComment.setLayoutManager(gridLayoutManager);
+        rcvComment.setAdapter(commentAdapter);
         house_name =findViewById(R.id.tvNamePostDetailLandLord);
         address = findViewById(R.id.tvDiaChiPostDetailLandLord);
         price = findViewById(R.id.tvGiaPostDetailLandLord);
@@ -79,13 +130,15 @@ public class LandLordPostDetailActivity extends AppCompatActivity {
         btnXoa = findViewById(R.id.btnXoaPhongPostDetailLandLord);
         sumRating = findViewById(R.id.sumRating);
     }
-    public void setLike(String Rating){
+    public void setRating(String Rating){
         sumRating.setText(Rating);
     }
-
+    public void setLike(String Like){
+        sumlike.setText(Like);
+    }
     @Override
     protected void onResume() {
         super.onResume();
-        fireBaseLandLord.readOnePost(this,idPost);
+        fireBaseLandLord.readOnePostLandLord(this,idPost,listComment,commentAdapter);
     }
 }

@@ -43,59 +43,48 @@
         android:layout_marginRight="30dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/crivAccount_ALA"
             style="@style/al_imglandlord_add_detail"
-            android:src="@drawable/background"/>
-        <TextView
-            style="@style/al_textview_add_detail"
-            android:text="Mã chủ trọ:"/>
-        <EditText
-            style="@style/al_edittext_add_detail"
-            android:id="@+id/txtMachutro"
-            android:hint="Hoàng Danh" />
+            android:src="@drawable/ic_user"/>
+
         <TextView
             style="@style/al_textview_add_detail"
             android:text="Tên chủ trọ:"/>
         <EditText
-            android:id="@+id/txtTenchutro"
+            android:id="@+id/txtHoten_ALA"
             style="@style/al_edittext_add_detail"
             android:hint="Hoàng Danh" />
-        <TextView
-            style="@style/al_textview_add_detail"
-            android:text="Địa chỉ:"/>
-        <EditText
-            android:id="@+id/txtDiachi"
-            style="@style/al_edtaddress_add_detail"
-            android:hint="Địa chỉ" />
-        <TextView
-            style="@style/al_textview_add_detail"
-            android:text="Số điện thoại:"/>
-        <EditText
-            android:id="@+id/txtSodienthoai"
-            style="@style/al_edittext_add_detail"
-            android:hint="0232165654" />
+
         <TextView
             style="@style/al_textview_add_detail"
             android:text="CMND:"/>
         <EditText
+            android:id="@+id/txtCMND_ALA"
             style="@style/al_edittext_add_detail"
-            android:id="@+id/txtCMND"
-            android:hint="123456789" />
+            android:hint="0232165654" />
         <TextView
             style="@style/al_textview_add_detail"
-            android:text="Tên tài khoản:"/>
+            android:text="Email:"/>
         <EditText
             style="@style/al_edittext_add_detail"
-            android:id="@+id/txtTentaikhoan"
-            android:hint="acb123@gmail.com" />
+            android:id="@+id/txtEmail_ALA"
+            android:hint="abc123@gmail.com" />
         <TextView
             style="@style/al_textview_add_detail"
             android:text="Mật khẩu:"/>
         <EditText
             style="@style/al_edittext_add_detail"
-            android:id="@+id/txtMatkhau123"
-            android:hint="123456789" />
+            android:id="@+id/txtMatkhau_ALA"
+            android:hint="123456" />
+        <TextView
+            style="@style/al_textview_add_detail"
+            android:text="Phone Number:"/>
+        <EditText
+            style="@style/al_edittext_add_detail"
+            android:id="@+id/txtSdt_ALA"
+            android:hint="0123456789" />
         <Button
-            android:id="@+id/btnThemCT"
+            android:id="@+id/btnThemCT_ALA"
             style="@style/al_Button_add"
             app:backgroundTint="@null"
             android:background="@drawable/button_themct_admin_border"

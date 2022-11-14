@@ -185,9 +185,6 @@ public class PostActivity extends AppCompatActivity {
         });
     }
 
-    private void opendialog(final Dialog dialog, int garavity, String noiDung, int duongdanlayout){
-
-    }
     public void ThongBaoThanhCong(){
         AlertDialog.Builder b = new AlertDialog.Builder( PostActivity.this);
         b.setTitle("Thông báo");
