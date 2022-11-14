@@ -120,8 +120,8 @@ public class PostActivity extends AppCompatActivity {
                                                         posts.add(post);
                                                     }
                                                     if (posts.size() >= 1){
-                                                        finish();
-                                                        converImage.docAnh(uri, PostActivity.this, idPost + String.valueOf(stt));
+                                                          finish();
+//                                                        converImage.docAnh(uri, PostActivity.this, idPost + String.valueOf(stt));
                                                         Dangbaimodels post1 = new Dangbaimodels(idPost, "KH01", spnStatus.getSelectedItem().toString(),
                                                                 Diachi.getText().toString(), SDT.getText().toString(), spnSex.getSelectedItem().toString(), DoTuoi.getText().toString(), Den.getText().toString(),
                                                                 spnSl.getSelectedItem().toString(), YeuCauKhac.getText().toString(), gia.getText().toString(), "danh");
@@ -129,9 +129,9 @@ public class PostActivity extends AppCompatActivity {
                                                     }else if (posts.size() == 0){
 
                                                         AlertDialog.Builder c = new AlertDialog.Builder(PostActivity.this);
-                                                        a.setTitle("Thông Báo");
-                                                        a.setMessage("Bạn chưa thuê phòng nên chưa được đăng bài tìm người ở ghép");
-                                                        a.setPositiveButton("Hủy bỏ", new DialogInterface.OnClickListener() {
+                                                        c.setTitle("Thông Báo");
+                                                        c.setMessage("Bạn chưa thuê phòng nên chưa được đăng bài tìm người ở ghép");
+                                                        c.setPositiveButton("Hủy bỏ", new DialogInterface.OnClickListener() {
                                                             @Override
                                                             public void onClick(DialogInterface dialogInterface, int i) {
                                                                 finish();
