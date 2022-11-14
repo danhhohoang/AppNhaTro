@@ -29,7 +29,7 @@
     <string name="qu_n_m_t_kh_u">Quên mật khẩu ?</string>
     <string name="ho_c_ng_nh_p_v_i">Hoặc đăng nhập với</string>
     <string name="txt_search">Tìm</string>
-    <string name="btn_fillter_des">Open Fillter Function (screen)</string>
+    <string name="btn_fillter_des">Reset Filter Selection (screen)</string>
     <string name="btn_notification_des">open notification dialog</string>
     <string name="btn_menu_des">Open menu side-bar</string>
 
