@@ -6,7 +6,7 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class AdminLandlordDetails extends AppCompatActivity {
+public class AdminLandlordDetailsActivity extends AppCompatActivity {
     EditText id,tenchutro,tentaikhoan,CMND,diachi;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
