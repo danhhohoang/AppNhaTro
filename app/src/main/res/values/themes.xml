@@ -19,10 +19,9 @@
         <item name="android:layout_height">0dp</item>
         <item name="android:gravity">center|left</item>
         <!-- Secondary brand color. -->
-        <item name="android:layout_weight">1</item>
+        <item name="android:layout_weight">1.5</item>
         <item name="android:textColor">#FAFAFA</item>
         <item name="android:textSize">18dp</item>
-        <item name="android:layout_marginTop">10dp</item>
     </style>
 
     <style name="edittextBooking" parent="">
@@ -52,33 +51,31 @@
     <style name="Theme.AppNhaTro.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.AppNhaTro.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="MinhText" parent="">
+    <style name="edittextAddNewPost" parent="">
         <!-- Primary brand color. -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:background">@drawable/txt_background_login</item>
+    </style>
 
+    <style name="TextAddNewPostLandLord" parent="">
+        <!-- Primary brand color. -->
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center|left</item>
         <!-- Secondary brand color. -->
-
         <item name="android:textColor">#FAFAFA</item>
-        <item name="android:textSize">16sp</item>
-
+        <item name="android:textSize">18dp</item>
     </style>
 
-    <style name="MinhTextTitle" parent="">
+    <style name="edittextAddNewPostLandLord" parent="">
         <!-- Primary brand color. -->
-
-        <item name="android:gravity">center|left</item>
+        <item name="android:gravity">top</item>
+        <item name="android:paddingLeft">20dp</item>
         <!-- Secondary brand color. -->
-
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">#FAFAFA</item>
-        <item name="android:textSize">24sp</item>
-
+        <item name="android:background">@drawable/txt_background_login</item>
     </style>
-
-    <style name="MinhEditText" parent="">
-        <item name="android:background">@drawable/shape_landlord_editpost_edittext</item>
-    </style>
-
-
-
 </resources>

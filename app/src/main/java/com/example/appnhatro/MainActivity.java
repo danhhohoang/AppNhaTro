@@ -2,15 +2,28 @@ package com.example.appnhatro;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.view.MenuItem;
+import android.widget.Button;
 
+import com.example.appnhatro.Activity.LandLordAddNewPost;
+import com.example.appnhatro.Activity.LandLordHomeActivity;
+import com.example.appnhatro.R;
 import com.example.appnhatro.fragment.HomeFragment;
 import com.example.appnhatro.fragment.PostFrgment;
 import com.example.appnhatro.fragment.ReportFragment;
@@ -22,6 +35,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -56,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        replaceFragment(new HomeFragment());
 //        navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, LandLordAddNewPost.class);
         startActivity(intent);
         //writeDatabase();
         //readDatabase();
