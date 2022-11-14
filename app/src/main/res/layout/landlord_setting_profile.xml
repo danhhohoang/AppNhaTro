@@ -14,7 +14,7 @@
         android:background="@drawable/textview_transparent_borderbottom"
         android:orientation="horizontal">
         <ImageView
-            android:id="@+id/ivBack_TSP"
+            android:id="@+id/ivBack_LSP"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
@@ -42,13 +42,13 @@
             android:layout_marginBottom="20dp"
             android:orientation="horizontal">
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/ivImage_TSP"
+            android:id="@+id/ivImage_LSP"
             android:layout_marginLeft="25dp"
             android:layout_width="100dp"
             android:src="@drawable/ic_user"
             android:layout_height="100dp"/>
             <Button
-                android:id="@+id/btnSelectImg_TSP"
+                android:id="@+id/btnSelectImg_LSP"
                 android:layout_width="150dp"
                 android:layout_height="40dp"
                 android:textSize="10dp"
@@ -72,7 +72,7 @@
             android:textStyle="bold"
             android:textSize="20dp" />
         <EditText
-            android:id="@+id/txtHoten_TSP"
+            android:id="@+id/txtHoten_LSP"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:paddingLeft="35dp"
@@ -93,7 +93,7 @@
             android:textStyle="bold"
             android:textSize="20dp" />
         <EditText
-            android:id="@+id/txtCMND_TSP"
+            android:id="@+id/txtCMND_LSP"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:paddingLeft="35dp"
@@ -113,7 +113,7 @@
             android:textStyle="bold"
             android:textSize="20dp" />
         <EditText
-            android:id="@+id/txtEmail_TSP"
+            android:id="@+id/txtEmail_LSP"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:paddingLeft="35dp"
@@ -133,7 +133,7 @@
             android:textStyle="bold"
             android:textSize="20dp" />
         <EditText
-            android:id="@+id/txtSDT_TSP"
+            android:id="@+id/txtSDT_LSP"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:paddingLeft="35dp"
@@ -144,7 +144,7 @@
             android:textSize="20dp"/>
 
         <Button
-            android:id="@+id/btnLuu_TSP"
+            android:id="@+id/btnLuu_LSP"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

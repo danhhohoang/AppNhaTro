@@ -13,7 +13,7 @@
         android:layout_height="75dp"
         android:orientation="horizontal">
         <ImageButton
-            android:id="@+id/ivbtnBack_TA"
+            android:id="@+id/ivbtnBack_LA"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
@@ -27,7 +27,7 @@
         android:paddingBottom="40dp">
         <!--Thêm vào thư viện CircleImageView: compile 'de.hdodenhof:circleimageview:2.1.0'-->
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/ivAccount_TA"
+            android:id="@+id/ivAccount_LA"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginLeft="30dp"
@@ -41,14 +41,14 @@
             android:layout_marginLeft="10dp"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/tvHoten_TA"
+                android:id="@+id/tvHoten_LA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
                 android:textColor="@color/white"
                 android:text="Tên Account"/>
             <TextView
-                android:id="@+id/tvIdaccount_TA"
+                android:id="@+id/tvIdaccount_LA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -62,37 +62,44 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <Button
-            android:id="@+id/btnPhongdaluu_TA"
+            android:id="@+id/btnPhongdaluu_LA"
             android:drawableLeft="@drawable/ic_phongdaluu"
             android:text="   Phòng đã lưu "
             style="@style/tenant_account_button"
             app:backgroundTint="@null"/>
         <Button
-            android:id="@+id/btnBaidang_TA"
+            android:id="@+id/btnBaidang_LA"
             android:drawableLeft="@drawable/ic_post"
             android:text="   Bài đăng"
             style="@style/tenant_account_button"
             app:backgroundTint="@null"/>
         <Button
-            android:id="@+id/btnDieukhoan_TA"
+            android:id="@+id/btnDieukhoan_LA"
             android:text="   Điều khoản"
             android:drawableLeft="@drawable/ic_dieukhoan"
             style="@style/tenant_account_button"
             app:backgroundTint="@null"/>
         <Button
-            android:id="@+id/btnCaidat_TA"
-            android:drawableLeft="@drawable/ic_gear"
-            android:text="   Cài đặt"
-            style="@style/tenant_account_button"
-            app:backgroundTint="@null"/>
-        <Button
-            android:id="@+id/btnLienhe_TA"
+            android:id="@+id/btnLienhe_LA"
             style="@style/tenant_account_button"
             app:backgroundTint="@null"
             android:drawableLeft="@drawable/ic_contact"
             android:text="   Liên hệ" />
         <Button
-            android:id="@+id/btnDangxuat_TA"
+            android:id="@+id/btnCapnhattt_LA"
+            style="@style/tenant_account_button"
+            android:drawableLeft="@drawable/ic_capnhattt"
+            android:text="    Cập nhật thông tin"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/btnThaydoimk_LA"
+            style="@style/tenant_account_button"
+            app:backgroundTint="@null"
+            android:drawableLeft="@drawable/ic_changepassword"
+            android:text="    Thay đổi mật khẩu" />
+        <Button
+            android:id="@+id/btnDangxuat_LA"
             style="@style/tenant_account_button"
             app:backgroundTint="@null"
             android:text="    Đăng xuất" />
