@@ -31,24 +31,20 @@ public class LandlordWallActivity extends AppCompatActivity {
     //gọi lại phần chức năng của tenant search này vì nó giống nhau, không cần phải tạo class mới
     FireBaseTenantSearch fireBaseTenantSearch = new FireBaseTenantSearch();
     TenantSearchAdapter tenantSearchAdapter;
-    String mID;
+    String mID; //id cua chu thue bat duoc tu activity khac truyen qua
     ShapeableImageView shapeableImageView;
 
 
     @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.landlord_wall_layout);
         setControl();
 
-
-
         //Get intent
         Intent intent = getIntent();
-        mID ="KH01";
-        //mID = intent.getStringExtra("KEY_ID");
-
-
+        //mID ="KH01";
+        mID = intent.getStringExtra("KEY_ID");
 
         //
         tenantSearchAdapter = new TenantSearchAdapter(this,R.layout.item_tenant_search,dataList);
@@ -58,7 +54,6 @@ public class LandlordWallActivity extends AppCompatActivity {
         fireBaseTenantSearch.reTurnPostByLandlord(dataList,tenantSearchAdapter,mID);
         fireBaseTenantSearch.reTurnLandlordInfoByID(this,landlordInfo,mID);
 
-        //load Landlord Info
 
         //set adapter
         recyclerView.setAdapter(tenantSearchAdapter);
@@ -66,12 +61,14 @@ public class LandlordWallActivity extends AppCompatActivity {
     }
 
     public void loadLandlordInfo() {
-        user newUser = landlordInfo.get(0);
-        txtName.setText(newUser.getName());
-        txtPhone.setText(newUser.getPhone());
+        if(landlordInfo.size() > 0) {
+            user newUser = landlordInfo.get(0);
+            txtName.setText(newUser.getName());
+            txtPhone.setText(newUser.getPhone());
 
-        //set tam thoi
-        shapeableImageView.setImageResource(R.drawable.ic_user);
+            //set tam thoi
+            shapeableImageView.setImageResource(R.drawable.ic_user);
+        }
     }
 
     private void setEvent() {
@@ -79,10 +76,11 @@ public class LandlordWallActivity extends AppCompatActivity {
         tenantSearchAdapter.setOnItemClickListener(new TenantSearchAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(int position, View view) {
-                Toast.makeText(LandlordWallActivity.this, "balablalb", Toast.LENGTH_SHORT).show();
+                Intent intentPost = new Intent(LandlordWallActivity.this, TenantPostDetail.class);
+                intentPost.putExtra("it_id",dataList.get(position).getId());
+                startActivity(intentPost);
             }
         });
-
 
     }
 

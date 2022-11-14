@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.appnhatro.Activity.BookingActivity;
+import com.example.appnhatro.Activity.LandlordWallActivity;
 import com.example.appnhatro.Activity.RepportActivity;
 import com.example.appnhatro.Firebase.FireBaseThueTro;
 import com.example.appnhatro.Models.Favorite;
@@ -41,7 +42,7 @@ public class TenantPostDetail extends AppCompatActivity {
     ArrayList<Post> postList = new ArrayList<>();
     ArrayList<Post> listLienQuan = new ArrayList<>();
     FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
-    ImageView imgRating1,imgRating2,imgRating3,imgRating4,imgRating5,hinh,imgFavorite;
+    ImageView imgRating1,imgRating2,imgRating3,imgRating4,imgRating5,hinh,imgFavorite,imgAvatar;
     String it_id,it_idLogin;
     boolean isFavorite = false;
     Button btnXoa,btnReport,btnDatCoc,btnXemPhong;
@@ -89,6 +90,7 @@ public class TenantPostDetail extends AppCompatActivity {
         imgRating3 =findViewById(R.id.imgRating3);
         imgRating4=findViewById(R.id.imgRating4);
         imgRating5=findViewById(R.id.imgRating5);
+        imgAvatar = findViewById(R.id.img_tenant_post_details_Landlord_avatar); //Minh them moi
         btnXoa = findViewById(R.id.btnXoaDetailPost);
         btnReport = findViewById(R.id.btnRepost);
         btnXemPhong = findViewById(R.id.btnXPhong);
@@ -230,6 +232,18 @@ public class TenantPostDetail extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //Minh them moi su kien cho viec click vao avatar
+        imgAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TenantPostDetail.this, LandlordWallActivity.class);
+                String cutter = userId.getText().toString().replace("id:", "");
+                intent.putExtra("KEY_ID", cutter);
+                startActivity(intent);
+            }
+        });
+
     }
     public void setImageIcon() {
         imgFavorite.setOnClickListener(new View.OnClickListener() {
