@@ -20,7 +20,7 @@
         android:theme="@style/Theme.AppNhaTro"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".UserSignUp"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -85,6 +85,9 @@
             android:exported="true" />
         <activity
             android:name=".Activity.LandLordFeedBack"
+            android:exported="true" />
+        <activity
+            android:name=".TenantPostFavourite"
             android:exported="true" />
     </application>
 
