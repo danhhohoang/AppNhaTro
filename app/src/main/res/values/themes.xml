@@ -98,5 +98,6 @@
     </style>
     <style name="MinhEditText" parent="">
 
+        <item name="background">@drawable/shape_landlord_editpost_edittext</item>
     </style>
 </resources>
