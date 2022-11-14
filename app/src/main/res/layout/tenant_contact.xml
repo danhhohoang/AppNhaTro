@@ -10,6 +10,7 @@
         android:layout_height="75dp"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/ivBack_TC"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
@@ -31,9 +32,11 @@
         android:layout_height="250dp"
         android:background="@drawable/shape_search_bar">
         <TextView
+            android:id="@+id/test1"
             style="@style/tc_textview"
             android:text="Email: appnhatro123@gmail.com"/>
         <TextView
+            android:id="@+id/test2"
             style="@style/tc_textview"
             android:text="Họ tên: Trần Hoàng Danh"/>
         <TextView

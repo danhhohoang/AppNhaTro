@@ -86,9 +86,6 @@
         <activity
             android:name=".Activity.LandLordFeedBack"
             android:exported="true" />
-        <activity
-            android:name=".TenantPostFavourite"
-            android:exported="true" />
     </application>
 
 </manifest>

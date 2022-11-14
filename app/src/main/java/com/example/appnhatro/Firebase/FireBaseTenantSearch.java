@@ -1,9 +1,14 @@
 package com.example.appnhatro.Firebase;
 
+import android.app.Activity;
+
 import androidx.annotation.NonNull;
 
+import com.example.appnhatro.Activity.LandlordWallActivity;
+import com.example.appnhatro.Activity.TermAndSerciveActivity;
 import com.example.appnhatro.Adapters.TenantSearchAdapter;
 import com.example.appnhatro.Models.Post;
+import com.example.appnhatro.Models.user;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -121,7 +126,6 @@ public class FireBaseTenantSearch {
                 break;
         }
 
-
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
         databaseReference.child("Post").addValueEventListener(new ValueEventListener() {
@@ -157,11 +161,60 @@ public class FireBaseTenantSearch {
                                 &&
                                 Integer.parseInt(post.getPrice()) <= maxPrice
                                 &&
-                                post.getHouse_name().contains(searchText)
+                                post.getHouse_name().toLowerCase().contains(searchText)
                         ){
                             postList.add(post);
                         }
                     }
+                    tenantSearchAdapter.notifyDataSetChanged();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    public void reTurnLandlordInfoByID(Activity activity, ArrayList<user> userList, String landlordID){
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("user").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    user userLandlord = dataSnapshot.getValue(user.class);
+
+                    if(userLandlord.getId().equals(landlordID)){
+                        userList.add(userLandlord);
+                        break;
+                    }
+
+                }
+                ((LandlordWallActivity) activity).loadLandlordInfo();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void reTurnPostByLandlord(ArrayList<Post> postList, TenantSearchAdapter tenantSearchAdapter, String landLordID){
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Post").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Post post = dataSnapshot.getValue(Post.class);
+
+                    if(post.getUserID().equals(landLordID))
+                    {
+                        postList.add(post);
+                    }
+
                     tenantSearchAdapter.notifyDataSetChanged();
 
                 }
@@ -175,6 +228,4 @@ public class FireBaseTenantSearch {
             }
         });
     }
-
-
 }
