@@ -17,14 +17,13 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:gravity="center"
-            android:layout_marginTop="16dp"
+            android:layout_height="16dp"
             android:layout_weight="1"
-            android:textStyle="bold"
+            android:gravity="center"
             android:text="REPORT"
             android:textColor="#FAFAFA"
             android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,15 +33,27 @@
 
         <EditText
             android:id="@+id/txtTenBaiDang"
-            style="@style/edittextBooking"/>
+            android:textSize="15sp"
+            style="@style/edittextBooking"
+            android:enabled="false"/>
 
         <TextView
             style="@style/TextBooking"
             android:text="@string/id_ng_i_ng" />
 
         <EditText
-            android:id="@+id/txt"
-            style="@style/edittextBooking"/>
+            android:id="@+id/txtidnguoidang"
+            style="@style/edittextBooking"
+            android:enabled="false"/>
+
+        <TextView
+            style="@style/TextBooking"
+            android:text="ID bài đăng" />
+
+        <EditText
+            android:id="@+id/txtIDbaidang"
+            style="@style/edittextBooking"
+            android:enabled="false"/>
 
         <TextView
             style="@style/TextBooking"
@@ -50,7 +61,8 @@
 
         <EditText
             android:id="@+id/txtSenderIsName"
-            style="@style/edittextBooking" />
+            style="@style/edittextBooking"
+            android:enabled="false"/>
 
         <TextView
             style="@style/TextBooking"
@@ -78,6 +90,7 @@
             android:layout_marginBottom="10dp">
 
             <Button
+                android:id="@+id/btnHuy"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -88,6 +101,7 @@
                 tools:ignore="TouchTargetSizeCheck" />
 
             <Button
+                android:id="@+id/btngui"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"

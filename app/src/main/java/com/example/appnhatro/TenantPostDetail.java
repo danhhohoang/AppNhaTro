@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.appnhatro.Activity.BookingActivity;
+import com.example.appnhatro.Activity.RepportActivity;
 import com.example.appnhatro.Firebase.FireBaseThueTro;
 import com.example.appnhatro.Models.Favorite;
 import com.example.appnhatro.Models.Post;
@@ -87,6 +90,8 @@ public class TenantPostDetail extends AppCompatActivity {
         imgRating4=findViewById(R.id.imgRating4);
         imgRating5=findViewById(R.id.imgRating5);
         btnXoa = findViewById(R.id.btnXoaDetailPost);
+        btnReport = findViewById(R.id.btnRepost);
+        btnXemPhong = findViewById(R.id.btnXPhong);
     }
 
     public void setDuLieu(Post post, Bitmap bitmap){
@@ -98,6 +103,7 @@ public class TenantPostDetail extends AppCompatActivity {
         userId.setText("id:" + post.getUserID());
         hinh.setImageBitmap(bitmap);
     }
+
     public void setName(user User){
         nameUser.setText(User.getName());
     }
@@ -204,6 +210,26 @@ public class TenantPostDetail extends AppCompatActivity {
                 btnXoa.setVisibility(View.GONE);
             }
         });
+        btnReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String strname = house_name.getText().toString();
+                String strID = userId.getText().toString();
+                String strIDpost = it_id;
+                Intent intent = new Intent(TenantPostDetail.this, RepportActivity.class);
+                intent.putExtra("Name_hour", strname);
+                intent.putExtra("ID", strID);
+                intent.putExtra("IdPost", strIDpost);
+                startActivity(intent);
+            }
+        });
+        btnXemPhong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TenantPostDetail.this, BookingActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     public void setImageIcon() {
         imgFavorite.setOnClickListener(new View.OnClickListener() {
@@ -216,7 +242,9 @@ public class TenantPostDetail extends AppCompatActivity {
                 }
             }
         });
+
     }
+
     private void loadFavoritePost(String postId, String userId) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -263,5 +291,4 @@ public class TenantPostDetail extends AppCompatActivity {
                     }
                 });
     }
-
 }

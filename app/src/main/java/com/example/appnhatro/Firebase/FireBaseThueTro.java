@@ -1,12 +1,17 @@
 package com.example.appnhatro.Firebase;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.appnhatro.Activity.BookingActivity;
+import com.example.appnhatro.Activity.PostActivity;
+import com.example.appnhatro.Activity.RepportActivity;
 import com.example.appnhatro.Models.BitMap;
 import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.Models.user;
@@ -25,7 +30,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,11 +50,15 @@ public class FireBaseThueTro {
         databaseReference.child("Post").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Post> posts = new ArrayList<>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Post student = dataSnapshot.getValue(Post.class);
-                    list.add(student);
+                    posts.add(student);
                 }
+                list.clear();
+                list.addAll(posts);
                 myRecyclerViewAdapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -85,14 +96,13 @@ public class FireBaseThueTro {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Post data = snapshot.getValue(Post.class);
                 BitMap bitMap = new BitMap(data.getImage(), null);
-                StorageReference storageReference = FirebaseStorage.getInstance().getReference(bitMap.getTenHinh());
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/"+bitMap.getTenHinh());
                 try {
-                    final File file = File.createTempFile(bitMap.getTenHinh().substring(0, bitMap.getTenHinh().length() - 4), "jpg");
+                    final File file = File.createTempFile(bitMap.getTenHinh(), "jpg");
                     storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                             bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
-                            Log.d("test", bitMap.getHinh() + "");
                             ((TenantPostDetail) context).setDuLieu(data, bitMap.getHinh());
                             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                             DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -152,7 +162,7 @@ public class FireBaseThueTro {
     }
 
     public void addRating(String postId, String userId, String rating) {
-        Rating rating1 = new Rating(postId, userId, rating);
+        Rating rating1 = new Rating(postId, userId, rating,"Comment tanetn","Comment LandLord","20/11/2020");
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Rating");
         databaseReference.child(postId).child(userId).setValue(rating1)
@@ -163,9 +173,115 @@ public class FireBaseThueTro {
                     }
                 });
     }
-    public void deleteRating(String userId, String postId){
+    public void deleteRating(String userId, String ReportID){
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Rating");
-        databaseReference.child(postId).child(userId).removeValue();
+        databaseReference.child(ReportID).child(userId).removeValue();
+    }
+    public void autoid(Context context){
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Report").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> dsPost = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    dsPost.add(dataSnapshot.getKey());
+                }
+                String[] temp = dsPost.get(dsPost.size() - 1).split("RP");
+                String id="";
+                if(Integer.parseInt(temp[1]) < 10){
+                    id = "RP0" + (Integer.parseInt(temp[1]) + 1);
+                }else {
+                    id = "RP" + (Integer.parseInt(temp[1]) + 1);
+                }
+                ((RepportActivity) context).SetID(id);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void IdPost(Context context){
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Post_Oghep").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> dsPost = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    dsPost.add(dataSnapshot.getKey());
+                }
+                String[] temp = dsPost.get(dsPost.size()-1).split("P_tenant_");
+                String id="";
+                if (Integer.parseInt(temp[1]) < 10){
+                    id = "P_tenant_0" + (Integer.parseInt(temp[1]) + 1);
+                }else {
+                    id = "P_tenant_0" + (Integer.parseInt(temp[1]) + 1);
+                }
+                ((PostActivity) context).setID(id);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void IdBooking(Context context) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("booking").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> dsBooking = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    dsBooking.add(dataSnapshot.getKey());
+                }
+                String[] temp = dsBooking.get(dsBooking.size() - 1).split("BK");
+                String id = "";
+                if (Integer.parseInt(temp[1]) < 10) {
+                    id = "BK0" + (Integer.parseInt(temp[1]) + 1);
+                } else {
+                    id = "BK01" + (Integer.parseInt(temp[1]) + 1);
+                }
+                ((BookingActivity) context).IdBooking(id);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void docAnh(Uri filePath, Context context, String tenHinh){
+        if(filePath != null)
+        {
+            final ProgressDialog progressDialog = new ProgressDialog(context);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+            StorageReference ref = FirebaseStorage.getInstance().getReference().child("images/post/"+ tenHinh+".jpg");
+            ref.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                        }
+                    });
+        }
     }
 }

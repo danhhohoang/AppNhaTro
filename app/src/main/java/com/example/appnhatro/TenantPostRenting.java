@@ -1,40 +1,77 @@
 package com.example.appnhatro;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.appnhatro.Firebase.FireBasePostFavorite;
+import com.example.appnhatro.Firebase.FireBasePostRenting;
+import com.example.appnhatro.Models.LikedPostModel;
+import com.example.appnhatro.Models.Post;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TenantPostRenting extends AppCompatActivity {
-    RecyclerView tpr;
-    TenantPostRentingAdapter tenantPostRentingAdapter;
+    private ArrayList<String> persons = new ArrayList<>();
+    private ViewHolderImageHome adapter;
+    //List horizone
+    private TenantPostRentingAdapter tenantPostRentingAdapter;
+    private ArrayList<Post> posts = new ArrayList<>();
+
+    SearchView sv_tpr;
+    FireBasePostRenting fireBasePostRenting = new FireBasePostRenting();
+    DatabaseReference databaseReference;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_activity_tenant_post_renting);
 
-        tpr = findViewById(R.id.rcv_tpr);
-        tenantPostRentingAdapter = new TenantPostRentingAdapter(this);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
-        tpr.setLayoutManager(linearLayoutManager);
-
-        tenantPostRentingAdapter.setData(getPostList());
-        tpr.setAdapter(tenantPostRentingAdapter);
+        ListPost();
 
     }
-    private List<PostList> getPostList(){
-        List<PostList> lists = new ArrayList<>();
-        lists.add(new PostList(1,1,30,17000000,"Homestay ở ghép Q7, 1,7 triệu/người BAO TẤT CẢ PHÍ","Địa chỉ: 134/15G Đường Nguyễn Thị Thập, Phường Bình Thuận, Quận 7, Hồ Chí Minh","Null","Cho thuê","Check"));
-        lists.add(new PostList(2,2,30,20000000,"Phòng đẹp thoáng mát khu Phú Lợi, P7,Q.8","Địa chỉ: 288/62 Đường Dương Bá Trạc, Phường 2, Quận 8, Hồ Chí Minh","Null","Cho thuê","Check"));
-        lists.add(new PostList(1,1,30,17000000,"Phòng full nội thất trong chung cư Quận 8","Địa chỉ: 21/1 Đường Trường Sơn, Phường 4, Tân Bình, Hồ Chí Minh","Null","Cho thuê","Check"));
-        lists.add(new PostList(1,1,30,17000000,"Hẽm 60 Đường Số 2 Hiệp Bình Phước, Thủ Đức","Địa chỉ: Hẽm 60 Đường Số 2 Hiệp Bình Phước, Thủ Đức","Null","Cho thuê","Check"));
-        lists.add(new PostList(1,1,30,17000000,"DT 25m2 có gác ở 3-4 người Ngay SPKT. Vincom Q9","Địa chỉ: Đường Phạm Văn Đồng, Phường Linh Tây, Thủ Đức, Hồ Chí Minh","Null","Cho thuê","Check"));
-        return lists;
+    public void ListPost(){
+        RecyclerView recyclerView = findViewById(R.id.rcv_tpr);
+        tenantPostRentingAdapter =  new TenantPostRentingAdapter(this, R.layout.layout_item_tenant_post_renting,posts);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
+        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        fireBasePostRenting.readPostFindPeople(posts,tenantPostRentingAdapter,"KH02");
+        recyclerView.setAdapter(tenantPostRentingAdapter);
+        tenantPostRentingAdapter.setOnItemClickListener(new TenantPostRentingAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(int position, View view) {
+                fireBasePostRenting.readDataItem(position,posts,TenantPostRenting.this);
+            }
+        });
+        sv_tpr = findViewById(R.id.sv_tpr);
+        sv_tpr.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                tenantPostRentingAdapter.getFilter().filter(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                tenantPostRentingAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
+
+
     }
 }

@@ -61,9 +61,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.tinhTrang.setText(post.getTitle());
         holder.dienTich.setText(formatter.format(Integer.valueOf(post.getArea())));
         BitMap bitMap = new BitMap(post.getImage(),null);
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference(bitMap.getTenHinh());
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/"+bitMap.getTenHinh());
         try {
-            final File file= File.createTempFile(bitMap.getTenHinh().substring(0,bitMap.getTenHinh().length()-4),"jpg");
+            final File file= File.createTempFile(bitMap.getTenHinh(),"jpg");
             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
