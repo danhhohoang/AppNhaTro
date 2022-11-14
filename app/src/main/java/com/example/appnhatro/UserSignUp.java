@@ -1,14 +1,22 @@
 package com.example.appnhatro;
 
+import static com.example.appnhatro.TenantPasswordChangeActivity.setContentNotify;
+
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -34,10 +42,15 @@ import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class UserSignUp extends AppCompatActivity {
-    EditText name,email,password,phone;
+    EditText name,email,password,phone,repass;
+    TextView titleRule;
     Button signup;
-    ImageView image;
+    ImageView back;
+    CircleImageView image;
+    CheckBox rule;
     StorageReference storageReference;
     String getIdPost = "";
     FirebaseUserSignUp firebaseUserSignUp = new FirebaseUserSignUp();
@@ -45,6 +58,9 @@ public class UserSignUp extends AppCompatActivity {
     DAOUser dao = new DAOUser();
     static ArrayList<user> arrUser = new ArrayList<>();
     DatabaseReference databaseReference;
+
+    String formatEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,11 +71,57 @@ public class UserSignUp extends AppCompatActivity {
         name = findViewById(R.id.edt_suName);
         email = findViewById(R.id.edt_suEmail);
         password = findViewById(R.id.edt_suPass);
+        repass = findViewById(R.id.edt_suRePass);
         phone = findViewById(R.id.edt_suSDT);
         signup = findViewById(R.id.btn_suSignUp);
+        back = findViewById(R.id.btn_suBack);
+        rule = findViewById(R.id.cb_suRule);
+        titleRule = findViewById(R.id.txt_suTitleRule);
 
-        signup.setOnClickListener(v-> {
-            Click();
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (TextUtils.isEmpty(name.getText().toString())){
+                    name.setError("Trường tên không được bỏ trống");
+                    return;
+                }
+                if (TextUtils.isEmpty(email.getText().toString())){
+                    email.setError("Trường email không được bỏ trống");
+                    return;
+                }
+                if (!email.getText().toString().matches(formatEmail)){
+                    email.setError("Trường email không đúng định dạng");
+                    return;
+                }
+                if (TextUtils.isEmpty(phone.getText().toString())){
+                    phone.setError("Trường sdt không được bỏ trống");
+                    return;
+                }
+                if (TextUtils.isEmpty(password.getText().toString())){
+                    password.setError("Trường mật khẩu không được bỏ trống");
+                    return;
+                }
+                if (TextUtils.isEmpty(repass.getText().toString())){
+                    repass.setError("Trường nhập lại mật khẩu không được bỏ trống");
+                    return;
+                }
+                if (!repass.getText().toString().equals(password.getText().toString())){
+                    repass.setError("Trường nhập lại mật khẩu không khớp với mật khẩu trên");
+                    return;
+                }
+                if (!rule.isChecked()){
+                    titleRule.setError("Cần phải đồng ý với điều khoản sử dụng");
+                    return;
+                }
+                Click();
+            }
         });
     }
 
@@ -151,6 +213,19 @@ public class UserSignUp extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
     }
-
+    private void openDialogNotify(int gravity, String noidung, int duongdanlayout) {
+        final Dialog dialog = new Dialog(this);
+        setContentNotify(dialog, gravity, Gravity.CENTER, duongdanlayout);
+        TextView tvNoidung = dialog.findViewById(R.id.tvNoidung_Notify);
+        Button btnLeft = dialog.findViewById(R.id.btnCenter_Notify);
+        tvNoidung.setText(noidung);
+        btnLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
 
 }
