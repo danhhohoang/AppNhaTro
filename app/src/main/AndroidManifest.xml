@@ -86,6 +86,9 @@
         <activity
             android:name=".Activity.LandLordFeedBack"
             android:exported="true" />
+        <activity
+            android:name=".Activity.LandlordWallActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

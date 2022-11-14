@@ -17,8 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.appnhatro.Models.BitMap;
 import com.example.appnhatro.Models.Post;
 
+import com.example.appnhatro.Models.user;
 import com.example.appnhatro.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -63,12 +69,13 @@ public class TenantSearchAdapter extends RecyclerView.Adapter<TenantSearchAdapte
         holder.txtPrice.setText(decimalFormat.format(Integer.valueOf(post.getPrice())));
         holder.txtArea.setText(post.getArea());
         holder.txtStatus.setText("status is update later");
-        holder.imgAvatar.setImageResource(R.drawable.ic_user);
 
-        BitMap bitMap = new BitMap(post.getImage(),null);
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference(bitMap.getTenHinh());
+
+        BitMap bitMap = new BitMap(post.getImage(), null);
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/" + bitMap.getTenHinh());
+
         try {
-            final File file= File.createTempFile(bitMap.getTenHinh().substring(0,bitMap.getTenHinh().length()-4),"jpg");
+            final File file = File.createTempFile(bitMap.getTenHinh(), "jpg");
             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -79,20 +86,52 @@ public class TenantSearchAdapter extends RecyclerView.Adapter<TenantSearchAdapte
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+        // gia su post.getUserID() = KH01
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("user").child(post.getUserID()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                user _user = snapshot.getValue(user.class);
+                BitMap bitMap2 = new BitMap(_user.getAvatar(), null);
+                StorageReference storageReference2 = FirebaseStorage.getInstance().getReference().child("images/user/" + bitMap2.getTenHinh());
+
+                try {
+                    final File file2 = File.createTempFile(bitMap2.getTenHinh(), "jpg");
+                    storageReference2.getFile(file2).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            bitMap2.setHinh(BitmapFactory.decodeFile(file2.getAbsolutePath()));
+                            holder.imgAvatar .setImageBitmap(bitMap2.getHinh());
+                        }
+                    });
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
         //Event processing
         final int pos = position;
-        holder.onClickListener=new View.OnClickListener() {
+        holder.onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(onItemClickListener != null){
-                    onItemClickListener.onItemClickListener(pos,holder.itemView);
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClickListener(pos, holder.itemView);
                 }
             }
         };
     }
-
-
-
 
 
     @Override
@@ -125,7 +164,7 @@ public class TenantSearchAdapter extends RecyclerView.Adapter<TenantSearchAdapte
             txtPrice = itemView.findViewById(R.id.textview_item_post_price);
             txtStatus = itemView.findViewById(R.id.textview_item_post_status);
             imgRoom = itemView.findViewById(R.id.iv_post_image_room);
-            imgAvatar = itemView.findViewById(R.id.iv_avatar);
+            imgAvatar = itemView.findViewById(R.id.iv_item_tenant_search_avatar);
             //
             item = itemView.findViewById(R.id.cardView_item_search_layout);
             item.setOnClickListener(this);
