@@ -44,7 +44,7 @@ public class Landlord_Notification_Activity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
-        firebaseLandlordNotification.readPostFindPeople(datLichModels, landlord_notification_adapter, "KH02");
+        firebaseLandlordNotification.readPostFindPeople(datLichModels, landlord_notification_adapter, "KH01");
         recyclerView.setAdapter(landlord_notification_adapter);
         landlord_notification_adapter.setOnItemClickListener(new Landlord_Notification_Adapter.OnItemClickListener() {
             @Override

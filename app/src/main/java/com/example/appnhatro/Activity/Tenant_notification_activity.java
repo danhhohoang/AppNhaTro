@@ -2,7 +2,6 @@ package com.example.appnhatro.Activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,11 +9,8 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appnhatro.Adapters.Landlord_Notification_Adapter;
 import com.example.appnhatro.Adapters.Tenant_Notification_Adapter;
-import com.example.appnhatro.Firebase.FirebaseLandlordNotification;
 import com.example.appnhatro.Firebase.FirebaseTenantNofication;
-import com.example.appnhatro.Models.DatLichModels;
 import com.example.appnhatro.Models.Notificationbooking;
 import com.example.appnhatro.R;
 import com.example.appnhatro.ViewHolderImageHome;
