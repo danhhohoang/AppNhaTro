@@ -1,5 +1,7 @@
 package com.example.appnhatro.Activity;
 
+import static com.example.appnhatro.TenantPasswordChangeActivity.setContentNotify;
+
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,6 +32,7 @@ import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.Models.TransactionModel;
 import com.example.appnhatro.R;
 import com.example.appnhatro.tool.ConverImage;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +40,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 public class PostActivity extends AppCompatActivity {
@@ -88,6 +94,7 @@ public class PostActivity extends AppCompatActivity {
                         databaseReference2.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                                     TransactionModel transactionModel = dataSnapshot.getValue(TransactionModel.class);
                                     if (transactionModel.getId_user().equals("KH02")){
@@ -100,15 +107,24 @@ public class PostActivity extends AppCompatActivity {
                                                         posts.add(post);
                                                     }
                                                     if (posts.size() >= 1){
-
-
+                                                        final Dialog dialog = new Dialog(PostActivity.this);
+                                                        opendialog(dialog, Gravity.CENTER, "Load image....",R.layout.layout_dialog_notify_no_button);
                                                         Post post1 = new Post(idPost, iduser, YeuCauKhac.getText().toString(), Diachi.getText().toString(), Den.getText().toString(), gia.getText().toString(), DoTuoi.getText().toString(),
                                                                 "Tên nhà của tui", idPost + ".jpg", spnStatus.getSelectedItem().toString());
                                                         addToFavorite(post1);
                                                         String str = idPost+".jpg";
                                                         storageReference = FirebaseStorage.getInstance().getReference("images/post/" + str);
-                                                        storageReference.putFile(uri);
+                                                        storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                            @Override
+                                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                                if (dialog.isShowing()){
+                                                                    dialog.dismiss();
+                                                                    openDialogNotifyFinish(Gravity.CENTER, "Đăng bài thành công", R.layout.layout_dialog_notify_finish);
+                                                                }
+                                                            }
+                                                        });
                                                         finish();
+
                                                     }else if (posts.size() == 0){
 
                                                         AlertDialog.Builder c = new AlertDialog.Builder(PostActivity.this);
@@ -206,6 +222,28 @@ public class PostActivity extends AppCompatActivity {
             imgPhoTo.setImageURI(uri);
 
         }
+    }
+    private void openDialogNotifyFinish(int gravity, String noidung, int duongdanlayout) {
+        Dialog dialog = new Dialog(this);
+        setContentNotify(dialog, gravity,Gravity.CENTER, duongdanlayout);
+        TextView tvNoidung = dialog.findViewById(R.id.tvNoidung_NotifyFinish);
+        Button btnCenter = dialog.findViewById(R.id.btnCenter_NotifyFinish);
+        tvNoidung.setText(noidung);
+        btnCenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+        dialog.show();
+    }
+
+    private void opendialog(final Dialog dialog, int garavity, String noidung, int Duongdan){
+        setContentNotify(dialog, garavity, Gravity.BOTTOM, Duongdan);
+        TextView tvNoidung = dialog.findViewById(R.id.tvNoidung_NotifyNoButton);
+        tvNoidung.setText(noidung);
+        dialog.show();
     }
 
     private void addToFavorite(Post post) {

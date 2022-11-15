@@ -30,19 +30,19 @@
 
             >
 
-            <TextView
-                android:id="@+id/txt_landlord_wall_name"
-                style="@style/MinhTextTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Tên của chủ trọ" />
+<!--            <TextView-->
+<!--                android:id="@+id/txt_landlord_wall_name"-->
+<!--                style="@style/MinhTextTitle"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Tên của chủ trọ" />-->
 
-            <TextView
-                android:id="@+id/txt_landlord_wall_phone"
-                style="@style/MinhText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="so dien thoai" />
+<!--            <TextView-->
+<!--                android:id="@+id/txt_landlord_wall_phone"-->
+<!--                style="@style/MinhText"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="so dien thoai" />-->
         </LinearLayout>
 
     </LinearLayout>

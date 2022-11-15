@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class Landlord_Notification_Activity extends AppCompatActivity {
     private ArrayList<String> persons = new ArrayList<>();
     private ViewHolderImageHome adapter;
+
     //List horizone
     private Landlord_Notification_Adapter landlord_notification_adapter;
     private ArrayList<DatLichModels> datLichModels = new ArrayList<>();

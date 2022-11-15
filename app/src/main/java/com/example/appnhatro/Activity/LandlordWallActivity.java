@@ -39,7 +39,7 @@ public class LandlordWallActivity extends AppCompatActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         setContentView(R.layout.landlord_wall_layout);
-        setControl();
+//        setControl();
 
 
 
@@ -86,10 +86,10 @@ public class LandlordWallActivity extends AppCompatActivity {
 
     }
 
-    private void setControl() {
-        recyclerView = findViewById(R.id.recycler_landlord_wall);
-        txtName = findViewById(R.id.txt_landlord_wall_name);
-        txtPhone = findViewById(R.id.txt_landlord_wall_phone);
-        shapeableImageView =findViewById(R.id.img_landlord_wall_avatar);
-    }
+//    private void setControl() {
+//        recyclerView = findViewById(R.id.recycler_landlord_wall);
+//        txtName = findViewById(R.id.txt_landlord_wall_name);
+//        txtPhone = findViewById(R.id.txt_landlord_wall_phone);
+//        shapeableImageView =findViewById(R.id.img_landlord_wall_avatar);
+//    }
 }

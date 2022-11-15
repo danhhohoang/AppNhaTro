@@ -24,15 +24,15 @@
             android:adjustViewBounds="true"
             android:scaleType="fitCenter" />
 
-        <TextView
-            style="@style/MinhText"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="10"
-            android:gravity="center"
-            android:text="SỬA BÀI ĐĂNG"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+<!--        <TextView-->
+<!--            style="@style/MinhText"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="10"-->
+<!--            android:gravity="center"-->
+<!--            android:text="SỬA BÀI ĐĂNG"-->
+<!--            android:textSize="20dp"-->
+<!--            android:textStyle="bold" />-->
 
         <ImageButton
 
@@ -56,21 +56,21 @@
         android:orientation="vertical"
         android:weightSum="12">
 
-        <TextView
-            style="@style/MinhText"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="3"
-            android:text="Tiêu đề bài viết" />
+<!--        <TextView-->
+<!--            style="@style/MinhText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_weight="3"-->
+<!--            android:text="Tiêu đề bài viết" />-->
 
-        <EditText
-            android:id="@+id/ed_landlord_edit_post_housename"
-            style="@style/MinhEditText"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="9"
-            android:inputType="textMultiLine" />
+<!--        <EditText-->
+<!--            android:id="@+id/ed_landlord_edit_post_housename"-->
+<!--            style="@style/MinhEditText"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_weight="9"-->
+<!--            android:inputType="textMultiLine" />-->
 
     </LinearLayout>
 
@@ -85,21 +85,21 @@
         android:orientation="vertical"
         android:weightSum="12">
 
-        <TextView
-            style="@style/MinhText"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="3"
-            android:text="Địa chỉ nơi cho thuê" />
+<!--        <TextView-->
+<!--            style="@style/MinhText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_weight="3"-->
+<!--            android:text="Địa chỉ nơi cho thuê" />-->
 
-        <EditText
-            android:id="@+id/ed_landlord_edit_post_address"
-            style="@style/MinhEditText"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="9"
-            android:inputType="textMultiLine" />
+<!--        <EditText-->
+<!--            android:id="@+id/ed_landlord_edit_post_address"-->
+<!--            style="@style/MinhEditText"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_weight="9"-->
+<!--            android:inputType="textMultiLine" />-->
 
     </LinearLayout>
 
@@ -125,20 +125,20 @@
             android:orientation="horizontal"
             android:weightSum="12">
 
-            <TextView
-                style="@style/MinhText"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:text="SDT" />
+<!--            <TextView-->
+<!--                style="@style/MinhText"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="2"-->
+<!--                android:text="SDT" />-->
 
-            <EditText
-                style="@style/MinhEditText"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:id="@+id/ed_landlord_edit_post_number"
-                android:layout_marginStart="20dp"
-                android:layout_weight="10" />
+<!--            <EditText-->
+<!--                style="@style/MinhEditText"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:id="@+id/ed_landlord_edit_post_number"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:layout_weight="10" />-->
         </LinearLayout>
 
         <!--Dien tich-->
@@ -152,20 +152,20 @@
             android:orientation="horizontal"
             android:weightSum="12">
 
-            <TextView
-                style="@style/MinhText"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:text="Diện tích" />
+<!--            <TextView-->
+<!--                style="@style/MinhText"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="2"-->
+<!--                android:text="Diện tích" />-->
 
-            <EditText
-                style="@style/MinhEditText"
-                android:layout_width="0dp"
-                android:id="@+id/ed_landlord_edit_post_area"
-                android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
-                android:layout_weight="10" />
+<!--            <EditText-->
+<!--                style="@style/MinhEditText"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:id="@+id/ed_landlord_edit_post_area"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:layout_weight="10" />-->
 
         </LinearLayout>
         <!--Giá-->
@@ -179,20 +179,20 @@
             android:orientation="horizontal"
             android:weightSum="12">
 
-            <TextView
-                style="@style/MinhText"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:text="Giá" />
+<!--            <TextView-->
+<!--                style="@style/MinhText"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="2"-->
+<!--                android:text="Giá" />-->
 
-            <EditText
-                style="@style/MinhEditText"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:id="@+id/ed_landlord_edit_post_price"
-                android:layout_marginStart="20dp"
-                android:layout_weight="10" />
+<!--            <EditText-->
+<!--                style="@style/MinhEditText"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:id="@+id/ed_landlord_edit_post_price"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:layout_weight="10" />-->
 
         </LinearLayout>
         <!--Trang thai-->
@@ -206,12 +206,12 @@
             android:orientation="horizontal"
             android:weightSum="12">
 
-            <TextView
-                style="@style/MinhText"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="4"
-                android:text="Trạng thái phòng" />
+<!--            <TextView-->
+<!--                style="@style/MinhText"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="4"-->
+<!--                android:text="Trạng thái phòng" />-->
 
             <Spinner
 
@@ -240,22 +240,22 @@
         android:orientation="vertical"
         android:weightSum="12">
 
-        <TextView
-            style="@style/MinhText"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="3"
-            android:text="Mô tả"
-            tools:ignore="NestedWeights" />
+<!--        <TextView-->
+<!--            style="@style/MinhText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_weight="3"-->
+<!--            android:text="Mô tả"-->
+<!--            tools:ignore="NestedWeights" />-->
 
-        <EditText
-            android:id="@+id/ed_landlord_edit_post_description"
-            style="@style/MinhEditText"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="9"
-            android:inputType="textMultiLine" />
+<!--        <EditText-->
+<!--            android:id="@+id/ed_landlord_edit_post_description"-->
+<!--            style="@style/MinhEditText"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_weight="9"-->
+<!--            android:inputType="textMultiLine" />-->
 
     </LinearLayout>
 
