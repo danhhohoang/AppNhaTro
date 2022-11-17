@@ -43,6 +43,7 @@ public class HomeTenantActivity extends AppCompatActivity {
     private ArrayList<Post> listHorizoneOGhep= new ArrayList<>();
     LinearLayout Post, notification;
     FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
+    ImageButton ivbtnAccount_HT;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,11 +61,24 @@ public class HomeTenantActivity extends AppCompatActivity {
         loadNhachoThue();
         loadOGhep();
         control();
+        setEvent();
         DangBai();
+    }
+    private void setEvent(){
+        ivbtnAccount_HT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeTenantActivity.this,TenantAccountActivity.class);
+                intent.putExtra("ID","KH01");
+                startActivity(intent);
+            }
+        });
     }
     private void control() {
         Post = findViewById(R.id.post);
         notification = findViewById(R.id.notidication);
+        ivbtnAccount_HT = findViewById(R.id.ivbtnAccount_HT);
+
     }
     @SuppressLint("MissingInflatedId")
     public void loadNhachoThue(){

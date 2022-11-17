@@ -62,6 +62,7 @@ public class TenantAccountActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tenant_account);
+        getPutExtra();
         setControl();
         setEvent();
         onRead();
@@ -72,7 +73,7 @@ public class TenantAccountActivity extends AppCompatActivity {
         progressDialog.setTitle("Loading....");
         progressDialog.show();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference userRef = database.getReference("user/KH03");
+        DatabaseReference userRef = database.getReference("user/"+id);
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -94,7 +95,7 @@ public class TenantAccountActivity extends AppCompatActivity {
         });
     }
 
-    public final void setImage(CircleImageView imageView, String avatar) {
+    public static final void setImage(CircleImageView imageView, String avatar) {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/user/" + avatar);
         try {
             final File file = File.createTempFile("ảnh", ".jpg");
@@ -170,5 +171,9 @@ public class TenantAccountActivity extends AppCompatActivity {
         bundle.putString(ID, mUsers.getId());
         bundle.putString(PASS, mUsers.getPassword());
         return bundle;
+    }
+    private void getPutExtra(){
+        Intent intent = getIntent();
+        id = intent.getStringExtra("ID");
     }
 }

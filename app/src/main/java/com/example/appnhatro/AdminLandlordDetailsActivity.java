@@ -1,34 +1,57 @@
 package com.example.appnhatro;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class AdminLandlordDetailsActivity extends AppCompatActivity {
-    EditText id,tenchutro,tentaikhoan,CMND,diachi;
+    EditText txt_id,txt_tenchutro,txt_email,txt_phone,txt_cmnd,txt_password;
+    String avt,id,name,email,phone,cmnd,pass;
+    CircleImageView civImage_ALD;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_landlord_details);
+        setControl();
+        getSetBundle();
+        Log.d("Test",avt);
+        TenantAccountActivity tenantAccountActivity = new TenantAccountActivity();
+        tenantAccountActivity.setImage(civImage_ALD, avt);
+    }
+    private void setControl(){
+        civImage_ALD = findViewById(R.id.civImage_ALD);
+        txt_id = findViewById(R.id.txt_aldMachutro);
+        txt_tenchutro = findViewById(R.id.txt_aldTenchutro);
+        txt_email = findViewById(R.id.txt_aldEmail);
+        txt_cmnd = findViewById(R.id.txt_aldCMND);
+        txt_phone = findViewById(R.id.txt_aldSdt);
+        txt_password = findViewById(R.id.txt_aldPassword);
+    }
+    private void getSetBundle(){
+        Intent intent = getIntent();
+        Bundle bundle = intent.getBundleExtra(AdminLandlordListActivity.BUNDLE);
+        id = bundle.getString(AdminLandlordListActivity.ID);
+        avt = bundle.getString(AdminLandlordListActivity.AVATAR);
+        name = bundle.getString(AdminLandlordListActivity.NAME);
+        email = bundle.getString(AdminLandlordListActivity.EMAIL);
+        phone = bundle.getString(AdminLandlordListActivity.PHONE);
+        cmnd = bundle.getString(AdminLandlordListActivity.CMND);
+        pass = bundle.getString(AdminLandlordListActivity.PASSWORD);
 
-        String it_ald_id = getIntent().getStringExtra("it_ald_id");
-        String it_ald_tenchutro = getIntent().getStringExtra("it_ald_tenchutro");
-        String it_ald_tentaikhoan = getIntent().getStringExtra("it_ald_tentaikhoan");
-        String it_ald_CMND = getIntent().getStringExtra("it_ald_CMND");
-        String it_ald_diachi = getIntent().getStringExtra("it_ald_diachi");
+        txt_id.setText(id);
+        txt_tenchutro.setText(name);
+        txt_email.setText(email);
+        txt_cmnd.setText(cmnd);
+        txt_phone.setText(phone);
+        txt_password.setText(pass);
 
-        id = findViewById(R.id.txt_aldMachutro);
-        tenchutro = findViewById(R.id.txt_aldTenchutro);
-        tentaikhoan = findViewById(R.id.txt_aldTentaikhoan);
-        CMND = findViewById(R.id.txt_aldCMND);
-        diachi = findViewById(R.id.txt_aldDiachi);
-
-        id.setText(it_ald_id);
-        tenchutro.setText(it_ald_tenchutro);
-        tentaikhoan.setText(it_ald_tentaikhoan);
-        CMND.setText(it_ald_CMND);
-        diachi.setText(it_ald_diachi);
     }
 }
