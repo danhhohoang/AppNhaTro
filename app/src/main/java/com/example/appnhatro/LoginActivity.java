@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.appnhatro.Activity.TermAndSerciveActivity;
 import com.example.appnhatro.Activity.VertifyPhoneNumberActivity;
 import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.Models.user;
@@ -24,9 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 public class LoginActivity extends AppCompatActivity {
     EditText txtEmail;
     EditText txtPassword;
-    TextView tvQuenMatKhau;
-    TextView tvDangKyTaiKhoan;
-    TextView tvDieuKhoan;
+    TextView tvQuenMatKhau,tvDangKyTaiKhoan,tvDieuKhoan;
     Button btnSignIn;
     String formatEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     @Override
@@ -92,8 +92,28 @@ public class LoginActivity extends AppCompatActivity {
         tvQuenMatKhau.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (TextUtils.isEmpty(txtEmail.getText().toString())){
+                    txtEmail.setError("Cần nhập tên đăng nhập");
+                    return;
+                }
                 Intent intent = new Intent(LoginActivity.this, VertifyPhoneNumberActivity.class);
                 intent.putExtra("email_check",txtEmail.getText().toString());
+                startActivity(intent);
+            }
+        });
+
+        tvDangKyTaiKhoan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, UserSignUp.class);
+                startActivity(intent);
+            }
+        });
+
+        tvDieuKhoan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, TermAndSerciveActivity.class);
                 startActivity(intent);
             }
         });

@@ -57,6 +57,9 @@
             android:name=".Activity.VertifyPhoneNumberActivity"
             android:exported="true" />
         <activity
+            android:name=".AdminLandlordDetailsActivity"
+            android:exported="true" />
+        <activity
             android:name=".Activity.LandLordAddNewPost"
             android:exported="true" />
         <activity
@@ -100,6 +103,9 @@
         <!--        Admin-->
         <activity android:name=".AdminLandlordAddActivity" />
         <activity android:name=".AdminLandlordListActivity" />
+        <activity
+            android:name=".UserSignUp"
+            android:exported="true" />
     </application>
 
 </manifest>

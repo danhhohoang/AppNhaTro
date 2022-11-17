@@ -31,8 +31,7 @@ public class TenantSearchActivity extends AppCompatActivity {
 
     FireBaseTenantSearch fireBaseTenantSearch = new FireBaseTenantSearch();
 
-    TenantSearchAdapter tenantSearchAdapter,
-                        cloneAdapter;
+    TenantSearchAdapter tenantSearchAdapter;
 
     Spinner spnDistrict,
             spnArea,
@@ -59,14 +58,11 @@ public class TenantSearchActivity extends AppCompatActivity {
         tenantSearchAdapter = new TenantSearchAdapter(this
                 , R.layout.item_tenant_search
                 , li_Post);
-        cloneAdapter = new TenantSearchAdapter(this
-                , R.layout.item_tenant_search
-                , listTemp);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         fireBaseTenantSearch.getPostsFormDB(li_Post, tenantSearchAdapter);
-        CloneList(li_Post, listTemp);
+
 
         recyclerView.setAdapter(tenantSearchAdapter);
         //
@@ -90,38 +86,30 @@ public class TenantSearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.equals("")) {
-//                    CloneList(li_Post, listTemp);
+                    li_Post.clear();
 
-                    fireBaseTenantSearch.reTurnPostByFilter(li_Post
-                            , tenantSearchAdapter
-                            , spnDistrict.getSelectedItem().toString()
-                            , spnDistrict.getSelectedItemPosition()
-                            , spnPrice.getSelectedItemPosition()
-                            , spnPrice.getSelectedItemPosition()
-                            , newText
-                    );
+                    reTurnPost();
                 } else {
                     li_Post.clear();
-                    fireBaseTenantSearch.reTurnPostByFilter(li_Post
-                            , tenantSearchAdapter
-                            , spnDistrict.getSelectedItem().toString()
-                            , spnDistrict.getSelectedItemPosition()
-                            , spnPrice.getSelectedItemPosition()
-                            , spnPrice.getSelectedItemPosition()
-                            , newText
-                    );
+                    reTurnPost();
                     recyclerView.setAdapter(tenantSearchAdapter);
                 }
-//                recyclerView.setAdapter(cloneAdapter);
+
                 return true;
             }
         });
     }
 
-    public static void CloneList(ArrayList<Post> listIn, ArrayList<Post> listOut) {
-        for (Post item : listIn) {
-            listOut.add(item);
-        }
+    public void reTurnPost(){
+        fireBaseTenantSearch.reTurnPostByFilter(li_Post
+                , tenantSearchAdapter
+                , spnDistrict.getSelectedItem().toString()
+                , spnDistrict.getSelectedItemPosition()
+                , spnPrice.getSelectedItemPosition()
+                , spnArea.getSelectedItemPosition()
+                , searchView.getQuery().toString().toLowerCase()
+        );
+
     }
 
     public void setEvent() {
@@ -132,14 +120,7 @@ public class TenantSearchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 li_Post.clear();
 
-                fireBaseTenantSearch.reTurnPostByFilter(li_Post
-                        , tenantSearchAdapter
-                        , spnDistrict.getSelectedItem().toString()
-                        , spnDistrict.getSelectedItemPosition()
-                        , spnPrice.getSelectedItemPosition()
-                        , spnArea.getSelectedItemPosition()
-                        , searchView.getQuery().toString()
-                );
+                reTurnPost();
                 //recyclerView.setAdapter(cloneAdapter);
 
                 //--Đây là đoạn code để kiểm tra kết quả tìm kiếm, nếu kết quả tìm kiếm là null,
@@ -171,6 +152,7 @@ public class TenantSearchActivity extends AppCompatActivity {
         textViewEmpty = findViewById(R.id.tvDoNotData);
         recyclerView = findViewById(R.id.recycler_tenant_search);
         btnSearch = findViewById(R.id.btn_search);
+        //btnResetFilter = findViewById(R.id.imb_resetFilter);
     }
 
     public void SpinnerSet() {
@@ -191,6 +173,8 @@ public class TenantSearchActivity extends AppCompatActivity {
         spnDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
             }
 
             @Override
