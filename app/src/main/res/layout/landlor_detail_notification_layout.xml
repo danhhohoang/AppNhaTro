@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="CHI TIẾT ĐẶT LỊCH"
+            android:textColor="#FAFAFA"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/TextBooking"
+            android:text="Tên người đặt phòng" />
+
+        <EditText
+            android:id="@+id/edt_name"
+            style="@style/edittextBooking" />
+
+        <TextView
+            style="@style/TextBooking"
+            android:text="Số điện thoại" />
+
+        <EditText
+            android:id="@+id/edt_phone"
+            style="@style/edittextBooking"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            style="@style/TextBooking"
+            android:text="Thời gian đến xem phòng" />
+
+        <EditText
+            android:id="@+id/edt_time"
+            style="@style/edittextBooking"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            style="@style/TextBooking"
+            android:text="Ngày đến xem phòng" />
+
+        <EditText
+            android:id="@+id/edt_date"
+            style="@style/edittextBooking"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            style="@style/TextBooking"
+            android:text="Ghi chú thêm" />
+
+        <EditText
+            android:id="@+id/edt_notes"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6"
+            android:background="@drawable/txt_background_login" />
+
+        <Button
+            android:id="@+id/btn_dY"
+            android:layout_width="273dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_weight="2"
+            android:background="@drawable/btn_blu"
+            android:text="Đồng Ý"
+            android:textColor="@color/white"
+            app:backgroundTint="@null"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <Button
+            android:id="@+id/btn_huy"
+            android:layout_width="130dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_weight="2"
+            android:background="@drawable/btn_red"
+            android:text="Hủy bỏ"
+            android:textColor="#F6F5F8"
+            app:backgroundTint="@null"
+            tools:ignore="TouchTargetSizeCheck" />
+    </LinearLayout>
+</LinearLayout>

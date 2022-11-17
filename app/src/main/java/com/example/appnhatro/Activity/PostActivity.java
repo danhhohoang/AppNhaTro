@@ -1,22 +1,18 @@
 package com.example.appnhatro.Activity;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.Context;
+import static com.example.appnhatro.TenantPasswordChangeActivity.setContentNotify;
+
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,20 +26,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Firebase.FireBaseThueTro;
-import com.example.appnhatro.Models.Dangbaimodels;
-import com.example.appnhatro.Models.DatLichModels;
 import com.example.appnhatro.Models.Post;
-import com.example.appnhatro.Models.ReportModels;
 import com.example.appnhatro.Models.TransactionModel;
 import com.example.appnhatro.R;
-import com.example.appnhatro.RecylerAdapter;
-import com.example.appnhatro.databinding.ActivityMainBinding;
 import com.example.appnhatro.tool.ConverImage;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -53,7 +40,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
@@ -65,7 +51,7 @@ public class PostActivity extends AppCompatActivity {
     Button UpData, Huy;
     EditText Diachi, SDT, DoTuoi, Den, gia, YeuCauKhac;
     Uri uri;
-    String idPost = "";
+    String idPost = "", iduser;
     int stt = 1;
     ArrayList<Post> posts = new ArrayList<>();
     ArrayList<TransactionModel> transactionModels = new ArrayList<>();
@@ -108,9 +94,10 @@ public class PostActivity extends AppCompatActivity {
                         databaseReference2.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                                     TransactionModel transactionModel = dataSnapshot.getValue(TransactionModel.class);
-                                    if (transactionModel.getId_user().equals("KH10")){
+                                    if (transactionModel.getId_user().equals("KH02")){
                                         databaseReference.child("Post").addValueEventListener(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -120,18 +107,30 @@ public class PostActivity extends AppCompatActivity {
                                                         posts.add(post);
                                                     }
                                                     if (posts.size() >= 1){
-                                                        finish();
-//                                                        converImage.docAnh(uri, PostActivity.this, idPost + String.valueOf(stt));
-                                                        Dangbaimodels post1 = new Dangbaimodels(idPost, "KH01", spnStatus.getSelectedItem().toString(),
-                                                                Diachi.getText().toString(), SDT.getText().toString(), spnSex.getSelectedItem().toString(), DoTuoi.getText().toString(), Den.getText().toString(),
-                                                                spnSl.getSelectedItem().toString(), YeuCauKhac.getText().toString(), gia.getText().toString(), "danh");
+                                                        final Dialog dialog = new Dialog(PostActivity.this);
+                                                        opendialog(dialog, Gravity.CENTER, "Load image....",R.layout.layout_dialog_notify_no_button);
+                                                        Post post1 = new Post(idPost, iduser, YeuCauKhac.getText().toString(), Diachi.getText().toString(), Den.getText().toString(), gia.getText().toString(), DoTuoi.getText().toString(),
+                                                                "Tên nhà của tui", idPost + ".jpg", spnStatus.getSelectedItem().toString());
                                                         addToFavorite(post1);
+                                                        String str = idPost+".jpg";
+                                                        storageReference = FirebaseStorage.getInstance().getReference("images/post/" + str);
+                                                        storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                            @Override
+                                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                                if (dialog.isShowing()){
+                                                                    dialog.dismiss();
+                                                                    openDialogNotifyFinish(Gravity.CENTER, "Đăng bài thành công", R.layout.layout_dialog_notify_finish);
+                                                                }
+                                                            }
+                                                        });
+                                                        finish();
+
                                                     }else if (posts.size() == 0){
 
                                                         AlertDialog.Builder c = new AlertDialog.Builder(PostActivity.this);
-                                                        a.setTitle("Thông Báo");
-                                                        a.setMessage("Bạn chưa thuê phòng nên chưa được đăng bài tìm người ở ghép");
-                                                        a.setPositiveButton("Hủy bỏ", new DialogInterface.OnClickListener() {
+                                                        c.setTitle("Thông Báo");
+                                                        c.setMessage("Bạn chưa thuê phòng nên chưa được đăng bài tìm người ở ghép");
+                                                        c.setPositiveButton("Hủy bỏ", new DialogInterface.OnClickListener() {
                                                             @Override
                                                             public void onClick(DialogInterface dialogInterface, int i) {
                                                                 finish();
@@ -221,17 +220,33 @@ public class PostActivity extends AppCompatActivity {
         if (requestCode==1 && resultCode == RESULT_OK && null != data){
             uri  =  data.getData();
             imgPhoTo.setImageURI(uri);
-            String[] filepath={MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(uri, filepath, null, null, null);
-            cursor.moveToFirst();
-            int columneIndex = cursor.getColumnIndex(filepath[0]);
-            String picturepath = cursor.getString(columneIndex);
-            cursor.close();
-            imgPhoTo.setImageBitmap(BitmapFactory.decodeFile(picturepath));
+
         }
     }
+    private void openDialogNotifyFinish(int gravity, String noidung, int duongdanlayout) {
+        Dialog dialog = new Dialog(this);
+        setContentNotify(dialog, gravity,Gravity.CENTER, duongdanlayout);
+        TextView tvNoidung = dialog.findViewById(R.id.tvNoidung_NotifyFinish);
+        Button btnCenter = dialog.findViewById(R.id.btnCenter_NotifyFinish);
+        tvNoidung.setText(noidung);
+        btnCenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+        dialog.show();
+    }
 
-    private void addToFavorite(Dangbaimodels post) {
+    private void opendialog(final Dialog dialog, int garavity, String noidung, int Duongdan){
+        setContentNotify(dialog, garavity, Gravity.BOTTOM, Duongdan);
+        TextView tvNoidung = dialog.findViewById(R.id.tvNoidung_NotifyNoButton);
+        tvNoidung.setText(noidung);
+        dialog.show();
+    }
+
+    private void addToFavorite(Post post) {
         Log.d("text", post.getId());
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Post_Oghep");

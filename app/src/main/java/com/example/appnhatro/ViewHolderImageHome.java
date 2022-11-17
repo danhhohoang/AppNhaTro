@@ -2,7 +2,6 @@ package com.example.appnhatro;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,12 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Firebase.FireBaseThueTro;
 import com.example.appnhatro.Models.BitMap;
-import com.example.appnhatro.Models.Post;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
@@ -36,7 +33,6 @@ public class ViewHolderImageHome extends RecyclerView.Adapter<ViewHolderImageHom
         this.LayoutID = layoutId;
         this.personList = personList;
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

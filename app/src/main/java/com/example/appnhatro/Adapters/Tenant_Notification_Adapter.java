@@ -12,21 +12,21 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appnhatro.Models.DatLichModels;
+import com.example.appnhatro.Models.Notificationbooking;
 import com.example.appnhatro.R;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class Landlord_Notification_Adapter extends RecyclerView.Adapter<Landlord_Notification_Adapter.LandlordNotification> implements Filterable {
+public class Tenant_Notification_Adapter extends RecyclerView.Adapter<Tenant_Notification_Adapter.TenantNotification> implements Filterable {
 
     private Activity context;
     private int resource;
-    private ArrayList<DatLichModels> mBookingLists;
-    private ArrayList<DatLichModels> mBookingListsOld;
+    private ArrayList<Notificationbooking> mBookingLists;
+    private ArrayList<Notificationbooking> mBookingListsOld;
     private OnItemClickListener onItemClickLisner;
 
-    public Landlord_Notification_Adapter(Activity context, int resource, ArrayList<DatLichModels> mBookingLists) {
+    public Tenant_Notification_Adapter(Activity context, int resource, ArrayList<Notificationbooking> mBookingLists) {
         this.context = context;
         this.resource = resource;
         this.mBookingLists = mBookingLists;
@@ -35,38 +35,23 @@ public class Landlord_Notification_Adapter extends RecyclerView.Adapter<Landlord
 
     @NonNull
     @Override
-    public Landlord_Notification_Adapter.LandlordNotification onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Tenant_Notification_Adapter.TenantNotification onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         CardView cardViewItem = (CardView) context.getLayoutInflater().
                 inflate(viewType, parent, false);
-        return new LandlordNotification(cardViewItem);
+        return new TenantNotification(cardViewItem);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Landlord_Notification_Adapter.LandlordNotification holder, int position) {
-        DatLichModels datLichModels = mBookingLists.get(position);
-        if (datLichModels == null){
+    public void onBindViewHolder(@NonNull Tenant_Notification_Adapter.TenantNotification holder, int position) {
+        Notificationbooking notificationbooking = mBookingLists.get(position);
+        if (notificationbooking == null){
             return;
         }
-        holder.name.setText(datLichModels.getName() );
+        holder.name.setText(notificationbooking.getName() );
         DecimalFormat formatter = new DecimalFormat("#,###,###");
-        holder.phone.setText(datLichModels.getPhone());
-        holder.date.setText(datLichModels.getDate());
-        holder.time.setText(datLichModels.getTime());
-//        BitMap bitMap = new BitMap(datLichModels.getImage(),null);
-//        StorageReference storageReference = FirebaseStorage.getInstance().getReference(bitMap.getTenHinh());
-//        try {
-//            final File file= File.createTempFile(bitMap.getTenHinh().substring(0,bitMap.getTenHinh().length()-4),"jpg");
-//            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-//                @Override
-//                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                    bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
-//                    holder.picture.setImageBitmap(bitMap.getHinh());
-//                }
-//            });
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        //Event processing
+        holder.idPost.setText(notificationbooking.getIdNotifi());
+        holder.date.setText(notificationbooking.getDate());
+        holder.status.setText(notificationbooking.getStatus());
         final int pos = position;
         holder.onClickListener= new View.OnClickListener() {
             @Override
@@ -100,10 +85,10 @@ public class Landlord_Notification_Adapter extends RecyclerView.Adapter<Landlord
                 if (strSearch.isEmpty()){
                     mBookingLists = mBookingListsOld;
                 } else {
-                    ArrayList<DatLichModels> list = new ArrayList<>();
-                    for (DatLichModels datLichModels : mBookingListsOld){
-                        if (datLichModels.getName().toLowerCase().contains(strSearch.toLowerCase())){
-                            list.add(datLichModels);
+                    ArrayList<Notificationbooking> list = new ArrayList<>();
+                    for (Notificationbooking notificationbooking : mBookingListsOld){
+                        if (notificationbooking.getName().toLowerCase().contains(strSearch.toLowerCase())){
+                            list.add(notificationbooking);
                         }
                     }
                     mBookingLists = list;
@@ -115,26 +100,27 @@ public class Landlord_Notification_Adapter extends RecyclerView.Adapter<Landlord
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                mBookingLists = (ArrayList<DatLichModels>) filterResults.values;
+                mBookingLists = (ArrayList<Notificationbooking>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
     }
 
-    public static class LandlordNotification extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView idUser, name, phone, time, date, notes, id, idPost;
+
+    public static class TenantNotification extends RecyclerView.ViewHolder implements View.OnClickListener{
+        TextView idUser, name, phone, time, date, notes, id, idPost, status;
         ImageView picture;
         View.OnClickListener onClickListener;
         CardView item;
 
-        public LandlordNotification(@NonNull View itemView) {
+        public TenantNotification(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.txtName);
-            phone = itemView.findViewById(R.id.txtsdt);
-            date = itemView.findViewById(R.id.txt_Ngay);
-            time = itemView.findViewById(R.id.txtGio);
+            name = itemView.findViewById(R.id.edtname);
+            idPost = itemView.findViewById(R.id.edtMABD);
+            date = itemView.findViewById(R.id.edtTD);
+            status = itemView.findViewById(R.id.edtStatus);
 //          picture = itemView.findViewById(R.id.iv_tprPicture);
-            item = itemView.findViewById(R.id.cv_tprCardView1);
+            item = itemView.findViewById(R.id.carnotifi);
             item.setOnClickListener(this);
         }
 
@@ -150,7 +136,7 @@ public class Landlord_Notification_Adapter extends RecyclerView.Adapter<Landlord
         void onItemClickListener(int position, View view);
     }
 
-    public void setOnItemClickListener(Landlord_Notification_Adapter.OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(Tenant_Notification_Adapter.OnItemClickListener onItemClickListener) {
         this.onItemClickLisner = onItemClickListener;
     }
 
