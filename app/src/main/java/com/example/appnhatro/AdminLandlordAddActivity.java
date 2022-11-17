@@ -1,13 +1,18 @@
 package com.example.appnhatro;
 
+import static com.example.appnhatro.TenantPasswordChangeActivity.setContentNotify;
+
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +35,7 @@ import com.google.firebase.storage.UploadTask;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -76,7 +82,7 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
         btnThemCT_ALA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onClickLuuData();
+                openDialogNotifyYesNo(Gravity.CENTER,"Bạn có muốn thêm không ?",R.layout.layout_dialog_notify_yes_no);
             }
         });
     }
@@ -91,7 +97,7 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
     }
     private String getIdUserRole(){
         String str ="";
-        str = "UR"+(arrURole.size() + 1);
+        str = "KH0"+(arrURole.size() + 1);
         return str;
     }
     private void getSizeUser() {
@@ -170,6 +176,28 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
             }
         });
     }
+    private void openDialogNotifyYesNo(int gravity, String noidung,int duongdanlayout) {
+        final Dialog dialog = new Dialog(this);
+        setContentNotify(dialog, gravity, Gravity.CENTER, duongdanlayout);
+        TextView tvNoidung = dialog.findViewById(R.id.tvNoidung_NotifyYesNo);
+        Button btnLeft = dialog.findViewById(R.id.btnLeft_NotifyYesNo);
+        Button btnRight = dialog.findViewById(R.id.btnRight_NotifyYesNo);
+        tvNoidung.setText(noidung);
+        btnLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        btnRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                onClickLuuData();
+            }
+        });
+        dialog.show();
+    }
     private void onClickLuuData() {
         if(Uri.EMPTY.equals(imgUri)){
             fileName = "";
@@ -179,7 +207,7 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
             upImage();
             fileName = formatter.format(now);
             addLandlord(fileName,getIdUser());
-            addUserRole(getIdUserRole(),getIdUser());
+            addUserRole(getIdUser(),getIdUser());
         }
 
     }
@@ -216,6 +244,6 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
         txtEmail_ALA = findViewById(R.id.txtEmail_ALA);
         txtMatkhau_ALA = findViewById(R.id.txtMatkhau_ALA);
         txtSdt_ALA = findViewById(R.id.txtSdt_ALA);
-        btnThemCT_ALA = findViewById(R.id.btnThemCT_ALA);
+        btnThemCT_ALA = (Button)findViewById(R.id.btnThemCT_ALA);
     }
 }

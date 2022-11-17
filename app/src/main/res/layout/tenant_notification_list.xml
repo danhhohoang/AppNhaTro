@@ -3,8 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background"
     android:orientation="vertical">
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -14,10 +17,22 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/timkiem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/drawable_item_tenant_post_favourite"
+            app:iconifiedByDefault="false"
+            app:queryHint="Search">
+
+        </androidx.appcompat.widget.SearchView>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listnotifilecation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/tenant_post_notification_layout">
+            tools:listitem="@layout/tenant_post_notification_item">
         </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>

@@ -168,25 +168,48 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:gravity="center"
-                    android:orientation="horizontal">
-                    <TextView
+                    android:orientation="horizontal"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp">
+                    <ImageView
+                        android:id="@+id/imgRating1LandLord"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"/>
-                   <ImageView
-                       android:layout_width="0dp"
-                       android:layout_height="match_parent"
-                       android:layout_weight="3"
-                       android:src="@drawable/star"
-                       android:layout_gravity="right"/>
-                    <TextView
-                        android:id="@+id/sumRating"
-                        android:layout_weight="6"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/icon_rating" />
+
+                    <ImageView
+                        android:id="@+id/imgRating2LandLord"
                         android:layout_width="0dp"
-                        android:gravity="left"
-                        android:textSize="20sp"
-                        android:text="9"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/icon_rating" />
+
+                    <ImageView
+                        android:id="@+id/imgRating3LandLord"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/icon_rating" />
+
+                    <ImageView
+                        android:id="@+id/imgRating4LandLord"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/icon_rating" />
+
+                    <ImageView
+                        android:id="@+id/imgRating5LandLord"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/icon_rating" />
                 </LinearLayout>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcvCommentPostDetailLandLord"

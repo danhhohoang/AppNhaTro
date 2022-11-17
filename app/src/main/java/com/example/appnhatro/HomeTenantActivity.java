@@ -1,36 +1,23 @@
 package com.example.appnhatro;
 
-import androidx.annotation.NonNull;
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-
 import com.example.appnhatro.Activity.PostActivity;
-import com.example.appnhatro.Activity.RepportActivity;
-import com.example.appnhatro.Activity.tenant_notification_activity;
+import com.example.appnhatro.Activity.Tenant_notification_activity;
 import com.example.appnhatro.Firebase.FireBaseThueTro;
 import com.example.appnhatro.Models.Post;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomeTenantActivity extends AppCompatActivity {
     private ArrayList<String> persons = new ArrayList<>();
@@ -43,6 +30,7 @@ public class HomeTenantActivity extends AppCompatActivity {
     private ArrayList<Post> listHorizoneOGhep= new ArrayList<>();
     LinearLayout Post, notification;
     FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
+    ImageButton ivbtnAccount_HT;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,11 +48,24 @@ public class HomeTenantActivity extends AppCompatActivity {
         loadNhachoThue();
         loadOGhep();
         control();
+        setEvent();
         DangBai();
+    }
+    private void setEvent(){
+        ivbtnAccount_HT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeTenantActivity.this,TenantAccountActivity.class);
+                intent.putExtra("ID","KH01");
+                startActivity(intent);
+            }
+        });
     }
     private void control() {
         Post = findViewById(R.id.post);
         notification = findViewById(R.id.notidication);
+        ivbtnAccount_HT = findViewById(R.id.ivbtnAccount_HT);
+
     }
     @SuppressLint("MissingInflatedId")
     public void loadNhachoThue(){
@@ -110,7 +111,7 @@ public class HomeTenantActivity extends AppCompatActivity {
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomeTenantActivity.this, tenant_notification_activity.class);
+                Intent intent = new Intent(HomeTenantActivity.this, Tenant_notification_activity.class);
                 startActivity(intent);
             }
         });

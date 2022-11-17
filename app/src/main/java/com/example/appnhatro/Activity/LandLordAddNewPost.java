@@ -2,9 +2,11 @@ package com.example.appnhatro.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -83,7 +85,16 @@ public class LandLordAddNewPost extends AppCompatActivity {
                 }else if(txtMoTa.getText().toString().equals("")) {
                     txtMoTa.setError("Vui lòng điền Mô tả");
                 }else if(uri==null) {
-                    Toast.makeText(LandLordAddNewPost.this, "Chọn Ảnh", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LandLordAddNewPost.this);
+                    builder.setTitle("Cảnh báo");
+                    builder.setMessage("Bạn chưa chọn ảnh");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.create().show();
                 }else {
                     Post post = new Post(idPost, idUser, txtMoTa.getText() + "", txtDiaChi.getText() + "", "Quận3", txtGia.getText() + "", txtDienTich.getText() + "", txtTenPhong.getText() + "", idPost + ".jpg", "Còn phòng");
                     fireBaseLandLord.addNewPost(LandLordAddNewPost.this, post, uri);

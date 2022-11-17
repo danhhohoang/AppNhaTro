@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/carnotifi"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp">
@@ -51,10 +52,10 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="178dp"
+                        android:layout_width="46dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Mã Bài đăng" />
+                        android:text="ID" />
 
                     <EditText
                         android:id="@+id/edtMABD"
@@ -70,10 +71,10 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="128dp"
+                android:layout_width="225dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Tiêu Đề" />
+                android:text="Ngày đặt phòng" />
 
             <EditText
                 android:id="@+id/edtTD"
@@ -88,13 +89,13 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="135dp"
+                android:layout_width="142dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Giá phòng" />
+                android:text="Trang Thái" />
 
             <EditText
-                android:id="@+id/edtgia"
+                android:id="@+id/edtStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>

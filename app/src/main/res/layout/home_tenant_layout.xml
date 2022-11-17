@@ -78,7 +78,6 @@
             android:layout_weight="2"
             android:gravity="center">
             <ImageButton
-                android:id="@+id/ivbtnAccount_HT"
                 android:layout_width="40dp"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
@@ -101,6 +100,7 @@
             android:layout_weight="2"
             android:gravity="center">
             <ImageButton
+                android:id="@+id/ivbtnAccount_HT"
                 android:layout_width="40dp"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
