@@ -11,9 +11,5 @@
         <item name="cornerSize">20dp</item>
         <item name="color">@color/white</item>
     </style>
-    <style name="MinhText" parent="">
-    </style>
-    <style name="MinhEditText" parent="">
-    </style>
 
 </resources>

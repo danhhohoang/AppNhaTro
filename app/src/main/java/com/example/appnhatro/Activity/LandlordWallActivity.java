@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +15,7 @@ import com.example.appnhatro.Firebase.FireBaseTenantSearch;
 import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.Models.user;
 import com.example.appnhatro.R;
+import com.example.appnhatro.TenantPostDetail;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
