@@ -16,7 +16,6 @@ import com.example.appnhatro.Firebase.FireBaseTenantSearch;
 import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.Models.user;
 import com.example.appnhatro.R;
-import com.example.appnhatro.TenantPostDetail;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
@@ -39,14 +38,14 @@ public class LandlordWallActivity extends AppCompatActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         setContentView(R.layout.landlord_wall_layout);
-//        setControl();
+        setControl();
 
 
 
         //Get intent
         Intent intent = getIntent();
         mID ="KH01";
-        //mID = intent.getStringExtra("KEY_ID");
+        mID = intent.getStringExtra("KEY_ID");
 
 
 
@@ -86,10 +85,10 @@ public class LandlordWallActivity extends AppCompatActivity {
 
     }
 
-//    private void setControl() {
-//        recyclerView = findViewById(R.id.recycler_landlord_wall);
-//        txtName = findViewById(R.id.txt_landlord_wall_name);
-//        txtPhone = findViewById(R.id.txt_landlord_wall_phone);
-//        shapeableImageView =findViewById(R.id.img_landlord_wall_avatar);
-//    }
+    private void setControl() {
+        recyclerView = findViewById(R.id.recycler_landlord_wall);
+        txtName = findViewById(R.id.txt_landlord_wall_name);
+        txtPhone = findViewById(R.id.txt_landlord_wall_phone);
+        shapeableImageView =findViewById(R.id.img_landlord_wall_avatar);
+    }
 }
