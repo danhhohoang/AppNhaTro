@@ -91,7 +91,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".AdminLandlordDetailsActivity" />
 <!--        Tenant-->
-<!--        <activity android:name=".TenantAccountActivity" />-->
+        <activity android:name=".TenantAccountActivity" />
         <activity android:name=".TenantSettingProfileActivity" />
         <activity android:name=".TenantPasswordChangeActivity" />
         <activity android:name=".TenantSettingActivity" />
@@ -102,8 +102,11 @@
         <activity android:name=".LandlordAccountActivity" />
         <activity android:name=".LandlordSettingProfileActivity" />
         <!--        Admin-->
-
-            android:exported="true"/>
+        <activity android:name=".AdminLandlordAddActivity" />
+        <activity android:name=".AdminLandlordListActivity" />
+        <activity
+            android:name=".UserSignUp"
+            android:exported="true" />
         <activity android:name=".Activity.Detail_Notification_Landlor"
             android:exported="true"/>
 <!--        <activity-->

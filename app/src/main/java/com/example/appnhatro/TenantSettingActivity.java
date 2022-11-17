@@ -52,7 +52,7 @@ public class TenantSettingActivity extends AppCompatActivity {
         onRead();
 
     }
-    private void onRead() {
+    private void  onRead() {
         TenantAccountActivity tenantAccountActivity = new TenantAccountActivity();
 
         progressDialog = new ProgressDialog(this);

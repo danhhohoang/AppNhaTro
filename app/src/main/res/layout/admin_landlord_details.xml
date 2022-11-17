@@ -40,8 +40,9 @@
         android:layout_marginRight="30dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civImage_ALD"
             style="@style/al_imglandlord_add_detail"
-            android:src="@drawable/background"/>
+            android:src="@drawable/ic_user"/>
         <TextView
             style="@style/al_textview_add_detail"
             android:text="Mã chủ trọ:"/>
@@ -49,7 +50,7 @@
         <EditText
             style="@style/al_edittext_add_detail"
             android:id="@+id/txt_aldMachutro"
-            android:hint="Hoàng Danh" />
+            android:hint="KH--" />
         <TextView
             style="@style/al_textview_add_detail"
             android:text="Tên chủ trọ:"/>
@@ -60,11 +61,11 @@
             android:hint="Hoàng Danh" />
         <TextView
             style="@style/al_textview_add_detail"
-            android:text="Địa chỉ:"/>
+            android:text="Email:"/>
         <EditText
-            android:id="@+id/txt_aldDiachi"
-            style="@style/al_edtaddress_add_detail"
-            android:hint="Địa chỉ" />
+            android:id="@+id/txt_aldEmail"
+            style="@style/al_edittext_add_detail"
+            android:hint="123abc@gmail.com" />
         <TextView
             style="@style/al_textview_add_detail"
             android:text="Số điện thoại:"/>
@@ -82,11 +83,11 @@
             android:hint="123456789" />
         <TextView
             style="@style/al_textview_add_detail"
-            android:text="Tên tài khoản:"/>
+            android:text="Mật khẩu:"/>
         <EditText
-            android:id="@+id/txt_aldTentaikhoan"
+            android:id="@+id/txt_aldPassword"
             style="@style/al_edittext_add_detail"
-            android:hint="acb123@gmail.com" />
+            android:hint="Password" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

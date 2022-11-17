@@ -82,4 +82,22 @@
         <!-- Secondary brand color. -->
         <item name="android:background">@drawable/txt_background_login</item>
     </style>
+
+    <style name="MinhText" parent="">
+        <item name="android:gravity">center|left</item>
+        <!-- Secondary brand color. -->
+        <item name="android:textColor">#FAFAFA</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="MinhTextTitle" parent="">
+        <item name="android:gravity">center|left</item>
+        <!-- Secondary brand color. -->
+        <item name="android:textColor">#FAFAFA</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+    <style name="MinhEditText" parent="">
+
+        <item name="background">@drawable/shape_landlord_editpost_edittext</item>
+    </style>
 </resources>
