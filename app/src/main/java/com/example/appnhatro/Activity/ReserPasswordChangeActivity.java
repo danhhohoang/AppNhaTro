@@ -1,11 +1,17 @@
 package com.example.appnhatro.Activity;
 
+import static com.example.appnhatro.TenantPasswordChangeActivity.setContentNotify;
+
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -48,6 +54,13 @@ public class ReserPasswordChangeActivity extends AppCompatActivity {
 //                });
                 String pass = txtMatKhauMoi.getText().toString();
                 String repass = txtNhapLaiMatKhauMoi.getText().toString();
+                if (!repass.equals(pass)){
+                    txtNhapLaiMatKhauMoi.setError("Mật khẩu nhập lại không giống mật khẩu trên");
+                    return;
+                }
+                Handler handler = new Handler();
+                final  Dialog dialog = new Dialog(ReserPasswordChangeActivity.this);
+                openDialogNotifyNoButton(dialog,Gravity.CENTER,"Thay đổi mk thành công",R.layout.layout_dialog_notify_no_button);
                 FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                 DatabaseReference databaseReference = firebaseDatabase.getReference();
 //                Log.d("TAG", data);
@@ -60,12 +73,23 @@ public class ReserPasswordChangeActivity extends AppCompatActivity {
                                 dataSnapshot.getRef().child("password").setValue(pass);
                             }
                         }
+                        if (dialog.isShowing()){
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    dialog.dismiss();
+                                    Intent intent = new Intent(ReserPasswordChangeActivity.this,LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            },2000);
+                        }
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });
+
             }
         });
     }
@@ -80,6 +104,13 @@ public class ReserPasswordChangeActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().setTitle("Success");
         }
+    }
+
+    private void openDialogNotifyNoButton(final Dialog dialog,int gravity, String noidung, int duongdanlayout) {
+        setContentNotify(dialog, gravity,Gravity.BOTTOM, duongdanlayout);
+        TextView tvNoidung = dialog.findViewById(R.id.tvNoidung_NotifyNoButton);
+        tvNoidung.setText(noidung);
+        dialog.show();
     }
 
     private void getDataIntent(){

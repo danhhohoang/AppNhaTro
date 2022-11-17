@@ -76,12 +76,12 @@ public class TenantPostFavourite extends AppCompatActivity{
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
-        fireBasePostFavorite.readListPost(posts,tenantPostFavouriteAdapter,"KH02");
+        fireBasePostFavorite.readListPost(posts,tenantPostFavouriteAdapter,"P02");
         recyclerView.setAdapter(tenantPostFavouriteAdapter);
         tenantPostFavouriteAdapter.setOnItemClickListener(new TenantPostFavouriteAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(int position, View view) {
-                fireBasePostFavorite.readDataItem(position,posts,TenantPostFavourite.this);
+                    fireBasePostFavorite.readDataItem(position,posts,TenantPostFavourite.this);
             }
         });
         sv_tpf = findViewById(R.id.sv_tpf);

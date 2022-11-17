@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -25,7 +26,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appnhatro.Activity.RepportActivity;
+import com.example.appnhatro.Activity.ReserPasswordChangeActivity;
 import com.example.appnhatro.Firebase.FirebaseUserSignUp;
+import com.example.appnhatro.Models.USER_ROLE;
 import com.example.appnhatro.Models.user;
 import com.example.appnhatro.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -58,6 +61,7 @@ public class UserSignUp extends AppCompatActivity {
     DAOUser dao = new DAOUser();
     static ArrayList<user> arrUser = new ArrayList<>();
     DatabaseReference databaseReference;
+    DatabaseReference databaseReferenceUR;
 
     String formatEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
@@ -126,20 +130,33 @@ public class UserSignUp extends AppCompatActivity {
     }
 
     public void Click(){
+        Handler handler = new Handler();
         storageReference = FirebaseStorage.getInstance().getReference("images/user/"+getIdUser());
+        final  Dialog dialog = new Dialog(UserSignUp.this);
+        openDialogNotifyNoButton(dialog,Gravity.CENTER,"Tạo tài khoản thành công",R.layout.layout_dialog_notify_no_button);
         storageReference.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Log.d("test", "onSuccess: " + imageUri.getPath());
+                        if (dialog.isShowing()){
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    dialog.dismiss();
+                                }
+                            },2000);
+                        }
+
                     }
                 });
         databaseReference = FirebaseDatabase.getInstance().getReference("user/"+getIdUser());
         user um = new user(getIdUser(),name.getText().toString(),email.getText().toString(),phone.getText().toString(),password.getText().toString(),"test",getIdUser());
+        databaseReferenceUR = FirebaseDatabase.getInstance().getReference("User_Role/"+getIdUser());
+        USER_ROLE ur = new USER_ROLE("1",getIdUser());
+        databaseReferenceUR.setValue(ur);
         databaseReference.setValue(um, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                Toast.makeText(UserSignUp.this,"Đăng ký thành công",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(UserSignUp.this,TenantPostFavourite.class);
                 startActivity(intent);
             }
@@ -213,18 +230,10 @@ public class UserSignUp extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
     }
-    private void openDialogNotify(int gravity, String noidung, int duongdanlayout) {
-        final Dialog dialog = new Dialog(this);
-        setContentNotify(dialog, gravity, Gravity.CENTER, duongdanlayout);
-        TextView tvNoidung = dialog.findViewById(R.id.tvNoidung_Notify);
-        Button btnLeft = dialog.findViewById(R.id.btnCenter_Notify);
+    private void openDialogNotifyNoButton(final Dialog dialog,int gravity, String noidung, int duongdanlayout) {
+        setContentNotify(dialog, gravity,Gravity.BOTTOM, duongdanlayout);
+        TextView tvNoidung = dialog.findViewById(R.id.tvNoidung_NotifyNoButton);
         tvNoidung.setText(noidung);
-        btnLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
         dialog.show();
     }
 
