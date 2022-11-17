@@ -7,18 +7,23 @@ public class TransactionModel {
     private String id_user;
     private String post;
     private String status;
+    private String date;
     private String _commissionFeeID;
+    private String total;
+
 
     public TransactionModel() {
     }
 
-    public TransactionModel(String _id, String extraMoney, String id_user, String post, String status, String _commissionFeeID) {
+    public TransactionModel(String _id, String extraMoney, String id_user, String post, String status, String date, String _commissionFeeID, String total) {
         this._id = _id;
         this.extraMoney = extraMoney;
         this.id_user = id_user;
         this.post = post;
         this.status = status;
+        this.date = date;
         this._commissionFeeID = _commissionFeeID;
+        this.total = total;
     }
 
     public String get_id() {
@@ -61,11 +66,27 @@ public class TransactionModel {
         this.status = status;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public String get_commissionFeeID() {
         return _commissionFeeID;
     }
 
     public void set_commissionFeeID(String _commissionFeeID) {
         this._commissionFeeID = _commissionFeeID;
+    }
+
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
     }
 }
