@@ -37,13 +37,15 @@
                 <TextView
                     android:text="@string/id_ph_ng"
                     style="@style/TextAddNewPostLandLord"/>
+
                 <EditText
                     android:id="@+id/txtIdNewPostLandLord"
-                    android:gravity="center|left"
+                    style="@style/edittextAddNewPostLandLord"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:enabled="true"
-                    style="@style/edittextAddNewPostLandLord" />
+                    android:enabled="false"
+                    android:gravity="center|left" />
+
                 <TextView
                     android:layout_marginTop="20dp"
                     android:text="@string/t_n_ph_ng"
@@ -117,6 +119,7 @@
                     android:layout_margin="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
+                    android:src="@drawable/ic_add_photo"
                     android:scaleType="fitXY"/>
                 <LinearLayout
                     android:layout_width="match_parent"
