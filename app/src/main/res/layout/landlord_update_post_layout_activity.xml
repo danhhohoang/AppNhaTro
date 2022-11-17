@@ -42,7 +42,7 @@
                     android:gravity="center|left"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:enabled="true"
+                    android:enabled="false"
                     style="@style/edittextAddNewPostLandLord" />
                 <TextView
                     android:layout_marginTop="20dp"
@@ -116,6 +116,7 @@
                     android:layout_margin="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
+                    android:src="@drawable/ic_add_photo"
                     android:scaleType="fitXY"/>
                 <LinearLayout
                     android:layout_width="match_parent"

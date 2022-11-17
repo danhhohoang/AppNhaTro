@@ -161,19 +161,19 @@ public class FireBaseLandLord {
                 rating.child(data.getId()).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        double sum = 0;
-                        double sl = 0;
+                        int sum = 0;
+                        int sl = 0;
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             Rating rating = dataSnapshot.getValue(Rating.class);
                             Log.d("test", rating.getRating());
-                            sum = sum + Double.valueOf(rating.getRating() + "");
+                            sum = sum + Integer.valueOf(rating.getRating() + "");
                             sl = sl + 1;
                         }
                         if (sl != 0) {
-                            double tong = sum / sl;
-                            ((LandLordPostDetailActivity) context).setRating(String.valueOf(tong));
+                            int tong = sum / sl;
+                            ((LandLordPostDetailActivity) context).setRating(tong);
                         } else {
-                            ((LandLordPostDetailActivity) context).setRating(String.valueOf(0));
+                            ((LandLordPostDetailActivity) context).setRating(0);
                         }
                     }
 
@@ -295,19 +295,18 @@ public class FireBaseLandLord {
                 rating.child(data.getId()).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        double sum = 0;
-                        double sl = 0;
+                        int sum = 0;
+                        int sl = 0;
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             Rating rating = dataSnapshot.getValue(Rating.class);
-                            Log.d("test", rating.getRating());
-                            sum = sum + Double.valueOf(rating.getRating() + "");
+                            sum = sum + Integer.valueOf(rating.getRating() + "");
                             sl = sl + 1;
                         }
                         if (sl != 0) {
-                            double tong = sum / sl;
-                            ((LandLordPostDetailActivity) context).setRating(String.valueOf(tong));
+                            int tong = sum / sl;
+                            ((LandLordPostDetailActivity) context).setRating(tong);
                         } else {
-                            ((LandLordPostDetailActivity) context).setRating(String.valueOf(0));
+                            ((LandLordPostDetailActivity) context).setRating(0);
                         }
                     }
 

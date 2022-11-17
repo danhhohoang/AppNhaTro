@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.example.appnhatro.Firebase.FireBaseLandLord;
 import com.example.appnhatro.R;
@@ -15,6 +16,7 @@ public class LandLordFeedBack extends AppCompatActivity {
     EditText txtTenNguoiDung,txtComment,txtFeedBack;
     Button btnNhanXet,btnSua,btnHuy;
     Rating rating=new Rating();
+    ImageView back;
     FireBaseLandLord fireBaseLandLord = new FireBaseLandLord();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,12 @@ public class LandLordFeedBack extends AppCompatActivity {
     }
 
     private void event() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         btnNhanXet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +72,7 @@ public class LandLordFeedBack extends AppCompatActivity {
         btnHuy=findViewById(R.id.btnHuyPhanHoi);
         txtComment.setText(rating.getComment());
         txtFeedBack.setText(rating.getFeedback());
+        back=findViewById(R.id.imgBackFeedBackDetailLandLord);
         if(rating.getFeedback().equals("")){
             btnNhanXet.setVisibility(View.VISIBLE);
             btnSua.setVisibility(View.GONE);
