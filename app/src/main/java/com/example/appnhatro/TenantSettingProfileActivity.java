@@ -101,23 +101,24 @@ public class TenantSettingProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void upImage() {
+    private void upImage(String tenanh) {
         final Dialog dialog = new Dialog(this);
-        openDialogNotifyNoButton(dialog,Gravity.CENTER,"Update Image",R.layout.layout_dialog_notify_no_button);
+        openDialogNotifyNoButton(dialog,Gravity.CENTER,"Update Image....",R.layout.layout_dialog_notify_no_button);
         fileName = mListUser.getAvatar();
         String a1;
-        if (fileName.equals(mListUser.getId() +".jpg")){
-            a1 = mListUser.getId()+"1.jpg";
-        }else {
-            a1 = mListUser.getId() +".jpg";
-        }
-        storageReference = FirebaseStorage.getInstance().getReference("images/user/" + a1 );
+//        if (fileName.equals(mListUser.getId() +".jpg")){
+//            a1 = mListUser.getId()+"1.jpg";
+//        }else {
+//            a1 = mListUser.getId() +".jpg";
+//        }
+        storageReference = FirebaseStorage.getInstance().getReference("images/user/" + tenanh );
         storageReference.putFile(imgUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         if (dialog.isShowing()) {
                             dialog.dismiss();
+                            upData(tenanh, id);
                             openDialogNotifyFinish(Gravity.CENTER,"Cập nhật thông tin thành công",R.layout.layout_dialog_notify_finish);
 //
                         }
@@ -223,12 +224,13 @@ public class TenantSettingProfileActivity extends AppCompatActivity {
             fileName = mListUser.getAvatar();
             if (fileName.equals(mListUser.getId() +".jpg")){
                 String a1 = mListUser.getId()+"1.jpg";
-                upData(a1, id);
-                upImage();
+                upImage(a1);
+
             }else {
                 String a2 = mListUser.getId() +".jpg";
-                upData(a2, id);
-                upImage();
+                upImage(a2);
+
+
             }
 
         }

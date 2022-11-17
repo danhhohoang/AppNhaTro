@@ -86,6 +86,23 @@
         <activity
             android:name=".Activity.LandLordFeedBack"
             android:exported="true" />
+<!--        <activity android:name=".HomeTenantActivity" />-->
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".AdminLandlordDetailsActivity" />
+<!--        Tenant-->
+        <activity android:name=".TenantAccountActivity" />
+        <activity android:name=".TenantSettingProfileActivity" />
+        <activity android:name=".TenantPasswordChangeActivity" />
+        <activity android:name=".TenantSettingActivity" />
+        <activity android:name=".TenantContactActivity" />
+        <activity android:name=".TenantPostFavourite" />
+<!--Landlord-->
+        <activity android:name=".LandlordPasswordChangeActivity" />
+        <activity android:name=".LandlordAccountActivity" />
+        <activity android:name=".LandlordSettingProfileActivity" />
+        <!--        Admin-->
+        <activity android:name=".AdminLandlordAddActivity" />
+        <activity android:name=".AdminLandlordListActivity" />
         <activity
             android:name=".UserSignUp"
             android:exported="true" />

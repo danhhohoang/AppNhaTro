@@ -35,6 +35,16 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.layout_activity_login);
         event();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        moveTaskToBack(true);
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);
+
+    }
+
     public void event(){
         txtEmail=findViewById(R.id.txtTenDangNhap);
         txtPassword=findViewById(R.id.txtMatKhauLogin);
