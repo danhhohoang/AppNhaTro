@@ -211,7 +211,8 @@ public class TenantSettingProfileActivity extends AppCompatActivity {
                 txtSDT_TSP.getText().toString(),
                 mListUser.getPassword(),
                 txtCMND_TSP.getText().toString(),
-                fileName);
+                fileName,
+                mListUser.getStatus());
         userRef.setValue(users);
     }
 

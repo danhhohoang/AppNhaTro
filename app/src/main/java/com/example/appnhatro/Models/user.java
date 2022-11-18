@@ -11,6 +11,7 @@ public class user implements Parcelable {
     private String password;
     private String citizenNumber;
     private String avatar;
+    private String status;
 
     protected user(Parcel in) {
         id = in.readString();
@@ -86,6 +87,14 @@ public class user implements Parcelable {
         return avatar;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
@@ -102,6 +111,16 @@ public class user implements Parcelable {
         this.citizenNumber = citizenNumber;
         this.avatar = avatar;
     }
+    public user(String id, String name, String email, String phone, String password, String citizenNumber, String avatar,String status) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+        this.citizenNumber = citizenNumber;
+        this.avatar = avatar;
+        this.status = status;
+    }
 
     @Override
     public int describeContents() {
@@ -117,5 +136,6 @@ public class user implements Parcelable {
         parcel.writeString(password);
         parcel.writeString(citizenNumber);
         parcel.writeString(avatar);
+        parcel.writeString(status);
     }
 }

@@ -3,25 +3,40 @@
     android:layout_width="match_parent"
     android:layout_height="140dp"
     android:orientation="horizontal"
-    android:layout_marginTop="10dp"
-    android:paddingTop="5dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginLeft="20dp"
     android:background="@drawable/item_admin_landlord">
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/civdanhsach_CT"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:src="@drawable/background" />
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:background="@drawable/corners_image"
+        android:layout_marginLeft="20dp">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civDanhsach_AL"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="2.5dp"
+            android:src="@drawable/ic_user"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
+        android:layout_gravity="center_vertical"
         android:gravity="center"
+        android:layout_weight="6.5"
+        android:layout_marginLeft="20dp"
         android:orientation="vertical">
         <TextView
             android:id="@+id/txt_alID"
             android:layout_width="match_parent"
             android:textColor="@color/black"
             android:text="Text 1"
+            android:textStyle="bold"
+            android:textSize="15dp"
             android:layout_marginBottom="5dp"
             android:layout_height="25dp"/>
         <TextView
@@ -29,6 +44,8 @@
             android:layout_width="match_parent"
             android:textColor="@color/black"
             android:text="Text 2"
+            android:textStyle="bold"
+            android:textSize="15dp"
             android:layout_marginBottom="5dp"
             android:layout_height="25dp"/>
         <TextView
@@ -36,14 +53,18 @@
             android:layout_width="match_parent"
             android:textColor="@color/black"
             android:text="Text 3"
+            android:textStyle="bold"
+            android:textSize="15dp"
             android:layout_marginBottom="5dp"
             android:layout_height="25dp"/>
-        <TextView
-            android:id="@+id/txt_alMoneyhavepay"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:text="Text 4"
-            android:layout_marginBottom="5dp"
-            android:textColor="@color/black"/>
     </LinearLayout>
+    <ImageButton
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginRight="3dp"
+        android:src="@drawable/ic_moving"
+        android:background="@drawable/border_topright_bottomright_al"
+        android:layout_weight="2"/>
 </LinearLayout>

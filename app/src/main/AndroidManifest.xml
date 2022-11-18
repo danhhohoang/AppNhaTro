@@ -89,7 +89,7 @@
             android:exported="true" />
 <!--        <activity android:name=".HomeTenantActivity" />-->
         <activity android:name=".LoginActivity" />
-        <activity android:name=".AdminLandlordDetailsActivity" />
+<!--        <activity android:name=".AdminLandlordDetailsActivity" />-->
 <!--        Tenant-->
         <activity android:name=".TenantAccountActivity" />
         <activity android:name=".TenantSettingProfileActivity" />
