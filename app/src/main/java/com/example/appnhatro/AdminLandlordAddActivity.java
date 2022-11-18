@@ -168,7 +168,8 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
                 txtSdt_ALA.getText().toString(),
                 txtMatkhau_ALA.getText().toString(),
                 txtCMND_ALA.getText().toString(),
-                fileName);
+                fileName,
+                "0");
         userRef.setValue(users, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {

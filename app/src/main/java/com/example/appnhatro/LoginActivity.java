@@ -44,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
         System.exit(1);
 
     }
-
     public void event(){
         txtEmail=findViewById(R.id.txtTenDangNhap);
         txtPassword=findViewById(R.id.txtMatKhauLogin);
@@ -64,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                             user User = dataSnapshot.getValue(user.class);
-                            if(User.getEmail().equals(email)&&User.getPassword().equals(pass)){
+                            if(User.getEmail().equals(email)&&User.getPassword().equals(pass)&&User.getStatus().equals("0")){
                                 Intent intent = new Intent(LoginActivity.this,HomeTenantActivity.class);
                                 startActivity(intent);
                             }else{

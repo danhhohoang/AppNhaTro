@@ -200,7 +200,7 @@ public class LandlordSettingProfileActivity extends AppCompatActivity {
                 txtSDT_LSP.getText().toString(),
                 mListUser.getPassword(),
                 txtCMND_LSP.getText().toString(),
-                fileName);
+                fileName, mListUser.getStatus());
         userRef.setValue(users);
     }
 
