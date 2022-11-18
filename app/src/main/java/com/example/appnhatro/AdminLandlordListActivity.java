@@ -2,6 +2,9 @@ package com.example.appnhatro;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,13 +24,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminLandlordListActivity extends AppCompatActivity implements RecyclerViewInterface{
+public class AdminLandlordListActivity extends AppCompatActivity implements RecyclerViewInterface {
     RecyclerView al;
     AdminLandlordListAdapter adminLandlordListAdapter;
     DatabaseReference databaseReferenceUser;
     DatabaseReference databaseReferenceUserRole;
-    ArrayList<user> list;
+    public static ArrayList<user> list = new ArrayList<>();
     SearchView sv_all;
+    Button btnAddLandlord_ALL;
     public static final String ID = "ID";
     public static final String CMND = "CMND";
     public static final String EMAIL = "EMAIL";
@@ -36,20 +40,24 @@ public class AdminLandlordListActivity extends AppCompatActivity implements Recy
     public static final String PHONE = "PHONE";
     public static final String BUNDLE = "BUNDLE";
     public static final String AVATAR = "AVATAR";
+    public static final String STATUS = "STATUS";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_landlord_list);
+        setControl();
+        setEvent();
+    }
 
-        al = findViewById(R.id.rcv_al);
+
+    public void setEvent() {
         al.setHasFixedSize(true);
         adminLandlordListAdapter = new AdminLandlordListAdapter(this,this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
         al.setLayoutManager(linearLayoutManager);
 
-        list = new ArrayList<>();
         adminLandlordListAdapter.setData(list);
         al.setAdapter(adminLandlordListAdapter);
 
@@ -58,6 +66,7 @@ public class AdminLandlordListActivity extends AppCompatActivity implements Recy
         databaseReferenceUserRole.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                list.clear();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     UserRoleModel user_role = dataSnapshot.getValue(UserRoleModel.class);
                     if (user_role.getId_role().equals("1")){
@@ -88,7 +97,6 @@ public class AdminLandlordListActivity extends AppCompatActivity implements Recy
             }
         });
 
-        sv_all = findViewById(R.id.svDSChuTro);
         sv_all.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -104,18 +112,25 @@ public class AdminLandlordListActivity extends AppCompatActivity implements Recy
         });
     }
 
+    public void setControl() {
+        al = findViewById(R.id.rcv_al);
+        btnAddLandlord_ALL = findViewById(R.id.btnAddLandlord_ALL);
+        sv_all = findViewById(R.id.svDSChuTro);
+    }
+
     @Override
     public void onItemClick(int position) {
-        Intent intent = new Intent(this,AdminLandlordDetailsActivity.class);
+        Intent intent = new Intent(this, AdminLandlordDetailsActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString(AVATAR,list.get(position).getAvatar());
-        bundle.putString(ID,list.get(position).getId());
-        bundle.putString(NAME,list.get(position).getName());
-        bundle.putString(CMND,list.get(position).getCitizenNumber());
-        bundle.putString(PHONE,list.get(position).getPhone());
-        bundle.putString(EMAIL,list.get(position).getEmail());
-        bundle.putString(PASSWORD,list.get(position).getPassword());
-        intent.putExtra(BUNDLE,bundle);
+        bundle.putString(AVATAR, list.get(position).getAvatar());
+        bundle.putString(ID, list.get(position).getId());
+        bundle.putString(NAME, list.get(position).getName());
+        bundle.putString(CMND, list.get(position).getCitizenNumber());
+        bundle.putString(PHONE, list.get(position).getPhone());
+        bundle.putString(EMAIL, list.get(position).getEmail());
+        bundle.putString(PASSWORD, list.get(position).getPassword());
+        bundle.putString(STATUS, list.get(position).getStatus());
+        intent.putExtra(BUNDLE, bundle);
         startActivity(intent);
     }
 }
