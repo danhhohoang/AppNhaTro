@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-        Intent intent = new Intent(MainActivity.this, AdminLandlordListActivity.class);
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
 //          setContentView(R.layout.landlord_notification_list);
 //        Toolbar toolbar = findViewById(R.id.toolbar);
