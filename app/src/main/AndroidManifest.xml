@@ -53,9 +53,9 @@
         <activity
             android:name=".Activity.RepportActivity"
             android:exported="true" />
-        <activity android:name=".Activity.Landlord_Notification_Activity"
-            android:exported="true"/>
-<!--         <activity android:name=".TenantPostList" android:exported="true"/> -->
+        <activity
+            android:name=".Activity.Landlord_Notification_Activity"
+            android:exported="true" /> <!-- <activity android:name=".TenantPostList" android:exported="true"/> -->
         <activity
             android:name=".Activity.VertifyPhoneNumberActivity"
             android:exported="true" />
@@ -73,8 +73,7 @@
             android:exported="true" />
         <activity
             android:name=".Activity.Tenant_notification_activity"
-            android:exported="true" />
-        <!-- <activity android:name=".TenantSearchActivity"android:exported="true"/> -->
+            android:exported="true" /> <!-- <activity android:name=".TenantSearchActivity"android:exported="true"/> -->
         <activity
             android:name=".Activity.TermAndSerciveActivity"
             android:exported="true" />
@@ -86,32 +85,30 @@
             android:exported="true" />
         <activity
             android:name=".Activity.LandLordFeedBack"
-            android:exported="true" />
-<!--        <activity android:name=".HomeTenantActivity" />-->
+            android:exported="true" /> <!-- <activity android:name=".HomeTenantActivity" /> -->
         <activity android:name=".LoginActivity" />
-<!--        <activity android:name=".AdminLandlordDetailsActivity" />-->
-<!--        Tenant-->
+        <activity android:name=".AdminLandlordDetailsActivity" /> <!-- Tenant -->
         <activity android:name=".TenantAccountActivity" />
         <activity android:name=".TenantSettingProfileActivity" />
         <activity android:name=".TenantPasswordChangeActivity" />
         <activity android:name=".TenantSettingActivity" />
         <activity android:name=".TenantContactActivity" />
-        <activity android:name=".TenantPostFavourite" />
-<!--Landlord-->
+        <activity android:name=".TenantPostFavourite" /> <!-- Landlord -->
         <activity android:name=".LandlordPasswordChangeActivity" />
         <activity android:name=".LandlordAccountActivity" />
-        <activity android:name=".LandlordSettingProfileActivity" />
-        <!--        Admin-->
+        <activity android:name=".LandlordSettingProfileActivity" /> <!-- Admin -->
         <activity android:name=".AdminLandlordAddActivity" />
         <activity android:name=".AdminLandlordListActivity" />
         <activity
             android:name=".UserSignUp"
             android:exported="true" />
-        <activity android:name=".Activity.Detail_Notification_Landlor"
-            android:exported="true"/>
-<!--        <activity-->
-<!--            android:name=".Activity.LandLordUpdatePostActivity"-->
-<!--            android:exported="true" />-->
+        <activity
+            android:name=".Activity.Detail_Notification_Landlor"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.TenantCommentActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>

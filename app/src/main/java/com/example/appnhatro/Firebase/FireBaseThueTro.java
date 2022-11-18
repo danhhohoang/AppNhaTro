@@ -3,6 +3,7 @@ package com.example.appnhatro.Firebase;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
@@ -10,9 +11,14 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.appnhatro.Activity.BookingActivity;
+import com.example.appnhatro.Activity.LandLordFeedBack;
+import com.example.appnhatro.Activity.LandLordPostDetailActivity;
 import com.example.appnhatro.Activity.PostActivity;
 import com.example.appnhatro.Activity.RepportActivity;
+import com.example.appnhatro.Activity.TenantCommentActivity;
+import com.example.appnhatro.Adapters.TeantCommentAdapter;
 import com.example.appnhatro.Models.BitMap;
+import com.example.appnhatro.Models.HistoryTransaction;
 import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.Models.user;
 import com.example.appnhatro.MyRecyclerViewAdapter;
@@ -37,6 +43,8 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FireBaseThueTro {
     public FireBaseThueTro() {
@@ -142,16 +150,53 @@ public class FireBaseThueTro {
         });
     }
 
-    public void getRatingPost(Context context, String idPost, String idUser) {
+    public void getRatingPost(Context context, String idPost, TeantCommentAdapter teantCommentAdapter,ArrayList<Rating> listRating,Rating ratingcomment,String idUser) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference();
-        databaseReference.child("Rating").child(idPost).child(idUser).addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference rating = firebaseDatabase.getReference("Rating");
+        rating.child(idPost).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue() != null) {
-                    Rating rating = snapshot.getValue(Rating.class);
-                    ((TenantPostDetail) context).setRating(Integer.valueOf(rating.getRating()));
+                int sum = 0;
+                int sl = 0;
+                ArrayList<Rating> list = new ArrayList<>();
+                Rating ratinguser = null;
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Rating rating = dataSnapshot.getValue(Rating.class);
+                    sum = sum + Integer.valueOf(rating.getRating() + "");
+                    sl = sl + 1;
+                    if(rating.getIdUser().equals(idUser)){
+                        ratingcomment.setIdPost(rating.getIdPost());
+                        ratingcomment.setFeedback(rating.getFeedback());
+                        ratingcomment.setDate(rating.getDate());
+                        ratingcomment.setRating(rating.getRating());
+                        ratingcomment.setIdUser(rating.getIdUser());
+                        ratingcomment.setComment(rating.getComment());
+                        ratinguser=rating;
+                        ((TenantPostDetail) context).setVisibilityWriteComment();
+                    }else{
+                        list.add(rating);
+                    }
                 }
+                if (sl != 0) {
+                    int tong = sum / sl;
+                    ((TenantPostDetail) context).setRatingg(tong,String.valueOf(sl));
+                } else {
+                    ((TenantPostDetail) context).setRatingg(0,String.valueOf(sl));
+                }
+                if(ratinguser!=null) {
+                    listRating.clear();
+                    listRating.add(ratinguser);
+                    listRating.addAll(list);
+                }else {
+                    listRating.clear();
+                    listRating.addAll(list);
+                }
+                if(listRating.size()==0){
+                    ((TenantPostDetail) context).setLayOutComment(false);
+                }else {
+                    ((TenantPostDetail) context).setLayOutComment(true);
+                }
+                teantCommentAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -173,11 +218,11 @@ public class FireBaseThueTro {
                     }
                 });
     }
-    public void deleteRating(String userId, String ReportID){
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference("Rating");
-        databaseReference.child(ReportID).child(userId).removeValue();
-    }
+//    public void deleteRating(String userId, String ReportID){
+//        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+//        DatabaseReference databaseReference = firebaseDatabase.getReference("Rating");
+//        databaseReference.child(ReportID).child(userId).removeValue();
+//    }
     public void autoid(Context context){
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -283,5 +328,62 @@ public class FireBaseThueTro {
                         }
                     });
         }
+    }
+    public void addAndUpdateComment(Context context,Rating rating){
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Rating").child(rating.getIdPost()).child(rating.getIdUser()).setValue(rating).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                ((TenantCommentActivity) context).finish();
+            }
+        });
+    }
+    public void getNameUserInComment(Context context,String idUser){
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("user").child(idUser).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                user User = snapshot.getValue(user.class);
+                ((TenantCommentActivity) context).setNameUser(User.getName());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void deleteCommentForUser(Rating rating){
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Rating").child(rating.getIdPost()).child(rating.getIdUser()).removeValue();
+    }
+    public void checkHistory(Context context, String idPost,String idUser){
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("HistoryTransaction").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean check = false;
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    HistoryTransaction historyTransaction = dataSnapshot.getValue(HistoryTransaction.class);
+                    if(historyTransaction.getId_user().equals(idUser)&&historyTransaction.getPost().equals(idPost)){
+                        check = true;
+                    }
+                }
+                if(check==true){
+                    ((TenantPostDetail) context).gotoCommentActivity();
+                }else {
+                    ((TenantPostDetail) context).dialogg();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

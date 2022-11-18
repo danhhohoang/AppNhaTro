@@ -17,7 +17,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/imgBackFeedBackDetailLandLord"
+                android:id="@+id/imgBackComment"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -28,7 +28,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="7"
                 android:gravity="center"
-                android:text="PHẢN HỒI BÌNH LUẬN"
+                android:text="NHẬN XÉT"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
@@ -49,13 +49,71 @@
 
         <EditText
             android:paddingLeft="20dp"
-            android:id="@+id/txtNameUserPhanHoi"
+            android:id="@+id/txtNameUserComment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:enabled="false"
             android:textColor="@color/black"
             android:background="@drawable/edittext_border_tenant_setting" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="Đánh Giá"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/imgRatingComment1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/icon_rating" />
+
+            <ImageView
+                android:id="@+id/imgRatingComment2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/icon_rating" />
+
+            <ImageView
+                android:id="@+id/imgRatingComment3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/icon_rating" />
+
+            <ImageView
+                android:id="@+id/imgRatingComment4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/icon_rating" />
+
+            <ImageView
+                android:id="@+id/imgRatingComment5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/icon_rating" />
+        </LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -67,27 +125,7 @@
 
         <EditText
             android:paddingLeft="20dp"
-            android:id="@+id/txtNhanXetPhanHoiLandLord"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="6"
-            android:gravity="top"
-            android:textColor="@color/black"
-            android:enabled="false"
-            android:background="@drawable/edittext_border_tenant_setting" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center|left"
-            android:text="Phản hồi"
-            android:textColor="@color/white"
-            android:textSize="25sp" />
-
-        <EditText
-            android:paddingLeft="20dp"
-            android:id="@+id/txtPhanHoiLandLord"
+            android:id="@+id/txtCommentTenant"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="6"
@@ -99,7 +137,7 @@
             android:layout_weight="2"
             android:orientation="horizontal">
             <Button
-                android:id="@+id/btnHuyPhanHoi"
+                android:id="@+id/btnHuyComment"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
@@ -108,7 +146,7 @@
                 android:layout_margin="20dp"
                 android:background="@drawable/btn_google_login" />
             <Button
-                android:id="@+id/btnNhanXetPhanHoi"
+                android:id="@+id/btnNhanXetComment"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
@@ -117,7 +155,7 @@
                 android:layout_margin="20dp"
                 android:background="@drawable/btn_login"/>
             <Button
-                android:id="@+id/btnSuaPhanHoi"
+                android:id="@+id/btnSuaComment"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
