@@ -23,6 +23,19 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tiêu Đề"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/edtdiachi"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/spinner_bodert" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="51dp"
@@ -50,19 +63,6 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/edtdiachi"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@drawable/spinner_bodert" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Số Điện Thoại"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-
-        <EditText
             android:id="@+id/edtPhoneMunber"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -76,30 +76,7 @@
 
             <TextView
                 style="@style/editfillter"
-                android:text="Giới tính: " />
-
-            <Spinner
-                android:id="@+id/spngioitinh"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="2"
-                android:background="@drawable/spinner_bodert" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/editfillter"
-                android:text="Độ tuổi: " />
+                android:text="Quận: " />
 
             <EditText
                 android:id="@+id/edtxdotuoi"
@@ -107,11 +84,10 @@
                 android:layout_height="40dp"
                 android:layout_weight="2"
                 android:background="@drawable/spinner_bodert" />
-
             <TextView
                 style="@style/editfillter"
                 android:layout_marginLeft="5dp"
-                android:text="Đến" />
+                android:text="Diện tích" />
 
             <EditText
                 android:id="@+id/edtxden"
@@ -119,26 +95,8 @@
                 android:layout_height="40dp"
                 android:layout_weight="2"
                 android:background="@drawable/spinner_bodert" />
+
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/editfillter"
-                android:text="Số lượng người ở: " />
-
-            <Spinner
-                android:id="@+id/spnSl"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="2"
-                android:background="@drawable/spinner_bodert" />
-        </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -159,11 +117,10 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Yêu cầu khác: "
+            android:layout_height="20dp"
+            android:text="Ghi chú thêm: "
             android:textColor="@color/white"
             android:textSize="18sp" />
-
         <EditText
             android:id="@+id/edtyeuccaukhac"
             android:layout_width="match_parent"
@@ -186,14 +143,10 @@
             <ImageView
 
                 android:id="@+id/imageView"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
-                android:layout_marginLeft="85dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:scaleType="fitXY"/>
 
         </LinearLayout>
         <LinearLayout

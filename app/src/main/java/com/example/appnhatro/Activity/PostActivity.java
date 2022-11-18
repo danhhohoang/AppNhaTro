@@ -5,8 +5,6 @@ import static com.example.appnhatro.TenantPasswordChangeActivity.setContentNotif
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -109,8 +107,9 @@ public class PostActivity extends AppCompatActivity {
                                                     if (posts.size() >= 1){
                                                         final Dialog dialog = new Dialog(PostActivity.this);
                                                         opendialog(dialog, Gravity.CENTER, "Load image....",R.layout.layout_dialog_notify_no_button);
-                                                        Post post1 = new Post(idPost, iduser, YeuCauKhac.getText().toString(), Diachi.getText().toString(), Den.getText().toString(), gia.getText().toString(), DoTuoi.getText().toString(),
-                                                                "Tên nhà của tui", idPost + ".jpg", spnStatus.getSelectedItem().toString());
+                                                        Post post1 = new Post(idPost, "KH01", YeuCauKhac.getText().toString(), SDT.getText().toString(), DoTuoi.getText().toString(),
+                                                                gia.getText().toString(),Den.getText().toString(),
+                                                                Diachi.getText().toString(), idPost + ".jpg", spnStatus.getSelectedItem().toString());
                                                         addToFavorite(post1);
                                                         String str = idPost+".jpg";
                                                         storageReference = FirebaseStorage.getInstance().getReference("images/post/" + str);
@@ -260,8 +259,6 @@ public class PostActivity extends AppCompatActivity {
 
     private void setSpinner() {
         spnStatus = findViewById(R.id.spntinhtrang);
-        spnSex = findViewById(R.id.spngioitinh);
-        spnSl = findViewById(R.id.spnSl);
 
 
         ArrayAdapter spnStatusAdapter = new ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.string_status));
@@ -271,8 +268,7 @@ public class PostActivity extends AppCompatActivity {
         ArrayAdapter spnSLAdapter = new ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.string_amount));
 
         spnStatus.setAdapter(spnStatusAdapter);
-        spnSex.setAdapter(spnSexAdapter);
-        spnSl.setAdapter(spnSLAdapter);
+
 
         spnStatusAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
         spnSexAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
