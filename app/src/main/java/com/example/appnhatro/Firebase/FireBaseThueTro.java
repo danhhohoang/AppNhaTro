@@ -5,11 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.example.appnhatro.Activity.BookingActivity;
+import com.example.appnhatro.Activity.Detail_Notification_Landlor;
 import com.example.appnhatro.Activity.PostActivity;
 import com.example.appnhatro.Activity.RepportActivity;
 import com.example.appnhatro.Models.BitMap;
@@ -246,6 +246,32 @@ public class FireBaseThueTro {
                     id = "BK01" + (Integer.parseInt(temp[1]) + 1);
                 }
                 ((BookingActivity) context).IdBooking(id);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void IdNotificationLandlor(Context context) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Notification").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> dsNotification = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    dsNotification.add(dataSnapshot.getKey());
+                }
+                String[] temp = dsNotification.get(dsNotification.size() - 1).split("TB_");
+                String id = "";
+                if (Integer.parseInt(temp[1]) < 10) {
+                    id = "TB_0" + (Integer.parseInt(temp[1]) + 1);
+                } else {
+                    id = "TB_0" + (Integer.parseInt(temp[1]) + 1);
+                }
+                ((Detail_Notification_Landlor) context).IdNotification(id);
             }
 
             @Override

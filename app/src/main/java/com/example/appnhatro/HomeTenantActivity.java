@@ -28,7 +28,8 @@ public class HomeTenantActivity extends AppCompatActivity {
     //
     private MyRecyclerViewAdapter myRecyclerViewAdapterOGhep;
     private ArrayList<Post> listHorizoneOGhep= new ArrayList<>();
-    LinearLayout Post, notification;
+    LinearLayout Post;
+    ImageButton notification;
     FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
     ImageButton ivbtnAccount_HT;
     @Override

@@ -27,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
+            android:textSize="9sp"
             android:text="Danh sách phòng"/>
         </LinearLayout>
         <LinearLayout
@@ -37,82 +38,90 @@
             android:gravity="center">
             <ImageButton
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:background="@drawable/ic_roommate"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="10sp"
                 android:textColor="@color/white"
-                android:text="Phòng đã lưu"/>
+                android:text="Phòng đã Thuê"/>
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/post"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_weight="2"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
+
             <ImageButton
                 android:id="@+id/btnPost"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="2"
-                android:background="@drawable/ic_post"
-                />
+                android:background="@drawable/ic_post" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:text="Đăng Bài"
                 android:textColor="@color/white"
-                android:text="Đăng Bài"/>
+                android:textSize="10sp" />
         </LinearLayout>
+
         <LinearLayout
-            android:id="@+id/notidication"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="53dp"
             android:layout_weight="2"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
+
             <ImageButton
+                android:id="@+id/notidication"
                 android:layout_width="40dp"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:layout_weight="2"
-                android:background="@drawable/ic_bell"
-                />
+                android:background="@drawable/ic_bell" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:text="Thông Báo"
                 android:textColor="@color/white"
-                android:text="Thông Báo"/>
+                android:textSize="10sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="53dp"
             android:layout_weight="2"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
+
             <ImageButton
                 android:id="@+id/ivbtnAccount_HT"
                 android:layout_width="40dp"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:layout_weight="2"
-                android:background="@drawable/ic_user"
-                />
+                android:background="@drawable/ic_user" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:text="Tài Khoản"
                 android:textColor="@color/white"
-                android:text="Tài Khoản"/>
+                android:textSize="10sp" />
 
         </LinearLayout>
     </LinearLayout>
