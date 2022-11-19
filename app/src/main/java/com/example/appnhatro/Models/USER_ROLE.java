@@ -1,8 +1,8 @@
 package com.example.appnhatro.Models;
 
 public class USER_ROLE {
-    String id_role;
-    String id_user;
+    private String id_role;
+    private String id_user;
 
     public USER_ROLE() {
     }
