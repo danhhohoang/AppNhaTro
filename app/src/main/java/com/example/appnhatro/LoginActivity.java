@@ -13,9 +13,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.appnhatro.Activity.LandLordHomeActivity;
 import com.example.appnhatro.Activity.TermAndSerciveActivity;
 import com.example.appnhatro.Activity.VertifyPhoneNumberActivity;
 import com.example.appnhatro.Models.Post;
+import com.example.appnhatro.Models.USER_ROLE;
 import com.example.appnhatro.Models.user;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -64,8 +66,27 @@ public class LoginActivity extends AppCompatActivity {
                         for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                             user User = dataSnapshot.getValue(user.class);
                             if(User.getEmail().equals(email)&&User.getPassword().equals(pass)&&User.getStatus().equals("0")){
-                                Intent intent = new Intent(LoginActivity.this,HomeTenantActivity.class);
-                                startActivity(intent);
+                                DatabaseReference databaseReference = firebaseDatabase.getReference();
+                                databaseReference.child("User_Role").child(User.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        USER_ROLE userRole = snapshot.getValue(USER_ROLE.class);
+                                        if(userRole.getId_role().equals("1")){
+                                            Intent intent = new Intent(LoginActivity.this,HomeTenantActivity.class);
+                                            startActivity(intent);
+                                        }else if(userRole.getId_role().equals("2")){
+                                            Intent intent = new Intent(LoginActivity.this, LandLordHomeActivity.class);
+                                            startActivity(intent);
+                                        }else {
+                                            Toast.makeText(LoginActivity.this, "Admin", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
                             }else{
                                 if (email.isEmpty()) {
                                     txtEmail.setError("Email không được bỏ trống");
