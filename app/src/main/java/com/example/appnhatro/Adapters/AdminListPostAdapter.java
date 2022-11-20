@@ -27,13 +27,13 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class LandLordHomeListAdapter extends RecyclerView.Adapter<LandLordHomeListAdapter.MyViewHolder>{
+public class AdminListPostAdapter extends RecyclerView.Adapter<AdminListPostAdapter.MyViewHolder>{
     private Activity context;
     private int resource;
     private ArrayList<Post> personList;
     private OnItemClickListener onItemClickLisner;
 
-    public LandLordHomeListAdapter(Activity context, int resource, ArrayList<Post> personList) {
+    public AdminListPostAdapter(Activity context, int resource, ArrayList<Post> personList) {
         this.context = context;
         this.resource = resource;
         this.personList = personList;
@@ -41,14 +41,14 @@ public class LandLordHomeListAdapter extends RecyclerView.Adapter<LandLordHomeLi
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdminListPostAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.lanlord_home_item_layout, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdminListPostAdapter.MyViewHolder holder, int position) {
         Post post = personList.get(position);
         holder.tvTenPhong.setText(post.getHouse_name());
         holder.tvDiaChi.setText(post.getAddress());
@@ -85,12 +85,11 @@ public class LandLordHomeListAdapter extends RecyclerView.Adapter<LandLordHomeLi
         return personList.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         View.OnClickListener onItemClickLisner;
         ImageView hinh;
-        TextView tvTenPhong,tvDiaChi,tvGia,tvDienTich,tvTrangThai;
+        TextView tvTenPhong,tvDiaChi,tvGia,tvDienTich;
         CardView item;
-
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             hinh =itemView.findViewById(R.id.imgItemHomeHouse);
@@ -103,9 +102,9 @@ public class LandLordHomeListAdapter extends RecyclerView.Adapter<LandLordHomeLi
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick(View v) {
             if (onItemClickLisner != null) {
-                onItemClickLisner.onClick(view);
+                onItemClickLisner.onClick(v);
             }
         }
     }
