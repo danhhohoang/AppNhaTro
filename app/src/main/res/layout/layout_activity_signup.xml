@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@drawable/background">
 
@@ -9,44 +10,59 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-        <ImageView
-            android:id="@+id/btn_suBack"
-            android:layout_width="100dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_back"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="35dp"
-            android:paddingTop="20dp"
-            android:text="Tạo tài khoản"
-            android:textSize="11pt"
-            android:textColor="@color/white"
-            android:textStyle="bold"/>
-    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/btn_suBack"
+                android:layout_marginTop="5dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_back1" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:gravity="center"
+                android:text="Tạo tài khoản"
+                android:textColor="@color/white"
+                android:textSize="11pt"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="                                     "/>
+
+        </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="20"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
         android:orientation="vertical">
         <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_marginTop="10dp"
             android:id="@+id/iv_suImage"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:src="@drawable/ic_user"/>
+
+            android:src="@drawable/ic_addphoto"/>
         <EditText
             android:id="@+id/edt_suName"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/txt_background_login"
             android:layout_marginTop="50dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
             android:hint="Nhập tên"
             android:paddingLeft="20dp"/>
         <EditText
@@ -55,8 +71,6 @@
             android:layout_height="60dp"
             android:background="@drawable/txt_background_login"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
             android:hint="Nhập sdt"
             android:inputType="phone"
             android:paddingLeft="20dp"/>
@@ -66,8 +80,6 @@
             android:layout_height="60dp"
             android:background="@drawable/txt_background_login"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
             android:hint="Nhập email"
             android:inputType="textEmailAddress"
             android:paddingLeft="20dp"/>
@@ -78,8 +90,6 @@
             android:layout_height="60dp"
             android:background="@drawable/txt_background_login"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
             android:hint="Nhập mật khẩu"
             android:paddingLeft="20dp"/>
         <EditText
@@ -89,8 +99,6 @@
             android:layout_height="60dp"
             android:background="@drawable/txt_background_login"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
             android:hint="Nhập lại mật khẩu"
             android:paddingLeft="20dp"/>
         <LinearLayout
@@ -103,7 +111,7 @@
                 android:layout_height="match_parent"
                 android:buttonTint="@color/white"
                 android:layout_marginTop="30dp"
-                android:layout_marginLeft="95dp"/>
+                android:layout_marginLeft="60dp"/>
             <TextView
                 android:id="@+id/txt_suTitleRule"
                 android:layout_width="wrap_content"
@@ -117,10 +125,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_login"
-            android:text="Tạo tài khoản"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="110dp"
-            android:layout_marginRight="110dp"/>
+            app:backgroundTint="@null"
+            android:layout_marginLeft="40dp"
+            android:textStyle="bold"
+            android:layout_marginRight="40dp"
+            android:text="Tạo tài khoản"
+            />
     </LinearLayout>
     </LinearLayout>
 </ScrollView>

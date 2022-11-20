@@ -108,6 +108,8 @@
         <activity
             android:name=".Activity.TenantCommentActivity"
             android:exported="true" />
+        <activity android:name=".TenantPostRenting"
+            android:exported="true"/>
 
     </application>
 

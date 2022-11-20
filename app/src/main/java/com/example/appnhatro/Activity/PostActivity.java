@@ -5,6 +5,8 @@ import static com.example.appnhatro.TenantPasswordChangeActivity.setContentNotif
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -30,27 +32,32 @@ import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.Models.TransactionModel;
 import com.example.appnhatro.R;
 import com.example.appnhatro.tool.ConverImage;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 public class PostActivity extends AppCompatActivity {
     private FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
     private ConverImage converImage = new ConverImage();
     Spinner spnStatus, spnSex, spnSl;
-    ImageView imgPhoTo;
+    ImageView imgPhoTo, hinh, back;
     Button UpData, Huy;
     EditText Diachi, SDT, DoTuoi, Den, gia, YeuCauKhac;
     Uri uri;
     String idPost = "", iduser;
     int stt = 1;
+    EditText tieude, diachi, quan, dientich, Gia;
     ArrayList<Post> posts = new ArrayList<>();
     ArrayList<TransactionModel> transactionModels = new ArrayList<>();
     //firebase
@@ -60,9 +67,15 @@ public class PostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_layout);
+        getinfo();
         setSpinner();
         setIntent();
-
+//        String TieuDe = getIntent().getStringExtra("House_name");
+//        String DiaChi = getIntent().getStringExtra("it_address");
+//        String Quan = getIntent().getStringExtra("district");
+//        String DienTich = getIntent().getStringExtra("Area");
+//        String Gia = getIntent().getStringExtra("price");
+//        String image = getIntent().getStringExtra("Image");
 
         imgPhoTo = findViewById(R.id.imageView);
         UpData = findViewById(R.id.uploadimagebtn);
@@ -73,8 +86,14 @@ public class PostActivity extends AppCompatActivity {
         gia = findViewById(R.id.edtxgia);
         YeuCauKhac = findViewById(R.id.edtyeuccaukhac);
         Huy = findViewById(R.id.bthuy);
+        back = findViewById(R.id.btn_postback);
 
-
+       diachi = findViewById(R.id.edtPhoneMunber);
+       tieude = findViewById(R.id.edtdiachi);
+       quan = findViewById(R.id.edtxdotuoi);
+       dientich = findViewById(R.id.edtxden);
+       Gia = findViewById(R.id.edtxgia);
+       hinh = findViewById(R.id.imageView);
         //Tải dữ liệu lên firebase
         UpData.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,6 +215,60 @@ public class PostActivity extends AppCompatActivity {
                 });
                 AlertDialog al = b.create();
                 al.show();
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+
+    public static final void setAvatar(ImageView imageView, String avatar) {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/" + avatar);
+        try {
+            final File file = File.createTempFile("ảnh", ".jpg");
+            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                    imageView.setImageBitmap(bitmap);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("Notify", "Load Image Fail");
+
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getinfo() {
+        String idtt = getIntent().getStringExtra("it_id");
+        DatabaseReference databaseReference;
+        databaseReference = FirebaseDatabase.getInstance().getReference("Post");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    Post post = dataSnapshot.getValue(Post.class);
+                    if (post.getId().equals(idtt)) {
+                        tieude.setText(post.getHouse_name());
+                        diachi.setText(post.getAddress());
+                        quan.setText(post.getAddress_district());
+                        dientich.setText(post.getArea());
+                        Gia.setText(post.getPrice());
+                        setAvatar(hinh, post.getImage());
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

@@ -3,15 +3,12 @@ package com.example.appnhatro.Firebase;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
 import com.example.appnhatro.Activity.BookingActivity;
-import com.example.appnhatro.Activity.LandLordFeedBack;
-import com.example.appnhatro.Activity.LandLordPostDetailActivity;
 import com.example.appnhatro.Activity.Detail_Notification_Landlor;
 import com.example.appnhatro.Activity.PostActivity;
 import com.example.appnhatro.Activity.RepportActivity;
@@ -43,8 +40,6 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FireBaseThueTro {
     public FireBaseThueTro() {
@@ -220,7 +215,7 @@ public class FireBaseThueTro {
     }
 //    public void deleteRating(String userId, String ReportID){
 //        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-//        DatabaseReference databaseReference = firebaseDatabase.getReference("Rating");
+//        DatabaseReference databaseReference = firebaseDatabase.ugetReference("Rating");
 //        databaseReference.child(ReportID).child(userId).removeValue();
 //    }
     public void autoid(Context context){

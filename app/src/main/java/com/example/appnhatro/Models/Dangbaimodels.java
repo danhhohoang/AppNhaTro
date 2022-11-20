@@ -14,6 +14,7 @@ public class Dangbaimodels {
     private String price;
     private String image1;
 
+
     public Dangbaimodels() {
     }
 

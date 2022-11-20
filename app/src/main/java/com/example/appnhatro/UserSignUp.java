@@ -4,13 +4,11 @@ import static com.example.appnhatro.TenantPasswordChangeActivity.setContentNotif
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -20,17 +18,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.appnhatro.Activity.RepportActivity;
-import com.example.appnhatro.Activity.ReserPasswordChangeActivity;
 import com.example.appnhatro.Firebase.FirebaseUserSignUp;
 import com.example.appnhatro.Models.USER_ROLE;
 import com.example.appnhatro.Models.user;
-import com.example.appnhatro.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,8 +35,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.net.URI;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -157,8 +149,7 @@ public class UserSignUp extends AppCompatActivity {
         databaseReference.setValue(um, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                Intent intent = new Intent(UserSignUp.this,TenantPostFavourite.class);
-                startActivity(intent);
+                finish();
             }
         });
 //        dao.add(um).addOnSuccessListener(suc->{
@@ -224,8 +215,6 @@ public class UserSignUp extends AppCompatActivity {
             }
         });
     }
-
-
     @Override
     protected void onResume() {
         super.onResume();

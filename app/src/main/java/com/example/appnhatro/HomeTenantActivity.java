@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appnhatro.Activity.PostActivity;
 import com.example.appnhatro.Activity.Tenant_notification_activity;
 import com.example.appnhatro.Firebase.FireBaseThueTro;
 import com.example.appnhatro.Models.Post;
@@ -29,9 +28,9 @@ public class HomeTenantActivity extends AppCompatActivity {
     private MyRecyclerViewAdapter myRecyclerViewAdapterOGhep;
     private ArrayList<Post> listHorizoneOGhep= new ArrayList<>();
     LinearLayout Post;
-    ImageButton notification;
+    ImageButton notification, DSP;
     FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
-    ImageButton ivbtnAccount_HT;
+    ImageButton ivbtnAccount_HT, btn_pdt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +65,8 @@ public class HomeTenantActivity extends AppCompatActivity {
         Post = findViewById(R.id.post);
         notification = findViewById(R.id.notidication);
         ivbtnAccount_HT = findViewById(R.id.ivbtnAccount_HT);
-
+        btn_pdt = findViewById(R.id.btn_PDT);
+        DSP =findViewById(R.id.btn_DSP);
     }
     @SuppressLint("MissingInflatedId")
     public void loadNhachoThue(){
@@ -105,7 +105,7 @@ public class HomeTenantActivity extends AppCompatActivity {
         Post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomeTenantActivity.this, PostActivity.class);
+                Intent intent = new Intent(HomeTenantActivity.this, TenantPostFavourite.class);
                 startActivity(intent);
             }
         });
@@ -113,6 +113,20 @@ public class HomeTenantActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeTenantActivity.this, Tenant_notification_activity.class);
+                startActivity(intent);
+            }
+        });
+        btn_pdt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeTenantActivity.this, TenantPostRenting.class);
+                startActivity(intent);
+            }
+        });
+        DSP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeTenantActivity.this, TenantSearchActivity.class);
                 startActivity(intent);
             }
         });

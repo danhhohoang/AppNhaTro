@@ -16,23 +16,10 @@
         android:layout_marginRight="10dp"
         android:layout_weight="2"
         android:orientation="horizontal"
-        android:weightSum="12"
-
-        >
-
-        <ImageButton
-            android:id="@+id/imgbutton_menu"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:background="@null"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_hamburger_menu" />
+        android:weightSum="12">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="10"
@@ -40,20 +27,8 @@
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="24sp"
-            android:textStyle="bold"
+            android:textStyle="bold"/>
 
-            />
-
-        <ImageButton
-            android:id="@+id/imgbutton_notification"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:background="@null"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_bell2" />
 
 
     </LinearLayout>
@@ -74,11 +49,7 @@
             android:padding="10dp"
             android:textSize="16sp"
             android:background="@drawable/shape_term_and_service_textview"
-            android:inputType="textMultiLine"
-
-            />
-
-
+            android:inputType="textMultiLine" />
     </LinearLayout>
 
     <!--    button submit-->
