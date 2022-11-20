@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,16 +56,18 @@ public class TenantPostDetail extends AppCompatActivity {
     ImageView imgRating1,imgRating2,imgRating3,imgRating4,imgRating5,hinh,imgFavorite,imgAvatar;
     String it_id,it_idLogin;
     boolean isFavorite = false;
-    Button btnReport,btnDatCoc,btnXemPhong;
+    Button btnReport,btnXemPhong;
     RecyclerView rcvComment;
     DecimalFormat formatter = new DecimalFormat("#,###,###");
     Rating ratingComment = new Rating();
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_activity_tenant_post_details);
 //        it_idLogin = getIntent().getStringExtra("it_idLogin");
-        it_idLogin="KH03";
+        sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        it_idLogin = sharedPreferences.getString("idUser", "");
         it_id = getIntent().getStringExtra("it_id");
         control();
 
