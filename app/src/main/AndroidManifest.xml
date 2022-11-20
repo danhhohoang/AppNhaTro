@@ -111,6 +111,12 @@
         <activity android:name=".TenantPostRenting"
             android:exported="true"/>
 
+        <activity
+            android:name=".Activity.AdminListAllPostActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.AdminPostDetailActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
