@@ -43,6 +43,7 @@
                     style="@style/edittextAddNewPostLandLord"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
+                    android:textColor="@color/black"
                     android:enabled="false"
                     android:gravity="center|left" />
 

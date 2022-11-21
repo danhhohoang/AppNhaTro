@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,9 +14,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.appnhatro.Activity.LandLordHomeActivity;
 import com.example.appnhatro.Activity.TermAndSerciveActivity;
 import com.example.appnhatro.Activity.VertifyPhoneNumberActivity;
 import com.example.appnhatro.Models.Post;
+import com.example.appnhatro.Models.USER_ROLE;
 import com.example.appnhatro.Models.user;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView tvQuenMatKhau,tvDangKyTaiKhoan,tvDieuKhoan;
     Button btnSignIn;
     String formatEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
         System.exit(1);
 
     }
-
     public void event(){
         txtEmail=findViewById(R.id.txtTenDangNhap);
         txtPassword=findViewById(R.id.txtMatKhauLogin);
@@ -64,9 +67,39 @@ public class LoginActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                             user User = dataSnapshot.getValue(user.class);
-                            if(User.getEmail().equals(email)&&User.getPassword().equals(pass)){
-                                Intent intent = new Intent(LoginActivity.this,HomeTenantActivity.class);
-                                startActivity(intent);
+                            if(User.getEmail().equals(email)&&User.getPassword().equals(pass)&&User.getStatus().equals("0")){
+                                DatabaseReference databaseReference = firebaseDatabase.getReference();
+                                databaseReference.child("User_Role").child(User.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        USER_ROLE userRole = snapshot.getValue(USER_ROLE.class);
+                                        if(userRole.getId_role().equals("1")){
+                                            sharedPreferences = getSharedPreferences("User",MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString("idUser", userRole.getId_user());
+                                            editor.apply();
+                                            Intent intent = new Intent(LoginActivity.this,HomeTenantActivity.class);
+                                            startActivity(intent);
+                                        }else if(userRole.getId_role().equals("2")){
+                                            sharedPreferences = getSharedPreferences("User",MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString("idUser", userRole.getId_user());
+                                            editor.apply();
+                                            Intent intent = new Intent(LoginActivity.this, LandLordHomeActivity.class);
+                                            startActivity(intent);
+                                        }else {
+                                            sharedPreferences = getSharedPreferences("User",MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString("idUser", userRole.getId_user());
+                                            editor.apply();
+                                            Toast.makeText(LoginActivity.this, "Admin", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
                             }else{
                                 if (email.isEmpty()) {
                                     txtEmail.setError("Email không được bỏ trống");

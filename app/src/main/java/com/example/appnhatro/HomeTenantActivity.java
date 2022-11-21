@@ -2,7 +2,9 @@ package com.example.appnhatro;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -29,8 +31,10 @@ public class HomeTenantActivity extends AppCompatActivity {
     private MyRecyclerViewAdapter myRecyclerViewAdapterOGhep;
     private ArrayList<Post> listHorizoneOGhep= new ArrayList<>();
     LinearLayout Post, notification;
+    String idUser;
     FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
     ImageButton ivbtnAccount_HT;
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +43,8 @@ public class HomeTenantActivity extends AppCompatActivity {
         persons.add("ptro4.jpg");
         persons.add("ptro2.jpg");
         persons.add("ptro1.jpg");
+        sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        idUser = sharedPreferences.getString("idUser", "");
         adapter = new ViewHolderImageHome(this, R.layout.list_view_item_home_tenant, persons);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);

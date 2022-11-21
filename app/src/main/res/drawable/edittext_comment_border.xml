@@ -4,9 +4,7 @@
         <shape android:shape="rectangle">
             <corners android:radius="15dp">
             </corners>
-            <stroke android:color="@color/black"
-                android:width="4dp"></stroke>
-            <solid android:color="#FFFFFF"></solid>
+            <solid android:color="@color/gray"></solid>
         </shape>
     </item>
 </layer-list>

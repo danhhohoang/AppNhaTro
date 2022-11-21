@@ -1,6 +1,7 @@
 package com.example.appnhatro;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import com.example.appnhatro.Models.user;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AdminLandlordListAdapter extends RecyclerView.Adapter<AdminLandlordListAdapter.AdminLandlordList> implements Filterable {
     private final RecyclerViewInterface recyclerViewInterface;
@@ -47,10 +50,18 @@ public class AdminLandlordListAdapter extends RecyclerView.Adapter<AdminLandlord
         if (landLordList == null){
             return;
         }
-        holder.ID.setText(String.valueOf(landLordList.getId()));
-        holder.sdt.setText(String.valueOf(landLordList.getPhone()));
-        //holder.status.setText(landLordList.getStatus());
-        //holder.moneyhavepay.setText(String.valueOf(landLordList.getMoneyhavepay()));
+        holder.ID.setText(landLordList.getId());
+        holder.sdt.setText(landLordList.getPhone());
+        if(landLordList.getStatus() == null){
+            holder.status.setText("");
+        }else{
+            if(landLordList.getStatus().equals("0")){
+                holder.status.setText("Hoạt động");
+            }else if(landLordList.getStatus().equals("1")){
+                holder.status.setText("Tạm khoá");
+            }
+        }
+        TenantAccountActivity.setImage(holder.image,landLordList.getAvatar());
     }
 
     @Override
@@ -66,13 +77,14 @@ public class AdminLandlordListAdapter extends RecyclerView.Adapter<AdminLandlord
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
+
                 String strSearch = charSequence.toString();
                 if (strSearch.isEmpty()){
                     mPostList = mPostListOld;
                 } else {
                     List<user> list = new ArrayList<>();
                     for (user User : mPostListOld){
-                        if (User.getName().toLowerCase().contains(strSearch.toLowerCase())){
+                        if (User.getId().toLowerCase().contains(strSearch.toLowerCase())){
                             list.add(User);
                         }
                     }
@@ -93,19 +105,20 @@ public class AdminLandlordListAdapter extends RecyclerView.Adapter<AdminLandlord
     }
 
     public static class AdminLandlordList extends RecyclerView.ViewHolder{
-        TextView ID,sdt,status,moneyhavepay;
+        TextView ID,sdt,status;
+        CircleImageView image;
         public AdminLandlordList(@NonNull View itemView,RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             ID = itemView.findViewById(R.id.txt_alID);
             sdt = itemView.findViewById(R.id.txt_alSDT);
             status = itemView.findViewById(R.id.txt_alStatus);
-            moneyhavepay = itemView.findViewById(R.id.txt_alMoneyhavepay);
+            image = itemView.findViewById(R.id.civDanhsach_AL);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(recyclerViewInterface != null){
-                        int pos = getAdapterPosition();
+                        int pos = getBindingAdapterPosition();
                         if(pos != RecyclerView.NO_POSITION){
                             recyclerViewInterface.onItemClick(pos);
                         }
