@@ -16,19 +16,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/btn_detailback"
-            android:layout_width="46dp"
-            android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:src="@drawable/ic_back1" />
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
 
-        <ImageView
-            android:id="@+id/imgRoomPostDetail"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY" />
+            <ImageView
+                android:id="@+id/imgRoomPostDetail"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/btn_detailback"
+                android:layout_width="46dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:src="@drawable/ic_back1" />
+        </RelativeLayout>
+
     </LinearLayout>
 
     <ScrollView

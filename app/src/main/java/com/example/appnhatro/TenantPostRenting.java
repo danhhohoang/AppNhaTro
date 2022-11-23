@@ -1,5 +1,6 @@
 package com.example.appnhatro;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -41,6 +42,8 @@ public class TenantPostRenting extends AppCompatActivity {
     private ArrayList<Post> posts = new ArrayList<>();
     ImageView back, avt;
     SearchView sv_tpr;
+    String iduser;
+    SharedPreferences sharedPreferences;
     FireBasePostRenting fireBasePostRenting = new FireBasePostRenting();
     DatabaseReference databaseReference;
     @Override
@@ -57,10 +60,14 @@ public class TenantPostRenting extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
-        fireBasePostRenting.readPostFindPeople(posts,tenantPostRentingAdapter,"KH02");
+
         recyclerView.setAdapter(tenantPostRentingAdapter);
         back = findViewById(R.id.btn_back);
         avt = findViewById(R.id.avt);
+
+        sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        iduser = sharedPreferences.getString("idUser", "");
+        fireBasePostRenting.readPostFindPeople(posts,tenantPostRentingAdapter, iduser);
         tenantPostRentingAdapter.setOnItemClickListener(new TenantPostRentingAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(int position, View view) {
@@ -103,7 +110,7 @@ public class TenantPostRenting extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     TransactionModel transactionModel = dataSnapshot.getValue(TransactionModel.class);
-                    if (transactionModel.getId_user().equals("KH02")){
+                    if (transactionModel.getId_user().equals(iduser)){
                         databaseReferencepost.child("Post").addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {

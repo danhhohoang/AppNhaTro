@@ -2,14 +2,12 @@ package com.example.appnhatro.Firebase;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.example.appnhatro.Models.Favorite;
 import com.example.appnhatro.Models.LikedPostModel;
 import com.example.appnhatro.Models.Post;
-import com.example.appnhatro.MyRecyclerViewAdapter;
 import com.example.appnhatro.TenantPostDetail;
 import com.example.appnhatro.TenantPostFavouriteAdapter;
 import com.google.firebase.database.DataSnapshot;
@@ -27,34 +25,62 @@ public class FireBasePostFavorite {
     public void readListPost(ArrayList<Post> list, TenantPostFavouriteAdapter tenantPostFavouriteAdapter,String idKH) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
-        FirebaseDatabase firebaseDatabase2 = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference2 = firebaseDatabase.getReference("Post");
-        databaseReference.child("Like").child(idKH).addValueEventListener(new ValueEventListener() {
+        DatabaseReference databaseReference3 = firebaseDatabase.getReference("Like");
+        databaseReference.child("Like").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Favorite favorite = dataSnapshot.getValue(Favorite.class);
-                    Log.d("test","aa" + favorite.getIdUser());
-                    if(favorite.getIdUser().equals("KH02")){
-                        databaseReference2.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                    Post post = dataSnapshot.getValue(Post.class);
-                                    Log.d("testPost","cc" + favorite.getIdPost());
-                                    Log.d("testLike","cc" + post.getId());
-                                    if (post.getId().equals(favorite.getIdPost())){
-                                        list.add(post);
-                                    }
-                                }
-                                tenantPostFavouriteAdapter.notifyDataSetChanged();
-                            }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                    databaseReference3.child(dataSnapshot.getKey()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                                Favorite favorite = dataSnapshot1.getValue(Favorite.class);
+                                if(favorite.getIdUser().equals(idKH)){
+                                    databaseReference2.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                                Post post = dataSnapshot.getValue(Post.class);
+                                                if (post.getId().equals(favorite.getIdPost())){
+                                                    list.add(post);
+                                                }
+                                            }
+                                            tenantPostFavouriteAdapter.notifyDataSetChanged();
+                                        }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
 
+                                        }
+                                    });
+                                }
                             }
-                        });
-                    }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+//                    Favorite favorite = dataSnapshot.getValue(Favorite.class);
+//                    if(favorite.getIdUser().equals(idKH)){
+//                        databaseReference2.addValueEventListener(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+//                                    Post post = dataSnapshot.getValue(Post.class);
+//                                    if (post.getId().equals(favorite.getIdPost())){
+//                                        list.add(post);
+//                                    }
+//                                }
+//                                tenantPostFavouriteAdapter.notifyDataSetChanged();
+//                            }
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError error) {
+//
+//                            }
+//                        });
+//                    }
                 }
             }
 

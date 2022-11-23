@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -31,11 +30,10 @@ public class HomeTenantActivity extends AppCompatActivity {
     private ArrayList<Post> listHorizoneOGhep= new ArrayList<>();
     LinearLayout Post;
     ImageButton notification, DSP;
-    LinearLayout Post, notification;
+
     String idUser;
     FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
     ImageButton ivbtnAccount_HT, btn_pdt;
-    ImageButton ivbtnAccount_HT;
     SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +62,7 @@ public class HomeTenantActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeTenantActivity.this,TenantAccountActivity.class);
-                intent.putExtra("ID","KH01");
+                intent.putExtra("ID" ,idUser);
                 startActivity(intent);
             }
         });

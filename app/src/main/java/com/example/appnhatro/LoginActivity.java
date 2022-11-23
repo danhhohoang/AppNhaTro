@@ -98,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                     }
                                 });
+                                break;
                             }else{
                                 if (email.isEmpty()) {
                                     txtEmail.setError("Email không được bỏ trống");

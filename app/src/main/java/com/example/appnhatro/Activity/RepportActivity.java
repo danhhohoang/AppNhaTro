@@ -2,6 +2,7 @@ package com.example.appnhatro.Activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +27,8 @@ public class RepportActivity extends AppCompatActivity {
     EditText NoiDung;
     Button Huy, Gui;
     ImageView back;
-    String tenbaidang,idbd, idPost,id_login, getIdPost = "";
+    String tenbaidang,idbd, idPost,id_login, getIdPost = "", userid;
+    SharedPreferences sharedPreferences;
     private FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
 
     @Override

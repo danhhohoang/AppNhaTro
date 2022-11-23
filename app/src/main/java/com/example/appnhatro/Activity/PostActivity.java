@@ -5,6 +5,7 @@ import static com.example.appnhatro.TenantPasswordChangeActivity.setContentNotif
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -56,6 +57,7 @@ public class PostActivity extends AppCompatActivity {
     EditText Diachi, SDT, DoTuoi, Den, gia, YeuCauKhac;
     Uri uri;
     String idPost = "", iduser;
+    SharedPreferences sharedPreferences;
     int stt = 1;
     EditText tieude, diachi, quan, dientich, Gia;
     ArrayList<Post> posts = new ArrayList<>();
@@ -70,12 +72,6 @@ public class PostActivity extends AppCompatActivity {
         getinfo();
         setSpinner();
         setIntent();
-//        String TieuDe = getIntent().getStringExtra("House_name");
-//        String DiaChi = getIntent().getStringExtra("it_address");
-//        String Quan = getIntent().getStringExtra("district");
-//        String DienTich = getIntent().getStringExtra("Area");
-//        String Gia = getIntent().getStringExtra("price");
-//        String image = getIntent().getStringExtra("Image");
 
         imgPhoTo = findViewById(R.id.imageView);
         UpData = findViewById(R.id.uploadimagebtn);
@@ -87,7 +83,8 @@ public class PostActivity extends AppCompatActivity {
         YeuCauKhac = findViewById(R.id.edtyeuccaukhac);
         Huy = findViewById(R.id.bthuy);
         back = findViewById(R.id.btn_postback);
-
+        sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        iduser = sharedPreferences.getString("idUser", "");
        diachi = findViewById(R.id.edtPhoneMunber);
        tieude = findViewById(R.id.edtdiachi);
        quan = findViewById(R.id.edtxdotuoi);
@@ -114,7 +111,7 @@ public class PostActivity extends AppCompatActivity {
 
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                                     TransactionModel transactionModel = dataSnapshot.getValue(TransactionModel.class);
-                                    if (transactionModel.getId_user().equals("KH02")){
+                                    if (transactionModel.getId_user().equals(iduser)){
                                         databaseReference.child("Post").addValueEventListener(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -126,7 +123,7 @@ public class PostActivity extends AppCompatActivity {
                                                     if (posts.size() >= 1){
                                                         final Dialog dialog = new Dialog(PostActivity.this);
                                                         opendialog(dialog, Gravity.CENTER, "Load image....",R.layout.layout_dialog_notify_no_button);
-                                                        Post post1 = new Post(idPost, "KH01", YeuCauKhac.getText().toString(), SDT.getText().toString(), DoTuoi.getText().toString(),
+                                                        Post post1 = new Post(idPost, iduser, YeuCauKhac.getText().toString(), SDT.getText().toString(), DoTuoi.getText().toString(),
                                                                 gia.getText().toString(),Den.getText().toString(),
                                                                 Diachi.getText().toString(), idPost + ".jpg", spnStatus.getSelectedItem().toString());
                                                         addToFavorite(post1);
@@ -138,11 +135,19 @@ public class PostActivity extends AppCompatActivity {
                                                                 if (dialog.isShowing()){
                                                                     dialog.dismiss();
                                                                     openDialogNotifyFinish(Gravity.CENTER, "Đăng bài thành công", R.layout.layout_dialog_notify_finish);
+                                                                    AlertDialog.Builder c = new AlertDialog.Builder(PostActivity.this);
+                                                                    c.setTitle("Thông Báo");
+                                                                    c.setMessage("bẠN ĐÃ DDANHW BÀO TJHAMG CÔNG");
+                                                                    c.setPositiveButton("oK", new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                                            finish();
+                                                                            dialogInterface.cancel();
+                                                                        }
+                                                                    });
                                                                 }
                                                             }
                                                         });
-                                                        finish();
-
                                                     }else if (posts.size() == 0){
 
                                                         AlertDialog.Builder c = new AlertDialog.Builder(PostActivity.this);
@@ -200,7 +205,7 @@ public class PostActivity extends AppCompatActivity {
             public void onClick(View view) {
                 AlertDialog.Builder b = new AlertDialog.Builder(PostActivity.this);
                 b.setTitle("Thông Báo");
-                b.setMessage("Xác nhận hủy Report?");
+                b.setMessage("Xác nhận hủy bài đăng?");
                 b.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -261,7 +266,6 @@ public class PostActivity extends AppCompatActivity {
                         diachi.setText(post.getAddress());
                         quan.setText(post.getAddress_district());
                         dientich.setText(post.getArea());
-                        Gia.setText(post.getPrice());
                         setAvatar(hinh, post.getImage());
                     }
                 }
