@@ -1,21 +1,20 @@
 package com.example.appnhatro;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Adapters.TenantSearchAdapter;
-
 import com.example.appnhatro.Firebase.FireBaseTenantSearch;
 import com.example.appnhatro.Models.Post;
 
@@ -28,7 +27,7 @@ public class TenantSearchActivity extends AppCompatActivity {
     ArrayList<Post> listTemp = new ArrayList<>();
 
     RecyclerView recyclerView;
-
+    ImageButton back;
     FireBaseTenantSearch fireBaseTenantSearch = new FireBaseTenantSearch();
 
     TenantSearchAdapter tenantSearchAdapter;
@@ -62,7 +61,7 @@ public class TenantSearchActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         fireBaseTenantSearch.getPostsFormDB(li_Post, tenantSearchAdapter);
-
+        back = findViewById(R.id.imb_back);
 
         recyclerView.setAdapter(tenantSearchAdapter);
         //
@@ -96,6 +95,12 @@ public class TenantSearchActivity extends AppCompatActivity {
                 }
 
                 return true;
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
@@ -135,6 +140,7 @@ public class TenantSearchActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
     public void setControl() {
@@ -202,6 +208,7 @@ public class TenantSearchActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
     }
 
 }
