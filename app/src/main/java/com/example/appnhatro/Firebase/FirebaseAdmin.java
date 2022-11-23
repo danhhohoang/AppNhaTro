@@ -7,16 +7,17 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.appnhatro.Activity.AdminPostDetailActivity;
-import com.example.appnhatro.Activity.LandLordPostDetailActivity;
 import com.example.appnhatro.Adapters.AdminCommentAdapter;
+import com.example.appnhatro.Adapters.AdminHomeAdapter;
 import com.example.appnhatro.Adapters.AdminListPostAdapter;
-import com.example.appnhatro.Adapters.LandLordCommentAdapter;
-import com.example.appnhatro.Adapters.LandLordHomeListAdapter;
 import com.example.appnhatro.Models.BitMap;
+import com.example.appnhatro.Models.HistoryTransaction;
 import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.item.Rating;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -127,6 +128,42 @@ public class FirebaseAdmin {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+    }
+    public void readItemInHome(AdminHomeAdapter adminHomeAdapter, ArrayList<HistoryTransaction> historyTransactions) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("HistoryTransaction").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    ArrayList<HistoryTransaction> data = new ArrayList<>();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        HistoryTransaction post = dataSnapshot.getValue(HistoryTransaction.class);
+                        if (post.getStatus().equals("0")) {
+                            data.add(post);
+                        }
+                    }
+                    historyTransactions.clear();
+                    historyTransactions.addAll(data);
+                    adminHomeAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void xacNhanThuTien(HistoryTransaction historyTransaction) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        historyTransaction.setStatus("1");
+        databaseReference.child("HistoryTransaction").child(historyTransaction.getId()).setValue(historyTransaction).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
             }
         });
     }

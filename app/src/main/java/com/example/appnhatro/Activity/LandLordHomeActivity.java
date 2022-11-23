@@ -102,7 +102,6 @@ public class LandLordHomeActivity extends AppCompatActivity {
             if (item.getHouse_name().toLowerCase().contains(text.toLowerCase())) {
                 fillterList.add(item);
             }
-
         }
         if(fillterList.isEmpty()){
         }else {
