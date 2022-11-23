@@ -20,25 +20,20 @@
         <TextView
             style="@style/al_textviewNavigationbar_add_detail"
             android:text="DANH SÁCH CHỦ TRỌ"
+            android:layout_marginLeft="-30dp"
             android:textColor="@color/white"/>
 
-        <Button
-            android:id="@+id/btnThongbao"
-            style="@style/al_ButtonNavigationbar_add_detail"
-            android:background="?android:attr/selectableItemBackground"
-            android:drawableRight="@drawable/bell_32x32"
-            tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal">
         <androidx.appcompat.widget.SearchView
             android:id="@+id/svDSChuTro"
             style="@style/al_Searhbar_list"/>
-
         <Button
-            android:id="@+id/btnAddList"
+            android:id="@+id/btnAddLandlord_ALL"
             style="@style/al_button_addct_list"
             app:backgroundTint="@null"
             tools:ignore="SpeakableTextPresentCheck" />

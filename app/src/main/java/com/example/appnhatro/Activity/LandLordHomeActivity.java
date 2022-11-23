@@ -1,6 +1,7 @@
 package com.example.appnhatro.Activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,13 +24,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LandLordHomeActivity extends AppCompatActivity {
-    RecyclerView recyclerView;
-    SearchView searchView;
-    LandLordHomeListAdapter landLordHomeListAdapter;
-    ArrayList<Post> listAll = new ArrayList<>();
-    FireBaseLandLord fireBaseLandLord = new FireBaseLandLord();
-    String userId;
-    ImageView imgAdd;
+    private RecyclerView recyclerView;
+    private SearchView searchView;
+    private LandLordHomeListAdapter landLordHomeListAdapter;
+    private ArrayList<Post> listAll = new ArrayList<>();
+    private FireBaseLandLord fireBaseLandLord = new FireBaseLandLord();
+    private String userId;
+    private ImageView imgAdd;
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,8 @@ public class LandLordHomeActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
-        userId = "KH01";
+        sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        userId = sharedPreferences.getString("idUser", "");
         //get Post by userId LandLord
         recyclerView.setAdapter(landLordHomeListAdapter);
         searchView = findViewById(R.id.sv_Search_Home_LandLord);
@@ -102,7 +105,6 @@ public class LandLordHomeActivity extends AppCompatActivity {
 
         }
         if(fillterList.isEmpty()){
-            Toast.makeText(this, "Không tìm thấy kết quả", Toast.LENGTH_LONG).show();
         }else {
             landLordHomeListAdapter = new LandLordHomeListAdapter(this, R.layout.lanlord_home_item_layout,fillterList);
             GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);

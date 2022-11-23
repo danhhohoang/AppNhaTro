@@ -2,9 +2,10 @@ package com.example.appnhatro.Models;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Post {
+public class Post implements Serializable {
     private String id;
     private String userID;
     private String title;
