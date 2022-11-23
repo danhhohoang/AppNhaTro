@@ -18,7 +18,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/ic_baseline_arrow_back_ios_24" />
+            android:background="@drawable/ic_back1" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -98,6 +98,12 @@
             app:backgroundTint="@null"
             android:drawableLeft="@drawable/ic_changepassword"
             android:text="    Thay đổi mật khẩu" />
+        <Button
+            android:id="@+id/btnThongke_LA"
+            style="@style/tenant_account_button"
+            android:drawableLeft="@drawable/ic_gear"
+            app:backgroundTint="@null"
+            android:text="    Thống kê" />
         <Button
             android:id="@+id/btnDangxuat_LA"
             style="@style/tenant_account_button"

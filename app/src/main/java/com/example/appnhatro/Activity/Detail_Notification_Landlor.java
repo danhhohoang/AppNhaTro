@@ -1,13 +1,16 @@
 package com.example.appnhatro.Activity;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.appnhatro.Firebase.FireBaseThueTro;
 import com.example.appnhatro.Models.DatLichModels;
 import com.example.appnhatro.Models.Notificationbooking;
 import com.example.appnhatro.R;
@@ -16,7 +19,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Detail_Notification_Landlor extends AppCompatActivity {
     EditText TenNgDatP, SDT, Time, Date, Notes;
+    private FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
     Button Huy, DongY;
+    String getID = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,15 +43,49 @@ public class Detail_Notification_Landlor extends AppCompatActivity {
         Huy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Notificationbooking notificationLandlor = new Notificationbooking(idUser, name, Phone, time, date, note, id, "TB_04", "Từ chối đặt lịch");
-                addToFavorite(notificationLandlor);
+                AlertDialog.Builder a = new AlertDialog.Builder(Detail_Notification_Landlor.this);
+                a.setTitle("THÔNG BÁO");
+                a.setMessage("Bạn có chắc từ chối đặt lịch");
+                a.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Notificationbooking notificationLandlor = new Notificationbooking(idUser, name, Phone, time, date, note, id, getID, "Từ chối đặt lịch");
+                        addToFavorite(notificationLandlor);
+                        finish();
+                    }
+                });
+               a.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialogInterface, int i) {
+                       finish();
+                   }
+               });
+               AlertDialog al = a.create();
+               al.show();
             }
         });
         DongY.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Notificationbooking notificationLandlor = new Notificationbooking(idUser, name, Phone, time, date, note, id, "TB_04", "Đồng ý đặt lịch");
-                addToFavorite(notificationLandlor);
+                AlertDialog.Builder b = new AlertDialog.Builder(Detail_Notification_Landlor.this);
+                b.setTitle("THÔNG BÁO");
+                b.setMessage("Bạn có chắc đồng ý đặt lịch");
+                b.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Notificationbooking notificationLandlor = new Notificationbooking(idUser, name, Phone, time, date, note, id, getID, "Đồng ý đặt lịch");
+                        addToFavorite(notificationLandlor);
+                        finish();
+                    }
+                });
+                b.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                AlertDialog al = b.create();
+                al.show();
             }
         });
     }
@@ -70,5 +109,13 @@ public class Detail_Notification_Landlor extends AppCompatActivity {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Notification");
         databaseReference.child(post.getIdNotifi()).setValue(post);
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        fireBaseThueTro.IdNotificationLandlor(Detail_Notification_Landlor.this);
+    }
+    public void IdNotification (String id){
+        getID = id;
     }
 }

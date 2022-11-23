@@ -74,7 +74,7 @@
                 android:layout_width="225dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Ngày đặt phòng" />
+                android:text="Tiêu Đề" />
 
             <EditText
                 android:id="@+id/edtTD"
@@ -92,7 +92,7 @@
                 android:layout_width="142dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Trang Thái" />
+                android:text="Tên Phòng" />
 
             <EditText
                 android:id="@+id/edtStatus"

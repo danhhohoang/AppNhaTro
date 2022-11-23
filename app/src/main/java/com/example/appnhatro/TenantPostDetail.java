@@ -1,29 +1,24 @@
 package com.example.appnhatro;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Activity.BookingActivity;
-import com.example.appnhatro.Activity.LandLordFeedBack;
-import com.example.appnhatro.Activity.LandLordPostDetailActivity;
 import com.example.appnhatro.Activity.LandlordWallActivity;
 import com.example.appnhatro.Activity.RepportActivity;
 import com.example.appnhatro.Activity.TenantCommentActivity;
@@ -39,9 +34,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.StorageReference;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -53,7 +46,7 @@ public class TenantPostDetail extends AppCompatActivity {
     ArrayList<Rating> postListComment = new ArrayList<>();
     ArrayList<Post> listLienQuan = new ArrayList<>();
     FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
-    ImageView imgRating1,imgRating2,imgRating3,imgRating4,imgRating5,hinh,imgFavorite,imgAvatar;
+    ImageView imgRating1,imgRating2,imgRating3,imgRating4,imgRating5,hinh,imgFavorite,imgAvatar, back;
     String it_id,it_idLogin;
     boolean isFavorite = false;
     Button btnReport,btnXemPhong;
@@ -116,6 +109,7 @@ public class TenantPostDetail extends AppCompatActivity {
         btnXemPhong = findViewById(R.id.btnXPhong);
         tvLuotDanhGia = findViewById(R.id.tvLuotDanhGia);
         tvVietDanhGia = findViewById(R.id.tvVietDanhGia);
+        back = findViewById(R.id.btn_detailback);
     }
 
     public void setDuLieu(Post post, Bitmap bitmap){
@@ -150,6 +144,12 @@ public class TenantPostDetail extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(TenantPostDetail.this, BookingActivity.class);
                 startActivity(intent);
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 

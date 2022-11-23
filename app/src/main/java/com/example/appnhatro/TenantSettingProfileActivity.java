@@ -4,16 +4,11 @@ import static com.example.appnhatro.TenantPasswordChangeActivity.setContentNotif
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,6 +43,7 @@ public class TenantSettingProfileActivity extends AppCompatActivity {
     Uri imgUri = Uri.EMPTY;
     String extensionFile = ".jpg";
     String id, avatar, fileName,namefile,b1,b2;
+
     int temp = 1;
 
     @Override
