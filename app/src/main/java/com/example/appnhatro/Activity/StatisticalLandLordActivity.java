@@ -1,7 +1,10 @@
 package com.example.appnhatro.Activity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -27,24 +30,19 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatisticalLandLordActivity extends AppCompatActivity implements GetValueFromLoop{
+public class StatisticalLandLordActivity extends AppCompatActivity{
     ArrayList barArray;
     DatabaseReference databaseReference1;
     DatabaseReference databaseReference2;
-    int fee = 0 ;
+    Bundle bundle;
+    int fee1,fee2,fee3,fee4,fee5,fee6,fee7,fee8,fee9,fee10,fee11,fee12 = 0 ;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.statistical_landlord);
-
-        setContentView(R.layout.statistical_landlord);
+        getBundle();
+        getData();
         BarChart barChart = findViewById(R.id.id_bc);
-        data(new GetValueFromLoop() {
-            @Override
-            public void onCallBack(int value) {
-                Log.d("Test", "onCallBack: "+value);
-            }
-        });
         BarDataSet barDataSet = new BarDataSet(barArray,"test");
         BarData barData = new BarData(barDataSet);
         barChart.setData(barData);
@@ -52,61 +50,59 @@ public class StatisticalLandLordActivity extends AppCompatActivity implements Ge
         barDataSet.setValueTextColor(Color.BLACK);
         barDataSet.setValueTextSize(16f);
         barChart.getDescription().setEnabled(true);
+        barChart.animateX(5000);
+        return;
 
     }
 
-    private void data(final GetValueFromLoop getValueFromLoop){
-        databaseReference1 = FirebaseDatabase.getInstance().getReference("HistoryTransaction");
-        databaseReference2 = FirebaseDatabase.getInstance().getReference("Post");
-        barArray = new ArrayList();
-
-        databaseReference1.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    barArray = new ArrayList();
-                    TransactionModel transactionModel = dataSnapshot.getValue(TransactionModel.class);
-                    if (transactionModel.getId_user().equals("KH02")) {
-                        String[] parse = transactionModel.getDate().split(" ");
-                        String month;
-                        month = parse[0];
-                        if (month.equals("NOV")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
-                            fee += price - price * 0.5;
-                        }
-                    }
-                }
-                getValueFromLoop.onCallBack(fee);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-
-//        barArray.add(new BarEntry(2, fee));
-//        barArray.add(new BarEntry(3, fee));
-//        barArray.add(new BarEntry(4, fee));
-//        barArray.add(new BarEntry(5, fee));
-//        barArray.add(new BarEntry(6, fee));
-//        barArray.add(new BarEntry(7, fee));
-//        barArray.add(new BarEntry(8, fee));
-//        barArray.add(new BarEntry(9, fee));
-//        barArray.add(new BarEntry(10, fee));
-//        barArray.add(new BarEntry(11, fee));
-//        barArray.add(new BarEntry(12, fee));
-    }
-
-//    private void getData(){
-//        data(new GetValueFromLoop() {
+//    private void data(){
+//        databaseReference1 = FirebaseDatabase.getInstance().getReference("HistoryTransaction");
+//        databaseReference2 = FirebaseDatabase.getInstance().getReference("Post");
+//
+//        databaseReference1.addValueEventListener(new ValueEventListener() {
 //            @Override
-//            public void onCallBack(int value) {
-//                this = value;
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+//                    barArray = new ArrayList();
+//                    TransactionModel transactionModel = dataSnapshot.getValue(TransactionModel.class);
+//                    if (transactionModel.getaId_user().equals("KH02")) {
+//                        String[] parse = transactionModel.getDate().split(" ");
+//                        String month;
+//                        month = parse[0];
+//                        if (month.equals("NOV")) {
+//                            int price = Integer.valueOf(transactionModel.getTotal());
+//                            int fee = 0;
+//                            fee += price - price * 0.05;
+//                            fee11 = fee;
+//                        }
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
 //            }
 //        });
 //    }
 
-    @Override
-    public void onCallBack(int value) {
-        fee = value;
+    private void getData(){
+        barArray = new ArrayList();
+        barArray.add(new BarEntry(1, bundle.getInt("fee1")));
+        barArray.add(new BarEntry(2, bundle.getInt("fee2")));
+        barArray.add(new BarEntry(3, bundle.getInt("fee3")));
+        barArray.add(new BarEntry(4, bundle.getInt("fee4")));
+        barArray.add(new BarEntry(8, bundle.getInt("fee5")));
+        barArray.add(new BarEntry(5, bundle.getInt("fee6")));
+        barArray.add(new BarEntry(6, bundle.getInt("fee7")));
+        barArray.add(new BarEntry(7, bundle.getInt("fee8")));
+        barArray.add(new BarEntry(9, bundle.getInt("fee9")));
+        barArray.add(new BarEntry(10, bundle.getInt("fee10")));
+        barArray.add(new BarEntry(11, bundle.getInt("fee11")));
+        barArray.add(new BarEntry(12, bundle.getInt("fee12")));
     }
+    public void getBundle(){
+        Intent intent = getIntent();
+        bundle = intent.getBundleExtra("month");
+
+    }
+
 }

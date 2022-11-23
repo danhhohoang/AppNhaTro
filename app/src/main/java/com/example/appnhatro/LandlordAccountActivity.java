@@ -17,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.appnhatro.Activity.StatisticalLandLordActivity;
+import com.example.appnhatro.Models.TransactionModel;
 import com.example.appnhatro.Models.user;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,11 +33,12 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class LandlordAccountActivity extends AppCompatActivity {
-    Button btnPhongdaluu_LA, btnLienhe_LA, btnDangxuat_LA, btnDieuKhoan_LA, btnBaidang_LA,btnCapnhattt_LA, btnThaydoimk_LA;
+    Button btnThonke_LA,btnPhongdaluu_LA, btnLienhe_LA, btnDangxuat_LA, btnDieuKhoan_LA, btnBaidang_LA,btnCapnhattt_LA, btnThaydoimk_LA;
     private user mUsers;
     TextView tvHoten_LA, tvIdaccount_LA;
     ImageButton ivbtnBack_LA;
@@ -46,6 +49,7 @@ public class LandlordAccountActivity extends AppCompatActivity {
     Dialog progressDialog;
     CircleImageView ivAccount_LA;
     String id, pass;
+    int fee1,fee2,fee3,fee4,fee5,fee6,fee7,fee8,fee9,fee10,fee11,fee12;
     public static final String AVATAR = "AVATAR";
 
     @Override
@@ -53,6 +57,7 @@ public class LandlordAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.landlord_account);
         setControl();
+        data();
         setEvent();
         onRead();
     }
@@ -118,11 +123,24 @@ public class LandlordAccountActivity extends AppCompatActivity {
             Intent intent = new Intent(LandlordAccountActivity.this, TenantPostList.class);
             startActivity(intent);
         });
-//        btnCaidat_LA.setOnClickListener(click -> {
-//            Intent intent = new Intent(this, TenantSettingActivity.class);
-//            intent.putExtra(BUNDLE, byBundle());
-//            startActivity(intent);
-//        });
+        btnThonke_LA.setOnClickListener(click -> {
+            Intent intent = new Intent(this, StatisticalLandLordActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt("fee1",fee1);
+            bundle.putInt("fee2",fee2);
+            bundle.putInt("fee3",fee3);
+            bundle.putInt("fee4",fee4);
+            bundle.putInt("fee5",fee5);
+            bundle.putInt("fee6",fee6);
+            bundle.putInt("fee7",fee7);
+            bundle.putInt("fee8",fee8);
+            bundle.putInt("fee9",fee9);
+            bundle.putInt("fee10",fee10);
+            bundle.putInt("fee11",fee11);
+            bundle.putInt("fee12",fee12);
+            intent.putExtra("month",bundle);
+            startActivity(intent);
+        });
         btnCapnhattt_LA.setOnClickListener(click -> {
             Intent intent = new Intent(LandlordAccountActivity.this, LandlordSettingProfileActivity.class);
             intent.putExtra(BUNDLE, byBundle());
@@ -155,6 +173,7 @@ public class LandlordAccountActivity extends AppCompatActivity {
         ivAccount_LA = findViewById(R.id.ivAccount_LA);
         btnCapnhattt_LA = findViewById(R.id.btnCapnhattt_LA);
         btnThaydoimk_LA = findViewById(R.id.btnThaydoimk_LA);
+        btnThonke_LA = findViewById(R.id.btnThongke_LA);
         ivbtnBack_LA = findViewById(R.id.ivbtnBack_LA);
     }
 
@@ -165,5 +184,102 @@ public class LandlordAccountActivity extends AppCompatActivity {
         bundle.putString(PASS, mUsers.getPassword());
         bundle.putString(AVATAR, mUsers.getAvatar());
         return bundle;
+    }
+
+    private void data(){
+        DatabaseReference databaseReference1;
+        DatabaseReference databaseReference2;
+        databaseReference1 = FirebaseDatabase.getInstance().getReference("HistoryTransaction");
+        databaseReference2 = FirebaseDatabase.getInstance().getReference("Post");
+
+        databaseReference1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    TransactionModel transactionModel = dataSnapshot.getValue(TransactionModel.class);
+                    if (transactionModel.getId_user().equals("KH02")) {
+                        String[] parse = transactionModel.getDate().split(" ");
+                        String month;
+                        month = parse[0];
+                        if (month.equals("JAN")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m1 = 0;
+                            m1 += price - price * 0.5;
+                            fee1 = m1;
+                        }
+                        if (month.equals("FEB")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m2 = 0;
+                            m2 += price - price * 0.5;
+                            fee2 = m2;
+                        }
+                        if (month.equals("MAR")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m3 = 0;
+                            m3 += price - price * 0.5;
+                            fee3 = m3;
+                        }
+                        if (month.equals("APR")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m4 = 0;
+                            m4 += price - price * 0.5;
+                            fee4 = m4;
+                        }
+                        if (month.equals("MAY")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m5 = 0;
+                            m5 += price - price * 0.5;
+                            fee5 = m5;
+                        }
+                        if (month.equals("JUN")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m6 = 0;
+                            m6 += price - price * 0.5;
+                            fee6 = m6;
+                        }
+                        if (month.equals("JUL")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m7 = 0;
+                            m7 += price - price * 0.5;
+                            fee7 = m7;
+                        }
+                        if (month.equals("AUG")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m8 = 0;
+                            m8 += price - price * 0.5;
+                            fee8 = m8;
+                        }
+                        if (month.equals("SEP")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m9 = 0;
+                            m9 += price - price * 0.5;
+                            fee9 = m9;
+                        }
+                        if (month.equals("OCT")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m10 = 0;
+                            m10 += price - price * 0.5;
+                            fee10 = m10;
+                        }
+                        if (month.equals("NOV")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m11 = 0;
+                            m11 += price - price * 0.5;
+                            fee11 = m11;
+                        }
+                        if (month.equals("DEC")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m12 = 0;
+                            m12 += price - price * 0.5;
+                            fee12 = m12;
+                        }
+                    }
+                }
+                Log.d("TAG", "onDataChange: " + fee11);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
     }
 }
