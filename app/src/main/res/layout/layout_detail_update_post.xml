@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="SỬA BÀI ĐĂNG"
+            android:textColor="#FAFAFA"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="11">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:text="@string/t_n_ph_ng"
+                    style="@style/TextAddNewPostLandLord"/>
+                <EditText
+                    android:id="@+id/txt_dupHousename"
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    style="@style/edittextAddNewPostLandLord" />
+                <TextView
+                    android:text="@string/a_ch"
+                    style="@style/TextAddNewPostLandLord"/>
+                <EditText
+                    android:id="@+id/txt_dupAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    style="@style/edittextAddNewPostLandLord" />
+                <TextView
+                    android:text="Địa chỉ quận"
+                    style="@style/TextAddNewPostLandLord"/>
+                <EditText
+                    android:id="@+id/txt_dupAddressDistrict"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:textColor="@color/black"
+                    android:enabled="false"
+                    style="@style/edittextAddNewPostLandLord" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center">
+                    <TextView
+                        android:text="@string/di_n_t_ch"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:textColor="@color/white"
+                        android:textSize="18dp"
+                        android:layout_height="wrap_content"/>
+                    <EditText
+                        android:id="@+id/txt_dupArea"
+                        android:layout_width="0dp"
+                        android:inputType="number"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        style="@style/edittextAddNewPostLandLord" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center">
+                    <TextView
+                        android:text="@string/gi"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:textColor="@color/white"
+                        android:textSize="18dp"
+                        android:layout_height="wrap_content"/>
+                    <EditText
+                        android:id="@+id/txt_dupPrice"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:inputType="number"
+                        android:layout_weight="5"
+                        style="@style/edittextAddNewPostLandLord" />
+                </LinearLayout>
+                <TextView
+                    android:text="@string/m_t"
+                    style="@style/TextAddNewPostLandLord"/>
+                <EditText
+                    android:id="@+id/txt_dupTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    style="@style/edittextAddNewPostLandLord" />
+                <ImageView
+                    android:id="@+id/iv_dupImage"
+                    android:layout_margin="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@drawable/ic_add_photo"
+                    android:scaleType="fitXY"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/btn_dupCancel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Huỷ"
+                        android:background="@drawable/btn_google_login"
+                        app:backgroundTint="@null"
+                        android:layout_margin="20dp"/>
+                    <Button
+                        android:id="@+id/btn_dupUpdate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Cập nhật"
+                        app:backgroundTint="@null"
+                        android:background="@drawable/btn_login"
+                        android:layout_margin="20dp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</LinearLayout>

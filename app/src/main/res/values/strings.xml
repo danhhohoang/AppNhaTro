@@ -121,6 +121,7 @@
     <string name="id_ph_ng">Id Phòng</string>
     <string name="t_n_ph_ng">Tên Phòng</string>
     <string name="sdt">SDT</string>
+    <string name="li_n_h">Liên hệ</string>
 
     <string-array name="string_spn_KhuVuc">
         <item>--Chọn Khu Vực--</item>

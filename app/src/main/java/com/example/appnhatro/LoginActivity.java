@@ -1,9 +1,15 @@
 package com.example.appnhatro;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.appnhatro.Activity.LandLordHomeActivity;
 import com.example.appnhatro.Activity.TermAndSerciveActivity;
 import com.example.appnhatro.Activity.VertifyPhoneNumberActivity;
+import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.Models.USER_ROLE;
 import com.example.appnhatro.Models.user;
 import com.google.firebase.database.DataSnapshot;
@@ -56,68 +63,86 @@ public class LoginActivity extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = txtEmail.getText().toString();
-                String pass = txtPassword.getText().toString();
-                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                DatabaseReference databaseReference = firebaseDatabase.getReference();
-                databaseReference.child("user").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                            user User = dataSnapshot.getValue(user.class);
-                            if(User.getEmail().equals(email)&&User.getPassword().equals(pass)&&User.getStatus().equals("0")){
-                                DatabaseReference databaseReference = firebaseDatabase.getReference();
-                                databaseReference.child("User_Role").child(User.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        USER_ROLE userRole = snapshot.getValue(USER_ROLE.class);
-                                        if(userRole.getId_role().equals("1")){
-                                            sharedPreferences = getSharedPreferences("User",MODE_PRIVATE);
-                                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                                            editor.putString("idUser", userRole.getId_user());
-                                            editor.apply();
-                                            Intent intent = new Intent(LoginActivity.this,HomeTenantActivity.class);
-                                            startActivity(intent);
-                                        }else if(userRole.getId_role().equals("2")){
-                                            sharedPreferences = getSharedPreferences("User",MODE_PRIVATE);
-                                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                                            editor.putString("idUser", userRole.getId_user());
-                                            editor.apply();
-                                            Intent intent = new Intent(LoginActivity.this, LandLordHomeActivity.class);
-                                            startActivity(intent);
-                                        }else {
-                                            sharedPreferences = getSharedPreferences("User",MODE_PRIVATE);
-                                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                                            editor.putString("idUser", userRole.getId_user());
-                                            editor.apply();
-                                            Toast.makeText(LoginActivity.this, "Admin", Toast.LENGTH_SHORT).show();
+                boolean tk = !txtEmail.getText().toString().isEmpty();
+                boolean mk = !txtPassword.getText().toString().isEmpty();
+                if(!tk){
+                    txtEmail.setError("Email không được bỏ trống");
+                }
+                if(!mk){
+                    txtPassword.setError("Password không được bỏ trống");
+                }
+                if (tk&&mk) {
+                    String email = txtEmail.getText().toString();
+                    String pass = txtPassword.getText().toString();
+                    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                    DatabaseReference databaseReference = firebaseDatabase.getReference();
+                    databaseReference.child("user").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            boolean check = false;
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                user User = dataSnapshot.getValue(user.class);
+                                if (User.getEmail().equals(email) && User.getPassword().equals(pass) && User.getStatus().equals("0")) {
+                                    DatabaseReference databaseReference = firebaseDatabase.getReference();
+                                    check = true;
+                                    databaseReference.child("User_Role").child(User.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            USER_ROLE userRole = snapshot.getValue(USER_ROLE.class);
+                                            if (userRole.getId_role().equals("1")) {
+                                                sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+                                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                editor.putString("idUser", userRole.getId_user());
+                                                editor.apply();
+                                                Intent intent = new Intent(LoginActivity.this, HomeTenantActivity.class);
+                                                startActivity(intent);
+                                            } else if (userRole.getId_role().equals("2")) {
+                                                sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+                                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                editor.putString("idUser", userRole.getId_user());
+                                                editor.apply();
+                                                Intent intent = new Intent(LoginActivity.this, LandLordHomeActivity.class);
+                                                startActivity(intent);
+                                            } else {
+                                                sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+                                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                editor.putString("idUser", userRole.getId_user());
+                                                editor.apply();
+                                                Toast.makeText(LoginActivity.this, "Admin", Toast.LENGTH_SHORT).show();
+                                            }
                                         }
-                                    }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                    break;
+                                }
+                            }
+                            if (!check) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                builder.setTitle("Thông báo");
+                                builder.setMessage("Tài khoản hoặc mật khẩu không đúng");
+                                builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
                                     @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
+                                    public void onClick(DialogInterface dialog, int which) {
 
                                     }
                                 });
-                                break;
-                            }else{
-                                if (email.isEmpty()) {
-                                    txtEmail.setError("Email không được bỏ trống");
-                                } if (!email.matches(formatEmail)) {
-                                    txtEmail.setError("Email không đúng định dạng");
-                                } else if(pass.isEmpty()) {
-                                    txtPassword.setError("Password không được để trống");
-                                }else {
-                                    txtEmail.setError("Email hoặc password không đúng");
-                                    txtPassword.setError("Email hoặc password không đúng");
-                                }
+                                builder.show();
                             }
                         }
-                    }
+
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(LoginActivity.this,"Tài khoản hoặc mật khẩu không đúng",Toast.LENGTH_SHORT).show();
                     }
                 });
+
+                  
+
             }
         });
 

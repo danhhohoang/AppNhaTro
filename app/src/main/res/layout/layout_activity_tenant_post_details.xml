@@ -188,6 +188,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/black"/>
                 <LinearLayout
+                    android:id="@+id/rcvRatingPost"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:background="#8E8787"
@@ -286,6 +287,18 @@
                         android:background="@drawable/btn_login"
                         android:text="Đặt lịch"
                         android:textSize="5pt"
+                        android:visibility="visible"
+                        app:backgroundTint="@null" />
+                    <Button
+                        android:id="@+id/btnLienHePostDetail"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_login"
+                        android:text="@string/li_n_h"
+                        android:textSize="5pt"
+                        android:visibility="gone"
                         app:backgroundTint="@null" />
                 </LinearLayout>
 

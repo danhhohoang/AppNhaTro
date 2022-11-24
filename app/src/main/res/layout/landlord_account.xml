@@ -99,6 +99,12 @@
             android:drawableLeft="@drawable/ic_changepassword"
             android:text="    Thay đổi mật khẩu" />
         <Button
+            android:id="@+id/btnThongke_LA"
+            style="@style/tenant_account_button"
+            android:drawableLeft="@drawable/ic_gear"
+            app:backgroundTint="@null"
+            android:text="    Thống kê" />
+        <Button
             android:id="@+id/btnDangxuat_LA"
             style="@style/tenant_account_button"
             app:backgroundTint="@null"

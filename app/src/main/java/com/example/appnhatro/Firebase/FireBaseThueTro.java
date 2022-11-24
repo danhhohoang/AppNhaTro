@@ -407,6 +407,105 @@ public class FireBaseThueTro {
             }
         });
     }
+    public void readOnePostOGhep(Context context, String id) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Post_Oghep").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Post data = snapshot.getValue(Post.class);
+                BitMap bitMap = new BitMap(data.getImage(), null);
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/"+bitMap.getTenHinh());
+                try {
+                    final File file = File.createTempFile(bitMap.getTenHinh(), "jpg");
+                    storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
+                            ((TenantPostDetail) context).setDuLieu(data, bitMap.getHinh());
+                            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                            DatabaseReference databaseReference = firebaseDatabase.getReference();
+                            databaseReference.child("user").addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                        user User = dataSnapshot.getValue(user.class);
+                                        if (User.getId().equals(data.getUserID())) {
+                                            ((TenantPostDetail) context).setName(User);
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void docPostLienQuanPost(ArrayList<Post> list, MyRecyclerViewAdapter myRecyclerViewAdapter) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Post").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Post> posts = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Post student = dataSnapshot.getValue(Post.class);
+                    posts.add(student);
+                }
+                list.clear();
+                list.addAll(posts);
+                myRecyclerViewAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void docPostLienQuanOGhep(ArrayList<Post> list, MyRecyclerViewAdapter myRecyclerViewAdapter) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Post_Oghep").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Post> posts = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Post student = dataSnapshot.getValue(Post.class);
+                    posts.add(student);
+                }
+                list.clear();
+                list.addAll(posts);
+                myRecyclerViewAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
     public void check(Context context, String idPost,String idUser){
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
