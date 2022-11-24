@@ -2,6 +2,7 @@ package com.example.appnhatro;
 
 import android.app.Activity;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -52,6 +53,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         DecimalFormat formatter = new DecimalFormat("#,###,###");
         holder.Gia.setText(formatter.format(Integer.valueOf(post.getPrice())));
         holder.tinhTrang.setText(post.getTitle());
+        Log.d("Tri", "id"+ post.getId());
+        Log.d("Tri", "name"+ post.getHouse_name());
+        Log.d("Tri", "ảea"+ post.getArea());
+        Log.d("Tri", "ảea"+ post.getArea());
         holder.dienTich.setText(formatter.format(Integer.valueOf(post.getArea())));
         BitMap bitMap = new BitMap(post.getImage(),null);
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/"+bitMap.getTenHinh());

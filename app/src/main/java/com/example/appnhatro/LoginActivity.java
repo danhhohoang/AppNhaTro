@@ -1,15 +1,10 @@
 package com.example.appnhatro;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,12 +12,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appnhatro.Activity.LandLordHomeActivity;
 import com.example.appnhatro.Activity.TermAndSerciveActivity;
 import com.example.appnhatro.Activity.VertifyPhoneNumberActivity;
-import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.Models.USER_ROLE;
 import com.example.appnhatro.Models.user;
 import com.google.firebase.database.DataSnapshot;
@@ -135,16 +130,17 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(LoginActivity.this,"Tài khoản hoặc mật khẩu không đúng",Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(LoginActivity.this, "Tài khoản hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
-                  
+                }
 
             }
         });
+
 
         tvQuenMatKhau.setOnClickListener(new View.OnClickListener() {
             @Override

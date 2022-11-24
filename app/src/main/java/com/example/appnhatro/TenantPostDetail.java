@@ -1,14 +1,5 @@
 package com.example.appnhatro;
 
-import static com.example.appnhatro.TenantPasswordChangeActivity.setContentNotify;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -25,7 +15,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -38,8 +27,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Activity.BookingActivity;
-import com.example.appnhatro.Activity.LandLordFeedBack;
-import com.example.appnhatro.Activity.LandLordPostDetailActivity;
 import com.example.appnhatro.Activity.LandlordWallActivity;
 import com.example.appnhatro.Activity.RepportActivity;
 import com.example.appnhatro.Activity.TenantCommentActivity;
@@ -56,9 +43,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,6 +58,7 @@ import java.util.Map;
 
 import vn.momo.momo_partner.AppMoMoLib;
 
+
 public class TenantPostDetail extends AppCompatActivity {
     TextView house_name, area, price, address, title, userId, nameUser,tvVietDanhGia,tvLuotDanhGia,tvTheLoai;
     MyRecyclerViewAdapter myRecyclerViewAdapterLienQuan;
@@ -83,7 +69,7 @@ public class TenantPostDetail extends AppCompatActivity {
     ImageView imgRating1,imgRating2,imgRating3,imgRating4,imgRating5,hinh,imgFavorite,imgAvatar, back;
     String it_id,it_idLogin;
     boolean isFavorite = false;
-    Button btnReport,btnXemPhong,btnDatCoc;
+    Button btnReport,btnXemPhong,btnDatCoc, btnLienHe;
 
 
     RecyclerView rcvComment;
@@ -113,11 +99,11 @@ public class TenantPostDetail extends AppCompatActivity {
         it_idLogin = sharedPreferences.getString("idUser", "");
         it_id = getIntent().getStringExtra("it_id");
         control();
-
+        setMomo();
         getID();
         idPost = it_id;
         idUser = it_idLogin;
-        historyFee = Integer.valueOf(price.getText().toString()) * 0.5;
+//        historyFee = Integer.valueOf(price.getText().toString()) * 0.5;
 
         currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
 
@@ -202,7 +188,7 @@ public class TenantPostDetail extends AppCompatActivity {
         imgRating3 =findViewById(R.id.imgRating3);
         imgRating4=findViewById(R.id.imgRating4);
         imgRating5=findViewById(R.id.imgRating5);
-        imgAvatar = findViewById(R.id.img_tenant_post_details_Landlord_avatar); //Minh them moi
+        imgAvatar = findViewById(R.id.img_tenant_post_details_Landlord_avatar);
         btnReport = findViewById(R.id.btnRepost);
         btnXemPhong = findViewById(R.id.btnXPhong);
         btnDatCoc = findViewById(R.id.btnDatCoc);
@@ -457,6 +443,7 @@ public class TenantPostDetail extends AppCompatActivity {
         String id = it_id.substring(0,2);
         if(id.equals("P_")){
             fireBaseThueTro.docPostLienQuanOGhep(listLienQuan,myRecyclerViewAdapterLienQuan);
+            Log.d("Tri", "idRéum"+it_id);
             fireBaseThueTro.readOnePostOGhep(this,it_id);
         }else {
             fireBaseThueTro.docPostLienQuanPost(listLienQuan,myRecyclerViewAdapterLienQuan);
@@ -583,7 +570,7 @@ public class TenantPostDetail extends AppCompatActivity {
             public void onClick(View view) {
                 final Dialog dialog = new Dialog(TenantPostDetail.this);
                 openDialogNotify(Gravity.CENTER,"50000",R.layout.layout_dialog_notify_payment);
-                requestPayment();
+
             }
         });
     }
@@ -617,7 +604,7 @@ public class TenantPostDetail extends AppCompatActivity {
         TextView tienDatCoc = findViewById(R.id.tvNoidung_Price);
         Button close = dialog.findViewById(R.id.btnLeft_NotifyYesNo);
         Button submit = dialog.findViewById(R.id.btnRight_MOMO);
-        tienDatCoc.setText(noidung);
+//        tienDatCoc.setText(noidung);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
