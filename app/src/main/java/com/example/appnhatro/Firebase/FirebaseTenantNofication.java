@@ -1,15 +1,8 @@
 package com.example.appnhatro.Firebase;
 
-import android.content.Context;
-import android.content.Intent;
-
 import androidx.annotation.NonNull;
 
-import com.example.appnhatro.Activity.Detail_Notification_Landlor;
-import com.example.appnhatro.Adapters.Landlord_Notification_Adapter;
 import com.example.appnhatro.Adapters.Tenant_Notification_Adapter;
-import com.example.appnhatro.Models.Dangbaimodels;
-import com.example.appnhatro.Models.DatLichModels;
 import com.example.appnhatro.Models.Notificationbooking;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,20 +40,20 @@ public class FirebaseTenantNofication {
         });
     }
 
-    public void readFirebase(int position, ArrayList<Notificationbooking> list, Context context) {
-        Notificationbooking data = list.get(position);
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference();
-        databaseReference.child("Notification").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Intent intent = new Intent(context, Detail_Notification_Landlor.class);
-                context.startActivity(intent);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
+//    public void readFirebase(int position, ArrayList<Notificationbooking> list, Context context) {
+//        Notificationbooking data = list.get(position);
+//        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+//        DatabaseReference databaseReference = firebaseDatabase.getReference();
+//        databaseReference.child("Notification").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                Intent intent = new Intent(context, Detail_Notification_Landlor.class);
+//                context.startActivity(intent);
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
 }

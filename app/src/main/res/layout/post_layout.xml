@@ -7,21 +7,57 @@
     android:background="@drawable/background">
 
     <LinearLayout
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/btn_postback"
+                android:layout_marginTop="5dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_back1" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:gravity="center"
+                android:text="ĐĂNG BÀI"
+                android:textColor="@color/white"
+                android:textSize="11pt"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="                                     "/>
+
+        </LinearLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:text="ĐĂNG BÀI"
-            android:textColor="#FAFAFA"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:text="Tiêu Đề"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/edtdiachi"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/spinner_bodert" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,22 +86,11 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/edtdiachi"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@drawable/spinner_bodert" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Số Điện Thoại"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-
-        <EditText
             android:id="@+id/edtPhoneMunber"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="55dp"
+            android:enabled="false"
+            android:textColor="@color/black"
             android:background="@drawable/spinner_bodert" />
 
         <LinearLayout
@@ -76,51 +101,31 @@
 
             <TextView
                 style="@style/editfillter"
-                android:text="Giới tính: " />
-
-            <Spinner
-                android:id="@+id/spngioitinh"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="2"
-                android:background="@drawable/spinner_bodert" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/editfillter"
-                android:text="Độ tuổi: " />
+                android:text="Quận: " />
 
             <EditText
                 android:id="@+id/edtxdotuoi"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="2"
+                android:enabled="false"
+                android:textColor="@color/black"
                 android:background="@drawable/spinner_bodert" />
-
             <TextView
                 style="@style/editfillter"
                 android:layout_marginLeft="5dp"
-                android:text="Đến" />
+                android:text="Diện tích" />
 
             <EditText
                 android:id="@+id/edtxden"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="2"
+                android:enabled="false"
+                android:textColor="@color/black"
                 android:background="@drawable/spinner_bodert" />
-        </LinearLayout>
 
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -128,42 +133,27 @@
             android:orientation="horizontal">
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 style="@style/editfillter"
-                android:text="Số lượng người ở: " />
-
-            <Spinner
-                android:id="@+id/spnSl"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="2"
-                android:background="@drawable/spinner_bodert" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/editfillter"
+                android:layout_weight="1"
                 android:text="Giá: " />
 
             <EditText
                 android:id="@+id/edtxgia"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_weight="4"
+                android:layout_weight="1"
+                android:inputType="number"
                 android:background="@drawable/spinner_bodert" />
         </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Yêu cầu khác: "
+            android:layout_height="20dp"
+            android:text="Ghi chú thêm: "
             android:textColor="@color/white"
             android:textSize="18sp" />
-
         <EditText
             android:id="@+id/edtyeuccaukhac"
             android:layout_width="match_parent"
@@ -186,19 +176,18 @@
             <ImageView
 
                 android:id="@+id/imageView"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
-                android:layout_marginLeft="85dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:scaleType="fitXY"/>
 
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal">
 
             <Button
@@ -210,6 +199,7 @@
                 android:background="@drawable/btn_red"
                 android:text="Hủy bỏ"
                 android:textColor="#FFFDFD"
+                android:layout_marginRight="10dp"
                 app:backgroundTint="@null" />
 
             <Button
@@ -218,6 +208,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="2"
+                android:layout_marginLeft="10dp"
                 android:background="@drawable/btn_login"
                 android:text="Đăng Bài"
                 android:textColor="#FFFDFD"

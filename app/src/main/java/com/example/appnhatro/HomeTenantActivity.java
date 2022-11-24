@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appnhatro.Activity.PostActivity;
 import com.example.appnhatro.Activity.Tenant_notification_activity;
 import com.example.appnhatro.Firebase.FireBaseThueTro;
 import com.example.appnhatro.Models.Post;
@@ -30,10 +28,12 @@ public class HomeTenantActivity extends AppCompatActivity {
     //
     private MyRecyclerViewAdapter myRecyclerViewAdapterOGhep;
     private ArrayList<Post> listHorizoneOGhep= new ArrayList<>();
-    LinearLayout Post, notification;
+    LinearLayout Post;
+    ImageButton notification, DSP;
+
     String idUser;
     FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
-    ImageButton ivbtnAccount_HT;
+    ImageButton ivbtnAccount_HT, btn_pdt;
     SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,7 @@ public class HomeTenantActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeTenantActivity.this,TenantAccountActivity.class);
-                intent.putExtra("ID","KH01");
+                intent.putExtra("ID" ,idUser);
                 startActivity(intent);
             }
         });
@@ -71,7 +71,8 @@ public class HomeTenantActivity extends AppCompatActivity {
         Post = findViewById(R.id.post);
         notification = findViewById(R.id.notidication);
         ivbtnAccount_HT = findViewById(R.id.ivbtnAccount_HT);
-
+        btn_pdt = findViewById(R.id.btn_PDT);
+        DSP =findViewById(R.id.btn_DSP);
     }
     @SuppressLint("MissingInflatedId")
     public void loadNhachoThue(){
@@ -110,7 +111,7 @@ public class HomeTenantActivity extends AppCompatActivity {
         Post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomeTenantActivity.this, PostActivity.class);
+                Intent intent = new Intent(HomeTenantActivity.this, TenantPostFavourite.class);
                 startActivity(intent);
             }
         });
@@ -118,6 +119,20 @@ public class HomeTenantActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeTenantActivity.this, Tenant_notification_activity.class);
+                startActivity(intent);
+            }
+        });
+        btn_pdt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeTenantActivity.this, TenantPostRenting.class);
+                startActivity(intent);
+            }
+        });
+        DSP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeTenantActivity.this, TenantSearchActivity.class);
                 startActivity(intent);
             }
         });

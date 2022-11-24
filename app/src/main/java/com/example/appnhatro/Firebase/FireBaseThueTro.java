@@ -3,16 +3,13 @@ package com.example.appnhatro.Firebase;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.example.appnhatro.Activity.BookingActivity;
-import com.example.appnhatro.Activity.LandLordFeedBack;
-import com.example.appnhatro.Activity.LandLordPostDetailActivity;
+import com.example.appnhatro.Activity.Detail_Notification_Landlor;
 import com.example.appnhatro.Activity.PostActivity;
 import com.example.appnhatro.Activity.RepportActivity;
 import com.example.appnhatro.Activity.TenantCommentActivity;
@@ -43,8 +40,6 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FireBaseThueTro {
     public FireBaseThueTro() {
@@ -220,7 +215,7 @@ public class FireBaseThueTro {
     }
 //    public void deleteRating(String userId, String ReportID){
 //        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-//        DatabaseReference databaseReference = firebaseDatabase.getReference("Rating");
+//        DatabaseReference databaseReference = firebaseDatabase.ugetReference("Rating");
 //        databaseReference.child(ReportID).child(userId).removeValue();
 //    }
     public void autoid(Context context){
@@ -291,6 +286,32 @@ public class FireBaseThueTro {
                     id = "BK01" + (Integer.parseInt(temp[1]) + 1);
                 }
                 ((BookingActivity) context).IdBooking(id);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void IdNotificationLandlor(Context context) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Notification").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> dsNotification = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    dsNotification.add(dataSnapshot.getKey());
+                }
+                String[] temp = dsNotification.get(dsNotification.size() - 1).split("TB_");
+                String id = "";
+                if (Integer.parseInt(temp[1]) < 10) {
+                    id = "TB_0" + (Integer.parseInt(temp[1]) + 1);
+                } else {
+                    id = "TB_0" + (Integer.parseInt(temp[1]) + 1);
+                }
+                ((Detail_Notification_Landlor) context).IdNotification(id);
             }
 
             @Override
@@ -378,6 +399,105 @@ public class FireBaseThueTro {
                 }else {
                     ((TenantPostDetail) context).dialogg();
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void readOnePostOGhep(Context context, String id) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Post_Oghep").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Post data = snapshot.getValue(Post.class);
+                BitMap bitMap = new BitMap(data.getImage(), null);
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/"+bitMap.getTenHinh());
+                try {
+                    final File file = File.createTempFile(bitMap.getTenHinh(), "jpg");
+                    storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
+                            ((TenantPostDetail) context).setDuLieu(data, bitMap.getHinh());
+                            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                            DatabaseReference databaseReference = firebaseDatabase.getReference();
+                            databaseReference.child("user").addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                        user User = dataSnapshot.getValue(user.class);
+                                        if (User.getId().equals(data.getUserID())) {
+                                            ((TenantPostDetail) context).setName(User);
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void docPostLienQuanPost(ArrayList<Post> list, MyRecyclerViewAdapter myRecyclerViewAdapter) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Post").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Post> posts = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Post student = dataSnapshot.getValue(Post.class);
+                    posts.add(student);
+                }
+                list.clear();
+                list.addAll(posts);
+                myRecyclerViewAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void docPostLienQuanOGhep(ArrayList<Post> list, MyRecyclerViewAdapter myRecyclerViewAdapter) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Post_Oghep").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Post> posts = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Post student = dataSnapshot.getValue(Post.class);
+                    posts.add(student);
+                }
+                list.clear();
+                list.addAll(posts);
+                myRecyclerViewAdapter.notifyDataSetChanged();
+
             }
 
             @Override

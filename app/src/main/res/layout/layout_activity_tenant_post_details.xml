@@ -11,14 +11,30 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-        <ImageView
-            android:id="@+id/imgRoomPostDetail"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <ImageView
+                android:id="@+id/imgRoomPostDetail"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/btn_detailback"
+                android:layout_width="46dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:src="@drawable/ic_back1" />
+        </RelativeLayout>
+
     </LinearLayout>
 
     <ScrollView
@@ -74,7 +90,7 @@
                         android:id="@+id/tvGiaPostDetail"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
+                        android:layout_weight="3"
                         android:paddingLeft="10dp"
                         android:text="Giá Tiền"
                         android:textColor="@color/red" />
@@ -83,14 +99,14 @@
                         android:id="@+id/tvAreaPostDetail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:text="TextView" />
 
                     <TextView
                         android:id="@+id/tvTinhTrang"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:text="Tinh Trang" />
 
                     <ImageView
@@ -172,6 +188,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/black"/>
                 <LinearLayout
+                    android:id="@+id/rcvRatingPost"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:background="#8E8787"
@@ -268,8 +285,20 @@
                         android:layout_margin="20dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_login"
-                        android:text="@string/x_ph_ng"
+                        android:text="Đặt lịch"
                         android:textSize="5pt"
+                        android:visibility="visible"
+                        app:backgroundTint="@null" />
+                    <Button
+                        android:id="@+id/btnLienHePostDetail"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_login"
+                        android:text="@string/li_n_h"
+                        android:textSize="5pt"
+                        android:visibility="gone"
                         app:backgroundTint="@null" />
                 </LinearLayout>
 

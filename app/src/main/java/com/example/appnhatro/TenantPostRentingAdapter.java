@@ -1,9 +1,7 @@
 package com.example.appnhatro;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.BitmapFactory;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -17,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Models.BitMap;
 import com.example.appnhatro.Models.Post;
-import com.example.appnhatro.Models.PostAndPostFindPeople;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
@@ -27,7 +24,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 public class TenantPostRentingAdapter extends RecyclerView.Adapter<TenantPostRentingAdapter.TenantPostRenting> implements Filterable {
 
@@ -64,7 +60,7 @@ public class TenantPostRentingAdapter extends RecyclerView.Adapter<TenantPostRen
         holder.address.setText(post.getAddress());
         holder.area.setText(formatter.format(Integer.valueOf(post.getArea())));
         BitMap bitMap = new BitMap(post.getImage(),null);
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference(bitMap.getTenHinh());
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference("images/post/" + post.getImage());
         try {
             final File file= File.createTempFile(bitMap.getTenHinh().substring(0,bitMap.getTenHinh().length()-4),"jpg");
             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {

@@ -27,9 +27,15 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Activity.BookingActivity;
 import com.example.appnhatro.Activity.LandLordFeedBack;
@@ -68,17 +74,20 @@ import java.util.Map;
 import vn.momo.momo_partner.AppMoMoLib;
 
 public class TenantPostDetail extends AppCompatActivity {
-    TextView house_name, area, price, address, title, userId, nameUser,tvVietDanhGia,tvLuotDanhGia;
+    TextView house_name, area, price, address, title, userId, nameUser,tvVietDanhGia,tvLuotDanhGia,tvTheLoai;
     MyRecyclerViewAdapter myRecyclerViewAdapterLienQuan;
     TeantCommentAdapter adapterComment;
     ArrayList<Rating> postListComment = new ArrayList<>();
     ArrayList<Post> listLienQuan = new ArrayList<>();
     FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
-    ImageView imgRating1,imgRating2,imgRating3,imgRating4,imgRating5,hinh,imgFavorite,imgAvatar;
+    ImageView imgRating1,imgRating2,imgRating3,imgRating4,imgRating5,hinh,imgFavorite,imgAvatar, back;
     String it_id,it_idLogin;
     boolean isFavorite = false;
     Button btnReport,btnXemPhong,btnDatCoc;
+   
+
     RecyclerView rcvComment;
+    LinearLayout rcvRatingPost;
     DecimalFormat formatter = new DecimalFormat("#,###,###");
     Rating ratingComment = new Rating();
     String idPost,idUser,idAuto;
@@ -97,12 +106,14 @@ public class TenantPostDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_activity_tenant_post_details);
+
         AppMoMoLib.getInstance().setEnvironment(AppMoMoLib.ENVIRONMENT.DEVELOPMENT); // AppMoMoLib.ENVIRONMENT.PRODUCTION
-//        it_idLogin = getIntent().getStringExtra("it_idLogin");
+       it_idLogin = getIntent().getStringExtra("it_idLogin");
         sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
         it_idLogin = sharedPreferences.getString("idUser", "");
         it_id = getIntent().getStringExtra("it_id");
         control();
+
         getID();
         idPost = it_id;
         idUser = it_idLogin;
@@ -110,32 +121,73 @@ public class TenantPostDetail extends AppCompatActivity {
 
         currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
 
-        //Comment
-        rcvComment = (RecyclerView) findViewById(R.id.rcvCommentPostDetailTenant);
-        adapterComment = new TeantCommentAdapter(this,R.layout.item_comment_post_detail_tenant_layout,postListComment,it_idLogin);
-        GridLayoutManager gridLayoutManagerRating = new GridLayoutManager(this,1);
-        gridLayoutManagerRating.setOrientation(RecyclerView.VERTICAL);
-        rcvComment.setLayoutManager(gridLayoutManagerRating);
-        rcvComment.setAdapter(adapterComment);
+        String a = it_id.substring(0,2);
+        if(a.equals("P_")){
+            tvTheLoai.setText("Ở Ghép");
+            btnDatCoc.setVisibility(View.GONE);
+            btnLienHe.setVisibility(View.VISIBLE);
+            btnReport.setVisibility(View.GONE);
+            btnXemPhong.setVisibility(View.GONE);
+            imgFavorite.setVisibility(View.GONE);
+            tvVietDanhGia.setVisibility(View.GONE);
+            tvLuotDanhGia.setVisibility(View.GONE);
+            rcvRatingPost.setVisibility(View.GONE);
+            //Phong tro
+            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rcvPostAnotherDetail);
+            myRecyclerViewAdapterLienQuan = new MyRecyclerViewAdapter(this,R.layout.layout_item_list_horizontal,listLienQuan);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
+            gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
+            recyclerView.setLayoutManager(gridLayoutManager);
+            myRecyclerViewAdapterLienQuan.setOnItemClickListener(new MyRecyclerViewAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClickListener(int position, View view) {
+                    fireBaseThueTro.readDataItem(position, listLienQuan, TenantPostDetail.this);
+                }
+            });
+            recyclerView.setAdapter(myRecyclerViewAdapterLienQuan);
+            eventPostOGhep();
+            setImageIcon();
+        }else {
+            tvTheLoai.setText("Cho Thuê");
+            btnDatCoc.setVisibility(View.VISIBLE);
+            btnLienHe.setVisibility(View.GONE);
+            btnReport.setVisibility(View.VISIBLE);
+            btnXemPhong.setVisibility(View.VISIBLE);
+            imgFavorite.setVisibility(View.VISIBLE);
+            tvVietDanhGia.setVisibility(View.VISIBLE);
+            tvLuotDanhGia.setVisibility(View.VISIBLE);
+            rcvRatingPost.setVisibility(View.VISIBLE);
+            //Comment
+            rcvComment = (RecyclerView) findViewById(R.id.rcvCommentPostDetailTenant);
+            adapterComment = new TeantCommentAdapter(this,R.layout.item_comment_post_detail_tenant_layout,postListComment,it_idLogin);
+            GridLayoutManager gridLayoutManagerRating = new GridLayoutManager(this,1);
+            gridLayoutManagerRating.setOrientation(RecyclerView.VERTICAL);
+            rcvComment.setLayoutManager(gridLayoutManagerRating);
+            rcvComment.setAdapter(adapterComment);
 
-        //Phong tro
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rcvPostAnotherDetail);
-        myRecyclerViewAdapterLienQuan = new MyRecyclerViewAdapter(this,R.layout.layout_item_list_horizontal,listLienQuan);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
-        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        myRecyclerViewAdapterLienQuan.setOnItemClickListener(new MyRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClickListener(int position, View view) {
-                fireBaseThueTro.readDataItem(position, listLienQuan, TenantPostDetail.this);
-            }
-        });
-        recyclerView.setAdapter(myRecyclerViewAdapterLienQuan);
-        event();
-        setImageIcon();
+
+            //Phong tro
+            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rcvPostAnotherDetail);
+            myRecyclerViewAdapterLienQuan = new MyRecyclerViewAdapter(this,R.layout.layout_item_list_horizontal,listLienQuan);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
+            gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
+            recyclerView.setLayoutManager(gridLayoutManager);
+            myRecyclerViewAdapterLienQuan.setOnItemClickListener(new MyRecyclerViewAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClickListener(int position, View view) {
+                    fireBaseThueTro.readDataItem(position, listLienQuan, TenantPostDetail.this);
+                }
+            });
+            recyclerView.setAdapter(myRecyclerViewAdapterLienQuan);
+            event();
+            setImageIcon();
+        }
     }
 
     private void control() {
+        btnDatCoc = findViewById(R.id.btnDatCoc);
+        tvTheLoai=findViewById(R.id.tvChoThue);
+        btnLienHe= findViewById(R.id.btnLienHePostDetail);
         house_name = findViewById(R.id.tvNamePostDetail);
         address = findViewById(R.id.tvDiaChiPostDetail);
         area = findViewById(R.id.tvAreaPostDetail);
@@ -156,6 +208,8 @@ public class TenantPostDetail extends AppCompatActivity {
         btnDatCoc = findViewById(R.id.btnDatCoc);
         tvLuotDanhGia = findViewById(R.id.tvLuotDanhGia);
         tvVietDanhGia = findViewById(R.id.tvVietDanhGia);
+        back = findViewById(R.id.btn_detailback);
+        rcvRatingPost = findViewById(R.id.rcvRatingPost);
     }
 
     public void setDuLieu(Post post, Bitmap bitmap){
@@ -190,6 +244,12 @@ public class TenantPostDetail extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(TenantPostDetail.this, BookingActivity.class);
                 startActivity(intent);
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
@@ -239,6 +299,42 @@ public class TenantPostDetail extends AppCompatActivity {
                         popupMenu.show();
                     }
                 });
+            }
+        });
+    }
+    public void eventPostOGhep(){
+        btnLienHe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(TenantPostDetail.this);
+                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                DatabaseReference databaseReference = firebaseDatabase.getReference();
+                String cutter = userId.getText().toString().replace("id:", "");
+                databaseReference.child("user").child(cutter).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        user User = snapshot.getValue(user.class);
+                        builder.setTitle("Liên Hệ");
+                        builder.setMessage("Số điện thoại:"+User.getPhone()+"");
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                        builder.show();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
@@ -355,10 +451,16 @@ public class TenantPostDetail extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        fireBaseThueTro.docListPost(listLienQuan,myRecyclerViewAdapterLienQuan);
-        fireBaseThueTro.readOnePost(this,it_id);
-        fireBaseThueTro.getRatingPost(this,it_id,adapterComment,postListComment,ratingComment,it_idLogin);
         loadFavoritePost(it_id, it_idLogin);
+        String id = it_id.substring(0,2);
+        if(id.equals("P_")){
+            fireBaseThueTro.docPostLienQuanOGhep(listLienQuan,myRecyclerViewAdapterLienQuan);
+            fireBaseThueTro.readOnePostOGhep(this,it_id);
+        }else {
+            fireBaseThueTro.docPostLienQuanPost(listLienQuan,myRecyclerViewAdapterLienQuan);
+            fireBaseThueTro.readOnePost(this,it_id);
+            fireBaseThueTro.getRatingPost(this,it_id,adapterComment,postListComment,ratingComment,it_idLogin);
+        }
     }
     public void gotoCommentActivity(){
         ratingComment.setIdPost(it_id);

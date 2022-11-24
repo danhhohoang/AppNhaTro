@@ -13,6 +13,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivBack_YT"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_back1" />
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/sv_tpf"
                 android:layout_width="match_parent"
@@ -25,11 +33,6 @@
                 app:queryHint="Search"
                 app:iconifiedByDefault="false">
             </androidx.appcompat.widget.SearchView>
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="50dp"
-                android:layout_weight="2"
-                android:src="@drawable/ic_bell"></ImageView>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout

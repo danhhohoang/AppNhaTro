@@ -46,7 +46,6 @@ public class Tenant_notification_activity extends AppCompatActivity {
         tenant_notification_adapter.setOnItemClickListener(new Tenant_Notification_Adapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(int position, View view) {
-                firebaseTenantNofication.readFirebase(position, notificationbookings, Tenant_notification_activity.this);
             }
         });
         sv_tpr = findViewById(R.id.timkiem);

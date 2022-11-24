@@ -1,42 +1,29 @@
 package com.example.appnhatro;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.app.SearchManager;
-import android.widget.SearchView;
-import android.widget.SearchView.OnQueryTextListener;
-import android.widget.TextView;
+import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Firebase.FireBasePostFavorite;
-import com.example.appnhatro.Firebase.FireBaseThueTro;
 import com.example.appnhatro.Models.Favorite;
-import com.example.appnhatro.Models.LikedPostModel;
 import com.example.appnhatro.Models.Post;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TenantPostFavourite extends AppCompatActivity{
     private ArrayList<String> persons = new ArrayList<>();
     private ViewHolderImageHome adapter;
     androidx.appcompat.widget.SearchView sv_tpf;
     String idUser;
-
+    SharedPreferences sharedPreferences;
+    ImageView back;
 
     //List horizone
     private TenantPostFavouriteAdapter tenantPostFavouriteAdapter;
@@ -48,7 +35,9 @@ public class TenantPostFavourite extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_activity_tenant_post_favourite);
-
+        sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        idUser = sharedPreferences.getString("idUser", "");
+        back = findViewById(R.id.ivBack_YT);
         ListPost();
 //        idUser="KH02";
 //            databaseReference = FirebaseDatabase.getInstance().getReference("Like");
@@ -76,7 +65,7 @@ public class TenantPostFavourite extends AppCompatActivity{
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
-        fireBasePostFavorite.readListPost(posts,tenantPostFavouriteAdapter,"P02");
+        fireBasePostFavorite.readListPost(posts,tenantPostFavouriteAdapter,idUser);
         recyclerView.setAdapter(tenantPostFavouriteAdapter);
         tenantPostFavouriteAdapter.setOnItemClickListener(new TenantPostFavouriteAdapter.OnItemClickListener() {
             @Override
@@ -96,6 +85,12 @@ public class TenantPostFavourite extends AppCompatActivity{
             public boolean onQueryTextChange(String s) {
                 tenantPostFavouriteAdapter.getFilter().filter(s);
                 return false;
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
