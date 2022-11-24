@@ -134,11 +134,15 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                        }
-                    });
-                }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(LoginActivity.this,"Tài khoản hoặc mật khẩu không đúng",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                  
+
             }
         });
 

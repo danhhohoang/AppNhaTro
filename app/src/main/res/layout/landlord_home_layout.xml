@@ -5,27 +5,163 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background"
     android:orientation="vertical">
-    <SearchView
-        android:id="@+id/sv_Search_Home_LandLord"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
 
-        android:background="@drawable/shape_search_bar"
-        android:layout_margin="20dp"
-        android:iconifiedByDefault="false"
-        />
-    <ImageView
-        android:layout_gravity="right"
-        android:layout_marginRight="40dp"
-        android:background="@drawable/ic_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="5pt"
-        app:backgroundTint="@null"
-        android:scaleType="fitXY"
-        android:id="@+id/imgThemLandLord"/>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvLLListPostHome"
+    <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:id="@+id/drawerLayout">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="Danh sách"
+                app:titleTextColor="@color/white"
+                android:background="#0000FD"
+                android:id="@+id/toolbar"/>
+            <SearchView
+                android:id="@+id/sv_Search_Home_LandLord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:background="@drawable/shape_search_bar"
+                android:layout_margin="20dp"
+                android:iconifiedByDefault="false"/>
+            <ImageView
+                android:layout_gravity="right"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/ic_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="5pt"
+                app:backgroundTint="@null"
+                android:scaleType="fitXY"
+                android:id="@+id/imgThemLandLord"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvLLListPostHome"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+        <com.google.android.material.navigation.NavigationView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="85dp"
+            android:layout_height="330dp"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            android:background="@drawable/custom_navigationview"
+            android:id="@+id/navigationView">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/line_nav_bar_menu">
+                    <TextView
+                        android:id="@+id/tv_lhlDSCT"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:paddingBottom="2dp"
+                        android:text="Danh sách chủ trọ"
+                        android:textSize="10pt"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/line_nav_bar_menu">
+                    <TextView
+                        android:id="@+id/tv_lhlDSNTT"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:paddingBottom="2dp"
+                        android:text="Danh sách người thuê trọ"
+                        android:textSize="10pt"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/line_nav_bar_menu">
+                    <TextView
+                        android:id="@+id/tv_lhlCSVQL"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:paddingBottom="2dp"
+                        android:text="Chính sách và quyền lợi"
+                        android:textSize="10pt"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/line_nav_bar_menu">
+                    <TextView
+                        android:id="@+id/tv_lhlGDGD"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:paddingBottom="2dp"
+                        android:text="Giao dịch gần đây"
+                        android:textSize="10pt"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/line_nav_bar_menu">
+                    <TextView
+                        android:id="@+id/tv_lhlGYND"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:paddingBottom="2dp"
+                        android:text="Góp ý người dùng"
+                        android:textSize="10pt"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/line_nav_bar_menu">
+                    <TextView
+                        android:id="@+id/tv_lhlTKTT"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:paddingBottom="2dp"
+                        android:text="Thống kê theo tháng"
+                        android:textSize="10pt"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+                    <TextView
+                        android:id="@+id/tv_lhlDX"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:paddingBottom="2dp"
+                        android:text="Đăng xuất"
+                        android:textSize="10pt"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.navigation.NavigationView>
+    </androidx.drawerlayout.widget.DrawerLayout>
 </LinearLayout>
