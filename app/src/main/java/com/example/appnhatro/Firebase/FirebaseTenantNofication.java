@@ -15,7 +15,8 @@ import java.util.ArrayList;
 public class FirebaseTenantNofication {
     public FirebaseTenantNofication() {
     }
-    public void readPostFindPeople(ArrayList<Notificationbooking> list, Tenant_Notification_Adapter tenant_notification_adapter, String userTenantID) {
+    public void readPostFindPeople(ArrayList<Notificationbooking> list, Tenant_Notification_Adapter tenant_notification_adapter, String idUser) {
+
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
         FirebaseDatabase firebaseDatabase2 = FirebaseDatabase.getInstance();
@@ -26,7 +27,8 @@ public class FirebaseTenantNofication {
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Notificationbooking notificationbooking = dataSnapshot.getValue(Notificationbooking.class);
-                    if (notificationbooking.getIdNotifi().equals("TB_04")) {
+                    if (notificationbooking.getIdUser().equals(idUser))
+                        {
                         list.add(notificationbooking);
                     }
                 }

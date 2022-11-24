@@ -2,6 +2,7 @@ package com.example.appnhatro.Models;
 
 public class Notificationbooking {
     private String idUser;
+    private String idLandlor;
     private String name;
     private String Phone;
     private String Time;
@@ -11,8 +12,9 @@ public class Notificationbooking {
     private String idNotifi;
     private String status;
 
-    public Notificationbooking(String idUser, String name, String phone, String time, String date, String notes, String id, String idNotifi, String status) {
+    public Notificationbooking(String idUser, String idLandlor, String name, String phone, String time, String date, String notes, String id, String idNotifi, String status) {
         this.idUser = idUser;
+        this.idLandlor = idLandlor;
         this.name = name;
         Phone = phone;
         Time = time;
@@ -24,6 +26,14 @@ public class Notificationbooking {
     }
 
     public Notificationbooking() {
+    }
+
+    public String getIdLandlor() {
+        return idLandlor;
+    }
+
+    public void setIdLandlor(String idLandlor) {
+        this.idLandlor = idLandlor;
     }
 
     public String getIdUser() {

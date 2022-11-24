@@ -129,14 +129,7 @@ public class TenantPostDetail extends AppCompatActivity {
         btnReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String strname = house_name.getText().toString();
-                String strID = userId.getText().toString();
-                String strIDpost = it_id;
-                Intent intent = new Intent(TenantPostDetail.this, RepportActivity.class);
-                intent.putExtra("Name_hour", strname);
-                intent.putExtra("ID", strID);
-                intent.putExtra("IdPost", strIDpost);
-                startActivity(intent);
+                fireBaseThueTro.check(TenantPostDetail.this, it_id, it_idLogin);
             }
         });
         btnXemPhong.setOnClickListener(new View.OnClickListener() {
@@ -311,7 +304,9 @@ public class TenantPostDetail extends AppCompatActivity {
     }
     public void setVisibilityWriteComment(){
         tvVietDanhGia.setVisibility(View.GONE);
+        btnReport.setVisibility(View.VISIBLE);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -339,5 +334,27 @@ public class TenantPostDetail extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+    public void thongbao(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(TenantPostDetail.this);
+        builder.setTitle("Thông báo");
+        builder.setMessage("Bạn chưa ở cặn hộ này nên không thể report");
+        builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
+    }
+    public void gotoRepostActivity() {
+        String strname = house_name.getText().toString();
+        String strID = userId.getText().toString();
+        String strIDpost = it_id;
+        Intent intent = new Intent(TenantPostDetail.this, RepportActivity.class);
+        intent.putExtra("Name_hour", strname);
+        intent.putExtra("ID", strID);
+        intent.putExtra("IdPost", strIDpost);
+        startActivity(intent);
     }
 }
