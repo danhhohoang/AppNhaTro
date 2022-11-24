@@ -49,7 +49,7 @@ public class Detail_Notification_Landlor extends AppCompatActivity {
                 a.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Notificationbooking notificationLandlor = new Notificationbooking(idUser, name, Phone, time, date, note, id, getID, "Từ chối đặt lịch");
+                        Notificationbooking notificationLandlor = new Notificationbooking(idUser, "KH01", name, Phone, time, date, note, id, getID, "Từ chối đặt lịch");
                         addToFavorite(notificationLandlor);
                         finish();
                     }
@@ -73,7 +73,7 @@ public class Detail_Notification_Landlor extends AppCompatActivity {
                 b.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Notificationbooking notificationLandlor = new Notificationbooking(idUser, name, Phone, time, date, note, id, getID, "Đồng ý đặt lịch");
+                        Notificationbooking notificationLandlor = new Notificationbooking(idUser, "KH01", name, Phone, time, date, note, id, getID, "Đồng ý đặt lịch");
                         addToFavorite(notificationLandlor);
                         finish();
                     }

@@ -52,6 +52,7 @@ public class Tenant_Notification_Adapter extends RecyclerView.Adapter<Tenant_Not
         holder.idPost.setText(notificationbooking.getIdNotifi());
         holder.date.setText(notificationbooking.getDate());
         holder.status.setText(notificationbooking.getStatus());
+
         final int pos = position;
         holder.onClickListener= new View.OnClickListener() {
             @Override
@@ -119,7 +120,7 @@ public class Tenant_Notification_Adapter extends RecyclerView.Adapter<Tenant_Not
             idPost = itemView.findViewById(R.id.edtMABD);
             date = itemView.findViewById(R.id.edtTD);
             status = itemView.findViewById(R.id.edtStatus);
-//          picture = itemView.findViewById(R.id.iv_tprPicture);
+            picture = itemView.findViewById(R.id.img_AVT);
             item = itemView.findViewById(R.id.carnotifi);
             item.setOnClickListener(this);
         }

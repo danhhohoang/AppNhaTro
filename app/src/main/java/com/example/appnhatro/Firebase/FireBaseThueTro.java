@@ -506,4 +506,30 @@ public class FireBaseThueTro {
             }
         });
     }
+    public void check(Context context, String idPost,String idUser){
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("HistoryTransaction").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean check = false;
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    HistoryTransaction historyTransaction = dataSnapshot.getValue(HistoryTransaction.class);
+                    if(historyTransaction.getId_user().equals(idUser)&&historyTransaction.getPost().equals(idPost)){
+                        check = true;
+                    }
+                }
+                if(check==true){
+                    ((TenantPostDetail) context).gotoRepostActivity();
+                }else {
+                    ((TenantPostDetail) context).thongbao();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }
