@@ -3,14 +3,24 @@ package com.example.appnhatro.Models;
 public class HistoryTransaction {
     private String id;
     private String id_user;
+    private String id_landlord;
     private String post;
     private String status;
     private String total;
     private String date;
 
-    public HistoryTransaction(String id, String id_user, String post, String status, String total, String date) {
+    public String getId_landlord() {
+        return id_landlord;
+    }
+
+    public void setId_landlord(String id_landlord) {
+        this.id_landlord = id_landlord;
+    }
+
+    public HistoryTransaction(String id, String id_user, String id_landlord, String post, String status, String total, String date) {
         this.id = id;
         this.id_user = id_user;
+        this.id_landlord = id_landlord;
         this.post = post;
         this.status = status;
         this.total = total;
