@@ -15,7 +15,25 @@ public class Post implements Serializable {
     private String area;
     private String house_name;
     private String image;
+    private String image1;
+    private String image2;
     private String status;
+
+    public String getImage1() {
+        return image1;
+    }
+
+    public void setImage1(String image1) {
+        this.image1 = image1;
+    }
+
+    public String getImage2() {
+        return image2;
+    }
+
+    public void setImage2(String image2) {
+        this.image2 = image2;
+    }
 
     public Post() {
     }
@@ -100,7 +118,7 @@ public class Post implements Serializable {
         this.status = status;
     }
 
-    public Post(String id, String userID, String title, String address, String address_district, String price, String area, String house_name, String image, String status) {
+    public Post(String id, String userID, String title, String address, String address_district, String price, String area, String house_name, String image, String status,String image1,String image2) {
         this.id = id;
         this.userID = userID;
         this.title = title;
@@ -111,5 +129,7 @@ public class Post implements Serializable {
         this.house_name = house_name;
         this.image = image;
         this.status = status;
+        this.image1 = image1;
+        this.image2 = image2;
     }
 }

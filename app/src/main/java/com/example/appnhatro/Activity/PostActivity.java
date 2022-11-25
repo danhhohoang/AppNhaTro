@@ -123,10 +123,10 @@ public class PostActivity extends AppCompatActivity {
                                                     if (posts.size() >= 1){
                                                         final Dialog dialog = new Dialog(PostActivity.this);
                                                         opendialog(dialog, Gravity.CENTER, "Load image....",R.layout.layout_dialog_notify_no_button);
-                                                        Post post1 = new Post(idPost, iduser, YeuCauKhac.getText().toString(), SDT.getText().toString(), DoTuoi.getText().toString(),
-                                                                gia.getText().toString(),Den.getText().toString(),
-                                                                Diachi.getText().toString(), idPost + ".jpg", spnStatus.getSelectedItem().toString());
-                                                        addToFavorite(post1);
+//                                                        Post post1 = new Post(idPost, iduser, YeuCauKhac.getText().toString(), SDT.getText().toString(), DoTuoi.getText().toString(),
+//                                                                gia.getText().toString(),Den.getText().toString(),
+//                                                                Diachi.getText().toString(), idPost + ".jpg", spnStatus.getSelectedItem().toString());
+//                                                        addToFavorite(post1);
                                                         String str = idPost+".jpg";
                                                         storageReference = FirebaseStorage.getInstance().getReference("images/post/" + str);
                                                         storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

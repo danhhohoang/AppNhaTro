@@ -13,6 +13,7 @@ import com.example.appnhatro.Activity.LandLordAddNewPost;
 import com.example.appnhatro.Activity.LandLordFeedBack;
 import com.example.appnhatro.Activity.LandLordPostDetailActivity;
 import com.example.appnhatro.Activity.LandLordUpdatePostActivity;
+import com.example.appnhatro.Adapters.ImagePostDetailAdapter;
 import com.example.appnhatro.Adapters.LandLordCommentAdapter;
 import com.example.appnhatro.Adapters.LandLordHomeListAdapter;
 import com.example.appnhatro.Models.BitMap;
@@ -40,6 +41,7 @@ import java.util.ArrayList;
 
 public class FireBaseLandLord {
     private ConverImage converImage = new ConverImage();
+
     public FireBaseLandLord() {
     }
 
@@ -68,14 +70,14 @@ public class FireBaseLandLord {
         });
     }
 
-    public void addUpdatePost(Context context, Post post, Uri uri) {
+    public void addUpdatePost(Context context, Post post, Uri[] uri) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Post");
         databaseReference.child(post.getId()).setValue(post)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        converImage.docAnhUpdatePost(uri,context,post.getImage());
+                        converImage.docAnhUpdatePost(uri, context, post.getImage(), post.getImage1(), post.getImage2());
                     }
                 });
     }
@@ -92,14 +94,14 @@ public class FireBaseLandLord {
                 });
     }
 
-    public void addNewPost(Context context, Post post, Uri uri) {
+    public void addNewPost(Context context, Post post, Uri[] uri) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Post");
         databaseReference.child(post.getId()).setValue(post)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        converImage.docAnhAddNewPost(uri,context,post.getImage());
+                        converImage.docAnhAddNewPost(uri, context, post.getImage(), post.getImage1(), post.getImage2());
                     }
                 });
     }
@@ -147,7 +149,7 @@ public class FireBaseLandLord {
                         @Override
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                             bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
-                            ((LandLordPostDetailActivity) context).setDuLieu(data, bitMap.getHinh());
+                            ((LandLordPostDetailActivity) context).setDuLieu(data);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -198,24 +200,39 @@ public class FireBaseLandLord {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Post data = snapshot.getValue(Post.class);
-                BitMap bitMap = new BitMap(data.getImage(), null);
-                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/" + bitMap.getTenHinh());
-                try {
-                    final File file = File.createTempFile(bitMap.getTenHinh().substring(0, bitMap.getTenHinh().length() - 4), "jpg");
-                    storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
-                            ((LandLordUpdatePostActivity) context).setDuLieu(data, bitMap.getHinh());
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
+                ArrayList<String> images = new ArrayList<>();
+                images.add(data.getImage());
+                images.add(data.getImage1());
+                images.add(data.getImage2());
+                ((LandLordUpdatePostActivity) context).setDistrict(data.getAddress_district());
+                final int[] dem = {0};
+                for (String image : images) {
+                    BitMap bitMap = new BitMap(image, null);
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/" + bitMap.getTenHinh());
+                    try {
+                        final File file = File.createTempFile(bitMap.getTenHinh(), "jpg");
+                        storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
+                                if (dem[0] == 0) {
+                                    ((LandLordUpdatePostActivity) context).setImage(bitMap.getHinh());
+                                } else if (dem[0] == 1) {
+                                    ((LandLordUpdatePostActivity) context).setImage1(bitMap.getHinh());
+                                } else if (dem[0] == 2) {
+                                    ((LandLordUpdatePostActivity) context).setDuLieu(data, bitMap.getHinh());
+                                }
+                                dem[0] = dem[0] + 1;
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
 
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -232,7 +249,7 @@ public class FireBaseLandLord {
         databaseReference.child("Post").child(idPost).removeValue();
     }
 
-    public void readOnePostLandLord(Context context, String idPost, ArrayList<Rating> listRating, LandLordCommentAdapter commentAdapter) {
+    public void readOnePostLandLord(Context context, String idPost, ArrayList<Rating> listRating, LandLordCommentAdapter commentAdapter, ArrayList<String> imagePost) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
         DatabaseReference rating = firebaseDatabase.getReference("Rating");
@@ -241,57 +258,40 @@ public class FireBaseLandLord {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Post data = snapshot.getValue(Post.class);
-                BitMap bitMap = new BitMap(data.getImage(), null);
-                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/" + bitMap.getTenHinh());
-                try {
-                    final File file = File.createTempFile(bitMap.getTenHinh(), "jpg");
-                    storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
-                            ((LandLordPostDetailActivity) context).setDuLieu(data, bitMap.getHinh());
-
-
-                            rating.child(idPost).addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    ArrayList<Rating> ratings = new ArrayList<>();
-                                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                        Rating data = dataSnapshot.getValue(Rating.class);
-                                        ratings.add(data);
-                                    }
-                                    listRating.clear();
-                                    listRating.addAll(ratings);
-                                    commentAdapter.notifyDataSetChanged();
-                                    like.child(idPost).addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            ((LandLordPostDetailActivity) context).setLike(String.valueOf(snapshot.getChildrenCount()));
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-
-                                        }
-                                    });
-                                }
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
-
-
+                imagePost.clear();
+                imagePost.add(data.getImage());
+                imagePost.add(data.getImage1());
+                imagePost.add(data.getImage2());
+                ((LandLordPostDetailActivity) context).setDuLieu(data);
+                rating.child(idPost).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        ArrayList<Rating> ratings = new ArrayList<>();
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            Rating data = dataSnapshot.getValue(Rating.class);
+                            ratings.add(data);
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
+                        listRating.clear();
+                        listRating.addAll(ratings);
+                        commentAdapter.notifyDataSetChanged();
+                        like.child(idPost).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                ((LandLordPostDetailActivity) context).setLike(String.valueOf(snapshot.getChildrenCount()));
+                            }
 
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
                 rating.child(data.getId()).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -323,15 +323,16 @@ public class FireBaseLandLord {
             }
         });
     }
-    public void getNameUserFeedback(Context context,String idUser){
+
+    public void getNameUserFeedback(Context context, String idUser) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
         databaseReference.child("user").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     user User = dataSnapshot.getValue(user.class);
-                    if(User.getId().equals(idUser)){
+                    if (User.getId().equals(idUser)) {
                         ((LandLordFeedBack) context).setNameUser(User.getName());
                     }
                 }
@@ -343,7 +344,8 @@ public class FireBaseLandLord {
             }
         });
     }
-    public void addAndUpdateFeedBackLandLord(Context context,Rating rating){
+
+    public void addAndUpdateFeedBackLandLord(Context context, Rating rating) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
         databaseReference.child("Rating").child(rating.getIdPost()).child(rating.getIdUser()).setValue(rating).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -353,7 +355,8 @@ public class FireBaseLandLord {
             }
         });
     }
-    public void deleteFeedBack(Rating rating){
+
+    public void deleteFeedBack(Rating rating) {
         rating.setFeedback("");
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();

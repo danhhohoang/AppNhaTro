@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.appnhatro.Activity.AdminHomeActivity;
 import com.example.appnhatro.Activity.LandLordHomeActivity;
 import com.example.appnhatro.Activity.TermAndSerciveActivity;
 import com.example.appnhatro.Activity.VertifyPhoneNumberActivity;
@@ -103,7 +104,8 @@ public class LoginActivity extends AppCompatActivity {
                                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                                 editor.putString("idUser", userRole.getId_user());
                                                 editor.apply();
-                                                Toast.makeText(LoginActivity.this, "Admin", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(LoginActivity.this, AdminHomeActivity.class);
+                                                startActivity(intent);
                                             }
                                         }
 

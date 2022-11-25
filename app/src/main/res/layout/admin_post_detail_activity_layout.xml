@@ -6,22 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.75"
-        android:orientation="horizontal">
-        <ImageView
-            android:id="@+id/imgBackPostDetailAdmin"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_baseline_arrow_back_ios_24"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="11"/>
-    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -29,12 +14,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-        <ImageView
-            android:id="@+id/imgRoomPostDetailAdmin"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvImagePostDetailAdmin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/imgBackPostDetailAdmin"
+                android:layout_width="46dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_back1" />
+        </RelativeLayout>
     </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -50,6 +48,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tvNamePostDetailAdmin"
                     android:layout_width="match_parent"
@@ -165,6 +164,7 @@
                     android:text="Phòng ok la phết,Phòng ok la phếtPhòng ok la phếtPhòng ok la phếtPhòng ok la phếtPhòng ok la phếtPhòng ok la phếtPhòng ok la phếtPhòng ok la phết"
                     android:textColor="@color/black"
                     android:textSize="7pt" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -215,6 +215,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/icon_rating" />
                 </LinearLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcvCommentPostDetailAdmin"
                     android:layout_width="match_parent"
