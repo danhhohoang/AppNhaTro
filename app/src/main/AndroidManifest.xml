@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -17,6 +15,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        tools:replace="android:theme"
         android:theme="@style/Theme.AppNhaTro"
         tools:targetApi="31">
         <activity
@@ -116,6 +115,9 @@
             android:exported="true" />
         <activity
             android:name=".Activity.AdminPostDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.AdminHomeActivity"
             android:exported="true" />
     </application>
 
