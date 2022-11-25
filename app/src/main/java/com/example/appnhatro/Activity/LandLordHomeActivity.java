@@ -36,11 +36,12 @@ public class LandLordHomeActivity extends AppCompatActivity {
     private FireBaseLandLord fireBaseLandLord = new FireBaseLandLord();
     private String userId;
     private ImageView imgAdd;
-    TextView itemMenu1,itemMenu2,itemMenu3,itemMenu4,itemMenu5,itemMenu6,itemMenu7;
+    TextView itemMenu1, itemMenu2, itemMenu3, itemMenu4, itemMenu5, itemMenu6, itemMenu7;
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,12 +49,12 @@ public class LandLordHomeActivity extends AppCompatActivity {
         setControl();
         actionToolBar();
         recyclerView = (RecyclerView) findViewById(R.id.rvLLListPostHome);
-        landLordHomeListAdapter = new LandLordHomeListAdapter(this, R.layout.lanlord_home_item_layout,listAll);
+        landLordHomeListAdapter = new LandLordHomeListAdapter(this, R.layout.lanlord_home_item_layout, listAll);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
         sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
-        userId = sharedPreferences.getString("idUser", "");
+        userId = sharedPreferences.getString("idUser", "KH01");
         //get Post by userId LandLord
         recyclerView.setAdapter(landLordHomeListAdapter);
         searchView = findViewById(R.id.sv_Search_Home_LandLord);
@@ -131,7 +132,7 @@ public class LandLordHomeActivity extends AppCompatActivity {
         });
     }
 
-    public void event(){
+    public void event() {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -147,7 +148,7 @@ public class LandLordHomeActivity extends AppCompatActivity {
         imgAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LandLordHomeActivity.this,LandLordAddNewPost.class);
+                Intent intent = new Intent(LandLordHomeActivity.this, LandLordAddNewPost.class);
                 startActivity(intent);
             }
         });
@@ -165,15 +166,14 @@ public class LandLordHomeActivity extends AppCompatActivity {
     private void fillterList(String text) {
         ArrayList<Post> fillterList = new ArrayList<>();
 
-        for (Post item : listAll)
-        {
+        for (Post item : listAll) {
             if (item.getHouse_name().toLowerCase().contains(text.toLowerCase())) {
                 fillterList.add(item);
             }
         }
-        if(fillterList.isEmpty()){
-        }else {
-            landLordHomeListAdapter = new LandLordHomeListAdapter(this, R.layout.lanlord_home_item_layout,fillterList);
+        if (fillterList.isEmpty()) {
+        } else {
+            landLordHomeListAdapter = new LandLordHomeListAdapter(this, R.layout.lanlord_home_item_layout, fillterList);
             GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
             gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
             recyclerView.setLayoutManager(gridLayoutManager);
@@ -182,6 +182,7 @@ public class LandLordHomeActivity extends AppCompatActivity {
             landLordHomeListAdapter.notifyDataSetChanged();
         }
     }
+
     protected void onResume() {
         super.onResume();
         fireBaseLandLord.readListPostFromUser(landLordHomeListAdapter, listAll, userId);

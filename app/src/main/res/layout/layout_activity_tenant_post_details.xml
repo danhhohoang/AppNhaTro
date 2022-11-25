@@ -20,9 +20,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
-            <ImageView
-                android:id="@+id/imgRoomPostDetail"
-                android:layout_weight="1"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvImagePostDetailTenant"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY" />
@@ -31,7 +30,6 @@
                 android:id="@+id/btn_detailback"
                 android:layout_width="46dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
                 android:src="@drawable/ic_back1" />
         </RelativeLayout>
 
@@ -178,15 +176,17 @@
                     android:text="Phòng ok la phết,Phòng ok la phếtPhòng ok la phếtPhòng ok la phếtPhòng ok la phếtPhòng ok la phếtPhòng ok la phếtPhòng ok la phếtPhòng ok la phết"
                     android:textColor="@color/black"
                     android:textSize="7pt" />
+
                 <TextView
                     android:id="@+id/tvLuotDanhGia"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Lượt đánh giá"
-                    android:textSize="20sp"
                     android:paddingLeft="20dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"/>
+                    android:text="Lượt đánh giá"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
                 <LinearLayout
                     android:id="@+id/rcvRatingPost"
                     android:layout_width="match_parent"
@@ -238,14 +238,16 @@
                         android:layout_weight="1"
                         android:background="@drawable/icon_rating" />
                 </LinearLayout>
+
                 <TextView
-                    android:paddingLeft="30dp"
                     android:id="@+id/tvVietDanhGia"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="30dp"
                     android:text="Viết Đánh Giá"
                     android:textColor="@color/green"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcvCommentPostDetailTenant"
                     android:layout_width="match_parent"
@@ -289,6 +291,7 @@
                         android:textSize="5pt"
                         android:visibility="visible"
                         app:backgroundTint="@null" />
+
                     <Button
                         android:id="@+id/btnLienHePostDetail"
                         android:layout_width="0dp"

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Activity.Tenant_notification_activity;
+import com.example.appnhatro.Adapters.TenantHomeListPostAdapter;
 import com.example.appnhatro.Firebase.FireBaseThueTro;
 import com.example.appnhatro.Models.Post;
 
@@ -23,11 +24,9 @@ public class HomeTenantActivity extends AppCompatActivity {
     private ArrayList<String> persons = new ArrayList<>();
     private ViewHolderImageHome adapter;
     //List horizone
-    private MyRecyclerViewAdapter myRecyclerViewAdapterOthue;
-    private ArrayList<Post> listHorizoneOthue= new ArrayList<>();
+    private TenantHomeListPostAdapter myRecyclerViewAdapterRatingCao;
+    private ArrayList<Post> listHorizoneHightRating = new ArrayList<>();
     //
-    private MyRecyclerViewAdapter myRecyclerViewAdapterOGhep;
-    private ArrayList<Post> listHorizoneOGhep= new ArrayList<>();
     LinearLayout Post;
     ImageButton notification, DSP;
 
@@ -35,6 +34,7 @@ public class HomeTenantActivity extends AppCompatActivity {
     FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
     ImageButton ivbtnAccount_HT, btn_pdt;
     SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,63 +51,48 @@ public class HomeTenantActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        loadNhachoThue();
-        loadOGhep();
+        loadNhaRatingCao();
         control();
         setEvent();
         DangBai();
     }
-    private void setEvent(){
+
+    private void setEvent() {
         ivbtnAccount_HT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomeTenantActivity.this,TenantAccountActivity.class);
-                intent.putExtra("ID" ,idUser);
+                Intent intent = new Intent(HomeTenantActivity.this, TenantAccountActivity.class);
+                intent.putExtra("ID", idUser);
                 startActivity(intent);
             }
         });
     }
+
     private void control() {
         Post = findViewById(R.id.post);
         notification = findViewById(R.id.notidication);
         ivbtnAccount_HT = findViewById(R.id.ivbtnAccount_HT);
         btn_pdt = findViewById(R.id.btn_PDT);
-        DSP =findViewById(R.id.btn_DSP);
+        DSP = findViewById(R.id.btn_DSP);
     }
+
     @SuppressLint("MissingInflatedId")
-    public void loadNhachoThue(){
+    public void loadNhaRatingCao() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.choThueRecyclerView);
-        myRecyclerViewAdapterOthue =  new MyRecyclerViewAdapter(this, R.layout.layout_item_list_horizontal,listHorizoneOthue);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        myRecyclerViewAdapterRatingCao = new TenantHomeListPostAdapter(this, R.layout.tenant_item_home_layout, listHorizoneHightRating);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
-        fireBaseThueTro.docListPost(listHorizoneOthue,myRecyclerViewAdapterOthue);
-        recyclerView.setAdapter(myRecyclerViewAdapterOthue);
-        myRecyclerViewAdapterOthue.setOnItemClickListener(new MyRecyclerViewAdapter.OnItemClickListener() {
+        recyclerView.setAdapter(myRecyclerViewAdapterRatingCao);
+        myRecyclerViewAdapterRatingCao.setOnItemClickListener(new TenantHomeListPostAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(int position, View view) {
-                fireBaseThueTro.readDataItem(position,listHorizoneOthue,HomeTenantActivity.this);
+                fireBaseThueTro.readDataItem(position, listHorizoneHightRating, HomeTenantActivity.this);
             }
         });
     }
 
-    @SuppressLint("MissingInflatedId")
-    public void loadOGhep(){
-        RecyclerView recyclerVieww = (RecyclerView) findViewById(R.id.oGhepRecyclerView);
-        myRecyclerViewAdapterOGhep =  new MyRecyclerViewAdapter(this, R.layout.layout_item_list_horizontal,listHorizoneOGhep);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
-        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        recyclerVieww.setLayoutManager(gridLayoutManager);
-        fireBaseThueTro.docListPost(listHorizoneOGhep,myRecyclerViewAdapterOGhep);
-        recyclerVieww.setAdapter(myRecyclerViewAdapterOGhep);
-        myRecyclerViewAdapterOGhep.setOnItemClickListener(new MyRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClickListener(int position, View view) {
-                fireBaseThueTro.readDataItem(position,listHorizoneOGhep,HomeTenantActivity.this);
-            }
-        });
-    }
-    public void DangBai(){
+    public void DangBai() {
         Post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,5 +121,11 @@ public class HomeTenantActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fireBaseThueTro.getPostRatingCao(listHorizoneHightRating, myRecyclerViewAdapterRatingCao);
     }
 }
