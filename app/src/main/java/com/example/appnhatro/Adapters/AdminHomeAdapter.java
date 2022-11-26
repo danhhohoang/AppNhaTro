@@ -63,6 +63,7 @@ public class AdminHomeAdapter extends RecyclerView.Adapter<AdminHomeAdapter.MyVi
         DecimalFormat formatter = new DecimalFormat("#,###,###");
         holder.tvPrice.setText(formatter.format(Integer.valueOf(post.getPrice())*2/100));
         holder.tvIdUser.setText(post.getId_user());
+        holder.tvDate.setText(post.getDate());
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
         databaseReference.child("Post").addValueEventListener(new ValueEventListener() {
@@ -151,7 +152,7 @@ public class AdminHomeAdapter extends RecyclerView.Adapter<AdminHomeAdapter.MyVi
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         View.OnClickListener onItemClickLisner;
         ImageView hinh;
-        TextView tvIdUser,tvNameUser,tvIdPost,tvPrice;
+        TextView tvIdUser,tvNameUser,tvIdPost,tvPrice,tvDate;
         Button btnXacNhan;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -160,6 +161,7 @@ public class AdminHomeAdapter extends RecyclerView.Adapter<AdminHomeAdapter.MyVi
             tvIdPost = itemView.findViewById(R.id.tvIdPostHomeAdmin);
             tvPrice = itemView.findViewById(R.id.tvIdMoneyHomeAdmin);
             btnXacNhan = itemView.findViewById(R.id.btnXacNhanAdmin);
+            tvDate = itemView.findViewById(R.id.tvDateHomeAdmin);
             hinh = itemView.findViewById(R.id.imgItemHomeAdmin);
         }
 
