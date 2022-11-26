@@ -98,7 +98,7 @@ public class TenantPostDetail extends AppCompatActivity {
 
         AppMoMoLib.getInstance().setEnvironment(AppMoMoLib.ENVIRONMENT.DEVELOPMENT); // AppMoMoLib.ENVIRONMENT.PRODUCTION
         sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
-        it_idLogin = sharedPreferences.getString("idUser", "");
+        it_idLogin = sharedPreferences.getString("idUser", "KH02");
         it_id = getIntent().getStringExtra("it_id");
         control();
         setMomo();
@@ -207,15 +207,23 @@ public class TenantPostDetail extends AppCompatActivity {
 
     public void setDuLieu(Post post) {
         house_name.setText(post.getHouse_name());
-        address.setText(post.getAddress());
+        address.setText(post.getAddress()+","+post.getAddress_district());
         area.setText(formatter.format(Integer.valueOf(post.getArea())) + "m2");
         price.setText(formatter.format(Integer.valueOf(post.getPrice())) + " đ/Tháng");
         title.setText(post.getTitle());
         userId.setText("id:" + post.getUserID());
+        if(post.getStatus().equals("Còn phòng")){
+            btnDatCoc.setEnabled(true);
+            btnXemPhong.setEnabled(true);
+        }else {
+            btnDatCoc.setEnabled(false);
+            btnXemPhong.setEnabled(false);
+        }
     }
 
-    public void setName(user User) {
+    public void setName(user User,Bitmap hinh) {
         nameUser.setText(User.getName());
+        imgAvatar.setImageBitmap(hinh);
     }
 
     public void event() {
@@ -370,7 +378,7 @@ public class TenantPostDetail extends AppCompatActivity {
         Favorite favorite = new Favorite(userId, postId);
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Like");
-        databaseReference.child(userId).child(postId).setValue(favorite)
+        databaseReference.child(postId).child(userId).setValue(favorite)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -383,7 +391,7 @@ public class TenantPostDetail extends AppCompatActivity {
     private void deleteFromFavorite(String postId, String userId) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Like");
-        databaseReference.child(userId).child(postId).removeValue().addOnCompleteListener(
+        databaseReference.child(postId).child(userId).removeValue().addOnCompleteListener(
                 new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(

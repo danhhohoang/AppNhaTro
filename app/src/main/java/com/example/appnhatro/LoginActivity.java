@@ -30,10 +30,11 @@ import com.google.firebase.database.ValueEventListener;
 public class LoginActivity extends AppCompatActivity {
     EditText txtEmail;
     EditText txtPassword;
-    TextView tvQuenMatKhau,tvDangKyTaiKhoan,tvDieuKhoan;
+    TextView tvQuenMatKhau, tvDangKyTaiKhoan, tvDieuKhoan;
     Button btnSignIn;
     String formatEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,25 +50,30 @@ public class LoginActivity extends AppCompatActivity {
         System.exit(1);
 
     }
-    public void event(){
-        txtEmail=findViewById(R.id.txtTenDangNhap);
-        txtPassword=findViewById(R.id.txtMatKhauLogin);
-        btnSignIn=findViewById(R.id.btnDangNhap);
+
+    public void event() {
+        txtEmail = findViewById(R.id.txtTenDangNhap);
+        txtPassword = findViewById(R.id.txtMatKhauLogin);
+        btnSignIn = findViewById(R.id.btnDangNhap);
         tvQuenMatKhau = findViewById(R.id.tvQuenMatKhau);
-        tvDangKyTaiKhoan=findViewById(R.id.tvDangKy);
-        tvDieuKhoan=findViewById(R.id.tvDieuKhoanVaChinhSach_Login);
+        tvDangKyTaiKhoan = findViewById(R.id.tvDangKy);
+        tvDieuKhoan = findViewById(R.id.tvDieuKhoanVaChinhSach_Login);
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boolean tk = !txtEmail.getText().toString().isEmpty();
                 boolean mk = !txtPassword.getText().toString().isEmpty();
-                if(!tk){
+                boolean format = txtEmail.getText().toString().matches(formatEmail);
+                if (!format) {
+                    txtEmail.setError("Email không đúng định dạng");
+                }
+                if (!tk) {
                     txtEmail.setError("Email không được bỏ trống");
                 }
-                if(!mk){
+                if (!mk) {
                     txtPassword.setError("Password không được bỏ trống");
                 }
-                if (tk&&mk) {
+                if (tk && mk && format) {
                     String email = txtEmail.getText().toString();
                     String pass = txtPassword.getText().toString();
                     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -147,12 +153,12 @@ public class LoginActivity extends AppCompatActivity {
         tvQuenMatKhau.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (TextUtils.isEmpty(txtEmail.getText().toString())){
+                if (TextUtils.isEmpty(txtEmail.getText().toString())) {
                     txtEmail.setError("Cần nhập tên đăng nhập");
                     return;
                 }
                 Intent intent = new Intent(LoginActivity.this, VertifyPhoneNumberActivity.class);
-                intent.putExtra("email_check",txtEmail.getText().toString());
+                intent.putExtra("email_check", txtEmail.getText().toString());
                 startActivity(intent);
             }
         });

@@ -247,6 +247,8 @@ public class FireBaseLandLord {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
         databaseReference.child("Post").child(idPost).removeValue();
+        databaseReference.child("Like").child(idPost).removeValue();
+        databaseReference.child("Rating").child(idPost).removeValue();
     }
 
     public void readOnePostLandLord(Context context, String idPost, ArrayList<Rating> listRating, LandLordCommentAdapter commentAdapter, ArrayList<String> imagePost) {

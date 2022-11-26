@@ -61,7 +61,7 @@ public class AdminHomeAdapter extends RecyclerView.Adapter<AdminHomeAdapter.MyVi
         HistoryTransaction post = historyTransactions.get(position);
         holder.tvIdPost.setText(post.getPost());
         DecimalFormat formatter = new DecimalFormat("#,###,###");
-        holder.tvPrice.setText(formatter.format(Integer.valueOf(post.getTotal())));
+        holder.tvPrice.setText(formatter.format(Integer.valueOf(post.getPrice())*2/100));
         holder.tvIdUser.setText(post.getId_user());
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
