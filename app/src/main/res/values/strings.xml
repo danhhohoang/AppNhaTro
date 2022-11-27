@@ -183,5 +183,11 @@
         <item>Không Chung chủ</item>
 
     </string-array>
+    
+    <string-array name="string_spn_Kieu_Thue_phong">
+        <item>Cả hai</item>
+        <item>Chỉ thuê mới</item>
+        <item>Chỉ ở Ghép</item>
+    </string-array>
 
 </resources>

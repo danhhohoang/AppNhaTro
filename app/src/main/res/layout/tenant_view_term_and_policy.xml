@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/Minh_text_title_center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="ĐIỀU KHOẢN DỊCH VỤ" />
+
+    <EditText
+        android:id="@+id/tenant_view_term_and_policy_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_weight="8"
+        android:background="@drawable/shape_term_and_service_textview"
+        android:editable="false"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/tenant_view_term_and_policy_back"
+        android:layout_width="150dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.7"
+        android:background="@drawable/shape_button_term_and_service"
+        android:text="QUAY LẠI"
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        android:visibility="visible"
+        app:backgroundTint="@null" />
+</LinearLayout>
