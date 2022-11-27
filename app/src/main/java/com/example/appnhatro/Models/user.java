@@ -3,7 +3,9 @@ package com.example.appnhatro.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class user implements Parcelable {
+import java.io.Serializable;
+
+public class user implements Parcelable, Serializable {
     private String id;
     private String name;
     private String email;
@@ -21,6 +23,8 @@ public class user implements Parcelable {
         password = in.readString();
         citizenNumber = in.readString();
         avatar = in.readString();
+        status = in.readString();
+
     }
 
     public static final Creator<user> CREATOR = new Creator<user>() {

@@ -16,13 +16,18 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appnhatro.Models.user;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 
@@ -44,8 +49,6 @@ public class AdminLandlordDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.admin_landlord_details);
         setControl();
         getSetBundle();
-        TenantAccountActivity tenantAccountActivity = new TenantAccountActivity();
-        tenantAccountActivity.setImage(civImage_ALD, avt);
         setEvent();
     }
 
@@ -55,6 +58,10 @@ public class AdminLandlordDetailsActivity extends AppCompatActivity {
         });
         btnKhoaTK_ALD.setOnClickListener(click ->{
             ttButton = 0;
+            checkThaydoi(ttButton);
+        });
+        btnSuaTK_ALD.setOnClickListener(click ->{
+            ttButton = 1;
             checkThaydoi(ttButton);
         });
     }
@@ -75,33 +82,27 @@ public class AdminLandlordDetailsActivity extends AppCompatActivity {
     private void getSetBundle() {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra(AdminLandlordListActivity.BUNDLE);
-        id = bundle.getString(AdminLandlordListActivity.ID);
-        avt = bundle.getString(AdminLandlordListActivity.AVATAR);
-        name = bundle.getString(AdminLandlordListActivity.NAME);
-        email = bundle.getString(AdminLandlordListActivity.EMAIL);
-        phone = bundle.getString(AdminLandlordListActivity.PHONE);
-        cmnd = bundle.getString(AdminLandlordListActivity.CMND);
-        pass = bundle.getString(AdminLandlordListActivity.PASSWORD);
-        status = bundle.getString(AdminLandlordListActivity.STATUS);
-
-        userOld = new user(id, name, email, phone, pass, cmnd, avt, status);
-
-
-        txt_id.setText(id);
-        txt_tenchutro.setText(name);
-        txt_email.setText(email);
-        txt_cmnd.setText(cmnd);
-        txt_phone.setText(phone);
-        txt_password.setText(pass);
-        if (status != null) {
-            if (status.equals("0")) {
+        userOld = (user) bundle.get("OBJECT");
+        if(userOld != null){
+            txt_id.setText(userOld.getId());
+            txt_tenchutro.setText(userOld.getName());
+            txt_email.setText(userOld.getEmail());
+            txt_cmnd.setText(userOld.getCitizenNumber());
+            txt_phone.setText(userOld.getPhone());
+            txt_password.setText(userOld.getPassword());
+            if (userOld.getStatus() != null) {
+                if (userOld.getStatus().equals("0")) {
+                    btnKhoaTK_ALD.setText("KHOÁ TÀI KHOẢN");
+                } else if (userOld.getStatus().equals("1")) {
+                    btnKhoaTK_ALD.setText("MỞ TÀI KHOẢN");
+                }
+            } else {
                 btnKhoaTK_ALD.setText("KHOÁ TÀI KHOẢN");
-            } else if (status.equals("1")) {
-                btnKhoaTK_ALD.setText("MỞ TÀI KHOẢN");
             }
-        } else {
-            btnKhoaTK_ALD.setText("KHOÁ TÀI KHOẢN");
+            TenantAccountActivity tenantAccountActivity = new TenantAccountActivity();
+            tenantAccountActivity.setImage(civImage_ALD, userOld.getAvatar());
         }
+
 
     }
     private void openDialogNotifyFinish(int gravity, String noidung, int duongdanlayout) {
@@ -119,7 +120,7 @@ public class AdminLandlordDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void openDialogNotifyYesNo1(int gravity, String noidung,int duongdanlayout) {
+    private void openDialogNotifyYesNo1(int gravity, String noidung,int duongdanlayout,String status) {
         final Dialog dialog = new Dialog(this);
         setContentNotify(dialog, gravity,Gravity.CENTER, duongdanlayout);
         TextView tvNoidung = dialog.findViewById(R.id.tvNoidung_NotifyYesNo);
@@ -136,7 +137,7 @@ public class AdminLandlordDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                upData(txt_id.getText().toString());
+                upData(txt_id.getText().toString(),status);
             }
         });
         dialog.show();
@@ -159,9 +160,9 @@ public class AdminLandlordDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 dialog.dismiss();
                 if(userOld.getStatus().equals("0")){
-                    upDataStatus(id,"1");
+                    upDataStatus(userOld.getId(),"1");
                 }else{
-                    upDataStatus(id,"0");
+                    upDataStatus(userOld.getId(),"0");
                 }
             }
         });
@@ -173,44 +174,79 @@ public class AdminLandlordDetailsActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private void upData(String id) {
+    private void upData(String id,String status) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference userRef = database.getReference("user/" + id);
+        DatabaseReference userRef = database.getReference("user");
         user users = new user(txt_id.getText().toString(),
                 txt_tenchutro.getText().toString(),
                 txt_email.getText().toString(),
                 txt_phone.getText().toString(),
                 txt_password.getText().toString(),
                 txt_cmnd.getText().toString(),
-                avt,
-                userOld.getStatus());
-        userRef.setValue(users).addOnSuccessListener(new OnSuccessListener<Void>() {
+                userOld.getAvatar(),
+                status);
+        userRef.child(id).child("id").setValue(users.getId());
+        userRef.child(id).child("name").setValue(users.getName());
+        userRef.child(id).child("email").setValue(users.getEmail());
+        userRef.child(id).child("phone").setValue(users.getPhone());
+        userRef.child(id).child("password").setValue(users.getPassword());
+        userRef.child(id).child("citizenNumber").setValue(users.getCitizenNumber());
+        userRef.child(id).child("avatar").setValue(users.getAvatar());
+        userRef.child(id).child("status").setValue(status).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 openDialogNotifyFinish(Gravity.CENTER,"Thay đổi thành công",R.layout.layout_dialog_notify_finish);
             }
         });
+
+
     }
     private void upDataStatus(String id,String status) {
-        AdminLandlordListActivity.list.clear();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference userRef = database.getReference("user/" + id);
-        user users = new user(txt_id.getText().toString(),
-                txt_tenchutro.getText().toString(),
-                txt_email.getText().toString(),
-                txt_phone.getText().toString(),
-                txt_password.getText().toString(),
-                txt_cmnd.getText().toString(),
-                avt,
-                status);
-        userRef.setValue(users).addOnSuccessListener(new OnSuccessListener<Void>() {
+        DatabaseReference userRef = database.getReference("user");
+        userRef.child(id).child("status").setValue(status).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 openDialogNotifyFinish(Gravity.CENTER,"Thay đổi thành công",R.layout.layout_dialog_notify_finish);
             }
         });
     }
+    private void upDataImage(String fileName) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference userRef = database.getReference("user/" + userOld.getId());
+        userRef.child("avatar").setValue(fileName);
+    }
+    private void upImage(String tenanh, Uri imgUri) {
+        final Dialog dialog = new Dialog(this);
+        openDialogNotifyNoButton(dialog,Gravity.CENTER,"Delete image....",R.layout.layout_dialog_notify_no_button);
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference("user/" + tenanh );
+        storageReference.putFile(imgUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        if (dialog.isShowing()) {
+                            dialog.dismiss();
+                            upDataImage(tenanh);
+                            openDialogNotifyFinish(Gravity.CENTER,"Xoá thành công",R.layout.layout_dialog_notify_finish);
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @SuppressLint("SuspiciousIndentation")
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if (dialog.isShowing())
+                            dialog.dismiss();
+                        openDialogNotify(Gravity.CENTER,"Failed to Upload",R.layout.layout_dialog_notify);
 
+                    }
+                });
+    }
+    private void openDialogNotifyNoButton(final Dialog dialog,int gravity, String noidung, int duongdanlayout) {
+        setContentNotify(dialog, gravity,Gravity.BOTTOM, duongdanlayout);
+        TextView tvNoidung = dialog.findViewById(R.id.tvNoidung_NotifyNoButton);
+        tvNoidung.setText(noidung);
+        dialog.show();
+    }
 
     private void openDialogNotify(int gravity, String noidung, int duongdanlayout) {
         final Dialog dialog = new Dialog(this);
@@ -240,10 +276,21 @@ public class AdminLandlordDetailsActivity extends AppCompatActivity {
     }
     public void checkStatus(int ttButton){
         if(ttButton ==  0){
-
-            openDialogNotifyYesNo2(Gravity.CENTER,"Bạn có muốn thay đổi thông tin không ?",R.layout.layout_dialog_notify_yes_no);
+            if(txt_tenchutro.getText().toString().equals(userOld.getName())&&
+                    txt_email.getText().toString().equals(userOld.getEmail())&&
+                    txt_phone.getText().toString().equals(userOld.getPhone())&&
+                    txt_cmnd.getText().toString().equals(userOld.getCitizenNumber())&&
+                    txt_password.getText().toString().equals(userOld.getPassword())){
+                openDialogNotifyYesNo2(Gravity.CENTER, "Bạn có muốn thay đổi thông tin không ?",R.layout.layout_dialog_notify_yes_no);
+            }else{
+                if(userOld.getStatus().equals("0")){
+                    openDialogNotifyYesNo1(Gravity.CENTER,"Bạn có muốn thay đổi thông tin không ?",R.layout.layout_dialog_notify_yes_no,"1");
+                }else{
+                    openDialogNotifyYesNo1(Gravity.CENTER,"Bạn có muốn thay đổi thông tin không ?",R.layout.layout_dialog_notify_yes_no,"0");
+                }
+            }
         }else{
-            openDialogNotifyYesNo1(Gravity.CENTER,"Bạn có muốn thay đổi thông tin không ?",R.layout.layout_dialog_notify_yes_no);
+            openDialogNotifyYesNo1(Gravity.CENTER,"Bạn có muốn thay đổi thông tin không ?",R.layout.layout_dialog_notify_yes_no,userOld.getStatus());
         }
     }
 }

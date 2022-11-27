@@ -101,12 +101,6 @@ public class TenantSettingProfileActivity extends AppCompatActivity {
         final Dialog dialog = new Dialog(this);
         openDialogNotifyNoButton(dialog,Gravity.CENTER,"Update Image....",R.layout.layout_dialog_notify_no_button);
         fileName = mListUser.getAvatar();
-        String a1;
-//        if (fileName.equals(mListUser.getId() +".jpg")){
-//            a1 = mListUser.getId()+"1.jpg";
-//        }else {
-//            a1 = mListUser.getId() +".jpg";
-//        }
         storageReference = FirebaseStorage.getInstance().getReference("images/user/" + tenanh );
         storageReference.putFile(imgUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -116,7 +110,6 @@ public class TenantSettingProfileActivity extends AppCompatActivity {
                             dialog.dismiss();
                             upData(tenanh, id);
                             openDialogNotifyFinish(Gravity.CENTER,"Cập nhật thông tin thành công",R.layout.layout_dialog_notify_finish);
-//
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -215,7 +208,7 @@ public class TenantSettingProfileActivity extends AppCompatActivity {
     private void onClickLuuData() {
         if (Uri.EMPTY.equals(imgUri)) {
             fileName = mListUser.getAvatar();
-            upData(fileName, id);
+            upData  (fileName, id);
             openDialogNotifyFinish(Gravity.CENTER,"Cập nhật thành công",R.layout.layout_dialog_notify_finish);
         } else {
             fileName = mListUser.getAvatar();

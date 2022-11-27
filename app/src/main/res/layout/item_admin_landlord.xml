@@ -6,6 +6,7 @@
     android:layout_marginTop="20dp"
     android:layout_marginRight="20dp"
     android:layout_marginLeft="20dp"
+    android:id="@+id/layout_ItemLLA"
     android:background="@drawable/item_admin_landlord">
     <LinearLayout
         android:layout_width="80dp"
