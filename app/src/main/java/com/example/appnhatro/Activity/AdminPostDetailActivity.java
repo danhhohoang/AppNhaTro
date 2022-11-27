@@ -1,9 +1,11 @@
 package com.example.appnhatro.Activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -32,18 +34,19 @@ public class AdminPostDetailActivity extends AppCompatActivity {
     private ArrayList<Rating> listComment = new ArrayList<>();
     private AdminCommentAdapter adminCommentAdapter;
     private FirebaseAdmin firebaseAdmin = new FirebaseAdmin();
-    private String post = "";
+    private String idpost = "";
     private TextView house_name, area, price, address, title, status;
-    private ImageView back, rating1, rating2, rating3, rating4, rating5;
+    private ImageView back, rating1, rating2, rating3, rating4, rating5, imgUser;
     private ImagePostDetailAdapter imagePostDetailAdapter;
     private ArrayList<String> imagePost = new ArrayList<>();
     private DecimalFormat formatter = new DecimalFormat("#,###,###");
+    private Button btnXoa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_post_detail_activity_layout);
-        post = getIntent().getStringExtra("idPost");
+        idpost = getIntent().getStringExtra("idPost");
         control();
         event();
     }
@@ -53,6 +56,28 @@ public class AdminPostDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        btnXoa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(AdminPostDetailActivity.this);
+                builder.setTitle("Thông báo");
+                builder.setMessage("Bạn chắc chắn muốn xoá bài");
+                builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        firebaseAdmin.deletePost(idpost);
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("Không đồng ý", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.show();
             }
         });
     }
@@ -83,14 +108,19 @@ public class AdminPostDetailActivity extends AppCompatActivity {
         rating3 = findViewById(R.id.imgRating3Admin);
         rating4 = findViewById(R.id.imgRating4Admin);
         rating5 = findViewById(R.id.imgRating5Admin);
+        imgUser = findViewById(R.id.img_admin_post_details_Landlord_avatar);
+        btnXoa = findViewById(R.id.btnXoaPostDetailAdmin);
+        status = findViewById(R.id.tvTinhTrangAdmin);
     }
 
-    public void setDuLieu(Post post) {
+    public void setDuLieu(Post post, Bitmap hinh) {
         house_name.setText(post.getHouse_name());
         address.setText(post.getAddress());
         area.setText(formatter.format(Integer.valueOf(post.getArea())) + "m2");
         price.setText(formatter.format(Integer.valueOf(post.getPrice())) + " đ/Tháng");
         title.setText(post.getTitle());
+        imgUser.setImageBitmap(hinh);
+        status.setText(post.getStatus());
     }
 
     public void setRating(int Rating) {
@@ -136,6 +166,6 @@ public class AdminPostDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        firebaseAdmin.readOnePostAdmin(AdminPostDetailActivity.this, post, listComment, adminCommentAdapter, imagePost);
+        firebaseAdmin.readOnePostAdmin(AdminPostDetailActivity.this, idpost, listComment, adminCommentAdapter, imagePost);
     }
 }

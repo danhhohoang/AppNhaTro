@@ -72,8 +72,8 @@ public class LandLordPostDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(LandLordPostDetailActivity.this);
-                builder.setTitle("Cảnh báo");
-                builder.setMessage("Bạn chưa chọn ảnh");
+                builder.setTitle("Thông báo");
+                builder.setMessage("Bạn chắc chắn muốn xoá bài");
                 builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -137,6 +137,7 @@ public class LandLordPostDetailActivity extends AppCompatActivity {
         area.setText(formatter.format(Integer.valueOf(post.getArea())) + "m2");
         price.setText(formatter.format(Integer.valueOf(post.getPrice())) + " đ/Tháng");
         title.setText(post.getTitle());
+        status.setText(post.getStatus());
     }
 
     private void control() {
@@ -169,6 +170,7 @@ public class LandLordPostDetailActivity extends AppCompatActivity {
         rating3 = findViewById(R.id.imgRating3LandLord);
         rating4 = findViewById(R.id.imgRating4LandLord);
         rating5 = findViewById(R.id.imgRating5LandLord);
+        status = findViewById(R.id.tvTinhTrangLandLord);
     }
 
     public void setRating(int Rating) {

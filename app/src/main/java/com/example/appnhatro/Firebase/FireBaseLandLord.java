@@ -204,7 +204,7 @@ public class FireBaseLandLord {
                 images.add(data.getImage());
                 images.add(data.getImage1());
                 images.add(data.getImage2());
-                ((LandLordUpdatePostActivity) context).setDistrict(data.getAddress_district());
+                ((LandLordUpdatePostActivity) context).setDistrictAndStatus(data.getAddress_district(),data.getStatus());
                 final int[] dem = {0};
                 for (String image : images) {
                     BitMap bitMap = new BitMap(image, null);
@@ -247,6 +247,8 @@ public class FireBaseLandLord {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
         databaseReference.child("Post").child(idPost).removeValue();
+        databaseReference.child("Like").child(idPost).removeValue();
+        databaseReference.child("Rating").child(idPost).removeValue();
     }
 
     public void readOnePostLandLord(Context context, String idPost, ArrayList<Rating> listRating, LandLordCommentAdapter commentAdapter, ArrayList<String> imagePost) {
