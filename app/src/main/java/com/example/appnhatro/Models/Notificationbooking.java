@@ -11,8 +11,9 @@ public class Notificationbooking {
     private String id;
     private String idNotifi;
     private String status;
+    private String housename;
 
-    public Notificationbooking(String idUser, String idLandlor, String name, String phone, String time, String date, String notes, String id, String idNotifi, String status) {
+    public Notificationbooking(String idUser, String idLandlor, String name, String phone, String time, String date, String notes, String id, String idNotifi, String status, String housename) {
         this.idUser = idUser;
         this.idLandlor = idLandlor;
         this.name = name;
@@ -23,6 +24,7 @@ public class Notificationbooking {
         this.id = id;
         this.idNotifi = idNotifi;
         this.status = status;
+        this.housename = housename;
     }
 
     public Notificationbooking() {
@@ -106,5 +108,13 @@ public class Notificationbooking {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getHousename() {
+        return housename;
+    }
+
+    public void setHousename(String housename) {
+        this.housename = housename;
     }
 }

@@ -2,16 +2,12 @@ package com.example.appnhatro.Firebase;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.example.appnhatro.Activity.Detail_Notification_Landlor;
-import com.example.appnhatro.Activity.Landlord_Notification_Activity;
 import com.example.appnhatro.Adapters.Landlord_Notification_Adapter;
 import com.example.appnhatro.Models.DatLichModels;
-import com.example.appnhatro.Models.Post;
-import com.example.appnhatro.TenantPostDetail;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +21,7 @@ public class FirebaseLandlordNotification {
 
     }
 
-    public void readPostFindPeople(ArrayList<DatLichModels> list, Landlord_Notification_Adapter landlord_notification_adapter, String userTenantID) {
+    public void readPostFindPeople(ArrayList<DatLichModels> list, Landlord_Notification_Adapter landlord_notification_adapter, String getID) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
         FirebaseDatabase firebaseDatabase2 = FirebaseDatabase.getInstance();
@@ -36,7 +32,7 @@ public class FirebaseLandlordNotification {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     DatLichModels datLichModels = dataSnapshot.getValue(DatLichModels.class);
-                    if (datLichModels.getIdUser().equals(userTenantID)) {
+                    if (datLichModels.getIdPost().equals(getID)) {
                         list.add(datLichModels);
                     }
                 }
@@ -65,6 +61,7 @@ public class FirebaseLandlordNotification {
                intent.putExtra("ghi chu", data.getNotes());
                intent.putExtra("idUSer", data.getIdUser());
                intent.putExtra("id", data.getId());
+               intent.putExtra("idpost", data.getIdPost());
                context.startActivity(intent);
             }
             @Override

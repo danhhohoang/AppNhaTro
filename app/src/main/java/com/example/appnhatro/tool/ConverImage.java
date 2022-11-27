@@ -2,18 +2,15 @@ package com.example.appnhatro.tool;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.appnhatro.Activity.LandLordAddNewPost;
 import com.example.appnhatro.Activity.LandLordUpdatePostActivity;
+import com.example.appnhatro.Activity.PostActivity;
 import com.example.appnhatro.Models.BitMap;
-import com.example.appnhatro.Models.Post;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
@@ -24,7 +21,6 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 public class ConverImage {
     public void layAnh(BitMap bitMap) {
@@ -136,6 +132,50 @@ public class ConverImage {
                         });
             }else {
                 dem[0] = dem[0] +1;;
+            }
+        }
+    }
+    public void docAnhAddNewPostOghep(Uri[] filePath, Context context, String tenHinh, String tenHinh1, String tenHinh2) {
+        final Integer[] dem = {0};
+        for (int i = 0; i < filePath.length; i++) {
+            if (filePath[i] != null) {
+                final ProgressDialog progressDialog = new ProgressDialog(context);
+                progressDialog.setTitle("Uploading...");
+                progressDialog.show();
+                StorageReference ref;
+                if (i == 0) {
+                    ref = FirebaseStorage.getInstance().getReference().child("images/post/" + tenHinh);
+                }else if (i == 1) {
+                    ref = FirebaseStorage.getInstance().getReference().child("images/post/" + tenHinh1);
+                }else {
+                    ref = FirebaseStorage.getInstance().getReference().child("images/post/" + tenHinh2);
+                }
+                ref.putFile(filePath[i])
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                progressDialog.dismiss();
+                                if (dem[0] == filePath.length - 1) {
+                                    ((PostActivity) context).finish();
+                                }
+                                dem[0] = dem[0] +1;
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                progressDialog.dismiss();
+                            }
+                        })
+                        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                                double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
+                                        .getTotalByteCount());
+                                progressDialog.setMessage("Uploaded " + (int) progress + "%");
+
+                            }
+                        });
             }
         }
     }

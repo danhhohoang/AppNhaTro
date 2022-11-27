@@ -10,6 +10,7 @@ public class DatLichModels {
     private String id;
     private String idPost;
 
+
     public DatLichModels(String idUser, String name, String phone, String time, String date, String notes, String id, String idPost) {
         this.idUser = idUser;
         this.name = name;

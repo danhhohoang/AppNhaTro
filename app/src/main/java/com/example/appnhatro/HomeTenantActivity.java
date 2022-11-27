@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -27,8 +26,7 @@ public class HomeTenantActivity extends AppCompatActivity {
     private TenantHomeListPostAdapter myRecyclerViewAdapterRatingCao;
     private ArrayList<Post> listHorizoneHightRating = new ArrayList<>();
     //
-    LinearLayout Post;
-    ImageButton notification, DSP;
+    ImageButton notification, DSP, Post;
 
     String idUser;
     FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
@@ -69,7 +67,7 @@ public class HomeTenantActivity extends AppCompatActivity {
     }
 
     private void control() {
-        Post = findViewById(R.id.post);
+        Post = findViewById(R.id.btn_Post);
         notification = findViewById(R.id.notidication);
         ivbtnAccount_HT = findViewById(R.id.ivbtnAccount_HT);
         btn_pdt = findViewById(R.id.btn_PDT);
