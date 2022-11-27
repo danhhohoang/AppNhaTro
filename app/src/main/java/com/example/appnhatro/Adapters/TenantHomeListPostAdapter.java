@@ -3,6 +3,7 @@ package com.example.appnhatro.Adapters;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,38 +63,20 @@ public class TenantHomeListPostAdapter extends RecyclerView.Adapter<TenantHomeLi
         holder.tvPrice.setText(formatter.format(Integer.valueOf(post.getPrice()))+"đ/Tháng");
         holder.tvArea.setText(formatter.format(Integer.valueOf(post.getArea()))+"");
         holder.tvNamePost.setText(post.getHouse_name());
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference();
-        databaseReference.child("Post").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Post post = dataSnapshot.getValue(Post.class);
-                    if(post.getId().equals(post.getUserID())){
-                        BitMap bitMap = new BitMap(post.getImage(),null);
-                        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/"+bitMap.getTenHinh());
-                        try {
-                            final File file= File.createTempFile(bitMap.getTenHinh(),"jpg");
-                            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                    bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
-                                    holder.hinh.setImageBitmap(bitMap.getHinh());
-                                }
-                            });
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    }
+        BitMap bitMap = new BitMap(post.getImage(),null);
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/"+bitMap.getTenHinh());
+        try {
+            final File file= File.createTempFile(bitMap.getTenHinh(),"jpg");
+            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
+                    holder.hinh.setImageBitmap(bitMap.getHinh());
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         final int pos = position;
         holder.onItemClickLisner=new View.OnClickListener() {
             @Override
