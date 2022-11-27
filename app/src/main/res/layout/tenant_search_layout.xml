@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background"
     android:orientation="vertical"
     android:weightSum="24">
@@ -30,15 +31,16 @@
 
             <ImageButton
                 android:id="@+id/imb_back"
-                android:layout_width="20dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:background="@null"
+                android:contentDescription="@string/btn_menu_des"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_back1"
-                android:contentDescription= "@string/btn_menu_des" />
-
+                android:src="@drawable/ic_back1" />
 
             <SearchView
                 android:id="@+id/search_bar"
@@ -51,32 +53,19 @@
                 android:background="@drawable/shape_search_bar"
                 android:iconifiedByDefault="false"
                 android:queryHint="nhập tên trọ cần tìm"
-                tools:ignore="NestedWeights">
-
-            </SearchView>
-
-            <ImageButton
-                android:id="@+id/imb_notification"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:background="@null"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_bell2"
-                android:contentDescription="@string/btn_notification_des" />
+                tools:ignore="NestedWeights"/>
 
             <ImageButton
                 android:id="@+id/imb_resetFilter"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:background="@null"
+                android:contentDescription="@string/btn_notification_des"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_fillter2"
-                android:contentDescription="@string/btn_fillter_des" />
-
+                android:src="@drawable/reset_filter" />
 
         </LinearLayout>
 
@@ -84,71 +73,65 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3"
-            android:orientation="vertical"
-            android:weightSum="3"
-            android:padding="-10dp"
-            >
+            android:orientation="vertical">
 
             <Spinner
                 android:id="@+id/spn_district"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:textAlignment="center"
                 android:background="@color/white"
-                android:gravity="center">
-
-            </Spinner>
-
-            <Spinner
-                android:id="@+id/spn_price"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:background="@color/white"
-                android:gravity="center">
-
-            </Spinner>
+                android:gravity="center"
+                android:textAlignment="center"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:orientation="horizontal"
-                android:weightSum="12">
+                android:orientation="horizontal">
 
+                <Spinner
+                    android:id="@+id/spn_price"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:textAlignment="center"/>
 
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
                 <Spinner
                     android:id="@+id/spn_area"
                     android:layout_width="0dp"
-                    android:textAlignment="center"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_weight="8"
+                    android:layout_weight="2"
                     android:background="@color/white"
                     android:gravity="center"
+                    android:textAlignment="center"
                     tools:ignore="NestedWeights" />
-
-                <Button
-                    android:id="@+id/btn_search"
+                <Spinner
+                    android:id="@+id/spn_type"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="-6dp"
-                    android:layout_marginBottom="-6dp"
-                    android:textSize="12sp"
-                    android:layout_weight="4"
-                    android:backgroundTint="@color/white"
-                    android:drawableEnd="@drawable/ic_search2"
-                    android:text="Tìm kiếm"
-                    android:textColor="#3BBECC" />
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    tools:ignore="NestedWeights" />
+
 
             </LinearLayout>
 
@@ -166,17 +149,17 @@
         android:layout_marginRight="10dp"
         android:layout_weight="18"
         android:paddingTop="10dp"
-        android:visibility="visible">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:visibility="visible"/>
+
     <TextView
         android:id="@+id/tvDoNotData"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:visibility="gone"
         android:layout_weight="18"
         android:gravity="center"
+        android:text="Không có phòng trọ phù hợp"
         android:textColor="@color/white"
 
         android:textSize="20sp"
-        android:text="Không có phòng trọ phù hợp"/>
+        android:visibility="gone" />
 </LinearLayout>

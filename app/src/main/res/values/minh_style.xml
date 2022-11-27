@@ -11,5 +11,15 @@
         <item name="cornerSize">20dp</item>
         <item name="color">@color/white</item>
     </style>
+    
+    <style name="Minh_text_title_center">
+        <item name="android:gravity">center</item>
+        <!-- Secondary brand color. -->
+        <item name="android:textColor">#FAFAFA</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+
+    <dimen name="text_item_admin_tenant_list">16sp</dimen>
 
 </resources>

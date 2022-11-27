@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginBottom="5dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="10dp"
+    app:cardUseCompatPadding="true"
+    android:id="@+id/cardView_item_admin_tenant_list"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_item_admin_tenant_list_avatar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:src="@drawable/ic_user"
+
+            >
+
+        </de.hdodenhof.circleimageview.CircleImageView>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/txt_item_admin_tenant_list_id_static"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Mã Người dùng:"
+                android:textSize="@dimen/text_item_admin_tenant_list"
+                android:textStyle="bold"
+                tools:ignore="NestedWeights">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_item_admin_tenant_list_name_static"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Tên:"
+                android:textSize="@dimen/text_item_admin_tenant_list"
+                android:textStyle="bold">
+            </TextView>
+            <TextView
+                android:id="@+id/txt_item_admin_tenant_list_phone_static"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="SĐT:"
+                android:textSize="@dimen/text_item_admin_tenant_list"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/txt_item_admin_tenant_list_id"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Mã Người dùng:"
+                android:textSize="@dimen/text_item_admin_tenant_list"
+                android:textStyle="bold"
+                tools:ignore="NestedWeights">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_item_admin_tenant_list_name"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Tên:"
+                android:textSize="@dimen/text_item_admin_tenant_list"
+                android:textStyle="bold">
+
+            </TextView>
+            <TextView
+                android:id="@+id/txt_item_admin_tenant_list_phone"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="SDT:"
+                android:textSize="@dimen/text_item_admin_tenant_list"
+                android:textStyle="bold">
+
+            </TextView>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

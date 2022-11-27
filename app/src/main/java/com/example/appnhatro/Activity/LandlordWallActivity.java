@@ -1,6 +1,7 @@
 package com.example.appnhatro.Activity;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -12,12 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Adapters.TenantSearchAdapter;
 import com.example.appnhatro.Firebase.FireBaseTenantSearch;
+import com.example.appnhatro.Models.BitMap;
 import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.Models.user;
 import com.example.appnhatro.R;
 import com.example.appnhatro.TenantPostDetail;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class LandlordWallActivity extends AppCompatActivity {
@@ -63,10 +71,25 @@ public class LandlordWallActivity extends AppCompatActivity {
         if(landlordInfo.size() > 0) {
             user newUser = landlordInfo.get(0);
             txtName.setText(newUser.getName());
-            txtPhone.setText(newUser.getPhone());
+            txtPhone.setText("Số điện thoại: "+newUser.getPhone());
 
             //set tam thoi
             shapeableImageView.setImageResource(R.drawable.ic_user);
+            try {
+                BitMap bitMap = new BitMap(newUser.getAvatar(), null);
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/user/" + bitMap.getTenHinh());
+
+                final File file = File.createTempFile(bitMap.getTenHinh(), "jpg");
+                storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
+                        shapeableImageView.setImageBitmap(bitMap.getHinh());
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

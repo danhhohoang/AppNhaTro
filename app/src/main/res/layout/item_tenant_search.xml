@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView_item_search_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="18dp"
-    app:cardUseCompatPadding="true"
-    android:id="@+id/cardView_item_search_layout">
+    app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             android:id="@+id/iv_post_image_room"
             android:layout_width="142dp"
             android:layout_height="142dp"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:background="@null"
             android:src="@null"
             app:shapeAppearanceOverlay="@style/RoundedImageView"
@@ -33,12 +33,14 @@
             android:orientation="vertical">
 
             <TextView
+
                 android:id="@+id/textview_item_post_housename"
                 android:layout_width="match_parent"
                 android:layout_height="37dp"
+                android:background="@null"
+                android:maxLines="2"
                 android:text=""
                 android:textSize="12sp"
-                android:maxLines="2"
                 android:textStyle="bold"
 
                 />
@@ -47,12 +49,11 @@
                 android:id="@+id/textview_item_post_address"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
+                android:background="@null"
+                android:maxLines="3"
                 android:text=""
                 android:textSize="12sp"
-                android:maxLines="3"
-                android:textStyle="normal"
-
-                />
+                android:textStyle="normal" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -64,29 +65,28 @@
                     android:id="@+id/iv_item_tenant_search_avatar"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/ic_user"
-                    />
+                    android:src="@drawable/ic_user" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginStart="10dp"
-
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/textview_item_post_area"
                         android:layout_width="match_parent"
                         android:layout_height="17dp"
+                        android:background="@null"
                         android:text=""
                         android:textSize="12sp"
                         android:textStyle="normal" />
-
 
                     <TextView
                         android:id="@+id/textview_item_post_price"
                         android:layout_width="match_parent"
                         android:layout_height="17dp"
+                        android:background="@null"
                         android:text=""
                         android:textColor="#F44336"
                         android:textSize="12sp"
@@ -94,14 +94,33 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textview_item_post_status"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="17dp"
-                android:layout_marginTop="0dp"
-                android:text=""
-                android:textSize="12sp"
-                android:textStyle="normal" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                >
+
+                <TextView
+                    android:id="@+id/textview_item_post_status"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.5"
+                    android:layout_height="17dp"
+                    android:text=""
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textview_item_post_type"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="17dp"
+                    android:gravity="end"
+                    android:layout_marginEnd="10dp"
+                    android:text=""
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
