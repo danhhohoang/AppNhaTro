@@ -7,6 +7,7 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appnhatro.Activity.AdminHomeActivity;
+import com.example.appnhatro.Activity.LandLordHomeActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(MainActivity.this, AdminHomeActivity.class);
+                Intent i = new Intent(MainActivity.this, LandLordHomeActivity.class);
                 startActivity(i);
                 finish();
             }

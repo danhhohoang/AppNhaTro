@@ -61,7 +61,7 @@ import vn.momo.momo_partner.AppMoMoLib;
 
 
 public class TenantPostDetail extends AppCompatActivity {
-    private TextView house_name, area, price, address, title, userId, nameUser, tvVietDanhGia, tvLuotDanhGia, tvTheLoai;
+    private TextView house_name, area, price, address, title, userId, nameUser, tvVietDanhGia, tvLuotDanhGia, tvTheLoai, tvTinhTrang;
     private MyRecyclerViewAdapter myRecyclerViewAdapterLienQuan;
     private TeantCommentAdapter adapterComment;
     private ArrayList<Rating> postListComment = new ArrayList<>();
@@ -98,7 +98,7 @@ public class TenantPostDetail extends AppCompatActivity {
 
         AppMoMoLib.getInstance().setEnvironment(AppMoMoLib.ENVIRONMENT.DEVELOPMENT); // AppMoMoLib.ENVIRONMENT.PRODUCTION
         sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
-        it_idLogin = sharedPreferences.getString("idUser", "KH02");
+        it_idLogin = sharedPreferences.getString("idUser", "KH04");
         it_id = getIntent().getStringExtra("it_id");
         control();
         setMomo();
@@ -116,7 +116,6 @@ public class TenantPostDetail extends AppCompatActivity {
             btnLienHe.setVisibility(View.VISIBLE);
             btnReport.setVisibility(View.GONE);
             btnXemPhong.setVisibility(View.GONE);
-            imgFavorite.setVisibility(View.GONE);
             tvVietDanhGia.setVisibility(View.GONE);
             tvLuotDanhGia.setVisibility(View.GONE);
             rcvRatingPost.setVisibility(View.GONE);
@@ -141,7 +140,6 @@ public class TenantPostDetail extends AppCompatActivity {
             btnLienHe.setVisibility(View.GONE);
             btnReport.setVisibility(View.VISIBLE);
             btnXemPhong.setVisibility(View.VISIBLE);
-            imgFavorite.setVisibility(View.VISIBLE);
             tvVietDanhGia.setVisibility(View.VISIBLE);
             tvLuotDanhGia.setVisibility(View.VISIBLE);
             rcvRatingPost.setVisibility(View.VISIBLE);
@@ -184,6 +182,7 @@ public class TenantPostDetail extends AppCompatActivity {
         btnLienHe = findViewById(R.id.btnLienHePostDetail);
         house_name = findViewById(R.id.tvNamePostDetail);
         address = findViewById(R.id.tvDiaChiPostDetail);
+        tvTinhTrang = findViewById(R.id.tvTinhTrang);
         area = findViewById(R.id.tvAreaPostDetail);
         price = findViewById(R.id.tvGiaPostDetail);
         title = findViewById(R.id.tvTitle);
@@ -207,21 +206,22 @@ public class TenantPostDetail extends AppCompatActivity {
 
     public void setDuLieu(Post post) {
         house_name.setText(post.getHouse_name());
-        address.setText(post.getAddress()+","+post.getAddress_district());
+        address.setText(post.getAddress() + "," + post.getAddress_district());
         area.setText(formatter.format(Integer.valueOf(post.getArea())) + "m2");
         price.setText(formatter.format(Integer.valueOf(post.getPrice())) + " đ/Tháng");
         title.setText(post.getTitle());
+        tvTinhTrang.setText(post.getStatus());
         userId.setText("id:" + post.getUserID());
-        if(post.getStatus().equals("Còn phòng")){
+        if (post.getStatus().equals("Còn phòng")) {
             btnDatCoc.setEnabled(true);
             btnXemPhong.setEnabled(true);
-        }else {
+        } else {
             btnDatCoc.setEnabled(false);
             btnXemPhong.setEnabled(false);
         }
     }
 
-    public void setName(user User,Bitmap hinh) {
+    public void setName(user User, Bitmap hinh) {
         nameUser.setText(User.getName());
         imgAvatar.setImageBitmap(hinh);
     }
@@ -358,7 +358,7 @@ public class TenantPostDetail extends AppCompatActivity {
     private void loadFavoritePost(String postId, String userId) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
-        databaseReference.child("Like").child(userId).child(postId).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("Like").child(postId).child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue() != null) {
@@ -463,7 +463,7 @@ public class TenantPostDetail extends AppCompatActivity {
         String id = it_id.substring(0, 2);
         if (id.equals("P_")) {
             fireBaseThueTro.docPostLienQuanOGhep(listLienQuan, myRecyclerViewAdapterLienQuan);
-            fireBaseThueTro.readOnePostOGhep(this, it_id, listImage);
+            fireBaseThueTro.readOnePostOGhep(this, it_id, listImage, imagePostDetailAdapter);
         } else {
             fireBaseThueTro.docPostLienQuanPost(listLienQuan, myRecyclerViewAdapterLienQuan);
             fireBaseThueTro.readOnePost(this, it_id, listImage, imagePostDetailAdapter);

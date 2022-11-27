@@ -116,15 +116,15 @@ public class FireBaseThueTro {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             user User = dataSnapshot.getValue(user.class);
                             if (User.getId().equals(data.getUserID())) {
-                                BitMap bitMap = new BitMap(User.getAvatar(),null);
-                                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/user/"+bitMap.getTenHinh());
+                                BitMap bitMap = new BitMap(User.getAvatar(), null);
+                                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/user/" + bitMap.getTenHinh());
                                 try {
-                                    final File file= File.createTempFile(bitMap.getTenHinh(),"jpg");
+                                    final File file = File.createTempFile(bitMap.getTenHinh(), "jpg");
                                     storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                                         @Override
                                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                             bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
-                                            ((TenantPostDetail) context).setName(User,bitMap.getHinh());
+                                            ((TenantPostDetail) context).setName(User, bitMap.getHinh());
                                         }
                                     });
                                 } catch (IOException e) {
@@ -422,7 +422,7 @@ public class FireBaseThueTro {
         });
     }
 
-    public void readOnePostOGhep(Context context, String id, ArrayList<String> imagePost) {
+    public void readOnePostOGhep(Context context, String id, ArrayList<String> imagePost,ImagePostDetailAdapter imagePostDetailAdapter) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
         databaseReference.child("Post_Oghep").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -441,18 +441,22 @@ public class FireBaseThueTro {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             user User = dataSnapshot.getValue(user.class);
-                            BitMap bitMap = new BitMap(User.getAvatar(),null);
-                            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/"+bitMap.getTenHinh());
-                            try {
-                                final File file= File.createTempFile(bitMap.getTenHinh(),"jpg");
-                                storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                    @Override
-                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                        ((TenantPostDetail) context).setName(User,bitMap.getHinh());
-                                    }
-                                });
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                            if (User.getId().equals(data.getUserID())) {
+                                BitMap bitMap = new BitMap(User.getAvatar(), null);
+                                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/user/" + bitMap.getTenHinh());
+                                try {
+                                    final File file = File.createTempFile(bitMap.getTenHinh(), "jpg");
+                                    storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                            bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
+                                            ((TenantPostDetail) context).setName(User, bitMap.getHinh());
+                                        }
+                                    });
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                break;
                             }
                         }
                     }
@@ -462,6 +466,7 @@ public class FireBaseThueTro {
 
                     }
                 });
+                imagePostDetailAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -553,9 +558,8 @@ public class FireBaseThueTro {
                     } while (getposts.size() < 4);
                 }
                 list.clear();
-                list.addAll(posts);
+                list.addAll(getposts);
                 myRecyclerViewAdapter.notifyDataSetChanged();
-
             }
 
             @Override

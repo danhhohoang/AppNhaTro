@@ -128,6 +128,30 @@
                         android:layout_weight="5"
                         style="@style/edittextAddNewPostLandLord" />
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center">
+                    <TextView
+                        android:text="Tình Trạng:"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:textColor="@color/white"
+                        android:textSize="18dp"
+                        android:layout_height="wrap_content"/>
+                    <Spinner
+                        android:id="@+id/spn_TinhTrangUpdateNewPostLandLord"
+                        android:layout_width="0dp"
+                        android:textAlignment="center"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="5"
+                        android:background="@drawable/txt_background_login"
+                        android:gravity="center"
+                        tools:ignore="NestedWeights"/>
+                </LinearLayout>
                 <TextView
                     android:text="@string/m_t"
                     style="@style/TextAddNewPostLandLord"/>

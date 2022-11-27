@@ -210,4 +210,8 @@
 
 
     </string-array>
+    <string-array name="string_spn_status">
+        <item>Còn phòng</item>
+        <item>Hết phòng</item>
+    </string-array>
 </resources>

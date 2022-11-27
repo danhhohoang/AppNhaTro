@@ -121,7 +121,6 @@ public class LandLordAddNewPost extends AppCompatActivity {
                 }else {
                     Post post = new Post(idPost, idUser, txtMoTa.getText() + "", txtDiaChi.getText() + "", spnDistrict.getSelectedItem().toString(), txtGia.getText() + "", txtDienTich.getText() + "", txtTenPhong.getText() + "", idPost + ".jpg", "Còn phòng",idPost + "_1.jpg",idPost + "_2.jpg");
                     fireBaseLandLord.addNewPost(LandLordAddNewPost.this, post, uri);
-                    //Thong báo
                 }
             }
         });

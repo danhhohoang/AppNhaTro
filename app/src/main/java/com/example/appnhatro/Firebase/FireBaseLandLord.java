@@ -204,7 +204,7 @@ public class FireBaseLandLord {
                 images.add(data.getImage());
                 images.add(data.getImage1());
                 images.add(data.getImage2());
-                ((LandLordUpdatePostActivity) context).setDistrict(data.getAddress_district());
+                ((LandLordUpdatePostActivity) context).setDistrictAndStatus(data.getAddress_district(),data.getStatus());
                 final int[] dem = {0};
                 for (String image : images) {
                     BitMap bitMap = new BitMap(image, null);
