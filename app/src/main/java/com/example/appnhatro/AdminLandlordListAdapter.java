@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,20 +21,17 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class AdminLandlordListAdapter extends RecyclerView.Adapter<AdminLandlordListAdapter.AdminLandlordList> implements Filterable {
-    private final RecyclerViewInterface recyclerViewInterface;
-    Context context;
-    List<user> mPostList;
-    List<user> mPostListOld;
+public class AdminLandlordListAdapter extends RecyclerView.Adapter<AdminLandlordListAdapter.AdminLandlordList> {
+    private final RecyclerViewInterfaceAdminLandlord recyclerViewInterfaceAdminLandlord;
+    ArrayList<user> mPostList;
 
-    public AdminLandlordListAdapter(Context context,RecyclerViewInterface recyclerViewInterface) {
-        this.recyclerViewInterface = recyclerViewInterface;
-        this.context = context;
+    public AdminLandlordListAdapter(ArrayList<user>list,RecyclerViewInterfaceAdminLandlord recyclerViewInterfaceAdminLandlord) {
+        this.recyclerViewInterfaceAdminLandlord = recyclerViewInterfaceAdminLandlord;
+        this.mPostList = list;
     }
 
-    public void setData(List<user> list){
+    public void setData(ArrayList<user> list){
         this.mPostList = list;
-        this.mPostListOld = list;
         notifyDataSetChanged();
     }
 
@@ -41,27 +39,33 @@ public class AdminLandlordListAdapter extends RecyclerView.Adapter<AdminLandlord
     @Override
     public AdminLandlordList onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_admin_landlord,parent,false);
-        return new AdminLandlordList(v,recyclerViewInterface);
+        return new AdminLandlordList(v,recyclerViewInterfaceAdminLandlord);
     }
 
     @Override
     public void onBindViewHolder(@NonNull AdminLandlordList holder, int position) {
-        user landLordList = mPostList.get(position);
-        if (landLordList == null){
+        user user = mPostList.get(position);
+        if (user == null){
             return;
         }
-        holder.ID.setText(landLordList.getId());
-        holder.sdt.setText(landLordList.getPhone());
-        if(landLordList.getStatus() == null){
+        holder.ID.setText(user.getId());
+        holder.sdt.setText(user.getPhone());
+        if(user.getStatus() == null){
             holder.status.setText("");
         }else{
-            if(landLordList.getStatus().equals("0")){
+            if(user.getStatus().equals("0")){
                 holder.status.setText("Hoạt động");
-            }else if(landLordList.getStatus().equals("1")){
+            }else if(user.getStatus().equals("1")){
                 holder.status.setText("Tạm khoá");
             }
         }
-        TenantAccountActivity.setImage(holder.image,landLordList.getAvatar());
+        TenantAccountActivity.setImage(holder.image,user.getAvatar());
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recyclerViewInterfaceAdminLandlord.onItemClickLandlord(user);
+            }
+        });
     }
 
     @Override
@@ -72,59 +76,17 @@ public class AdminLandlordListAdapter extends RecyclerView.Adapter<AdminLandlord
         return 0;
     }
 
-    @Override
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence charSequence) {
-
-                String strSearch = charSequence.toString();
-                if (strSearch.isEmpty()){
-                    mPostList = mPostListOld;
-                } else {
-                    List<user> list = new ArrayList<>();
-                    for (user User : mPostListOld){
-                        if (User.getId().toLowerCase().contains(strSearch.toLowerCase())){
-                            list.add(User);
-                        }
-                    }
-                    mPostList = list;
-                }
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = mPostList;
-
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                mPostList = (ArrayList<user>) filterResults.values;
-                notifyDataSetChanged();
-            }
-        };
-    }
-
     public static class AdminLandlordList extends RecyclerView.ViewHolder{
         TextView ID,sdt,status;
         CircleImageView image;
-        public AdminLandlordList(@NonNull View itemView,RecyclerViewInterface recyclerViewInterface) {
+        LinearLayout layout;
+        public AdminLandlordList(@NonNull View itemView,RecyclerViewInterfaceAdminLandlord recyclerViewInterfaceAdminLandlord) {
             super(itemView);
             ID = itemView.findViewById(R.id.txt_alID);
             sdt = itemView.findViewById(R.id.txt_alSDT);
             status = itemView.findViewById(R.id.txt_alStatus);
             image = itemView.findViewById(R.id.civDanhsach_AL);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(recyclerViewInterface != null){
-                        int pos = getBindingAdapterPosition();
-                        if(pos != RecyclerView.NO_POSITION){
-                            recyclerViewInterface.onItemClick(pos);
-                        }
-                    }
-                }
-            });
+            layout = itemView.findViewById(R.id.layout_ItemLLA);
         }
     }
 }
