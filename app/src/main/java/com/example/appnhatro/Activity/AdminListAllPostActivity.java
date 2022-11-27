@@ -66,7 +66,7 @@ public class AdminListAllPostActivity extends AppCompatActivity {
             public void onItemClickListener(int position, View view) {
                 Post post = listAll.get(position);
                 Intent intent = new Intent(AdminListAllPostActivity.this, AdminPostDetailActivity.class);
-                intent.putExtra("Post", post);
+                intent.putExtra("idPost", post.getId());
                 startActivity(intent);
             }
         });

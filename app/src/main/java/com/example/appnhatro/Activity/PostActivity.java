@@ -1,8 +1,5 @@
 package com.example.appnhatro.Activity;
 
-import static com.example.appnhatro.TenantPasswordChangeActivity.setContentNotify;
-
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,8 +8,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,7 +37,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,11 +44,11 @@ import java.util.ArrayList;
 public class PostActivity extends AppCompatActivity {
     private FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
     private ConverImage converImage = new ConverImage();
-    Spinner spnStatus, spnSex, spnSl;
-    ImageView imgPhoTo, hinh, back;
+    private Uri uri[]= new Uri[3];
+    Spinner spnStatus;
+    ImageView imgPhoTo, imgPhoTo1, imgPhoTo2, hinh, back;
     Button UpData, Huy;
     EditText Diachi, SDT, DoTuoi, Den, gia, YeuCauKhac;
-    Uri uri;
     String idPost = "", iduser;
     SharedPreferences sharedPreferences;
     int stt = 1;
@@ -73,7 +66,9 @@ public class PostActivity extends AppCompatActivity {
         setSpinner();
         setIntent();
 
-        imgPhoTo = findViewById(R.id.imageView);
+        imgPhoTo = findViewById(R.id.imgAddNewPostTenant);
+        imgPhoTo1 = findViewById(R.id.imgAddNewPostTenant1);
+        imgPhoTo2 = findViewById(R.id.imgAddNewPostTenant2);
         UpData = findViewById(R.id.uploadimagebtn);
         Diachi = findViewById(R.id.edtdiachi);
         SDT = findViewById(R.id.edtPhoneMunber);
@@ -85,12 +80,12 @@ public class PostActivity extends AppCompatActivity {
         back = findViewById(R.id.btn_postback);
         sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
         iduser = sharedPreferences.getString("idUser", "");
-       diachi = findViewById(R.id.edtPhoneMunber);
-       tieude = findViewById(R.id.edtdiachi);
-       quan = findViewById(R.id.edtxdotuoi);
-       dientich = findViewById(R.id.edtxden);
-       Gia = findViewById(R.id.edtxgia);
-       hinh = findViewById(R.id.imageView);
+        diachi = findViewById(R.id.edtPhoneMunber);
+        tieude = findViewById(R.id.edtdiachi);
+        quan = findViewById(R.id.edtxdotuoi);
+        dientich = findViewById(R.id.edtxden);
+        Gia = findViewById(R.id.edtxgia);
+
         //Tải dữ liệu lên firebase
         UpData.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,84 +96,10 @@ public class PostActivity extends AppCompatActivity {
                 a.setPositiveButton("Đăng bài", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                        DatabaseReference databaseReference = firebaseDatabase.getReference();
-                        FirebaseDatabase firebaseDatabase2 = FirebaseDatabase.getInstance();
-                        DatabaseReference databaseReference2 = firebaseDatabase.getReference("HistoryTransaction");
-                        databaseReference2.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                    TransactionModel transactionModel = dataSnapshot.getValue(TransactionModel.class);
-                                    if (transactionModel.getId_user().equals(iduser)){
-                                        databaseReference.child("Post").addValueEventListener(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                                    Post post = dataSnapshot.getValue(Post.class);
-                                                    if (post.getId().equals(transactionModel.getPost())){
-                                                        posts.add(post);
-                                                    }
-                                                    if (posts.size() >= 1){
-                                                        final Dialog dialog = new Dialog(PostActivity.this);
-                                                        opendialog(dialog, Gravity.CENTER, "Load image....",R.layout.layout_dialog_notify_no_button);
-                                                        Post post1 = new Post(idPost, iduser, YeuCauKhac.getText().toString(), SDT.getText().toString(), DoTuoi.getText().toString(),
-                                                                gia.getText().toString(),Den.getText().toString(),
-                                                                Diachi.getText().toString(), idPost + ".jpg", spnStatus.getSelectedItem().toString());
-                                                        addToFavorite(post1);
-                                                        String str = idPost+".jpg";
-                                                        storageReference = FirebaseStorage.getInstance().getReference("images/post/" + str);
-                                                        storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                                            @Override
-                                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                                if (dialog.isShowing()){
-                                                                    dialog.dismiss();
-                                                                    openDialogNotifyFinish(Gravity.CENTER, "Đăng bài thành công", R.layout.layout_dialog_notify_finish);
-                                                                    AlertDialog.Builder c = new AlertDialog.Builder(PostActivity.this);
-                                                                    c.setTitle("Thông Báo");
-                                                                    c.setMessage("bẠN ĐÃ DDANHW BÀO TJHAMG CÔNG");
-                                                                    c.setPositiveButton("oK", new DialogInterface.OnClickListener() {
-                                                                        @Override
-                                                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                                                            finish();
-                                                                            dialogInterface.cancel();
-                                                                        }
-                                                                    });
-                                                                }
-                                                            }
-                                                        });
-                                                    }else if (posts.size() == 0){
-
-                                                        AlertDialog.Builder c = new AlertDialog.Builder(PostActivity.this);
-                                                        c.setTitle("Thông Báo");
-                                                        c.setMessage("Bạn chưa thuê phòng nên chưa được đăng bài tìm người ở ghép");
-                                                        c.setPositiveButton("Hủy bỏ", new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                                finish();
-                                                                dialogInterface.cancel();
-                                                            }
-                                                        });
-                                                    }
-                                                }
-
-                                            }
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-                                            }
-                                        });
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
-
+                        Post post1 = new Post(idPost, iduser, YeuCauKhac.getText().toString(), SDT.getText().toString(), DoTuoi.getText().toString(),
+                                gia.getText().toString(),Den.getText().toString(),
+                                Diachi.getText().toString(), idPost + ".jpg", "Còn phòng",idPost + "_1.jpg",idPost + "_2.jpg");
+                        addToFavorite(post1,uri);
                     }
                 });
                 a.setNegativeButton("Hủy bỏ", new DialogInterface.OnClickListener() {
@@ -195,9 +116,22 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                Intent y = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(i, 1);
 
+            }
+        });
+        imgPhoTo1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, 2);
+            }
+        });
+        imgPhoTo2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, 3);
             }
         });
         Huy.setOnClickListener(new View.OnClickListener() {
@@ -230,25 +164,20 @@ public class PostActivity extends AppCompatActivity {
         });
     }
 
-    public static final void setAvatar(ImageView imageView, String avatar) {
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/" + avatar);
-        try {
-            final File file = File.createTempFile("ảnh", ".jpg");
-            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                    imageView.setImageBitmap(bitmap);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d("Notify", "Load Image Fail");
-
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && null != data && data.getData() != null) {
+            uri[0] = data.getData();
+            imgPhoTo.setImageURI(uri[0]);
+        }
+        if (requestCode == 2 && null != data && data.getData() != null) {
+            uri[1] = data.getData();
+            imgPhoTo1.setImageURI(uri[1]);
+        }
+        if (requestCode == 3 && null != data && data.getData() != null) {
+            uri[2] = data.getData();
+            imgPhoTo2.setImageURI(uri[2]);
         }
     }
 
@@ -266,7 +195,9 @@ public class PostActivity extends AppCompatActivity {
                         diachi.setText(post.getAddress());
                         quan.setText(post.getAddress_district());
                         dientich.setText(post.getArea());
-                        setAvatar(hinh, post.getImage());
+                        setAvatar(imgPhoTo, post.getImage());
+                        setAvatar(imgPhoTo1, post.getImage1());
+                        setAvatar(imgPhoTo2, post.getImage2());
                     }
                 }
             }
@@ -276,60 +207,32 @@ public class PostActivity extends AppCompatActivity {
             }
         });
     }
-
-    public void ThongBaoThanhCong(){
-        AlertDialog.Builder b = new AlertDialog.Builder( PostActivity.this);
-        b.setTitle("Thông báo");
-        b.setMessage("Bạn đã đăng bài thành công");
-        b.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
-                finish();
-            }
-        });
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode==1 && resultCode == RESULT_OK && null != data){
-            uri  =  data.getData();
-            imgPhoTo.setImageURI(uri);
-
+    public static final void setAvatar(ImageView imageView, String avatar) {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/" + avatar);
+        try {
+            final File file = File.createTempFile("ảnh", ".jpg");
+            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                    imageView.setImageBitmap(bitmap);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
-    private void openDialogNotifyFinish(int gravity, String noidung, int duongdanlayout) {
-        Dialog dialog = new Dialog(this);
-        setContentNotify(dialog, gravity,Gravity.CENTER, duongdanlayout);
-        TextView tvNoidung = dialog.findViewById(R.id.tvNoidung_NotifyFinish);
-        Button btnCenter = dialog.findViewById(R.id.btnCenter_NotifyFinish);
-        tvNoidung.setText(noidung);
-        btnCenter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                finish();
-            }
-        });
-        dialog.show();
-    }
-
-    private void opendialog(final Dialog dialog, int garavity, String noidung, int Duongdan){
-        setContentNotify(dialog, garavity, Gravity.BOTTOM, Duongdan);
-        TextView tvNoidung = dialog.findViewById(R.id.tvNoidung_NotifyNoButton);
-        tvNoidung.setText(noidung);
-        dialog.show();
-    }
-
-    private void addToFavorite(Post post) {
-        Log.d("text", post.getId());
+    private void addToFavorite(Post post,Uri[] uri) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Post_Oghep");
         databaseReference.child(post.getId()).setValue(post, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                ThongBaoThanhCong();
+                fireBaseThueTro.addNewPosttn(PostActivity.this, post, uri);
             }
         });
     }

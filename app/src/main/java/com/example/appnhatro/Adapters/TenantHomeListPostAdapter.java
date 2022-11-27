@@ -1,22 +1,25 @@
 package com.example.appnhatro.Adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appnhatro.Firebase.FirebaseAdmin;
 import com.example.appnhatro.Models.BitMap;
+import com.example.appnhatro.Models.HistoryTransaction;
+import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.Models.user;
 import com.example.appnhatro.R;
-import com.example.appnhatro.item.Rating;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,68 +32,53 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class AdminCommentAdapter extends RecyclerView.Adapter<AdminCommentAdapter.MyViewHolder>{
-    Context context;
-    int resource;
-    ArrayList<Rating> ratings;
+public class TenantHomeListPostAdapter extends RecyclerView.Adapter<TenantHomeListPostAdapter.MyViewHolder>{
+    private Context context;
+    private int resource;
+    private ArrayList<Post> posts;
     private OnItemClickListener onItemClickLisner;
-
-    public AdminCommentAdapter(Context context, int resource, ArrayList<Rating> ratings) {
+    public TenantHomeListPostAdapter(Context context, int resource, ArrayList<Post> posts) {
         this.context = context;
         this.resource = resource;
-        this.ratings = ratings;
+        this.posts = posts;
     }
 
     @NonNull
     @Override
-    public AdminCommentAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TenantHomeListPostAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.admin_item_comment_layout, parent, false);
+                R.layout.tenant_item_home_layout, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdminCommentAdapter.MyViewHolder holder, int position) {
-        int pos=position;
-        Rating rating = ratings.get(pos);
-        holder.tvRating.setText(rating.getRating());
-        holder.tvComment.setText(rating.getComment());
-        holder.tvDate.setText(rating.getDate());
-        if(rating.getFeedback().equals("")){
-            holder.lvFeedBack.setVisibility(View.GONE);
-            ViewGroup.LayoutParams cardview=  holder.rcv.getLayoutParams();
-            cardview.height=300;
-        }else{
-            holder.lvFeedBack.setVisibility(View.VISIBLE);
-            holder.tvCommentLandLord.setText(rating.getFeedback());
-        }
-        holder.onItemClickLisner=new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(onItemClickLisner!=null){
-                    onItemClickLisner.onItemClickListener(pos,holder.itemView);
-                }
-            }
-        };
+    public void onBindViewHolder(@NonNull TenantHomeListPostAdapter.MyViewHolder holder, int position) {
+        Post post = posts.get(position);
+        holder.tvTinhTrang.setText(post.getStatus());
+        DecimalFormat formatter = new DecimalFormat("#,###,###");
+        holder.tvPrice.setText(formatter.format(Integer.valueOf(post.getPrice()))+"đ/Tháng");
+        holder.tvArea.setText(formatter.format(Integer.valueOf(post.getArea()))+"");
+        holder.tvNamePost.setText(post.getHouse_name());
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReferences = firebaseDatabase.getReference();
-        databaseReferences.child("user").addValueEventListener(new ValueEventListener() {
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Post").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    user User = dataSnapshot.getValue(user.class);
-                    if (User.getId().equals(rating.getIdUser())) {
-                        BitMap bitMap = new BitMap(User.getAvatar(),null);
-                        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/user/"+bitMap.getTenHinh());
+                    Post post = dataSnapshot.getValue(Post.class);
+                    if(post.getId().equals(post.getUserID())){
+                        BitMap bitMap = new BitMap(post.getImage(),null);
+                        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/"+bitMap.getTenHinh());
                         try {
                             final File file= File.createTempFile(bitMap.getTenHinh(),"jpg");
                             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                     bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
-                                    holder.imgUserItemCommentTenantLandLord.setImageBitmap(bitMap.getHinh());
+                                    holder.hinh.setImageBitmap(bitMap.getHinh());
                                 }
                             });
                         } catch (IOException e) {
@@ -106,28 +94,36 @@ public class AdminCommentAdapter extends RecyclerView.Adapter<AdminCommentAdapte
 
             }
         });
+        final int pos = position;
+        holder.onItemClickLisner=new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(onItemClickLisner!=null){
+                    onItemClickLisner.onItemClickListener(pos,holder.itemView);
+                }
+            }
+        };
     }
 
     @Override
     public int getItemCount() {
-        return ratings.size();
+        return posts.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         View.OnClickListener onItemClickLisner;
-        TextView tvRating,tvComment,tvDate,tvPhanHoiButton,tvCommentLandLord;
-        ImageView imgUserItemCommentTenantLandLord;
-        LinearLayout lvFeedBack;
-        CardView rcv;
+        ImageView hinh;
+        TextView tvNamePost,tvArea,tvPrice,tvTinhTrang;
+        Button btnXacNhan;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvRating = itemView.findViewById(R.id.tvRatingItemAdmin);
-            tvComment = itemView.findViewById(R.id.tvCommentItemAdmin);
-            tvDate = itemView.findViewById(R.id.tvDateItemRatingAdmin);
-            tvCommentLandLord = itemView.findViewById(R.id.tvCommentLandLordItemAdmin);
-            imgUserItemCommentTenantLandLord = itemView.findViewById(R.id.imgUserItemCommentAdmin);
-            lvFeedBack= itemView.findViewById(R.id.confirmLandLordAdmin);
-            rcv = itemView.findViewById(R.id.rcv_HomeLanLord_Item_Admin);
+            tvNamePost = itemView.findViewById(R.id.lblTenPhongHome);
+            tvArea = itemView.findViewById(R.id.lblDienTichHome);
+            tvTinhTrang = itemView.findViewById(R.id.lblTinhTrangHome);
+            tvPrice = itemView.findViewById(R.id.lblGiaHome);
+            btnXacNhan = itemView.findViewById(R.id.btnXacNhanAdmin);
+            hinh = itemView.findViewById(R.id.imgRoomHome);
+            itemView.setOnClickListener(this);
         }
 
         @Override

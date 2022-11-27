@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -30,6 +29,7 @@ import com.example.appnhatro.Activity.BookingActivity;
 import com.example.appnhatro.Activity.LandlordWallActivity;
 import com.example.appnhatro.Activity.RepportActivity;
 import com.example.appnhatro.Activity.TenantCommentActivity;
+import com.example.appnhatro.Adapters.ImagePostDetailAdapter;
 import com.example.appnhatro.Adapters.TeantCommentAdapter;
 import com.example.appnhatro.Firebase.FireBaseThueTro;
 import com.example.appnhatro.Models.Favorite;
@@ -60,26 +60,27 @@ import vn.momo.momo_partner.AppMoMoLib;
 
 
 public class TenantPostDetail extends AppCompatActivity {
-    TextView house_name, area, price, address, title, userId, nameUser,tvVietDanhGia,tvLuotDanhGia,tvTheLoai;
-    MyRecyclerViewAdapter myRecyclerViewAdapterLienQuan;
-    TeantCommentAdapter adapterComment;
-    ArrayList<Rating> postListComment = new ArrayList<>();
-    ArrayList<Post> listLienQuan = new ArrayList<>();
-    FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
-    ImageView imgRating1,imgRating2,imgRating3,imgRating4,imgRating5,hinh,imgFavorite,imgAvatar, back;
-    String it_id,it_idLogin;
+    private TextView house_name, area, price, address, title, userId, nameUser, tvVietDanhGia, tvLuotDanhGia, tvTheLoai, tvTinhTrang;
+    private MyRecyclerViewAdapter myRecyclerViewAdapterLienQuan;
+    private TeantCommentAdapter adapterComment;
+    private ArrayList<Rating> postListComment = new ArrayList<>();
+    private ArrayList<Post> listLienQuan = new ArrayList<>();
+    private ArrayList<String> listImage = new ArrayList<>();
+    private FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
+    private ImageView imgRating1, imgRating2, imgRating3, imgRating4, imgRating5, imgFavorite, imgAvatar, back;
+    private String it_id, it_idLogin;
     boolean isFavorite = false;
-    Button btnReport,btnXemPhong,btnDatCoc, btnLienHe;
+    private Button btnReport, btnXemPhong, btnDatCoc, btnLienHe;
+    private ImagePostDetailAdapter imagePostDetailAdapter;
 
-
-    RecyclerView rcvComment;
-    LinearLayout rcvRatingPost;
-    DecimalFormat formatter = new DecimalFormat("#,###,###");
-    Rating ratingComment = new Rating();
-    String idPost,idUser,idAuto;
-    double historyFee;
-    String currentDate;
-    SharedPreferences sharedPreferences;
+    private RecyclerView rcvComment, rcvHinh;
+    private LinearLayout rcvRatingPost;
+    private DecimalFormat formatter = new DecimalFormat("#,###,###");
+    private Rating ratingComment = new Rating();
+    private String idPost, idUser, idAuto;
+    private double historyFee;
+    private String currentDate;
+    private SharedPreferences sharedPreferences;
 
     private String amount = "5000000";
     private String fee = "0";
@@ -88,15 +89,15 @@ public class TenantPostDetail extends AppCompatActivity {
     private String merchantCode = "MOMOIQA420180417";
     private String merchantNameLabel = "Nhà cung cấp";
     private String description = "Đặt phòng trọ";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_activity_tenant_post_details);
 
         AppMoMoLib.getInstance().setEnvironment(AppMoMoLib.ENVIRONMENT.DEVELOPMENT); // AppMoMoLib.ENVIRONMENT.PRODUCTION
-       it_idLogin = getIntent().getStringExtra("it_idLogin");
         sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
-        it_idLogin = sharedPreferences.getString("idUser", "");
+        it_idLogin = sharedPreferences.getString("idUser", "KH04");
         it_id = getIntent().getStringExtra("it_id");
         control();
         setMomo();
@@ -107,21 +108,20 @@ public class TenantPostDetail extends AppCompatActivity {
 
         currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
 
-        String a = it_id.substring(0,2);
-        if(a.equals("P_")){
+        String a = it_id.substring(0, 2);
+        if (a.equals("P_")) {
             tvTheLoai.setText("Ở Ghép");
             btnDatCoc.setVisibility(View.GONE);
             btnLienHe.setVisibility(View.VISIBLE);
             btnReport.setVisibility(View.GONE);
             btnXemPhong.setVisibility(View.GONE);
-            imgFavorite.setVisibility(View.GONE);
             tvVietDanhGia.setVisibility(View.GONE);
             tvLuotDanhGia.setVisibility(View.GONE);
             rcvRatingPost.setVisibility(View.GONE);
             //Phong tro
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rcvPostAnotherDetail);
-            myRecyclerViewAdapterLienQuan = new MyRecyclerViewAdapter(this,R.layout.layout_item_list_horizontal,listLienQuan);
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
+            myRecyclerViewAdapterLienQuan = new MyRecyclerViewAdapter(this, R.layout.layout_item_list_horizontal, listLienQuan);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
             gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
             recyclerView.setLayoutManager(gridLayoutManager);
             myRecyclerViewAdapterLienQuan.setOnItemClickListener(new MyRecyclerViewAdapter.OnItemClickListener() {
@@ -133,20 +133,19 @@ public class TenantPostDetail extends AppCompatActivity {
             recyclerView.setAdapter(myRecyclerViewAdapterLienQuan);
             eventPostOGhep();
             setImageIcon();
-        }else {
+        } else {
             tvTheLoai.setText("Cho Thuê");
             btnDatCoc.setVisibility(View.VISIBLE);
             btnLienHe.setVisibility(View.GONE);
             btnReport.setVisibility(View.VISIBLE);
             btnXemPhong.setVisibility(View.VISIBLE);
-            imgFavorite.setVisibility(View.VISIBLE);
             tvVietDanhGia.setVisibility(View.VISIBLE);
             tvLuotDanhGia.setVisibility(View.VISIBLE);
             rcvRatingPost.setVisibility(View.VISIBLE);
             //Comment
             rcvComment = (RecyclerView) findViewById(R.id.rcvCommentPostDetailTenant);
-            adapterComment = new TeantCommentAdapter(this,R.layout.item_comment_post_detail_tenant_layout,postListComment,it_idLogin);
-            GridLayoutManager gridLayoutManagerRating = new GridLayoutManager(this,1);
+            adapterComment = new TeantCommentAdapter(this, R.layout.item_comment_post_detail_tenant_layout, postListComment, it_idLogin);
+            GridLayoutManager gridLayoutManagerRating = new GridLayoutManager(this, 1);
             gridLayoutManagerRating.setOrientation(RecyclerView.VERTICAL);
             rcvComment.setLayoutManager(gridLayoutManagerRating);
             rcvComment.setAdapter(adapterComment);
@@ -154,8 +153,8 @@ public class TenantPostDetail extends AppCompatActivity {
 
             //Phong tro
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rcvPostAnotherDetail);
-            myRecyclerViewAdapterLienQuan = new MyRecyclerViewAdapter(this,R.layout.layout_item_list_horizontal,listLienQuan);
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
+            myRecyclerViewAdapterLienQuan = new MyRecyclerViewAdapter(this, R.layout.layout_item_list_horizontal, listLienQuan);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
             gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
             recyclerView.setLayoutManager(gridLayoutManager);
             myRecyclerViewAdapterLienQuan.setOnItemClickListener(new MyRecyclerViewAdapter.OnItemClickListener() {
@@ -171,23 +170,29 @@ public class TenantPostDetail extends AppCompatActivity {
     }
 
     private void control() {
+        rcvHinh = (RecyclerView) findViewById(R.id.rcvImagePostDetailTenant);
+        imagePostDetailAdapter = new ImagePostDetailAdapter(this, R.layout.list_view_item_home_tenant, listImage);
+        GridLayoutManager gridLayoutManagers = new GridLayoutManager(this, 1);
+        gridLayoutManagers.setOrientation(RecyclerView.HORIZONTAL);
+        rcvHinh.setLayoutManager(gridLayoutManagers);
+        rcvHinh.setAdapter(imagePostDetailAdapter);
         btnDatCoc = findViewById(R.id.btnDatCoc);
-        tvTheLoai=findViewById(R.id.tvChoThue);
-        btnLienHe= findViewById(R.id.btnLienHePostDetail);
+        tvTheLoai = findViewById(R.id.tvChoThue);
+        btnLienHe = findViewById(R.id.btnLienHePostDetail);
         house_name = findViewById(R.id.tvNamePostDetail);
         address = findViewById(R.id.tvDiaChiPostDetail);
+        tvTinhTrang = findViewById(R.id.tvTinhTrang);
         area = findViewById(R.id.tvAreaPostDetail);
         price = findViewById(R.id.tvGiaPostDetail);
         title = findViewById(R.id.tvTitle);
         userId = findViewById(R.id.tvIdUserPostDetail);
         nameUser = findViewById(R.id.tvNameUserPostDetail);
         imgFavorite = findViewById(R.id.imgFavoritePostDetail);
-        hinh = findViewById(R.id.imgRoomPostDetail);
         imgRating1 = findViewById(R.id.imgRating1);
         imgRating2 = findViewById(R.id.imgRating2);
-        imgRating3 =findViewById(R.id.imgRating3);
-        imgRating4=findViewById(R.id.imgRating4);
-        imgRating5=findViewById(R.id.imgRating5);
+        imgRating3 = findViewById(R.id.imgRating3);
+        imgRating4 = findViewById(R.id.imgRating4);
+        imgRating5 = findViewById(R.id.imgRating5);
         imgAvatar = findViewById(R.id.img_tenant_post_details_Landlord_avatar);
         btnReport = findViewById(R.id.btnRepost);
         btnXemPhong = findViewById(R.id.btnXPhong);
@@ -198,25 +203,34 @@ public class TenantPostDetail extends AppCompatActivity {
         rcvRatingPost = findViewById(R.id.rcvRatingPost);
     }
 
-    public void setDuLieu(Post post, Bitmap bitmap){
+    public void setDuLieu(Post post) {
         house_name.setText(post.getHouse_name());
-        address.setText(post.getAddress());
+        address.setText(post.getAddress() + "," + post.getAddress_district());
         area.setText(formatter.format(Integer.valueOf(post.getArea())) + "m2");
         price.setText(formatter.format(Integer.valueOf(post.getPrice())) + " đ/Tháng");
         title.setText(post.getTitle());
+        tvTinhTrang.setText(post.getStatus());
         userId.setText("id:" + post.getUserID());
-        hinh.setImageBitmap(bitmap);
+        if (post.getStatus().equals("Còn phòng")) {
+            btnDatCoc.setEnabled(true);
+            btnXemPhong.setEnabled(true);
+        } else {
+            btnDatCoc.setEnabled(false);
+            btnXemPhong.setEnabled(false);
+        }
     }
 
-    public void setName(user User){
+    public void setName(user User, Bitmap hinh) {
         nameUser.setText(User.getName());
+        imgAvatar.setImageBitmap(hinh);
     }
-    public void event(){
+
+    public void event() {
         btnReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String strname = house_name.getText().toString();
-                String strID = userId.getText().toString();
+                String strID = userId.getText().toString().replace("id:", "");
                 String strIDpost = it_id;
                 Intent intent = new Intent(TenantPostDetail.this, RepportActivity.class);
                 intent.putExtra("Name_hour", strname);
@@ -229,6 +243,8 @@ public class TenantPostDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TenantPostDetail.this, BookingActivity.class);
+                String hinh = userId.getText().toString().replace("id:", "");
+                intent.putExtra("idpost", hinh);
                 startActivity(intent);
             }
         });
@@ -252,8 +268,8 @@ public class TenantPostDetail extends AppCompatActivity {
         tvVietDanhGia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fireBaseThueTro.checkHistory(TenantPostDetail.this,it_id,it_idLogin);
-                }
+                fireBaseThueTro.checkHistory(TenantPostDetail.this, it_id, it_idLogin);
+            }
         });
         adapterComment.setOnItemClickListener(new TeantCommentAdapter.OnItemClickListener() {
             @Override
@@ -288,7 +304,8 @@ public class TenantPostDetail extends AppCompatActivity {
             }
         });
     }
-    public void eventPostOGhep(){
+
+    public void eventPostOGhep() {
         btnLienHe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -301,7 +318,7 @@ public class TenantPostDetail extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         user User = snapshot.getValue(user.class);
                         builder.setTitle("Liên Hệ");
-                        builder.setMessage("Số điện thoại:"+User.getPhone()+"");
+                        builder.setMessage("Số điện thoại:" + User.getPhone() + "");
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -324,6 +341,7 @@ public class TenantPostDetail extends AppCompatActivity {
             }
         });
     }
+
     public void setImageIcon() {
         imgFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -341,7 +359,7 @@ public class TenantPostDetail extends AppCompatActivity {
     private void loadFavoritePost(String postId, String userId) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
-        databaseReference.child("Like").child(userId).child(postId).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("Like").child(postId).child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue() != null) {
@@ -361,7 +379,7 @@ public class TenantPostDetail extends AppCompatActivity {
         Favorite favorite = new Favorite(userId, postId);
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Like");
-        databaseReference.child(userId).child(postId).setValue(favorite)
+        databaseReference.child(postId).child(userId).setValue(favorite)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -374,7 +392,7 @@ public class TenantPostDetail extends AppCompatActivity {
     private void deleteFromFavorite(String postId, String userId) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Like");
-        databaseReference.child(userId).child(postId).removeValue().addOnCompleteListener(
+        databaseReference.child(postId).child(userId).removeValue().addOnCompleteListener(
                 new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(
@@ -384,7 +402,8 @@ public class TenantPostDetail extends AppCompatActivity {
                     }
                 });
     }
-    public void setRatingg(int Rating,String sl) {
+
+    public void setRatingg(int Rating, String sl) {
         if (Rating == 5) {
             imgRating1.setSelected(true);
             imgRating2.setSelected(true);
@@ -422,16 +441,18 @@ public class TenantPostDetail extends AppCompatActivity {
             imgRating4.setSelected(false);
             imgRating5.setSelected(false);
         }
-        tvLuotDanhGia.setText(sl+" Lượt đánh giá");
+        tvLuotDanhGia.setText(sl + " Lượt đánh giá");
     }
-    public void setLayOutComment(Boolean check){
-        if(check) {
+
+    public void setLayOutComment(Boolean check) {
+        if (check) {
             rcvComment.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             rcvComment.setVisibility(View.GONE);
         }
     }
-    public void setVisibilityWriteComment(){
+
+    public void setVisibilityWriteComment() {
         tvVietDanhGia.setVisibility(View.GONE);
         btnReport.setVisibility(View.VISIBLE);
     }
@@ -440,18 +461,18 @@ public class TenantPostDetail extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadFavoritePost(it_id, it_idLogin);
-        String id = it_id.substring(0,2);
-        if(id.equals("P_")){
-            fireBaseThueTro.docPostLienQuanOGhep(listLienQuan,myRecyclerViewAdapterLienQuan);
-            Log.d("Tri", "idRéum"+it_id);
-            fireBaseThueTro.readOnePostOGhep(this,it_id);
-        }else {
-            fireBaseThueTro.docPostLienQuanPost(listLienQuan,myRecyclerViewAdapterLienQuan);
-            fireBaseThueTro.readOnePost(this,it_id);
-            fireBaseThueTro.getRatingPost(this,it_id,adapterComment,postListComment,ratingComment,it_idLogin);
+        String id = it_id.substring(0, 2);
+        if (id.equals("P_")) {
+            fireBaseThueTro.docPostLienQuanOGhep(listLienQuan, myRecyclerViewAdapterLienQuan);
+            fireBaseThueTro.readOnePostOGhep(this, it_id, listImage, imagePostDetailAdapter);
+        } else {
+            fireBaseThueTro.docPostLienQuanPost(listLienQuan, myRecyclerViewAdapterLienQuan);
+            fireBaseThueTro.readOnePost(this, it_id, listImage, imagePostDetailAdapter);
+            fireBaseThueTro.getRatingPost(this, it_id, adapterComment, postListComment, ratingComment, it_idLogin);
         }
     }
-    public void gotoCommentActivity(){
+
+    public void gotoCommentActivity() {
         ratingComment.setIdPost(it_id);
         ratingComment.setIdUser(it_idLogin);
         ratingComment.setRating("0");
@@ -459,7 +480,8 @@ public class TenantPostDetail extends AppCompatActivity {
         intent.putExtra("Rating", ratingComment);
         startActivity(intent);
     }
-    public void dialogg(){
+
+    public void dialogg() {
         AlertDialog.Builder builder = new AlertDialog.Builder(TenantPostDetail.this);
         builder.setTitle("Thông báo");
         builder.setMessage("Bạn chưa ở cặn hộ này nên không thể đánh giá");
@@ -490,7 +512,7 @@ public class TenantPostDetail extends AppCompatActivity {
         eventValue.put("description", description); //mô tả đơn hàng - short description
 
         //client extra data
-        eventValue.put("requestId",  merchantCode+"merchant_billId_"+System.currentTimeMillis());
+        eventValue.put("requestId", merchantCode + "merchant_billId_" + System.currentTimeMillis());
         eventValue.put("partnerCode", merchantCode);
         //Example extra data
         JSONObject objExtraData = new JSONObject();
@@ -511,41 +533,42 @@ public class TenantPostDetail extends AppCompatActivity {
 
 
     }
+
     //Get token callback from MoMo app an submit to server side
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == AppMoMoLib.getInstance().REQUEST_CODE_MOMO && resultCode == -1) {
-            if(data != null) {
-                if(data.getIntExtra("status", -1) == 0) {
+        if (requestCode == AppMoMoLib.getInstance().REQUEST_CODE_MOMO && resultCode == -1) {
+            if (data != null) {
+                if (data.getIntExtra("status", -1) == 0) {
                     //TOKEN IS AVAILABLE
                     Log.d("thanhcong", data.getStringExtra("message"));
-                    if (data.getStringExtra("message").equals("thanhcong")){
+                    if (data.getStringExtra("message").equals("thanhcong")) {
                         DatabaseReference databaseReference;
-                        databaseReference = FirebaseDatabase.getInstance().getReference("HistoryTransaction"+idAuto);
-                        TransactionModel transactionModel = new TransactionModel(idAuto,"0",it_idLogin,idPost,"1",currentDate,"0",String.valueOf(historyFee));
+                        databaseReference = FirebaseDatabase.getInstance().getReference("HistoryTransaction" + idAuto);
+                        TransactionModel transactionModel = new TransactionModel(idAuto, "0", it_idLogin, idPost, "1", currentDate, "0", String.valueOf(historyFee));
                         databaseReference.setValue(transactionModel);
                     }
 //                    tvMessage.setText("message: " + "Get token " + data.getStringExtra("message"));
                     String token = data.getStringExtra("data"); //Token response
                     String phoneNumber = data.getStringExtra("phonenumber");
                     String env = data.getStringExtra("env");
-                    if(env == null){
+                    if (env == null) {
                         env = "app";
                     }
 
-                    if(token != null && !token.equals("")) {
+                    if (token != null && !token.equals("")) {
                         // TODO: send phoneNumber & token to your server side to process payment with MoMo server
                         // IF Momo topup success, continue to process your order
                     } else {
                         Log.d("thanhcong", "khong thanh cong");
 //                        tvMessage.setText("message: " + this.getString(R.string.not_receive_info));
                     }
-                } else if(data.getIntExtra("status", -1) == 1) {
+                } else if (data.getIntExtra("status", -1) == 1) {
                     //TOKEN FAIL
-                    String message = data.getStringExtra("message") != null?data.getStringExtra("message"):"Thất bại";
+                    String message = data.getStringExtra("message") != null ? data.getStringExtra("message") : "Thất bại";
 //                    tvMessage.setText("message: " + message);
                     Log.d("thanhcong", "khong thanh cong");
-                } else if(data.getIntExtra("status", -1) == 2) {
+                } else if (data.getIntExtra("status", -1) == 2) {
                     //TOKEN FAIL
 //                    tvMessage.setText("message: " + this.getString(R.string.not_receive_info));
                     Log.d("thanhcong", "khong thanh cong");
@@ -569,7 +592,7 @@ public class TenantPostDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final Dialog dialog = new Dialog(TenantPostDetail.this);
-                openDialogNotify(Gravity.CENTER,"50000",R.layout.layout_dialog_notify_payment);
+                openDialogNotify(Gravity.CENTER, "50000", R.layout.layout_dialog_notify_payment);
 
             }
         });
@@ -600,7 +623,7 @@ public class TenantPostDetail extends AppCompatActivity {
 
     private void openDialogNotify(int gravity, String noidung, int duongdanlayout) {
         final Dialog dialog = new Dialog(this);
-        setContentNotify(dialog, gravity,Gravity.CENTER, duongdanlayout);
+        setContentNotify(dialog, gravity, Gravity.CENTER, duongdanlayout);
         TextView tienDatCoc = findViewById(R.id.tvNoidung_Price);
         Button close = dialog.findViewById(R.id.btnLeft_NotifyYesNo);
         Button submit = dialog.findViewById(R.id.btnRight_MOMO);
@@ -621,7 +644,7 @@ public class TenantPostDetail extends AppCompatActivity {
         dialog.show();
     }
 
-    public void getID(){
+    public void getID() {
         FirebaseDatabase firebaseDatabaseID = FirebaseDatabase.getInstance();
         DatabaseReference databaseReferenceID = firebaseDatabaseID.getReference("HistoryTransaction");
         databaseReferenceID.addValueEventListener(new ValueEventListener() {
@@ -632,21 +655,23 @@ public class TenantPostDetail extends AppCompatActivity {
                     dsPost.add(dataSnapshot.getKey());
                 }
                 String[] temp = dsPost.get(dsPost.size() - 1).split("HT");
-                String id="";
-                if(Integer.parseInt(temp[1]) < 10){
+                String id = "";
+                if (Integer.parseInt(temp[1]) < 10) {
                     id = "HT" + (Integer.parseInt(temp[1]) + 1);
-                }else {
+                } else {
                     id = "HT" + (Integer.parseInt(temp[1]) + 1);
                 }
-                idAuto= id;
+                idAuto = id;
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
     }
-    public void thongbao(){
+
+    public void thongbao() {
         AlertDialog.Builder builder = new AlertDialog.Builder(TenantPostDetail.this);
         builder.setTitle("Thông báo");
         builder.setMessage("Bạn chưa ở cặn hộ này nên không thể report");
@@ -658,6 +683,7 @@ public class TenantPostDetail extends AppCompatActivity {
         });
         builder.show();
     }
+
     public void gotoRepostActivity() {
         String strname = house_name.getText().toString();
         String strID = userId.getText().toString();

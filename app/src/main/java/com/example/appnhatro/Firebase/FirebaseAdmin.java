@@ -13,6 +13,8 @@ import com.example.appnhatro.Adapters.AdminListPostAdapter;
 import com.example.appnhatro.Models.BitMap;
 import com.example.appnhatro.Models.HistoryTransaction;
 import com.example.appnhatro.Models.Post;
+import com.example.appnhatro.Models.user;
+import com.example.appnhatro.TenantPostDetail;
 import com.example.appnhatro.item.Rating;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -41,7 +43,6 @@ public class FirebaseAdmin {
                 ArrayList<Post> data = new ArrayList<>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Post post = dataSnapshot.getValue(Post.class);
-                    Log.d("Tri", post.getId());
                     data.add(post);
                 }
                 list.clear();
@@ -55,51 +56,67 @@ public class FirebaseAdmin {
             }
         });
     }
-    public void readOnePostAdmin(Context context, String idPost, ArrayList<Rating> listRating, AdminCommentAdapter commentAdapter) {
+
+    public void readOnePostAdmin(Context context, String idPost, ArrayList<Rating> listRating, AdminCommentAdapter commentAdapter, ArrayList<String> imagePost) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
         DatabaseReference rating = firebaseDatabase.getReference("Rating");
-        DatabaseReference like = firebaseDatabase.getReference("Like");
         databaseReference.child("Post").child(idPost).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Post data = snapshot.getValue(Post.class);
-                BitMap bitMap = new BitMap(data.getImage(), null);
-                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/post/" + bitMap.getTenHinh());
-                try {
-                    final File file = File.createTempFile(bitMap.getTenHinh(), "jpg");
-                    storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
-                            ((AdminPostDetailActivity) context).setDuLieu(data, bitMap.getHinh());
-                            rating.child(idPost).addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    ArrayList<Rating> ratings = new ArrayList<>();
-                                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                        Rating data = dataSnapshot.getValue(Rating.class);
-                                        ratings.add(data);
-                                    }
-                                    listRating.clear();
-                                    listRating.addAll(ratings);
-                                    commentAdapter.notifyDataSetChanged();
+                imagePost.clear();
+                imagePost.add(data.getImage());
+                imagePost.add(data.getImage1());
+                imagePost.add(data.getImage2());
+                DatabaseReference databaseReferences = firebaseDatabase.getReference();
+                databaseReferences.child("user").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            user User = dataSnapshot.getValue(user.class);
+                            if (User.getId().equals(data.getUserID())) {
+                                BitMap bitMap = new BitMap(User.getAvatar(),null);
+                                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/user/"+bitMap.getTenHinh());
+                                try {
+                                    final File file= File.createTempFile(bitMap.getTenHinh(),"jpg");
+                                    storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                            bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
+                                            ((AdminPostDetailActivity) context).setDuLieu(data,bitMap.getHinh());
+                                        }
+                                    });
+                                } catch (IOException e) {
+                                    e.printStackTrace();
                                 }
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
+                            }
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
+                    }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                rating.child(idPost).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        ArrayList<Rating> ratings = new ArrayList<>();
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            Rating data = dataSnapshot.getValue(Rating.class);
+                            ratings.add(data);
                         }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                        listRating.clear();
+                        listRating.addAll(ratings);
+                        commentAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
                 rating.child(data.getId()).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -131,6 +148,7 @@ public class FirebaseAdmin {
             }
         });
     }
+
     public void readItemInHome(AdminHomeAdapter adminHomeAdapter, ArrayList<HistoryTransaction> historyTransactions) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -141,7 +159,7 @@ public class FirebaseAdmin {
                     ArrayList<HistoryTransaction> data = new ArrayList<>();
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         HistoryTransaction post = dataSnapshot.getValue(HistoryTransaction.class);
-                        if (post.getStatus().equals("0")) {
+                        if (post.getStatus().equals("1")) {
                             data.add(post);
                         }
                     }
@@ -157,14 +175,22 @@ public class FirebaseAdmin {
             }
         });
     }
+
     public void xacNhanThuTien(HistoryTransaction historyTransaction) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
-        historyTransaction.setStatus("1");
+        historyTransaction.setStatus("2");
         databaseReference.child("HistoryTransaction").child(historyTransaction.getId()).setValue(historyTransaction).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
             }
         });
+    }
+    public void deletePost(String idPost) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("Post").child(idPost).removeValue();
+        databaseReference.child("Like").child(idPost).removeValue();
+        databaseReference.child("Rating").child(idPost).removeValue();
     }
 }

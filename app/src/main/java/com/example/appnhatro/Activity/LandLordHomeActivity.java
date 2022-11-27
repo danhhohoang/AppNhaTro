@@ -10,6 +10,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -21,9 +22,15 @@ import com.example.appnhatro.Adapters.LandLordHomeListAdapter;
 //import com.example.appnhatro.FakeModels.PostFake;
 import com.example.appnhatro.Firebase.FireBaseLandLord;
 import com.example.appnhatro.Models.Post;
+import com.example.appnhatro.Models.TransactionModel;
 import com.example.appnhatro.R;
 import com.example.appnhatro.TenantPostDetail;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +43,13 @@ public class LandLordHomeActivity extends AppCompatActivity {
     private FireBaseLandLord fireBaseLandLord = new FireBaseLandLord();
     private String userId;
     private ImageView imgAdd;
-    TextView itemMenu1,itemMenu2,itemMenu3,itemMenu4,itemMenu5,itemMenu6,itemMenu7;
+    TextView itemMenu1, itemMenu2, itemMenu3, itemMenu4, itemMenu5, itemMenu6, itemMenu7;
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     SharedPreferences sharedPreferences;
+    int fee1, fee2, fee3, fee4, fee5, fee6, fee7, fee8, fee9, fee10, fee11, fee12;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,17 +57,18 @@ public class LandLordHomeActivity extends AppCompatActivity {
         setControl();
         actionToolBar();
         recyclerView = (RecyclerView) findViewById(R.id.rvLLListPostHome);
-        landLordHomeListAdapter = new LandLordHomeListAdapter(this, R.layout.lanlord_home_item_layout,listAll);
+        landLordHomeListAdapter = new LandLordHomeListAdapter(this, R.layout.lanlord_home_item_layout, listAll);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
         sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
-        userId = sharedPreferences.getString("idUser", "");
+        userId = sharedPreferences.getString("idUser", "KH01");
         //get Post by userId LandLord
         recyclerView.setAdapter(landLordHomeListAdapter);
         searchView = findViewById(R.id.sv_Search_Home_LandLord);
         imgAdd = findViewById(R.id.imgThemLandLord);
         event();
+        data();
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -102,7 +112,8 @@ public class LandLordHomeActivity extends AppCompatActivity {
         itemMenu3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(LandLordHomeActivity.this, Landlord_Notification_Activity.class);
+                startActivity(intent);
             }
         });
         itemMenu4.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +131,22 @@ public class LandLordHomeActivity extends AppCompatActivity {
         itemMenu6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(LandLordHomeActivity.this, StatisticalLandLordActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("fee1", fee1);
+                bundle.putInt("fee2", fee2);
+                bundle.putInt("fee3", fee3);
+                bundle.putInt("fee4", fee4);
+                bundle.putInt("fee5", fee5);
+                bundle.putInt("fee6", fee6);
+                bundle.putInt("fee7", fee7);
+                bundle.putInt("fee8", fee8);
+                bundle.putInt("fee9", fee9);
+                bundle.putInt("fee10", fee10);
+                bundle.putInt("fee11", fee11);
+                bundle.putInt("fee12", fee12);
+                intent.putExtra("month", bundle);
+                startActivity(intent);
             }
         });
         itemMenu7.setOnClickListener(new View.OnClickListener() {
@@ -131,7 +157,7 @@ public class LandLordHomeActivity extends AppCompatActivity {
         });
     }
 
-    public void event(){
+    public void event() {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -147,7 +173,7 @@ public class LandLordHomeActivity extends AppCompatActivity {
         imgAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LandLordHomeActivity.this,LandLordAddNewPost.class);
+                Intent intent = new Intent(LandLordHomeActivity.this, LandLordAddNewPost.class);
                 startActivity(intent);
             }
         });
@@ -165,15 +191,14 @@ public class LandLordHomeActivity extends AppCompatActivity {
     private void fillterList(String text) {
         ArrayList<Post> fillterList = new ArrayList<>();
 
-        for (Post item : listAll)
-        {
+        for (Post item : listAll) {
             if (item.getHouse_name().toLowerCase().contains(text.toLowerCase())) {
                 fillterList.add(item);
             }
         }
-        if(fillterList.isEmpty()){
-        }else {
-            landLordHomeListAdapter = new LandLordHomeListAdapter(this, R.layout.lanlord_home_item_layout,fillterList);
+        if (fillterList.isEmpty()) {
+        } else {
+            landLordHomeListAdapter = new LandLordHomeListAdapter(this, R.layout.lanlord_home_item_layout, fillterList);
             GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
             gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
             recyclerView.setLayoutManager(gridLayoutManager);
@@ -182,6 +207,7 @@ public class LandLordHomeActivity extends AppCompatActivity {
             landLordHomeListAdapter.notifyDataSetChanged();
         }
     }
+
     protected void onResume() {
         super.onResume();
         fireBaseLandLord.readListPostFromUser(landLordHomeListAdapter, listAll, userId);
@@ -196,6 +222,103 @@ public class LandLordHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+    }
+
+    private void data() {
+        DatabaseReference databaseReference1;
+        DatabaseReference databaseReference2;
+        databaseReference1 = FirebaseDatabase.getInstance().getReference("HistoryTransaction");
+        databaseReference2 = FirebaseDatabase.getInstance().getReference("Post");
+
+        databaseReference1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    TransactionModel transactionModel = dataSnapshot.getValue(TransactionModel.class);
+                    if (transactionModel.getId_user().equals("KH02")) {
+                        String[] parse = transactionModel.getDate().split(" ");
+                        String month;
+                        month = parse[0];
+                        if (month.equals("JAN")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m1 = 0;
+                            m1 += price - price * 0.5;
+                            fee1 = m1;
+                        }
+                        if (month.equals("FEB")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m2 = 0;
+                            m2 += price - price * 0.5;
+                            fee2 = m2;
+                        }
+                        if (month.equals("MAR")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m3 = 0;
+                            m3 += price - price * 0.5;
+                            fee3 = m3;
+                        }
+                        if (month.equals("APR")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m4 = 0;
+                            m4 += price - price * 0.5;
+                            fee4 = m4;
+                        }
+                        if (month.equals("MAY")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m5 = 0;
+                            m5 += price - price * 0.5;
+                            fee5 = m5;
+                        }
+                        if (month.equals("JUN")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m6 = 0;
+                            m6 += price - price * 0.5;
+                            fee6 = m6;
+                        }
+                        if (month.equals("JUL")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m7 = 0;
+                            m7 += price - price * 0.5;
+                            fee7 = m7;
+                        }
+                        if (month.equals("AUG")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m8 = 0;
+                            m8 += price - price * 0.5;
+                            fee8 = m8;
+                        }
+                        if (month.equals("SEP")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m9 = 0;
+                            m9 += price - price * 0.5;
+                            fee9 = m9;
+                        }
+                        if (month.equals("OCT")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m10 = 0;
+                            m10 += price - price * 0.5;
+                            fee10 = m10;
+                        }
+                        if (month.equals("NOV")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m11 = 0;
+                            m11 += price - price * 0.5;
+                            fee11 = m11;
+                        }
+                        if (month.equals("DEC")) {
+                            int price = Integer.valueOf(transactionModel.getTotal());
+                            int m12 = 0;
+                            m12 += price - price * 0.5;
+                            fee12 = m12;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
             }
         });
     }

@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,7 +13,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -33,6 +33,9 @@ public class BookingActivity extends AppCompatActivity {
     int hour, minute;
     private DatePickerDialog datePickerDialog;
     private FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
+    String iduser;
+    SharedPreferences sharedPreferences;
+    String idLandlor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +52,9 @@ public class BookingActivity extends AppCompatActivity {
         Huy = findViewById(R.id.btnHuy);
         initDatePicker();
         setIntent();
-
-
+        sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        iduser = sharedPreferences.getString("idUser", "");
+        idLandlor = getIntent().getStringExtra("idpost");
         //Tải dữ liệu lên firebase
         Book.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,11 +65,11 @@ public class BookingActivity extends AppCompatActivity {
                 a.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                        DatLichModels post = new DatLichModels("KH01", Name.getText().toString(), Phone.getText().toString(),
+                        DatLichModels post = new DatLichModels(iduser, Name.getText().toString(), Phone.getText().toString(),
                                 TimeButton.getText().toString(), DateButton.getText().toString(),
-                                notes.getText().toString(), getIdBooking, "P01");
+                                notes.getText().toString(), getIdBooking, idLandlor);
                         addToFavorite(post);
+                        finish();
                     }
                 });
                 a.setNegativeButton("Không gửi", new DialogInterface.OnClickListener() {

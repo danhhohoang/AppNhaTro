@@ -1,5 +1,6 @@
 package com.example.appnhatro.Activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,9 +23,8 @@ import java.util.ArrayList;
 public class Landlord_Notification_Activity extends AppCompatActivity {
     private ArrayList<String> persons = new ArrayList<>();
     private ViewHolderImageHome adapter;
-    String getID = "";
-
-    //List horizone
+    String getID;
+    SharedPreferences sharedPreferences;
     private Landlord_Notification_Adapter landlord_notification_adapter;
     private ArrayList<DatLichModels> datLichModels = new ArrayList<>();
     SearchView sv_tpr;
@@ -36,6 +36,8 @@ public class Landlord_Notification_Activity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.landlord_notification_list);
+        sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        getID = sharedPreferences.getString("idUser", "");
         ListPost();
     }
 
@@ -45,7 +47,7 @@ public class Landlord_Notification_Activity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
-        firebaseLandlordNotification.readPostFindPeople(datLichModels, landlord_notification_adapter, "KH01");
+        firebaseLandlordNotification.readPostFindPeople(datLichModels, landlord_notification_adapter, getID);
         recyclerView.setAdapter(landlord_notification_adapter);
         landlord_notification_adapter.setOnItemClickListener(new Landlord_Notification_Adapter.OnItemClickListener() {
             @Override

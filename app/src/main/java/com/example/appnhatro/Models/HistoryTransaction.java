@@ -6,7 +6,7 @@ public class HistoryTransaction {
     private String id_landlord;
     private String post;
     private String status;
-    private String total;
+    private String price;
     private String date;
 
     public String getId_landlord() {
@@ -17,13 +17,13 @@ public class HistoryTransaction {
         this.id_landlord = id_landlord;
     }
 
-    public HistoryTransaction(String id, String id_user, String id_landlord, String post, String status, String total, String date) {
+    public HistoryTransaction(String id, String id_user, String id_landlord, String post, String status, String price, String date) {
         this.id = id;
         this.id_user = id_user;
         this.id_landlord = id_landlord;
         this.post = post;
         this.status = status;
-        this.total = total;
+        this.price = price;
         this.date = date;
     }
 
@@ -62,12 +62,12 @@ public class HistoryTransaction {
         this.status = status;
     }
 
-    public String getTotal() {
-        return total;
+    public String getPrice() {
+        return price;
     }
 
-    public void setTotal(String total) {
-        this.total = total;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
     public String getDate() {

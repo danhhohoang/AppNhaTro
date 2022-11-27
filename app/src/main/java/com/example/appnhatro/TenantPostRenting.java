@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -165,8 +164,6 @@ public class TenantPostRenting extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.d("Notify", "Load Image Fail");
-
                 }
             });
         } catch (IOException e) {

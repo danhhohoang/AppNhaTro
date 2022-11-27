@@ -190,4 +190,34 @@
         <item>Chỉ ở Ghép</item>
     </string-array>
 
+    <string-array name="string_spn_districts">
+        <item>Thành Phố Thủ Đức</item>
+        <item>Quận 1</item>
+        <item>Quận 3</item>
+        <item>Quận 4</item>
+        <item>Quận 5</item>
+        <item>Quận 6</item>
+        <item>Quận 7</item>
+        <item>Quận 8</item>
+        <item>Quận 10</item>
+        <item>Quận 11</item>
+        <item>Quận 12</item>
+        <item>Quận Bình Tân</item>
+        <item>Quận Bình Thạnh</item>
+        <item>Quận Gò Vấp</item>
+        <item>Quận Phú Nhuận</item>
+        <item>Quận Tân Bình</item>
+        <item>Quận Tân Phú</item>
+        <item>Huyện Bình Chánh</item>
+        <item>Huyện Cần Giờ</item>
+        <item>Huyện Củ Chi</item>
+        <item>Huyện Hóc Môn</item>
+        <item>Huyện Nhà Bè</item>
+
+
+    </string-array>
+    <string-array name="string_spn_status">
+        <item>Còn phòng</item>
+        <item>Hết phòng</item>
+    </string-array>
 </resources>

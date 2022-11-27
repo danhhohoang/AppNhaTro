@@ -40,10 +40,11 @@
                 app:backgroundTint="@null"
                 android:scaleType="fitXY"
                 android:id="@+id/imgThemLandLord"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvLLListPostHome"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
         </LinearLayout>
         <com.google.android.material.navigation.NavigationView
             android:layout_width="wrap_content"
@@ -83,7 +84,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:paddingBottom="2dp"
-                        android:text="Danh sách người thuê trọ"
+                        android:text="Thông Báo"
                         android:textSize="10pt"
                         android:textColor="@color/black" />
                 </LinearLayout>
