@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -231,7 +230,7 @@ public class TenantPostDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String strname = house_name.getText().toString();
-                String strID = userId.getText().toString();
+                String strID = userId.getText().toString().replace("id:", "");
                 String strIDpost = it_id;
                 Intent intent = new Intent(TenantPostDetail.this, RepportActivity.class);
                 intent.putExtra("Name_hour", strname);
@@ -244,6 +243,8 @@ public class TenantPostDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TenantPostDetail.this, BookingActivity.class);
+                String hinh = userId.getText().toString().replace("id:", "");
+                intent.putExtra("idpost", hinh);
                 startActivity(intent);
             }
         });

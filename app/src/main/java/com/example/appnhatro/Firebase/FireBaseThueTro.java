@@ -87,6 +87,7 @@ public class FireBaseThueTro {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Intent intent = new Intent(context, TenantPostDetail.class);
                 intent.putExtra("it_id", data.getId());
+                intent.putExtra("it_idLogin", "KH02");
                 context.startActivity(intent);
             }
 
@@ -235,7 +236,7 @@ public class FireBaseThueTro {
                 }
                 String[] temp = dsPost.get(dsPost.size() - 1).split("RP");
                 String id = "";
-                if (Integer.parseInt(temp[1]) < 10) {
+                if (Integer.parseInt(temp[1]) < 9) {
                     id = "RP0" + (Integer.parseInt(temp[1]) + 1);
                 } else {
                     id = "RP" + (Integer.parseInt(temp[1]) + 1);
@@ -394,8 +395,7 @@ public class FireBaseThueTro {
         DatabaseReference databaseReference = firebaseDatabase.getReference();
         databaseReference.child("Rating").child(rating.getIdPost()).child(rating.getIdUser()).removeValue();
     }
-
-    public void checkHistory(Context context, String idPost, String idUser) {
+    public void checkHistory(Context context, String idPost,String idUser){
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
         databaseReference.child("HistoryTransaction").addValueEventListener(new ValueEventListener() {
@@ -560,6 +560,7 @@ public class FireBaseThueTro {
                 list.clear();
                 list.addAll(getposts);
                 myRecyclerViewAdapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -670,5 +671,16 @@ public class FireBaseThueTro {
 
             }
         });
+    }
+    public void addNewPosttn(Context context, Post post, Uri[] uri) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference("Post_Oghep");
+        databaseReference.child(post.getId()).setValue(post)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        converImage.docAnhAddNewPostOghep(uri, context, post.getImage(), post.getImage1(), post.getImage2());
+                    }
+                });
     }
 }
