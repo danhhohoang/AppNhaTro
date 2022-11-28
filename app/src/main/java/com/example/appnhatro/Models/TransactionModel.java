@@ -2,44 +2,43 @@ package com.example.appnhatro.Models;
 
 public class TransactionModel {
 
-    private String _id;
-    private String extraMoney;
+    private String id;
+    private String price;
     private String id_user;
+    private String id_landlord;
     private String post;
     private String status;
     private String date;
-    private String _commissionFeeID;
-    private String total;
-
+    private String deposits;
 
     public TransactionModel() {
     }
 
-    public TransactionModel(String _id, String extraMoney, String id_user, String post, String status, String date, String _commissionFeeID, String total) {
-        this._id = _id;
-        this.extraMoney = extraMoney;
+    public TransactionModel(String id, String price, String id_user, String id_landlord, String post, String status, String date, String deposits) {
+        this.id = id;
+        this.price = price;
         this.id_user = id_user;
+        this.id_landlord = id_landlord;
         this.post = post;
         this.status = status;
         this.date = date;
-        this._commissionFeeID = _commissionFeeID;
-        this.total = total;
+        this.deposits = deposits;
     }
 
-    public String get_id() {
-        return _id;
+    public String getId() {
+        return id;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getExtraMoney() {
-        return extraMoney;
+    public String getPrice() {
+        return price;
     }
 
-    public void setExtraMoney(String extraMoney) {
-        this.extraMoney = extraMoney;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
     public String getId_user() {
@@ -48,6 +47,14 @@ public class TransactionModel {
 
     public void setId_user(String id_user) {
         this.id_user = id_user;
+    }
+
+    public String getId_landlord() {
+        return id_landlord;
+    }
+
+    public void setId_landlord(String id_landlord) {
+        this.id_landlord = id_landlord;
     }
 
     public String getPost() {
@@ -74,19 +81,11 @@ public class TransactionModel {
         this.date = date;
     }
 
-    public String get_commissionFeeID() {
-        return _commissionFeeID;
+    public String getDeposits() {
+        return deposits;
     }
 
-    public void set_commissionFeeID(String _commissionFeeID) {
-        this._commissionFeeID = _commissionFeeID;
-    }
-
-    public String getTotal() {
-        return total;
-    }
-
-    public void setTotal(String total) {
-        this.total = total;
+    public void setDeposits(String deposits) {
+        this.deposits = deposits;
     }
 }

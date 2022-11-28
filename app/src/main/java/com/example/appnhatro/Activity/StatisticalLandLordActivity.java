@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +37,7 @@ public class StatisticalLandLordActivity extends AppCompatActivity{
     DatabaseReference databaseReference1;
     DatabaseReference databaseReference2;
     Bundle bundle;
+    ImageView back;
     int fee1,fee2,fee3,fee4,fee5,fee6,fee7,fee8,fee9,fee10,fee11,fee12 = 0 ;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,4 +108,13 @@ public class StatisticalLandLordActivity extends AppCompatActivity{
 
     }
 
+    public void setControl(){
+        back = findViewById(R.id.iv_slBack);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
 }

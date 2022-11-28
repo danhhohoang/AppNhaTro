@@ -31,7 +31,7 @@
             android:textColor="@color/black"
             android:text="Số tiền đặt cọc cần phải trả là" />
         <TextView
-            android:id="@+id/tvNoidung_Price"
+            android:id="@+id/tv_dnpPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"

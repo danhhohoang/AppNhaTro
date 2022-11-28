@@ -53,6 +53,13 @@ public class AdminLandlordListActivity extends AppCompatActivity {
             public void onItemClickLandlord(user User) {
                 onItemClick(User);
             }
+
+            @Override
+            public void onClick(int position) {
+                Intent intent = new Intent(AdminLandlordListActivity.this, com.example.appnhatro.Activity.AdminLandlordListActivity.class);
+                intent.putExtra("idpost",list.get(position).getId());
+                startActivity(intent);
+            }
         });
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
@@ -186,4 +193,5 @@ public class AdminLandlordListActivity extends AppCompatActivity {
         intent.putExtra(BUNDLE, bundle);
         startActivity(intent);
     }
+
 }
