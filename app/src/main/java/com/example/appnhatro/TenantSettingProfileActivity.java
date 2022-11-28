@@ -15,11 +15,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appnhatro.Models.user;
+import com.github.drjacky.imagepicker.ImagePicker;
+import com.github.drjacky.imagepicker.constant.ImageProvider;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -31,7 +36,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.jetbrains.annotations.NotNull;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+import kotlin.jvm.internal.Intrinsics;
 
 public class TenantSettingProfileActivity extends AppCompatActivity {
     EditText txtHoten_TSP, txtCMND_TSP, txtEmail_TSP, txtSDT_TSP;
@@ -42,8 +52,9 @@ public class TenantSettingProfileActivity extends AppCompatActivity {
     StorageReference storageReference;
     Uri imgUri = Uri.EMPTY;
     String extensionFile = ".jpg";
-    String id, avatar, fileName,namefile,b1,b2;
 
+    String id, avatar, fileName,namefile,b1,b2;
+    private ActivityResultLauncher<Intent> launcher;
     int temp = 1;
 
     @Override
@@ -52,6 +63,7 @@ public class TenantSettingProfileActivity extends AppCompatActivity {
         setContentView(R.layout.tenant_setting_profile);
         setControl();
         getBundle();
+        setImage();
         setEvent();
         TenantAccountActivity tenantAccountActivity = new TenantAccountActivity();
         tenantAccountActivity.setImage(ivImage_TSP, avatar);
@@ -228,19 +240,32 @@ public class TenantSettingProfileActivity extends AppCompatActivity {
     }
 
     private void selectImage() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, 100);
-    }
+        ImagePicker.Companion.with(TenantSettingProfileActivity.this)
+                .crop()
+                .cropOval()
+                .maxResultSize(512, 512, true)
+                .provider(ImageProvider.BOTH)
+                .createIntentFromDialog((Function1) (new Function1() {
+                    public Object invoke(Object var1) {
+                        this.invoke((Intent) var1);
+                        return Unit.INSTANCE;
+                    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && data != null && data.getData() != null) {
-            imgUri = data.getData();
-            ivImage_TSP.setImageURI(imgUri);
-        }
+                    public void invoke(@NotNull Intent it) {
+                        Intrinsics.checkNotNullParameter(it, "it");
+                        launcher.launch(it);
+                    }
+                }));
+    }
+    private void setImage(){
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), (ActivityResult result) -> {
+            if (result.getResultCode() == RESULT_OK) {
+                imgUri = result.getData().getData();
+                ivImage_TSP.setImageURI(imgUri);
+            } else if (result.getResultCode() == ImagePicker.RESULT_ERROR) {
+                openDialogNotify(Gravity.CENTER,"Image fail load",R.layout.layout_dialog_notify);
+            }
+        });
     }
 
     private void setControl() {
