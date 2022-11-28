@@ -33,7 +33,7 @@ public class AdminLandlordListActivity extends AppCompatActivity {
     DatabaseReference databaseReferenceUserRole;
     private ArrayList<user> list = new ArrayList<>();
     SearchView sv_all;
-    Button btnAddLandlord_ALL;
+    Button btnAddLandlord_ALL,btnBack_ALL;
 
     public static final String ID = "ID";
     public static final String BUNDLE = "BUNDLE";
@@ -53,6 +53,13 @@ public class AdminLandlordListActivity extends AppCompatActivity {
             public void onItemClickLandlord(user User) {
                 onItemClick(User);
             }
+
+            @Override
+            public void onClick(int position) {
+                Intent intent = new Intent(AdminLandlordListActivity.this, com.example.appnhatro.Activity.AdminLandlordListActivity.class);
+                intent.putExtra("idpost",list.get(position).getId());
+                startActivity(intent);
+            }
         });
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
@@ -66,6 +73,7 @@ public class AdminLandlordListActivity extends AppCompatActivity {
         databaseReferenceUserRole.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
                 USER_ROLE user_role = snapshot.getValue(USER_ROLE.class);
                 if (user_role != null) {
                     if (user_role.getId_role().equals("2")) {
@@ -150,6 +158,7 @@ public class AdminLandlordListActivity extends AppCompatActivity {
     }
     public void setEvent() {
         onRead("");
+
         sv_all.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -165,6 +174,9 @@ public class AdminLandlordListActivity extends AppCompatActivity {
                 return false;
             }
         });
+        btnBack_ALL.setOnClickListener(click->{
+            finish();
+        });
         btnAddLandlord_ALL.setOnClickListener(click->{
             Intent intent = new Intent(AdminLandlordListActivity.this,AdminLandlordAddActivity.class);
             startActivity(intent);
@@ -174,6 +186,7 @@ public class AdminLandlordListActivity extends AppCompatActivity {
     public void setControl() {
         al = findViewById(R.id.rcv_al);
         btnAddLandlord_ALL = findViewById(R.id.btnAddLandlord_ALL);
+        btnBack_ALL = findViewById(R.id.btnBack_ALL);
         sv_all = findViewById(R.id.svDSChuTro);
     }
 
@@ -186,4 +199,5 @@ public class AdminLandlordListActivity extends AppCompatActivity {
         intent.putExtra(BUNDLE, bundle);
         startActivity(intent);
     }
+
 }

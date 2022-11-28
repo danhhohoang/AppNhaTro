@@ -1,5 +1,7 @@
 package com.example.appnhatro;
 
+import static com.example.appnhatro.TenantPasswordChangeActivity.setContentNotify;
+
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -7,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -17,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.appnhatro.Activity.StatisticalAdminActivity;
 import com.example.appnhatro.Activity.StatisticalLandLordActivity;
 import com.example.appnhatro.Models.TransactionModel;
 import com.example.appnhatro.Models.user;
@@ -46,7 +50,6 @@ public class LandlordAccountActivity extends AppCompatActivity {
     public static final String ID = "ID";
     public static final String BUNDLE = "BUNDLE";
     public static final String PASS = "PASS";
-    Dialog progressDialog;
     CircleImageView ivAccount_LA;
     String id, pass;
     int fee1,fee2,fee3,fee4,fee5,fee6,fee7,fee8,fee9,fee10,fee11,fee12;
@@ -56,6 +59,7 @@ public class LandlordAccountActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.landlord_account);
+        getPutExtra();
         setControl();
         data();
         setEvent();
@@ -63,18 +67,17 @@ public class LandlordAccountActivity extends AppCompatActivity {
     }
 
     private void onRead() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Loading....");
-        progressDialog.show();
+        final Dialog dialog = new Dialog(this);
+        openDialogNotifyNoButton(dialog,Gravity.CENTER,"Loading data...",R.layout.layout_dialog_notify_no_button);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference userRef = database.getReference("user/KH01");
+        DatabaseReference userRef = database.getReference("user/"+id);
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mUsers = snapshot.getValue(user.class);
                 setImage(ivAccount_LA, mUsers.getAvatar());
                 do {
-                    progressDialog.dismiss();
+                    dialog.dismiss();
                     tvHoten_LA.setText(mUsers.getName());
                     tvIdaccount_LA.setText(mUsers.getId());
 
@@ -91,7 +94,7 @@ public class LandlordAccountActivity extends AppCompatActivity {
     public final void setImage(CircleImageView imageView, String avatar) {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/user/" + avatar);
         try {
-            final File file = File.createTempFile("ảnh", "jpg");
+            final File file = File.createTempFile("ảnh", ".jpg");
             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -124,7 +127,7 @@ public class LandlordAccountActivity extends AppCompatActivity {
             startActivity(intent);
         });
         btnThonke_LA.setOnClickListener(click -> {
-            Intent intent = new Intent(this, StatisticalLandLordActivity.class);
+            Intent intent = new Intent(this, StatisticalAdminActivity.class);
             Bundle bundle = new Bundle();
             bundle.putInt("fee1",fee1);
             bundle.putInt("fee2",fee2);
@@ -176,7 +179,12 @@ public class LandlordAccountActivity extends AppCompatActivity {
         btnThonke_LA = findViewById(R.id.btnThongke_LA);
         ivbtnBack_LA = findViewById(R.id.ivbtnBack_LA);
     }
-
+    private void openDialogNotifyNoButton(final Dialog dialog, int gravity, String noidung, int duongdanlayout) {
+        setContentNotify(dialog, gravity, Gravity.BOTTOM, duongdanlayout);
+        TextView tvNoidung = dialog.findViewById(R.id.tvNoidung_NotifyNoButton);
+        tvNoidung.setText(noidung);
+        dialog.show();
+    }
     public Bundle byBundle() {
         Bundle bundle = new Bundle();
         bundle.putString(NAME, mUsers.getName());
@@ -185,7 +193,10 @@ public class LandlordAccountActivity extends AppCompatActivity {
         bundle.putString(AVATAR, mUsers.getAvatar());
         return bundle;
     }
-
+    private void getPutExtra(){
+        Intent intent = getIntent();
+        id = intent.getStringExtra("ID");
+    }
     private void data(){
         DatabaseReference databaseReference1;
         DatabaseReference databaseReference2;
@@ -197,83 +208,82 @@ public class LandlordAccountActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     TransactionModel transactionModel = dataSnapshot.getValue(TransactionModel.class);
-                    if (transactionModel.getId_user().equals("KH02")) {
-                        String[] parse = transactionModel.getDate().split(" ");
+                        String[] parse = transactionModel.getDate().split("-");
                         String month;
-                        month = parse[0];
-                        if (month.equals("JAN")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        month = parse[1];
+                        if (month.equals("1")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m1 = 0;
-                            m1 += price - price * 0.5;
+                            m1 += price;
                             fee1 = m1;
                         }
-                        if (month.equals("FEB")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("2")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m2 = 0;
-                            m2 += price - price * 0.5;
+                            m2 += price;
                             fee2 = m2;
                         }
-                        if (month.equals("MAR")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("3")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m3 = 0;
-                            m3 += price - price * 0.5;
+                            m3 += price;
                             fee3 = m3;
                         }
-                        if (month.equals("APR")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("4")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m4 = 0;
-                            m4 += price - price * 0.5;
+                            m4 += price;
                             fee4 = m4;
                         }
-                        if (month.equals("MAY")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("5")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m5 = 0;
-                            m5 += price - price * 0.5;
+                            m5 += price;
                             fee5 = m5;
                         }
-                        if (month.equals("JUN")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("6")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m6 = 0;
-                            m6 += price - price * 0.5;
+                            m6 += price;
                             fee6 = m6;
                         }
-                        if (month.equals("JUL")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("7")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m7 = 0;
-                            m7 += price - price * 0.5;
+                            m7 += price;
                             fee7 = m7;
                         }
-                        if (month.equals("AUG")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("8")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m8 = 0;
-                            m8 += price - price * 0.5;
+                            m8 += price;
                             fee8 = m8;
                         }
-                        if (month.equals("SEP")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("9")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m9 = 0;
-                            m9 += price - price * 0.5;
+                            m9 += price;
                             fee9 = m9;
                         }
-                        if (month.equals("OCT")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("10")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m10 = 0;
-                            m10 += price - price * 0.5;
+                            m10 += price;
                             fee10 = m10;
                         }
-                        if (month.equals("NOV")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("11")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m11 = 0;
-                            m11 += price - price * 0.5;
+                            m11 += price;
                             fee11 = m11;
                         }
-                        if (month.equals("DEC")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("12")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m12 = 0;
-                            m12 += price - price * 0.5;
+                            m12 += price;
                             fee12 = m12;
                         }
-                    }
+
                 }
                 Log.d("TAG", "onDataChange: " + fee11);
             }

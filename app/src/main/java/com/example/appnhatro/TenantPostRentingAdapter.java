@@ -15,7 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Models.BitMap;
 import com.example.appnhatro.Models.Post;
+import com.example.appnhatro.Models.user;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -24,6 +30,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TenantPostRentingAdapter extends RecyclerView.Adapter<TenantPostRentingAdapter.TenantPostRenting> implements Filterable {
 
@@ -73,6 +81,37 @@ public class TenantPostRentingAdapter extends RecyclerView.Adapter<TenantPostRen
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("user").child(post.getUserID()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                user _user = snapshot.getValue(user.class);
+                BitMap bitMap2 = new BitMap(_user.getAvatar(), null);
+                StorageReference storageReference2 = FirebaseStorage.getInstance().getReference().child("images/user/" + bitMap2.getTenHinh());
+
+                try {
+                    final File file2 = File.createTempFile(bitMap2.getTenHinh(), "jpg");
+                    storageReference2.getFile(file2).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            bitMap2.setHinh(BitmapFactory.decodeFile(file2.getAbsolutePath()));
+                            holder.avt.setImageBitmap(bitMap2.getHinh());
+                        }
+                    });
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         //Event processing
         final int pos = position;
         holder.onClickListener= new View.OnClickListener() {
@@ -132,6 +171,7 @@ public class TenantPostRentingAdapter extends RecyclerView.Adapter<TenantPostRen
     public static class TenantPostRenting extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView post_id,user_id,area,price,house_name,address,attachment,status,wishlist;
         ImageView picture;
+        CircleImageView avt;
         View.OnClickListener onClickListener;
         CardView item;
 
@@ -142,6 +182,7 @@ public class TenantPostRentingAdapter extends RecyclerView.Adapter<TenantPostRen
             area = itemView.findViewById(R.id.txt_tprArea);
             price = itemView.findViewById(R.id.txt_tprPrice);
             picture = itemView.findViewById(R.id.iv_tprPicture);
+            avt = itemView.findViewById(R.id.avt);
             item = itemView.findViewById(R.id.cv_tprCardView);
             item.setOnClickListener(this);
         }

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,12 +23,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Activity.DetailPostUpdateList;
+import com.example.appnhatro.Adapters.AdminLandlordListAdapter;
 import com.example.appnhatro.Firebase.FireBasePostListFindPeople;
 import com.example.appnhatro.Firebase.FireBasePostRenting;
 import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.Models.PostAndPostFindPeople;
 import com.example.appnhatro.Models.PostFindRoomateModel;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,9 +43,12 @@ import java.util.List;
 public class TenantPostList extends AppCompatActivity implements RecyclerCRUD{
     private ArrayList<String> persons = new ArrayList<>();
     private ViewHolderImageHome adapter;
+    DatabaseReference databaseReference;
 
+    ArrayList<Post> list;
     SearchView sv_tpl;
-    //List horizone
+    ImageView back;
+    RecyclerView rc;
     private TenantPostListAdapter tenantPostListAdapter;
     private ArrayList<Post> posts = new ArrayList<>();
     FireBasePostListFindPeople fireBasePostListFindPeople = new FireBasePostListFindPeople();
@@ -51,36 +57,116 @@ public class TenantPostList extends AppCompatActivity implements RecyclerCRUD{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_activity_tenant_post_list);
         ListPost();
-    }
+        setControl();
+        onRead("");
 
-    public void ListPost(){
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rcv_tpl);
-        sv_tpl = findViewById(R.id.sv_tpl);
-        tenantPostListAdapter =  new TenantPostListAdapter(this, R.layout.layout_item_tenant_post_list,posts,this);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
-        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        fireBasePostListFindPeople.readPostFindPeople(posts,tenantPostListAdapter,"KH02");
-        recyclerView.setAdapter(tenantPostListAdapter);
+        rc = findViewById(R.id.rcv_tpl);
+        rc.setHasFixedSize(true);
+        rc.setLayoutManager(new LinearLayoutManager(this));
 
+        list = new ArrayList<>();
+        tenantPostListAdapter =  new TenantPostListAdapter(this, R.layout.layout_item_tenant_post_list,list,this);
+        rc.setAdapter(tenantPostListAdapter);
         tenantPostListAdapter.setOnItemClickListener(new TenantPostListAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(int position, View view) {
-                fireBasePostListFindPeople.readDataItem(position,posts,TenantPostList.this);
+                fireBasePostListFindPeople.readDataItem(position,list,TenantPostList.this);
             }
         });
+    }
 
+    public void ListPost(){
+        sv_tpl = findViewById(R.id.sv_tpl);
         sv_tpl.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                tenantPostListAdapter.getFilter().filter(s);
+                list.clear();
+                onRead(s);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                tenantPostListAdapter.getFilter().filter(s);
+                list.clear();
+                onRead(s);
                 return false;
+            }
+        });
+    }
+
+    public void onRead(String keyword){
+        databaseReference = FirebaseDatabase.getInstance().getReference("Post");
+        databaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Post post = snapshot.getValue(Post.class);
+                ArrayList<Post> posts = new ArrayList<>();
+                if (post.getUserID().equals("KH02")){
+                    if(post!=null){
+                        if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
+                            posts.add(post);
+                        }
+                        list.clear();
+                        list.addAll(posts);
+                        tenantPostListAdapter.notifyDataSetChanged();
+                    }
+                }
+                tenantPostListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Post post = snapshot.getValue(Post.class);
+                ArrayList<Post> posts = new ArrayList<>();
+                if (post.getUserID().equals("KH02")){
+                    if(post!=null){
+                        if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
+                            posts.add(post);
+                        }
+                        list.clear();
+                        list.addAll(posts);
+                        tenantPostListAdapter.notifyDataSetChanged();
+                    }
+                }
+                tenantPostListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                Post post = snapshot.getValue(Post.class);
+                ArrayList<Post> posts = new ArrayList<>();
+                if (post.getUserID().equals("KH02")){
+                    if(post!=null){
+                        if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
+                            posts.add(post);
+                        }
+                        list.clear();
+                        list.addAll(posts);
+                        tenantPostListAdapter.notifyDataSetChanged();
+                    }
+                }
+                tenantPostListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Post post = snapshot.getValue(Post.class);
+                ArrayList<Post> posts = new ArrayList<>();
+                if (post.getUserID().equals("KH02")){
+                    if(post!=null){
+                        if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
+                            posts.add(post);
+                        }
+                        list.clear();
+                        list.addAll(posts);
+                        tenantPostListAdapter.notifyDataSetChanged();
+                    }
+                }
+                tenantPostListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
             }
         });
     }
@@ -88,15 +174,15 @@ public class TenantPostList extends AppCompatActivity implements RecyclerCRUD{
     @Override
     public void onUpdateClick(int position) {
         Intent intent = new Intent(TenantPostList.this, DetailPostUpdateList.class);
-        intent.putExtra("it_id", posts.get(position).getId());
-        intent.putExtra("it_userID", posts.get(position).getUserID());
-        intent.putExtra("it_title", posts.get(position).getTitle());
-        intent.putExtra("it_address", posts.get(position).getAddress());
-        intent.putExtra("it_address_district", posts.get(position).getAddress_district());
-        intent.putExtra("it_price", posts.get(position).getPrice());
-        intent.putExtra("it_area", posts.get(position).getArea());
-        intent.putExtra("it_housename", posts.get(position).getHouse_name());
-        intent.putExtra("it_image", posts.get(position).getImage());
+        intent.putExtra("it_id", list.get(position).getId());
+        intent.putExtra("it_userID", list.get(position).getUserID());
+        intent.putExtra("it_title", list.get(position).getTitle());
+        intent.putExtra("it_address", list.get(position).getAddress());
+        intent.putExtra("it_address_district", list.get(position).getAddress_district());
+        intent.putExtra("it_price", list.get(position).getPrice());
+        intent.putExtra("it_area", list.get(position).getArea());
+        intent.putExtra("it_housename", list.get(position).getHouse_name());
+        intent.putExtra("it_image", list.get(position).getImage());
         startActivity(intent);
     }
 
@@ -137,7 +223,7 @@ public class TenantPostList extends AppCompatActivity implements RecyclerCRUD{
         openDialogNotifyNoButton(dialog, Gravity.CENTER,"Xóa bài đăng thành công",R.layout.layout_dialog_notify_no_button);
         DatabaseReference databaseReferenceDelete;
         databaseReferenceDelete = FirebaseDatabase.getInstance().getReference("Post");
-        databaseReferenceDelete.child(posts.get(position).getId()).removeValue(new DatabaseReference.CompletionListener() {
+        databaseReferenceDelete.child(list.get(position).getId()).removeValue(new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                 if (dialog.isShowing()){
@@ -148,6 +234,15 @@ public class TenantPostList extends AppCompatActivity implements RecyclerCRUD{
                         }
                     },2000);
                 }
+            }
+        });
+    }
+    public void setControl(){
+        back = findViewById(R.id.iv_tplback);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }

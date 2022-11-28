@@ -1,9 +1,11 @@
 package com.example.appnhatro;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -12,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Firebase.FireBasePostRenting;
@@ -20,6 +23,7 @@ import com.example.appnhatro.Models.TransactionModel;
 import com.example.appnhatro.Models.user;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,53 +41,55 @@ public class TenantPostRenting extends AppCompatActivity {
     private ArrayList<String> persons = new ArrayList<>();
     private ViewHolderImageHome adapter;
     //List horizone
+    RecyclerView rc;
     private TenantPostRentingAdapter tenantPostRentingAdapter;
     private ArrayList<Post> posts = new ArrayList<>();
-    ImageView back, avt;
+    ImageView back;
     SearchView sv_tpr;
     String iduser;
     SharedPreferences sharedPreferences;
     FireBasePostRenting fireBasePostRenting = new FireBasePostRenting();
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReferenceHistory;
+    DatabaseReference databaseReferencePost;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_activity_tenant_post_renting);
         ListPost();
-        getuser();
-    }
+        onRead("");
 
-    public void ListPost(){
-        RecyclerView recyclerView = findViewById(R.id.rcv_tpr);
+        rc = findViewById(R.id.rcv_tpr);
+        rc.setHasFixedSize(true);
+        rc.setLayoutManager(new LinearLayoutManager(this));
+
+        posts = new ArrayList<>();
         tenantPostRentingAdapter =  new TenantPostRentingAdapter(this, R.layout.layout_item_tenant_post_renting,posts);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
-        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        recyclerView.setLayoutManager(gridLayoutManager);
+        rc.setAdapter(tenantPostRentingAdapter);
 
-        recyclerView.setAdapter(tenantPostRentingAdapter);
-        back = findViewById(R.id.btn_back);
-        avt = findViewById(R.id.avt);
-
-        sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
-        iduser = sharedPreferences.getString("idUser", "");
-        fireBasePostRenting.readPostFindPeople(posts,tenantPostRentingAdapter, iduser);
         tenantPostRentingAdapter.setOnItemClickListener(new TenantPostRentingAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(int position, View view) {
                 fireBasePostRenting.readDataItem(position,posts,TenantPostRenting.this);
             }
         });
+    }
+
+    public void ListPost(){
         sv_tpr = findViewById(R.id.sv_tpr);
+        back = findViewById(R.id.iv_tprback);
         sv_tpr.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                tenantPostRentingAdapter.getFilter().filter(s);
+                posts.clear();
+                onRead(s);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                tenantPostRentingAdapter.getFilter().filter(s);
+                posts.clear();
+                onRead(s);
                 return false;
             }
         });
@@ -94,81 +100,194 @@ public class TenantPostRenting extends AppCompatActivity {
             }
         });
 
-
-
     }
-    public void getuser(){
-        DatabaseReference databaseReferencepost;
-        databaseReferencepost = FirebaseDatabase.getInstance().getReference("Post");
-        DatabaseReference databaseReferenceuser;
-        databaseReferenceuser = FirebaseDatabase.getInstance().getReference("user");
-        DatabaseReference databaseReferencets;
-        databaseReferencets = FirebaseDatabase.getInstance().getReference("HistoryTransaction");
-        databaseReferencets.addValueEventListener(new ValueEventListener() {
+    public void onRead(String keyword){
+        databaseReferencePost = FirebaseDatabase.getInstance().getReference("Post");
+        databaseReferenceHistory = FirebaseDatabase.getInstance().getReference("HistoryTransaction");
+        databaseReferenceHistory.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    TransactionModel transactionModel = dataSnapshot.getValue(TransactionModel.class);
-                    if (transactionModel.getId_user().equals(iduser)){
-                        databaseReferencepost.child("Post").addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                    Post post = dataSnapshot.getValue(Post.class);
-                                    if (post.getId().equals(transactionModel.getPost())){
-                                        databaseReferenceuser.addValueEventListener(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                                    user User = dataSnapshot.getValue(user.class);
-                                                    if (User.getId().equals(post.getUserID())){
-
-                                                        setAvatar(avt, User.getAvatar());
-                                                    }
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-
-                                            }
-                                        });
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TransactionModel transactionModel = snapshot.getValue(TransactionModel.class);
+                if (transactionModel.getId_user().equals("KH02")){
+                    databaseReferencePost.addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                            Post post = snapshot.getValue(Post.class);
+                            ArrayList<Post> list = new ArrayList<>();
+                            if (post.getUserID().equals("KH02")){
+                                if(post!=null){
+                                    if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
+                                        list.add(post);
                                     }
+                                    posts.clear();
+                                    posts.addAll(list);
+                                    tenantPostRentingAdapter.notifyDataSetChanged();
                                 }
-                                tenantPostRentingAdapter.notifyDataSetChanged();
                             }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                        }
+
+                        @Override
+                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TransactionModel transactionModel = snapshot.getValue(TransactionModel.class);
+                if (transactionModel.getId_user().equals("KH02")){
+                    databaseReferencePost.addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                            Post post = snapshot.getValue(Post.class);
+                            ArrayList<Post> list = new ArrayList<>();
+                            if (post.getUserID().equals("KH02")){
+                                if(post!=null){
+                                    if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
+                                        list.add(post);
+                                    }
+                                    posts.clear();
+                                    posts.addAll(posts);
+                                    tenantPostRentingAdapter.notifyDataSetChanged();
+                                }
                             }
-                        });
-                    }
+
+                        }
+
+                        @Override
+                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                TransactionModel transactionModel = snapshot.getValue(TransactionModel.class);
+                if (transactionModel.getId_user().equals("KH02")){
+                    databaseReferencePost.addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                            Post post = snapshot.getValue(Post.class);
+                            ArrayList<Post> list = new ArrayList<>();
+                            if (post.getUserID().equals("KH02")){
+                                if(post!=null){
+                                    if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
+                                        list.add(post);
+                                    }
+                                    posts.clear();
+                                    posts.addAll(posts);
+                                    tenantPostRentingAdapter.notifyDataSetChanged();
+                                }
+                            }
+
+                        }
+
+                        @Override
+                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TransactionModel transactionModel = snapshot.getValue(TransactionModel.class);
+                if (transactionModel.getId_user().equals("KH02")){
+                    databaseReferencePost.addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                            Post post = snapshot.getValue(Post.class);
+                            ArrayList<Post> list = new ArrayList<>();
+                            if (post.getUserID().equals("KH02")){
+                                if(post!=null){
+                                    if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
+                                        list.add(post);
+                                    }
+                                    posts.clear();
+                                    posts.addAll(posts);
+                                    tenantPostRentingAdapter.notifyDataSetChanged();
+                                }
+                            }
+
+                        }
+
+                        @Override
+                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
-    }
-    public static final void setAvatar(ImageView imageView, String avatar) {
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/user/" + avatar);
-        try {
-            final File file = File.createTempFile("ảnh", ".jpg");
-            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                    imageView.setImageBitmap(bitmap);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 }

@@ -79,9 +79,11 @@ public class TenantPostDetail extends AppCompatActivity {
     private DecimalFormat formatter = new DecimalFormat("#,###,###");
     private Rating ratingComment = new Rating();
     private String idPost, idUser, idAuto;
-    private double historyFee;
+    private String pricePost;
+    private int deposits;
     private String currentDate;
     private SharedPreferences sharedPreferences;
+    private int checkPayment;
 
     private String amount = "5000000";
     private String fee = "0";
@@ -100,11 +102,12 @@ public class TenantPostDetail extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
         it_idLogin = sharedPreferences.getString("idUser", "KH04");
         it_id = getIntent().getStringExtra("it_id");
+        setCheckPayment();
         control();
         setMomo();
         getID();
+        getInforPay();
         idPost = it_id;
-        idUser = it_idLogin;
 //        historyFee = Integer.valueOf(price.getText().toString()) * 0.5;
 
         currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
@@ -503,7 +506,7 @@ public class TenantPostDetail extends AppCompatActivity {
         //client Required
         eventValue.put("merchantname", merchantName); //Tên đối tác. được đăng ký tại https://business.momo.vn. VD: Google, Apple, Tiki , CGV Cinemas
         eventValue.put("merchantcode", merchantCode); //Mã đối tác, được cung cấp bởi MoMo tại https://business.momo.vn
-        eventValue.put("amount", historyFee); //Kiểu integer
+        eventValue.put("amount", Integer.valueOf((int) deposits)); //Kiểu integer
         eventValue.put("orderId", "123"); //uniqueue id cho Bill order, giá trị duy nhất cho mỗi đơn hàng
         eventValue.put("orderLabel", "Mã đơn hàng"); //gán nhãn
 
@@ -543,10 +546,12 @@ public class TenantPostDetail extends AppCompatActivity {
                 if (data.getIntExtra("status", -1) == 0) {
                     //TOKEN IS AVAILABLE
                     Log.d("thanhcong", data.getStringExtra("message"));
-                    if (data.getStringExtra("message").equals("thanhcong")) {
+                    if (data.getStringExtra("message").equals("Successful")) {
+                        final Dialog dialog = new Dialog(TenantPostDetail.this);
+                        openDialogNotifyNoButton(dialog,Gravity.CENTER,"Đặt cọc thành công", R.layout.layout_dialog_notify_no_button);
                         DatabaseReference databaseReference;
-                        databaseReference = FirebaseDatabase.getInstance().getReference("HistoryTransaction" + idAuto);
-                        TransactionModel transactionModel = new TransactionModel(idAuto, "0", it_idLogin, idPost, "1", currentDate, "0", String.valueOf(historyFee));
+                        databaseReference = FirebaseDatabase.getInstance().getReference("HistoryTransaction/" + idAuto);
+                        TransactionModel transactionModel = new TransactionModel(idAuto, pricePost, it_idLogin,idUser, it_id, "1", currentDate, String.valueOf(deposits));
                         databaseReference.setValue(transactionModel);
                     }
 //                    tvMessage.setText("message: " + "Get token " + data.getStringExtra("message"));
@@ -561,30 +566,36 @@ public class TenantPostDetail extends AppCompatActivity {
                         // TODO: send phoneNumber & token to your server side to process payment with MoMo server
                         // IF Momo topup success, continue to process your order
                     } else {
-                        Log.d("thanhcong", "khong thanh cong");
+                        final Dialog dialog = new Dialog(TenantPostDetail.this);
+                        openDialogNotifyNoButton(dialog,Gravity.CENTER,"Đã xảy ra lỗi", R.layout.layout_dialog_notify_no_button);
 //                        tvMessage.setText("message: " + this.getString(R.string.not_receive_info));
                     }
                 } else if (data.getIntExtra("status", -1) == 1) {
                     //TOKEN FAIL
                     String message = data.getStringExtra("message") != null ? data.getStringExtra("message") : "Thất bại";
 //                    tvMessage.setText("message: " + message);
-                    Log.d("thanhcong", "khong thanh cong");
+                    final Dialog dialog = new Dialog(TenantPostDetail.this);
+                    openDialogNotifyNoButton(dialog,Gravity.CENTER,"Đã xảy ra lỗi", R.layout.layout_dialog_notify_no_button);
                 } else if (data.getIntExtra("status", -1) == 2) {
                     //TOKEN FAIL
 //                    tvMessage.setText("message: " + this.getString(R.string.not_receive_info));
-                    Log.d("thanhcong", "khong thanh cong");
+                    final Dialog dialog = new Dialog(TenantPostDetail.this);
+                    openDialogNotifyNoButton(dialog,Gravity.CENTER,"Đã xảy ra lỗi", R.layout.layout_dialog_notify_no_button);
                 } else {
                     //TOKEN FAIL
 //                    tvMessage.setText("message: " + this.getString(R.string.not_receive_info));
-                    Log.d("thanhcong", "khong thanh cong");
+                    final Dialog dialog = new Dialog(TenantPostDetail.this);
+                    openDialogNotifyNoButton(dialog,Gravity.CENTER,"Đã xảy ra lỗi", R.layout.layout_dialog_notify_no_button);
                 }
             } else {
 //                tvMessage.setText("message: " + this.getString(R.string.not_receive_info));
-                Log.d("thanhcong", "khong thanh cong");
+                final Dialog dialog = new Dialog(TenantPostDetail.this);
+                openDialogNotifyNoButton(dialog,Gravity.CENTER,"Đã xảy ra lỗi", R.layout.layout_dialog_notify_no_button);
             }
         } else {
 //            tvMessage.setText("message: " + this.getString(R.string.not_receive_info_err));
-            Log.d("thanhcong", "khong thanh cong");
+            final Dialog dialog = new Dialog(TenantPostDetail.this);
+            openDialogNotifyNoButton(dialog,Gravity.CENTER,"Đã xảy ra lỗi", R.layout.layout_dialog_notify_no_button);
         }
     }
 
@@ -592,9 +603,15 @@ public class TenantPostDetail extends AppCompatActivity {
         btnDatCoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Dialog dialog = new Dialog(TenantPostDetail.this);
-                openDialogNotify(Gravity.CENTER, "50000", R.layout.layout_dialog_notify_payment);
+                if (checkPayment == 0){
+                    final Dialog dialog = new Dialog(TenantPostDetail.this);
+                    openDialogNotify(Gravity.CENTER,String.valueOf(deposits) + " VND", R.layout.layout_dialog_notify_payment);
+                }
+                if (checkPayment >=1){
+                    final Dialog dialog = new Dialog(TenantPostDetail.this);
+                    openDialogNotifyNoButton(dialog,Gravity.CENTER,"Bạn đã đặt cọc phòng này rồi", R.layout.layout_dialog_notify_no_button);
 
+                }
             }
         });
     }
@@ -623,12 +640,12 @@ public class TenantPostDetail extends AppCompatActivity {
     }
 
     private void openDialogNotify(int gravity, String noidung, int duongdanlayout) {
-        final Dialog dialog = new Dialog(this);
+        Dialog dialog = new Dialog(this);
         setContentNotify(dialog, gravity, Gravity.CENTER, duongdanlayout);
-        TextView tienDatCoc = findViewById(R.id.tvNoidung_Price);
+        TextView tienDatCoc = dialog.findViewById(R.id.tv_dnpPrice);
         Button close = dialog.findViewById(R.id.btnLeft_NotifyYesNo);
         Button submit = dialog.findViewById(R.id.btnRight_MOMO);
-//        tienDatCoc.setText(noidung);
+        tienDatCoc.setText(noidung);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -639,6 +656,7 @@ public class TenantPostDetail extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dialog.dismiss();
                 requestPayment();
             }
         });
@@ -658,7 +676,7 @@ public class TenantPostDetail extends AppCompatActivity {
                 String[] temp = dsPost.get(dsPost.size() - 1).split("HT");
                 String id = "";
                 if (Integer.parseInt(temp[1]) < 10) {
-                    id = "HT" + (Integer.parseInt(temp[1]) + 1);
+                    id = "HT0" + (Integer.parseInt(temp[1]) + 1);
                 } else {
                     id = "HT" + (Integer.parseInt(temp[1]) + 1);
                 }
@@ -694,5 +712,54 @@ public class TenantPostDetail extends AppCompatActivity {
         intent.putExtra("ID", strID);
         intent.putExtra("IdPost", strIDpost);
         startActivity(intent);
+    }
+
+    public void getInforPay(){
+        DatabaseReference databaseReference;
+        databaseReference = FirebaseDatabase.getInstance().getReference("Post");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Post post = dataSnapshot.getValue(Post.class);
+                    if (post.getId().equals(it_id)){
+                        pricePost = post.getPrice();
+                        deposits = Integer.valueOf(post.getPrice())/2;
+                        idUser = post.getUserID();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void openDialogNotifyNoButton(final Dialog dialog, int gravity, String noidung, int duongdanlayout) {
+        setContentNotify(dialog, gravity, Gravity.CENTER, duongdanlayout);
+        TextView tvNoidung = dialog.findViewById(R.id.tvNoidung_NotifyNoButton);
+        tvNoidung.setText(noidung);
+        dialog.show();
+    }
+
+    public void setCheckPayment(){
+        DatabaseReference databaseReference;
+        databaseReference = FirebaseDatabase.getInstance().getReference("HistoryTransaction");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    TransactionModel transactionModel = dataSnapshot.getValue(TransactionModel.class);
+                    if (transactionModel.getId_user().equals(it_idLogin) && transactionModel.getPost().equals(it_id)){
+                        checkPayment += 1;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
     }
 }

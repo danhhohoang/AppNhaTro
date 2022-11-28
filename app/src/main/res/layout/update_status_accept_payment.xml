@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,7 +12,7 @@
         android:orientation="horizontal"
         android:weightSum="10">
         <ImageView
-            android:id="@+id/iv_tpfback"
+            android:id="@+id/iv_usapBack"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:src="@drawable/ic_back1"
@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Danh sách yêu thích"
+            android:text="Danh sách cọc tiền"
             android:textStyle="bold"
             android:textSize="13pt"
             android:textColor="@color/white"/>
@@ -31,28 +31,52 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/sv_tpf"
+            android:orientation="vertical">
+            <SearchView
+                android:id="@+id/sv_usap"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/drawable_item_tenant_post_favourite"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="0dp"
-                android:layout_weight="8"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="3dp"
                 app:queryHint="Search"
                 app:iconifiedByDefault="false">
-            </androidx.appcompat.widget.SearchView>
+            </SearchView>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Danh sách đóng tiền cọc"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/white"
+            android:textSize="10pt"
+            android:textStyle="bold"
+            android:layout_weight="3.5"/>
+        <ImageView
+            android:id="@+id/iv_usapHistory"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="70dp"
+            android:layout_weight="6.5"
+            android:src="@drawable/ic_history_payment"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_tpf"
+            android:id="@+id/rcv_usap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
+
 </LinearLayout>

@@ -5,33 +5,147 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@drawable/background">
-    <LinearLayout
+
+
+    <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-        <ImageView
-            android:id="@+id/imgMenuAdmin"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/button_menu"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="TRANG CHỦ"
-            android:textSize="20sp"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:layout_weight="10"/>
-        <ImageView
-            android:src="@drawable/bell_32x32"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-    </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcvHomeAdmin"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"/>
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:id="@+id/ah_drawerLayout">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="Danh sách"
+                app:titleTextColor="@color/white"
+                android:background="#0000FD"
+                android:id="@+id/ah_toolbar"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvHomeAdmin"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="10"/>
+        </LinearLayout>
+        <com.google.android.material.navigation.NavigationView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="85dp"
+            android:layout_height="330dp"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            android:background="@drawable/custom_navigationview"
+            android:id="@+id/ah_navigationView">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/line_nav_bar_menu">
+                    <TextView
+                        android:id="@+id/tv_ahDSCT"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:paddingBottom="2dp"
+                        android:text="Danh sách chủ trọ"
+                        android:textSize="10pt"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/line_nav_bar_menu">
+                    <TextView
+                        android:id="@+id/tv_ahDSNTT"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:paddingBottom="2dp"
+                        android:text="Danh sách người thuê trọ"
+                        android:textSize="10pt"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/line_nav_bar_menu">
+                    <TextView
+                        android:id="@+id/tv_ahCSVQL"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:paddingBottom="2dp"
+                        android:text="Chính sách và quyền lợi"
+                        android:textSize="10pt"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/line_nav_bar_menu">
+                    <TextView
+                        android:id="@+id/tv_ahGDGD"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:paddingBottom="2dp"
+                        android:text="Giao dịch gần đây"
+                        android:textSize="10pt"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/line_nav_bar_menu">
+                    <TextView
+                        android:id="@+id/tv_ahGYND"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:paddingBottom="2dp"
+                        android:text="Góp ý người dùng"
+                        android:textSize="10pt"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/line_nav_bar_menu">
+                    <TextView
+                        android:id="@+id/tv_ahTKTT"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:paddingBottom="2dp"
+                        android:text="Thống kê theo tháng"
+                        android:textSize="10pt"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+                    <TextView
+                        android:id="@+id/tv_ahDX"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:paddingBottom="2dp"
+                        android:text="Đăng xuất"
+                        android:textSize="10pt"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.navigation.NavigationView>
+    </androidx.drawerlayout.widget.DrawerLayout>
 </LinearLayout>

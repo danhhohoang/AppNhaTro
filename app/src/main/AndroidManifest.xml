@@ -98,6 +98,8 @@
         <activity android:name=".LandlordSettingProfileActivity" /> <!-- Admin -->
         <activity android:name=".AdminLandlordAddActivity" />
         <activity android:name=".AdminLandlordListActivity" />
+        <activity android:name=".Activity.AdminPasswordChangeActivity" />
+        <activity android:name=".Activity.AdminAccountActivity" />
         <activity
             android:name=".UserSignUp"
             android:exported="true" />

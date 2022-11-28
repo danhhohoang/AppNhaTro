@@ -20,7 +20,7 @@
 
             <ImageView
                 android:layout_marginTop="5dp"
-                android:id="@+id/btn_back"
+                android:id="@+id/iv_tprback"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

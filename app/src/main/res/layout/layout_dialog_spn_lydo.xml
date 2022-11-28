@@ -6,55 +6,36 @@
     android:background="@drawable/dialog_center_white"
     android:orientation="vertical"
     android:layout_margin="16dp">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/dialog_center_white_topleftright"
+        android:gravity="center"
         android:padding="12dp"
-        android:text="THÔNG BÁO"
-        android:textStyle="bold"
+        android:text="CHỌN LÝ DO"
         android:textColor="@color/black"
         android:textSize="16dp"
-        android:gravity="center"
-        android:background="@drawable/dialog_center_white_topleftright"/>
+        android:textStyle="bold" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
-
-        <TextView
-            android:id="@+id/tvNoidung_Title"
+        <Spinner
+            android:id="@+id/spnRole"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="16dp"
-            android:textColor="@color/black"
-            android:text="Số tiền đặt cọc cần phải trả là" />
-        <TextView
-            android:id="@+id/tv_dnpPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:gravity="center"
-            android:textSize="16dp"
-            android:textColor="@color/black"
-            android:text="Số tiền đặt cọc cần phải trả là" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            android:gravity="center"
-            android:textSize="16dp"
-            android:textColor="@color/black"
-            android:text="Nếu đã đồng ý xin thanh toán bằng MOMO" />
+            android:entries="@array/spiner_lydo"
+            android:layout_height="40dp" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
         <Button
-            android:id="@+id/btnLeft_NotifyYesNo"
+            android:id="@+id/btnLeft_SelectRole"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -65,12 +46,12 @@
             android:textColor="@color/black"
             android:layout_weight="1"/>
         <Button
-            android:id="@+id/btnRight_MOMO"
+            android:id="@+id/btnRight_SelectRole"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:textSize="16dp"
-            android:text="MOMO"
+            android:text="Send"
             android:textColor="@color/black"
             android:background="@drawable/bg_buttonright_notify"
             app:backgroundTint="@null"
