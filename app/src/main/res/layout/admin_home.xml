@@ -32,7 +32,8 @@
         <com.google.android.material.navigation.NavigationView
             android:layout_width="wrap_content"
             android:layout_marginTop="85dp"
-            android:layout_height="330dp"
+            android:layout_height="wrap_content"
+            android:minHeight="350dp"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
             android:background="@drawable/custom_navigationview"
@@ -52,7 +53,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:paddingBottom="2dp"
-                        android:text="Danh sách chủ trọ"
+                        android:drawableLeft="@drawable/ic_todolist"
+                        android:text="  Danh sách chủ trọ"
                         android:textSize="10pt"
                         android:textColor="@color/black" />
                 </LinearLayout>
@@ -92,6 +94,22 @@
                     android:layout_marginTop="20dp"
                     android:background="@drawable/line_nav_bar_menu">
                     <TextView
+                        android:id="@+id/tv_ahAccount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:paddingBottom="2dp"
+                        android:drawableLeft="@drawable/ic_profile"
+                        android:text="  Account"
+                        android:textSize="10pt"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/line_nav_bar_menu">
+                    <TextView
                         android:id="@+id/tv_ahGDGD"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -112,7 +130,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:paddingBottom="2dp"
-                        android:text="Góp ý người dùng"
+                        android:text="Danh sách lịch sử report"
                         android:textSize="10pt"
                         android:textColor="@color/black" />
                 </LinearLayout>
