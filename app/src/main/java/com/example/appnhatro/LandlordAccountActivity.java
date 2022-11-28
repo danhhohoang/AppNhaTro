@@ -1,5 +1,7 @@
 package com.example.appnhatro;
 
+import static com.example.appnhatro.TenantPasswordChangeActivity.setContentNotify;
+
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -7,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -47,7 +50,6 @@ public class LandlordAccountActivity extends AppCompatActivity {
     public static final String ID = "ID";
     public static final String BUNDLE = "BUNDLE";
     public static final String PASS = "PASS";
-    Dialog progressDialog;
     CircleImageView ivAccount_LA;
     String id, pass;
     int fee1,fee2,fee3,fee4,fee5,fee6,fee7,fee8,fee9,fee10,fee11,fee12;
@@ -57,6 +59,7 @@ public class LandlordAccountActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.landlord_account);
+        getPutExtra();
         setControl();
         data();
         setEvent();
@@ -64,18 +67,17 @@ public class LandlordAccountActivity extends AppCompatActivity {
     }
 
     private void onRead() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Loading....");
-        progressDialog.show();
+        final Dialog dialog = new Dialog(this);
+        openDialogNotifyNoButton(dialog,Gravity.CENTER,"Loading data...",R.layout.layout_dialog_notify_no_button);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference userRef = database.getReference("user/KH01");
+        DatabaseReference userRef = database.getReference("user/"+id);
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mUsers = snapshot.getValue(user.class);
                 setImage(ivAccount_LA, mUsers.getAvatar());
                 do {
-                    progressDialog.dismiss();
+                    dialog.dismiss();
                     tvHoten_LA.setText(mUsers.getName());
                     tvIdaccount_LA.setText(mUsers.getId());
 
@@ -92,7 +94,7 @@ public class LandlordAccountActivity extends AppCompatActivity {
     public final void setImage(CircleImageView imageView, String avatar) {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/user/" + avatar);
         try {
-            final File file = File.createTempFile("ảnh", "jpg");
+            final File file = File.createTempFile("ảnh", ".jpg");
             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -177,7 +179,12 @@ public class LandlordAccountActivity extends AppCompatActivity {
         btnThonke_LA = findViewById(R.id.btnThongke_LA);
         ivbtnBack_LA = findViewById(R.id.ivbtnBack_LA);
     }
-
+    private void openDialogNotifyNoButton(final Dialog dialog, int gravity, String noidung, int duongdanlayout) {
+        setContentNotify(dialog, gravity, Gravity.BOTTOM, duongdanlayout);
+        TextView tvNoidung = dialog.findViewById(R.id.tvNoidung_NotifyNoButton);
+        tvNoidung.setText(noidung);
+        dialog.show();
+    }
     public Bundle byBundle() {
         Bundle bundle = new Bundle();
         bundle.putString(NAME, mUsers.getName());
@@ -186,7 +193,10 @@ public class LandlordAccountActivity extends AppCompatActivity {
         bundle.putString(AVATAR, mUsers.getAvatar());
         return bundle;
     }
-
+    private void getPutExtra(){
+        Intent intent = getIntent();
+        id = intent.getStringExtra("ID");
+    }
     private void data(){
         DatabaseReference databaseReference1;
         DatabaseReference databaseReference2;

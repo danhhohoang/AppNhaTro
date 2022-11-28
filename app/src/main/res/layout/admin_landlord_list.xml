@@ -14,10 +14,11 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/btnBack_ALL"
             style="@style/al_ButtonNavigationbar_add_detail"
             android:background="?android:attr/selectableItemBackground"
             android:drawableLeft="@drawable/ic_baseline_arrow_back_ios_24"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="SpeakableTextPresentCheck"/>
         <TextView
             style="@style/al_textviewNavigationbar_add_detail"
             android:text="DANH SÁCH CHỦ TRỌ"

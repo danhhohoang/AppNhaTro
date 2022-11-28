@@ -192,7 +192,8 @@ public class LandlordPasswordChangeActivity extends AppCompatActivity {
                 mUser.getPhone(),
                 txtMatkhaumoi1_LPC.getText().toString(),
                 mUser.getCitizenNumber(),
-                mUser.getAvatar());
+                mUser.getAvatar(),
+                mUser.getStatus());
         userRef.setValue(users, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
@@ -224,7 +225,6 @@ public class LandlordPasswordChangeActivity extends AppCompatActivity {
         }
         return false;
     }
-
     public void setControl() {
         txtMatkhaucu_LPC = findViewById(R.id.txtMatkhaucu_LPC);
         txtMatkhaumoi1_LPC = findViewById(R.id.txtMatkhaumoi1_LPC);

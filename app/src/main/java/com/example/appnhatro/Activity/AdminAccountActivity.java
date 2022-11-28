@@ -1,23 +1,15 @@
-package com.example.appnhatro;
+package com.example.appnhatro.Activity;
 
 import static com.example.appnhatro.TenantPasswordChangeActivity.setContentNotify;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -27,8 +19,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.appnhatro.Models.BitMap;
+import com.example.appnhatro.LandlordPasswordChangeActivity;
+import com.example.appnhatro.LandlordSettingProfileActivity;
+import com.example.appnhatro.LoginActivity;
+import com.example.appnhatro.Models.TransactionModel;
 import com.example.appnhatro.Models.user;
+import com.example.appnhatro.R;
+import com.example.appnhatro.TenantContactActivity;
+import com.example.appnhatro.TenantPostFavourite;
+import com.example.appnhatro.TenantPostList;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -42,27 +41,26 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class TenantAccountActivity extends AppCompatActivity {
-    Button btnPhongdaluu_TA, btnLienhe_TA, btnDangxuat_TA, btnCaidat_TA, btnDieuKhoan_TA, btnBaidang_TA;
+public class AdminAccountActivity extends AppCompatActivity {
+    Button btnDangxuat_AA, btnThaydoimk_AA;
     private user mUsers;
-    TextView tvHoten_TA, tvIdaccount_TA;
-    ImageButton ivbtnBack_TA;
+    TextView tvHoten_AA, tvIdaccount_AA;
+    ImageButton ivbtnBack_AA;
     public static final String NAME = "NAME";
     public static final String ID = "ID";
     public static final String BUNDLE = "BUNDLE";
     public static final String PASS = "PASS";
-    CircleImageView ivAccount_TA;
+    CircleImageView ivAccount_AA;
     String id, pass;
+    public static final String AVATAR = "AVATAR";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tenant_account);
+        setContentView(R.layout.admin_account);
         getPutExtra();
         setControl();
         setEvent();
@@ -78,24 +76,23 @@ public class TenantAccountActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mUsers = snapshot.getValue(user.class);
-                String avt = mUsers.getAvatar();
-                setImage(ivAccount_TA, avt);
+                setImage(ivAccount_AA, mUsers.getAvatar());
                 do {
                     dialog.dismiss();
-                    tvHoten_TA.setText(mUsers.getName());
-                    tvIdaccount_TA.setText(mUsers.getId());
+                    tvHoten_AA.setText(mUsers.getName());
+                    tvIdaccount_AA.setText(mUsers.getId());
 
-                } while (ivAccount_TA.getDrawable().toString().equals(mUsers.getAvatar()));
+                } while (ivAccount_AA.getDrawable().toString().equals(mUsers.getAvatar()));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(TenantAccountActivity.this, "Get list user faild", Toast.LENGTH_LONG).show();
+                Toast.makeText(AdminAccountActivity.this, "Get list user faild", Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    public static final void setImage(CircleImageView imageView, String avatar) {
+    public final void setImage(CircleImageView imageView, String avatar) {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/user/" + avatar);
         try {
             final File file = File.createTempFile("ảnh", ".jpg");
@@ -118,51 +115,27 @@ public class TenantAccountActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
-        btnPhongdaluu_TA.setOnClickListener(click -> {
-            Intent intent = new Intent(TenantAccountActivity.this, TenantPostFavourite.class);
-            startActivity(intent);
-        });
-        btnLienhe_TA.setOnClickListener(click -> {
-            Intent intent = new Intent(TenantAccountActivity.this, TenantContactActivity.class);
-            startActivity(intent);
-        });
-        btnBaidang_TA.setOnClickListener(click -> {
-            Intent intent = new Intent(TenantAccountActivity.this, TenantPostList.class);
-            startActivity(intent);
-        });
-        btnCaidat_TA.setOnClickListener(click -> {
-            Intent intent = new Intent(this, TenantSettingActivity.class);
+        btnThaydoimk_AA.setOnClickListener(click -> {
+            Intent intent = new Intent(AdminAccountActivity.this, AdminPasswordChangeActivity.class);
             intent.putExtra(BUNDLE, byBundle());
             startActivity(intent);
         });
-        btnDangxuat_TA.setOnClickListener(click -> {
-            Intent intent = new Intent(TenantAccountActivity.this, LoginActivity.class);
+        btnDangxuat_AA.setOnClickListener(click -> {
+            Intent intent = new Intent(AdminAccountActivity.this, LoginActivity.class);
             startActivity(intent);
         });
-        btnDieuKhoan_TA.setOnClickListener(click -> {
+        ivbtnBack_AA.setOnClickListener(click->{
+            finish();
         });
-        ivbtnBack_TA.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-    }
-    public void makeText(){
-        Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
     }
 
     private void setControl() {
-        btnPhongdaluu_TA = findViewById(R.id.btnPhongdaluu_TA);
-        btnDangxuat_TA = findViewById(R.id.btnDangxuat_TA);
-        btnLienhe_TA = findViewById(R.id.btnLienhe_TA);
-        btnCaidat_TA = findViewById(R.id.btnCaidat_TA);
-        btnDieuKhoan_TA = findViewById(R.id.btnDieukhoan_TA);
-        btnBaidang_TA = findViewById(R.id.btnBaidang_TA);
-        tvHoten_TA = findViewById(R.id.tvHoten_TA);
-        tvIdaccount_TA = findViewById(R.id.tvIdaccount_TA);
-        ivAccount_TA = findViewById(R.id.ivAccount_TA);
-        ivbtnBack_TA = findViewById(R.id.ivbtnBack_TA);
+        btnDangxuat_AA = findViewById(R.id.btnDangxuat_AA);
+        btnThaydoimk_AA = findViewById(R.id.btnThaydoimk_AA);
+        ivbtnBack_AA = findViewById(R.id.ivbtnBack_AA);
+        tvHoten_AA = findViewById(R.id.tvHoten_AA);
+        tvIdaccount_AA = findViewById(R.id.tvIdaccount_AA);
+        ivAccount_AA = findViewById(R.id.ivAccount_AA);
     }
     private void openDialogNotifyNoButton(final Dialog dialog, int gravity, String noidung, int duongdanlayout) {
         setContentNotify(dialog, gravity, Gravity.BOTTOM, duongdanlayout);
@@ -175,6 +148,7 @@ public class TenantAccountActivity extends AppCompatActivity {
         bundle.putString(NAME, mUsers.getName());
         bundle.putString(ID, mUsers.getId());
         bundle.putString(PASS, mUsers.getPassword());
+        bundle.putString(AVATAR, mUsers.getAvatar());
         return bundle;
     }
     private void getPutExtra(){
