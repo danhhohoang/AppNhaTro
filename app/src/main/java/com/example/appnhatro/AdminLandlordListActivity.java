@@ -133,4 +133,11 @@ public class AdminLandlordListActivity extends AppCompatActivity implements Recy
         intent.putExtra(BUNDLE, bundle);
         startActivity(intent);
     }
+
+    @Override
+    public void onClick(int position) {
+        Intent intent = new Intent(AdminLandlordListActivity.this, com.example.appnhatro.Activity.AdminLandlordListActivity.class);
+        intent.putExtra("idpost",list.get(position).getId());
+        startActivity(intent);
+    }
 }

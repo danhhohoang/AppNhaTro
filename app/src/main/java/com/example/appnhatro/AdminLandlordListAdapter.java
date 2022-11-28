@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Models.PostAndPostFindPeople;
 import com.example.appnhatro.Models.user;
+import com.example.appnhatro.tool.RecylerViewLandLordList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,11 +109,13 @@ public class AdminLandlordListAdapter extends RecyclerView.Adapter<AdminLandlord
     public static class AdminLandlordList extends RecyclerView.ViewHolder{
         TextView ID,sdt,status;
         CircleImageView image;
+        ImageButton imageButton;
         public AdminLandlordList(@NonNull View itemView,RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             ID = itemView.findViewById(R.id.txt_alID);
             sdt = itemView.findViewById(R.id.txt_alSDT);
             status = itemView.findViewById(R.id.txt_alStatus);
+            imageButton = itemView.findViewById(R.id.ib_allClick);
             image = itemView.findViewById(R.id.civDanhsach_AL);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +125,18 @@ public class AdminLandlordListAdapter extends RecyclerView.Adapter<AdminLandlord
                         int pos = getBindingAdapterPosition();
                         if(pos != RecyclerView.NO_POSITION){
                             recyclerViewInterface.onItemClick(pos);
+                        }
+                    }
+                }
+            });
+
+            imageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(recyclerViewInterface != null){
+                        int pos = getBindingAdapterPosition();
+                        if(pos != RecyclerView.NO_POSITION){
+                            recyclerViewInterface.onClick(pos);
                         }
                     }
                 }
