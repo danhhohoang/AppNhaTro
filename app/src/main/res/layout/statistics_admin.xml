@@ -60,8 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/sp_saUser"
-                android:layout_weight="6"
-                android:background="@drawable/custom_background_barchart" />
+                android:layout_weight="6"                android:background="@drawable/custom_background_barchart" />
             <Button
                 android:id="@+id/btn_saFilter"
                 android:layout_width="match_parent"
