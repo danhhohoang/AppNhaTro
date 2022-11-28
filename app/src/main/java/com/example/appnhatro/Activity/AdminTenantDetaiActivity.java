@@ -39,7 +39,8 @@ public class AdminTenantDetaiActivity extends AppCompatActivity {
             edtEmail,
             edtPassword;
     TextView txtStatus;
-    ImageView imgAvatar;
+    ImageView imgback,
+            imgAvatar;
     Button btnLock,
             btnEdit,
             btnDelete;
@@ -53,11 +54,25 @@ public class AdminTenantDetaiActivity extends AppCompatActivity {
         setEvent();
         Intent intent = getIntent();
         idUser = intent.getStringExtra("idUser");
-        fireBaseTenantList.getSingleUser(AdminTenantDetaiActivity.this, userArrayList, idUser);
+
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fireBaseTenantList.getSingleUser(AdminTenantDetaiActivity.this, userArrayList, idUser);
+//
+    }
+
     private void setEvent() {
+        imgback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         //khóa Account
         btnLock.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +148,7 @@ public class AdminTenantDetaiActivity extends AppCompatActivity {
                             } else {
                                 _user.setStatus("2");
                             }
+                            _user.setId(idUser);
                             _user.setAvatar(idUser);
                             _user.setName(edtName.getText().toString());
                             _user.setCitizenNumber(edtCitizenNumber.getText().toString());
@@ -226,6 +242,7 @@ public class AdminTenantDetaiActivity extends AppCompatActivity {
         edtEmail = findViewById(R.id.admin_tenant_details_layout_email);
         edtPassword = findViewById(R.id.admin_tenant_details_layout_password);
         imgAvatar = findViewById(R.id.admin_tenant_details_layout_avatar);
+        imgback = findViewById(R.id.admin_tenant_details_layout_back);
         txtStatus = findViewById(R.id.admin_tenant_details_layout_status);
     }
 

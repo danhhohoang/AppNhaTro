@@ -30,8 +30,9 @@ public class AdminTenantListActivity extends AppCompatActivity {
     SearchView searchView;
     RecyclerView recyclerView;
     CardView cardView;
-    ImageView btnBack;
-    String TAG = "minh";
+    ImageView refresh,
+            btnBack;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,8 +56,10 @@ public class AdminTenantListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        appearanceList.addAll(userArrayList);
-        adapter = new TenantListAdapter(this, R.layout.item_admin_tenant_list, appearanceList);
+//        appearanceList.addAll(userArrayList);
+        searchView.clearFocus();
+        searchView.setQuery("",false);
+        adapter = new TenantListAdapter(this, R.layout.item_admin_tenant_list, userArrayList);
 
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -98,9 +101,17 @@ public class AdminTenantListActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recreate();
+            }
+        });
     }
 
     private void setControl() {
+        refresh = findViewById(R.id.img_admin_tenant_list_refresh);
         searchView = findViewById(R.id.search_bar_admin_tenant_list);
         recyclerView = findViewById(R.id.recycler_admin_tenant_list);
         cardView = findViewById(R.id.cardView_item_admin_tenant_list);
