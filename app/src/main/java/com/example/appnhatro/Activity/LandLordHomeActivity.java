@@ -48,7 +48,7 @@ public class LandLordHomeActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     SharedPreferences sharedPreferences;
-    int fee1, fee2, fee3, fee4, fee5, fee6, fee7, fee8, fee9, fee10, fee11, fee12;
+    int fee1, fee2, fee3, fee4, fee5, fee6, fee7, fee8, fee9, fee10, fee11, fee12 = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -241,76 +241,76 @@ public class LandLordHomeActivity extends AppCompatActivity {
                         String[] parse = transactionModel.getDate().split(" ");
                         String month;
                         month = parse[0];
-                        if (month.equals("JAN")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("1")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m1 = 0;
-                            m1 += price - price * 0.5;
+                            m1 += price;
                             fee1 = m1;
                         }
-                        if (month.equals("FEB")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("2")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m2 = 0;
-                            m2 += price - price * 0.5;
+                            m2 += price;
                             fee2 = m2;
                         }
-                        if (month.equals("MAR")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("3")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m3 = 0;
-                            m3 += price - price * 0.5;
+                            m3 += price;
                             fee3 = m3;
                         }
-                        if (month.equals("APR")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("4")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m4 = 0;
-                            m4 += price - price * 0.5;
+                            m4 += price;
                             fee4 = m4;
                         }
-                        if (month.equals("MAY")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("5")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m5 = 0;
-                            m5 += price - price * 0.5;
+                            m5 += price;
                             fee5 = m5;
                         }
-                        if (month.equals("JUN")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("6")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m6 = 0;
-                            m6 += price - price * 0.5;
+                            m6 += price;
                             fee6 = m6;
                         }
-                        if (month.equals("JUL")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("7")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m7 = 0;
-                            m7 += price - price * 0.5;
+                            m7 += price;
                             fee7 = m7;
                         }
-                        if (month.equals("AUG")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("8")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m8 = 0;
-                            m8 += price - price * 0.5;
+                            m8 += price;
                             fee8 = m8;
                         }
-                        if (month.equals("SEP")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("9")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m9 = 0;
-                            m9 += price - price * 0.5;
+                            m9 += price;
                             fee9 = m9;
                         }
-                        if (month.equals("OCT")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("10")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m10 = 0;
-                            m10 += price - price * 0.5;
+                            m10 += price;
                             fee10 = m10;
                         }
-                        if (month.equals("NOV")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("11")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m11 = 0;
-                            m11 += price - price * 0.5;
+                            m11 += price;
                             fee11 = m11;
                         }
-                        if (month.equals("DEC")) {
-                            int price = Integer.valueOf(transactionModel.getTotal());
+                        if (month.equals("12")) {
+                            int price = Integer.valueOf(transactionModel.getDeposits());
                             int m12 = 0;
-                            m12 += price - price * 0.5;
+                            m12 += price;
                             fee12 = m12;
                         }
                     }
