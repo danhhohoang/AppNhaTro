@@ -35,7 +35,7 @@ public class LandLordUpdatePostActivity extends AppCompatActivity {
     private String idPost = "";
     private String idUser = "";
     private ConverImage converImage = new ConverImage();
-    private Spinner spnDistrict;
+    private Spinner spnDistrict,spnTinhTrang;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -55,6 +55,10 @@ public class LandLordUpdatePostActivity extends AppCompatActivity {
         ArrayAdapter districAdapter = new ArrayAdapter<String>(this, R.layout.text_spinner, getResources().getStringArray(R.array.string_spn_districts));
         districAdapter.setDropDownViewResource(R.layout.text_spinner);
         spnDistrict.setAdapter(districAdapter);
+        spnTinhTrang = findViewById(R.id.spn_TinhTrangUpdateNewPostLandLord);
+        ArrayAdapter statusAdapter = new ArrayAdapter<String>(this, R.layout.text_spinner, getResources().getStringArray(R.array.string_spn_status));
+        statusAdapter.setDropDownViewResource(R.layout.text_spinner);
+        spnTinhTrang.setAdapter(statusAdapter);
         txtTenPhong = findViewById(R.id.txtTenPhongLandLordUpdatePost);
         txtDiaChi = findViewById(R.id.txtDiaChiLandLordUpdatePost);
         txtDienTich = findViewById(R.id.txtDienTichUpdatePostLandLord);
@@ -84,10 +88,10 @@ public class LandLordUpdatePostActivity extends AppCompatActivity {
                     txtMoTa.setError("Vui lòng điền Mô tả");
                 }
                 if (uri[0] == null && uri[1] == null && uri[2] == null) {
-                    Post post = new Post(idPost, idUser, txtMoTa.getText() + "", txtDiaChi.getText() + "", spnDistrict.getSelectedItem().toString(), txtGia.getText() + "", txtDienTich.getText() + "", txtTenPhong.getText() + "", idPost + ".jpg", "Còn phòng", idPost + "_1.jpg", idPost + "_2.jpg");
+                    Post post = new Post(idPost, idUser, txtMoTa.getText() + "", txtDiaChi.getText() + "", spnDistrict.getSelectedItem().toString(), txtGia.getText() + "", txtDienTich.getText() + "", txtTenPhong.getText() + "", idPost + ".jpg", spnTinhTrang.getSelectedItem().toString(), idPost + "_1.jpg", idPost + "_2.jpg");
                     fireBaseLandLord.addUpdatePostNoImage(LandLordUpdatePostActivity.this, post);
                 } else {
-                    Post post = new Post(idPost, idUser, txtMoTa.getText() + "", txtDiaChi.getText() + "", spnDistrict.getSelectedItem().toString(), txtGia.getText() + "", txtDienTich.getText() + "", txtTenPhong.getText() + "", idPost + ".jpg", "Còn phòng", idPost + "_1.jpg", idPost + "_2.jpg");
+                    Post post = new Post(idPost, idUser, txtMoTa.getText() + "", txtDiaChi.getText() + "", spnDistrict.getSelectedItem().toString(), txtGia.getText() + "", txtDienTich.getText() + "", txtTenPhong.getText() + "", idPost + ".jpg", spnTinhTrang.getSelectedItem().toString(), idPost + "_1.jpg", idPost + "_2.jpg");
                     fireBaseLandLord.addUpdatePost(LandLordUpdatePostActivity.this, post, uri);
                 }
             }
@@ -139,13 +143,18 @@ public class LandLordUpdatePostActivity extends AppCompatActivity {
         imgHinh1.setImageBitmap(bitmap);
     }
 
-    public void setDistrict(String District) {
+    public void setDistrictAndStatus(String District,String status) {
         String[] listQuan = getResources().getStringArray(R.array.string_spn_districts);
         for (int i = 0; i < listQuan.length; i++) {
             if (listQuan[i].equals(District)) {
                 spnDistrict.setSelection(i);
                 break;
             }
+        }
+        if(status.equals("Còn phòng")){
+            spnTinhTrang.setSelection(0);
+        }else {
+            spnTinhTrang.setSelection(1);
         }
     }
 

@@ -13,8 +13,10 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appnhatro.Models.USER_ROLE;
 import com.example.appnhatro.Models.UserRoleModel;
 import com.example.appnhatro.Models.user;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,23 +26,17 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminLandlordListActivity extends AppCompatActivity implements RecyclerViewInterface {
+public class AdminLandlordListActivity extends AppCompatActivity {
     RecyclerView al;
     AdminLandlordListAdapter adminLandlordListAdapter;
     DatabaseReference databaseReferenceUser;
     DatabaseReference databaseReferenceUserRole;
-    public static ArrayList<user> list = new ArrayList<>();
+    private ArrayList<user> list = new ArrayList<>();
     SearchView sv_all;
     Button btnAddLandlord_ALL;
+
     public static final String ID = "ID";
-    public static final String CMND = "CMND";
-    public static final String EMAIL = "EMAIL";
-    public static final String NAME = "NAME";
-    public static final String PASSWORD = "PASSWORD";
-    public static final String PHONE = "PHONE";
     public static final String BUNDLE = "BUNDLE";
-    public static final String AVATAR = "AVATAR";
-    public static final String STATUS = "STATUS";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,12 +46,16 @@ public class AdminLandlordListActivity extends AppCompatActivity implements Recy
         setEvent();
     }
 
-
-    public void setEvent() {
+    public void onRead(String keywords){
         al.setHasFixedSize(true);
-        adminLandlordListAdapter = new AdminLandlordListAdapter(this,this);
+        adminLandlordListAdapter = new AdminLandlordListAdapter(list, new RecyclerViewInterfaceAdminLandlord() {
+            @Override
+            public void onItemClickLandlord(user User) {
+                onItemClick(User);
+            }
+        });
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         al.setLayoutManager(linearLayoutManager);
 
         adminLandlordListAdapter.setData(list);
@@ -63,23 +63,59 @@ public class AdminLandlordListActivity extends AppCompatActivity implements Recy
 
         databaseReferenceUser = FirebaseDatabase.getInstance().getReference("user");
         databaseReferenceUserRole = FirebaseDatabase.getInstance().getReference("User_Role");
-        databaseReferenceUserRole.addValueEventListener(new ValueEventListener() {
+        databaseReferenceUserRole.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                list.clear();
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    UserRoleModel user_role = dataSnapshot.getValue(UserRoleModel.class);
-                    if (user_role.getId_role().equals("1")){
-                        databaseReferenceUser.addValueEventListener(new ValueEventListener() {
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                USER_ROLE user_role = snapshot.getValue(USER_ROLE.class);
+                if (user_role != null) {
+                    if (user_role.getId_role().equals("2")) {
+                        databaseReferenceUser.addChildEventListener(new ChildEventListener() {
                             @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                    user User = dataSnapshot.getValue(user.class);
-                                    if (User.getId().equals(user_role.getId_user())){
-                                        list.add(User);
+                            public void onChildAdded(@NonNull DataSnapshot snapshot1, @Nullable String previousChildName) {
+                                user User = snapshot1.getValue(user.class);
+                                if (User != null) {
+                                    if (User.getId().equals(user_role.getId_user())) {
+                                        if(User.getId().toLowerCase().contains(keywords.toLowerCase())){
+                                            list.add(0,User);
+                                        }
                                     }
                                 }
                                 adminLandlordListAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                                user User = snapshot.getValue(user.class);
+                                if (User == null || list == null || list.isEmpty()) {
+                                    return;
+                                }
+                                for (int i = 0; i < list.size(); i++) {
+                                    if (User.getId() == list.get(i).getId()) {
+                                        list.set(i, User);
+                                        adminLandlordListAdapter.notifyItemChanged(i);
+                                        break;
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                            }
+
+                            @Override
+                            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                                user User = snapshot.getValue(user.class);
+                                if (User == null || list == null || list.isEmpty()) {
+                                    return;
+                                }
+                                for (int i = 0; i < list.size(); i++) {
+                                    if (User.getId() == list.get(i).getId()) {
+                                        list.set(i, User);
+                                        adminLandlordListAdapter.notifyDataSetChanged();
+                                        break;
+                                    }
+                                }
                             }
 
                             @Override
@@ -92,23 +128,46 @@ public class AdminLandlordListActivity extends AppCompatActivity implements Recy
             }
 
             @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
-
+    }
+    public void setEvent() {
+        onRead("");
         sv_all.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                adminLandlordListAdapter.getFilter().filter(s);
+                list.clear();
+                onRead(s);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                adminLandlordListAdapter.getFilter().filter(s);
+                list.clear();
+                onRead(s);
                 return false;
             }
+        });
+        btnAddLandlord_ALL.setOnClickListener(click->{
+            Intent intent = new Intent(AdminLandlordListActivity.this,AdminLandlordAddActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -118,18 +177,12 @@ public class AdminLandlordListActivity extends AppCompatActivity implements Recy
         sv_all = findViewById(R.id.svDSChuTro);
     }
 
-    @Override
-    public void onItemClick(int position) {
+    public void onItemClick(user User) {
         Intent intent = new Intent(this, AdminLandlordDetailsActivity.class);
+        String status = User.getStatus();
         Bundle bundle = new Bundle();
-        bundle.putString(AVATAR, list.get(position).getAvatar());
-        bundle.putString(ID, list.get(position).getId());
-        bundle.putString(NAME, list.get(position).getName());
-        bundle.putString(CMND, list.get(position).getCitizenNumber());
-        bundle.putString(PHONE, list.get(position).getPhone());
-        bundle.putString(EMAIL, list.get(position).getEmail());
-        bundle.putString(PASSWORD, list.get(position).getPassword());
-        bundle.putString(STATUS, list.get(position).getStatus());
+        bundle.putSerializable("OBJECT", User);
+        intent.putExtra("status",status);
         intent.putExtra(BUNDLE, bundle);
         startActivity(intent);
     }

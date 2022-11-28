@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.appnhatro.Activity.TenantViewTermAndPolicyActivity;
 import com.example.appnhatro.Activity.TermAndSerciveActivity;
 import com.example.appnhatro.Models.TermAndPolicy;
 import com.google.firebase.database.DataSnapshot;
@@ -40,7 +41,24 @@ public class FireBaseTermAndService {
 
             }
         });
+    }
+    public void getTermAndServiceForTenant(Activity activity,ArrayList<TermAndPolicy> termAndPolicyList) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("TermAndPolicy").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                TermAndPolicy finalTermAndPolicy = snapshot.getValue(TermAndPolicy.class);
+                termAndPolicyList.add(finalTermAndPolicy);
+                Log.d("WATCH HERE", "onDataChange: " + termAndPolicyList.get(0).getContent());
+                ((TenantViewTermAndPolicyActivity) activity).doSomeThing();
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void setTermAndServiceToDB(TermAndPolicy finalTermAndPolicy){

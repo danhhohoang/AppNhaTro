@@ -6,6 +6,9 @@ import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.appnhatro.Activity.AdminHomeActivity;
+import com.example.appnhatro.Activity.LandLordHomeActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override

@@ -8,8 +8,9 @@ public class ReportModels {
     private String TenNguoiGui;
     private String title;
     private String content;
+    private String status;
 
-    public ReportModels(String id, String post_Name, String ID_NguoiDang, String ID_BaiDang, String tenNguoiGui, String title, String content) {
+    public ReportModels(String id, String post_Name, String ID_NguoiDang, String ID_BaiDang, String tenNguoiGui, String title, String content, String status) {
         this.id = id;
         Post_Name = post_Name;
         this.ID_NguoiDang = ID_NguoiDang;
@@ -17,6 +18,7 @@ public class ReportModels {
         TenNguoiGui = tenNguoiGui;
         this.title = title;
         this.content = content;
+        this.status = status;
     }
 
     public ReportModels() {
@@ -76,5 +78,13 @@ public class ReportModels {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

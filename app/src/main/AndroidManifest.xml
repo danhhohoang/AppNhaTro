@@ -119,6 +119,12 @@
         <activity
             android:name=".Activity.AdminHomeActivity"
             android:exported="true" />
+        <activity android:name=".Activity.StatisticalLandLordActivity"
+            android:exported="true"/>
+        <activity android:name=".Activity.DetailPostUpdateList"
+            android:exported="true"/>
+        <activity android:name=".Activity.Admin_notification_Activity"
+            android:exported="true"/>
     </application>
 
 </manifest>

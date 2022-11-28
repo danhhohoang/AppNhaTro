@@ -1,7 +1,6 @@
 package com.example.appnhatro.Activity;
 
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,7 +10,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appnhatro.Firebase.FireBaseThueTro;
-import com.example.appnhatro.Models.DatLichModels;
 import com.example.appnhatro.Models.Notificationbooking;
 import com.example.appnhatro.R;
 import com.google.firebase.database.DatabaseReference;
@@ -49,7 +47,7 @@ public class Detail_Notification_Landlor extends AppCompatActivity {
                 a.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Notificationbooking notificationLandlor = new Notificationbooking(idUser, "KH01", name, Phone, time, date, note, id, getID, "Từ chối đặt lịch");
+                        Notificationbooking notificationLandlor = new Notificationbooking(idUser, "KH01", name, Phone, time, date, note, id, getID, "Từ chối đặt lịch", "");
                         addToFavorite(notificationLandlor);
                         finish();
                     }
@@ -73,7 +71,7 @@ public class Detail_Notification_Landlor extends AppCompatActivity {
                 b.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Notificationbooking notificationLandlor = new Notificationbooking(idUser, "KH01", name, Phone, time, date, note, id, getID, "Đồng ý đặt lịch");
+                        Notificationbooking notificationLandlor = new Notificationbooking(idUser, "KH01", name, Phone, time, date, note, id, getID, "Đồng ý đặt lịch", "");
                         addToFavorite(notificationLandlor);
                         finish();
                     }
@@ -98,13 +96,7 @@ public class Detail_Notification_Landlor extends AppCompatActivity {
         Huy = findViewById(R.id.btn_huy);
         DongY = findViewById(R.id.btn_dY);
     }
-    public void setData(DatLichModels datLichModels, Bitmap bitmap){
-        TenNgDatP.setText(datLichModels.getName());
-        SDT.setText(datLichModels.getPhone());
-        Time.setText(datLichModels.getTime());
-        Date.setText(datLichModels.getDate());
-        Notes.setText(datLichModels.getNotes());
-    }
+
     private void addToFavorite(Notificationbooking post) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Notification");

@@ -58,10 +58,10 @@ public class RepportActivity extends AppCompatActivity {
                 a.setPositiveButton("Gửi", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
                         ReportModels post = new ReportModels(getIdPost, TenBaiDang.getText().toString(), IDnguoiDang.getText().toString(),
-                                IDpost.getText().toString(), TenNguoiGui.getText().toString(), TieuDe.getText().toString(), NoiDung.getText().toString());
+                                IDpost.getText().toString(), TenNguoiGui.getText().toString(), TieuDe.getText().toString(), NoiDung.getText().toString(), "1");
                         addToFavorite(post);
+                        finish();
                     }
                 });
                 a.setNegativeButton("Không gửi", new DialogInterface.OnClickListener() {
