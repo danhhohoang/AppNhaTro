@@ -4,4 +4,5 @@ import com.example.appnhatro.Models.user;
 
 public interface RecyclerViewInterfaceAdminLandlord {
     void onItemClickLandlord(user User);
+    void onClick(int position);
 }
