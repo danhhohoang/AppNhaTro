@@ -9,8 +9,11 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,7 +55,7 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
     private UserRoleModel userRoles;
     private ArrayList<user> arrUser;
     private ArrayList<UserRoleModel> arrURole;
-    Dialog progressDialog;
+    boolean passwordVisible;
     Uri imgUri = Uri.EMPTY;
     Date now;
     SimpleDateFormat formatter;
@@ -87,6 +90,14 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
                 finish();
             }
         });
+        txtMatkhau_ALA.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                showHidePass(motionEvent,txtMatkhau_ALA);
+                return false;
+            }
+        });
+
     }
 
     public void getIDUser() {
@@ -158,7 +169,28 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
             crivAccount_ALA.setImageURI(imgUri);
         }
     }
-
+    public boolean showHidePass(MotionEvent motionEvent, EditText edittext) {
+        final int Right = 2;
+        if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+            if (motionEvent.getRawX() >= edittext.getRight() - edittext.getCompoundDrawables()[Right].getBounds().width()) {
+                int selection = edittext.getSelectionEnd();
+                if (passwordVisible) {
+                    //set drawable image
+                    edittext.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.eye_hide, 0);
+                    //for hide password
+                    edittext.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    passwordVisible = false;
+                } else {
+                    edittext.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.eye_open, 0);
+                    edittext.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    passwordVisible = true;
+                }
+                edittext.setSelection(selection);
+                return true;
+            }
+        }
+        return false;
+    }
     private void addUserRole(String idURole, String idUser) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference userRef = database.getReference("User_Role/" + idURole);
@@ -185,7 +217,7 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
         userRef.setValue(users, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                addUserRole(IdURole, IdAuto);
+                addUserRole(IdURole, id);
             }
         });
     }
@@ -304,7 +336,6 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
         Pattern specialString = Pattern.compile("^.*[a-zA-Z]+.*$");
         Pattern specialStringNumber = Pattern.compile("^.*[0-9]+.*$");
         if (txtHoten_ALA.getText().toString().replaceAll(" ", "").length() == 0) {
-//            openDiglogNotify(Gravity.CENTER, "Họ tên không được phép để trống", R.layout.layout_dialog_notify);
             txtHoten_ALA.setError("Họ tên không được phép để trống");
         } else if (txtCMND_ALA.getText().toString().replaceAll(" ", "").length() == 0) {
             txtCMND_ALA.setError("CMND không được phép để trống");
@@ -331,7 +362,7 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
         } else if (txtEmail_ALA.getText().toString().contains(" ")) {
             txtEmail_ALA.setError("Email không được phép chứa khoảng trắng");
         }else if (txtEmail_ALA.getText().toString().length() < 11) {
-            txtSdt_ALA.setError("Email tối thiếu là 11 kí tự ");
+            txtEmail_ALA.setError("Email tối thiếu là 11 kí tự ");
         } else if (txtMatkhau_ALA.getText().toString().length() < 6) {
             txtMatkhau_ALA.setError("Mật khẩu tối thiếu là 6 kí tự ");
         } else {

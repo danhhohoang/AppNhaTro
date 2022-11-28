@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/dialog_center_white"
+    android:orientation="vertical"
+    android:layout_margin="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_center_white_topleftright"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="CHỌN LÝ DO"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+        <Spinner
+            android:id="@+id/spnRole"
+            android:layout_width="match_parent"
+            android:entries="@array/spiner_lydo"
+            android:layout_height="40dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnLeft_SelectRole"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="16dp"
+            android:text="Đóng"
+            android:background="@drawable/bg_buttonleft_notify"
+            app:backgroundTint="@null"
+            android:textColor="@color/black"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btnRight_SelectRole"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="16dp"
+            android:text="Send"
+            android:textColor="@color/black"
+            android:background="@drawable/bg_buttonright_notify"
+            app:backgroundTint="@null"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+</LinearLayout>
