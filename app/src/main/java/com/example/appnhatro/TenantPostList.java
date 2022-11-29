@@ -65,7 +65,6 @@ public class TenantPostList extends AppCompatActivity implements RecyclerCRUD{
         sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
         getID = sharedPreferences.getString("idUser", "");
 
-
         rc = findViewById(R.id.rcv_tpl);
         rc.setHasFixedSize(true);
         rc.setLayoutManager(new LinearLayoutManager(this));
@@ -101,7 +100,7 @@ public class TenantPostList extends AppCompatActivity implements RecyclerCRUD{
     }
 
     public void onRead(String keyword){
-        databaseReference = FirebaseDatabase.getInstance().getReference("Post");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Post_Oghep");
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
