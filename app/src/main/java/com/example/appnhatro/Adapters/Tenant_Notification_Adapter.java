@@ -1,6 +1,7 @@
 package com.example.appnhatro.Adapters;
 
 import android.app.Activity;
+import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -12,10 +13,22 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appnhatro.Models.BitMap;
 import com.example.appnhatro.Models.Notificationbooking;
+import com.example.appnhatro.Models.user;
 import com.example.appnhatro.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-import java.text.DecimalFormat;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Tenant_Notification_Adapter extends RecyclerView.Adapter<Tenant_Notification_Adapter.TenantNotification> implements Filterable {
@@ -39,6 +52,7 @@ public class Tenant_Notification_Adapter extends RecyclerView.Adapter<Tenant_Not
         CardView cardViewItem = (CardView) context.getLayoutInflater().
                 inflate(viewType, parent, false);
         return new TenantNotification(cardViewItem);
+
     }
 
     @Override
@@ -47,12 +61,13 @@ public class Tenant_Notification_Adapter extends RecyclerView.Adapter<Tenant_Not
         if (notificationbooking == null){
             return;
         }
+
         holder.name.setText(notificationbooking.getName() );
-        DecimalFormat formatter = new DecimalFormat("#,###,###");
-        holder.idPost.setText(notificationbooking.getIdNotifi());
+        holder.time.setText(notificationbooking.getTime());
         holder.date.setText(notificationbooking.getDate());
         holder.status.setText(notificationbooking.getStatus());
-
+        holder.housename.setText(notificationbooking.getHousename());
+        holder.notes.setText(notificationbooking.getNotes());
         final int pos = position;
         holder.onClickListener= new View.OnClickListener() {
             @Override
@@ -62,6 +77,35 @@ public class Tenant_Notification_Adapter extends RecyclerView.Adapter<Tenant_Not
                 }
             }
         };
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("user").child(notificationbooking.getIdLandlor()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                user _user = snapshot.getValue(user.class);
+                BitMap bitMap2 = new BitMap(_user.getAvatar(), null);
+                StorageReference storageReference2 = FirebaseStorage.getInstance().getReference().child("images/user/" + bitMap2.getTenHinh());
+                try {
+                    final File file2 = File.createTempFile(bitMap2.getTenHinh(), "jpg");
+                    storageReference2.getFile(file2).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            bitMap2.setHinh(BitmapFactory.decodeFile(file2.getAbsolutePath()));
+                            holder.picture.setImageBitmap(bitMap2.getHinh());
+                        }
+                    });
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -107,22 +151,24 @@ public class Tenant_Notification_Adapter extends RecyclerView.Adapter<Tenant_Not
         };
     }
 
-
     public static class TenantNotification extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView idUser, name, phone, time, date, notes, id, idPost, status;
+        TextView idUser, name, phone, time, date, notes, id, idPost, status, housename;
         ImageView picture;
         View.OnClickListener onClickListener;
         CardView item;
 
         public TenantNotification(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.edtname);
-            idPost = itemView.findViewById(R.id.edtMABD);
-            date = itemView.findViewById(R.id.edtTD);
+            housename = itemView.findViewById(R.id.edtnamehouse);
+            name = itemView.findViewById(R.id.edtten);
+            time = itemView.findViewById(R.id.edtgio);
+            date = itemView.findViewById(R.id.edttime);
             status = itemView.findViewById(R.id.edtStatus);
             picture = itemView.findViewById(R.id.img_AVT);
+            notes =itemView.findViewById(R.id.edtnote);
             item = itemView.findViewById(R.id.carnotifi);
             item.setOnClickListener(this);
+
         }
 
 
@@ -133,6 +179,7 @@ public class Tenant_Notification_Adapter extends RecyclerView.Adapter<Tenant_Not
             }
         }
     }
+
     public interface OnItemClickListener {
         void onItemClickListener(int position, View view);
     }

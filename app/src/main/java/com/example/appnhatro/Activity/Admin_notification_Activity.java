@@ -88,7 +88,7 @@ public class Admin_notification_Activity extends AppCompatActivity implements Ad
 
     @Override
     public void onclick(int potision) {
-        NotifiAdminmodels notifiAdminmodels = new NotifiAdminmodels(getID, reportModels.get(potision).getTenNguoiGui(), reportModels.get(potision).getTitle(), IDat, "Đã Tiếp Nhận Phiếu Tố Cáo", reportModels.get(potision).getPost_Name());
+        NotifiAdminmodels notifiAdminmodels = new NotifiAdminmodels(getID, reportModels.get(potision).getTenNguoiGui(), reportModels.get(potision).getTitle(), IDat, "Đã Tiếp Nhận Phiếu Tố Cáo", reportModels.get(potision).getPost_Name(),"KH01");
         DatabaseReference databaseReference;
         databaseReference = FirebaseDatabase.getInstance().getReference("Notify");
         databaseReference.child(IDat).setValue(notifiAdminmodels);

@@ -2,6 +2,7 @@ package com.example.appnhatro;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,14 +15,25 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appnhatro.Interface.Admininterface;
 import com.example.appnhatro.Adapters.Landlord_Notification_Adapter;
 import com.example.appnhatro.Firebase.FireBaseThueTro;
+import com.example.appnhatro.Interface.Admininterface;
+import com.example.appnhatro.Models.BitMap;
 import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.Models.ReportModels;
+import com.example.appnhatro.Models.user;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -63,22 +75,6 @@ public class Admin_notification_adapter  extends RecyclerView.Adapter<Admin_noti
         holder.MaBaiDang.setText(reportModels.getID_BaiDang());
         holder.tieude.setText(reportModels.getTitle());
         holder.name_house.setText(reportModels.getPost_Name());
-
-//        BitMap bitMap = new BitMap(datLichModels.getImage(),null);
-//        StorageReference storageReference = FirebaseStorage.getInstance().getReference(bitMap.getTenHinh());
-//        try {
-//            final File file= File.createTempFile(bitMap.getTenHinh().substring(0,bitMap.getTenHinh().length()-4),"jpg");
-//            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-//                @Override
-//                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                    bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
-//                    holder.picture.setImageBitmap(bitMap.getHinh());
-//                }
-//            });
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        //Event processing
         final int pos = position;
         holder.onClickListener= new View.OnClickListener() {
             @Override
@@ -88,7 +84,33 @@ public class Admin_notification_adapter  extends RecyclerView.Adapter<Admin_noti
                 }
             }
         };
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("user").child(reportModels.getIdUser()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                user _user = snapshot.getValue(user.class);
+                BitMap bitMap = new BitMap(_user.getAvatar(), null);
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/user/" + bitMap.getTenHinh());
+           try {
+               final File file = File.createTempFile(bitMap.getTenHinh(), "jpg");
+               storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                   @Override
+                   public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                       bitMap.setHinh(BitmapFactory.decodeFile(file.getAbsolutePath()));
+                       holder.picture.setImageBitmap(bitMap.getHinh());
+                   }
+               });
+           }catch (IOException e){
+               e.printStackTrace();
+           }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -149,7 +171,7 @@ public class Admin_notification_adapter  extends RecyclerView.Adapter<Admin_noti
             MaBaiDang = itemView.findViewById(R.id.edtMABD);
             tieude = itemView.findViewById(R.id.edtTD);
             name_house = itemView.findViewById(R.id.edtStatus);
-//          picture = itemView.findViewById(R.id.iv_tprPicture);
+            picture = itemView.findViewById(R.id.imgAVT);
             Dy  = itemView.findViewById(R.id.btn_danhan);
             item = itemView.findViewById(R.id.admincard);
             item.setOnClickListener(this);

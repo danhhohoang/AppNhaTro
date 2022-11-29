@@ -7,14 +7,19 @@ public class NotifiAdminmodels {
     private String idnotifi;
     private String status;
     private String house_name;
+    private String idAdmin;
 
-    public NotifiAdminmodels(String iduser, String name, String note, String idnotifi, String status, String house_name) {
+    public NotifiAdminmodels() {
+    }
+
+    public NotifiAdminmodels(String iduser, String name, String note, String idnotifi, String status, String house_name, String idAdmin) {
         this.iduser = iduser;
         this.name = name;
         this.note = note;
         this.idnotifi = idnotifi;
         this.status = status;
         this.house_name = house_name;
+        this.idAdmin = idAdmin;
     }
 
     public NotifiAdminmodels(String iduser) {
@@ -67,5 +72,13 @@ public class NotifiAdminmodels {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getIdAdmin() {
+        return idAdmin;
+    }
+
+    public void setIdAdmin(String idAdmin) {
+        this.idAdmin = idAdmin;
     }
 }

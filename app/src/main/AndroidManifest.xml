@@ -126,8 +126,8 @@
             android:exported="true"/>
         <activity android:name=".Activity.DetailPostUpdateList"
             android:exported="true"/>
-        <activity android:name=".Activity.Admin_notification_Activity"
-            android:exported="true"/>
+<!--        <activity android:name=".Activity.Admin_notification_Activity"-->
+<!--            android:exported="true"/>-->
         <activity android:name=".Activity.LostPostOfLandLord"
             android:exported="true"/>
         <activity android:name=".Activity.HistoryTransactionActivity"
@@ -137,6 +137,14 @@
         <activity android:name=".Activity.StatisticalAdminActivity"
             android:exported="true"/>
         <activity android:name=".Activity.AdminHistoryTransaction"
+            android:exported="true"/>
+        <activity android:name=".Activity.Tenant_report_notifi_activity"
+            android:exported="true"/>
+        <activity android:name=".Activity.TenantViewTermAndPolicyActivity"
+            android:exported="true"/>
+        <activity android:name=".Activity.UpdateStatusLandlordActivity"
+            android:exported="true"/>
+        <activity android:name=".Activity.LandlordWallActivity"
             android:exported="true"/>
     </application>
 
