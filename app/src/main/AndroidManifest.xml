@@ -97,7 +97,8 @@
         <activity android:name=".LandlordAccountActivity" />
         <activity android:name=".LandlordSettingProfileActivity" /> <!-- Admin -->
         <activity android:name=".AdminLandlordAddActivity" />
-        <activity android:name=".AdminLandlordListActivity" />
+        <activity android:name=".AdminLandlordListActivity"
+            android:exported="true"/>
         <activity android:name=".Activity.AdminPasswordChangeActivity" />
         <activity android:name=".Activity.AdminAccountActivity" />
         <activity
@@ -129,6 +130,7 @@
             android:exported="true"/>
         <activity android:name=".Activity.AdminTenantListActivity"/>
         <activity android:name=".Activity.AdminTenantDetaiActivity"/>
+
     </application>
 
 </manifest>
