@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appnhatro.Activity.StatisticalAdminActivity;
+import com.example.appnhatro.Activity.TenantViewTermAndPolicyActivity;
 import com.example.appnhatro.Models.TransactionModel;
 import com.example.appnhatro.Models.user;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -153,6 +154,8 @@ public class LandlordAccountActivity extends AppCompatActivity {
             startActivity(intent);
         });
         btnDieuKhoan_LA.setOnClickListener(click -> {
+            Intent intent = new Intent(LandlordAccountActivity.this, TenantViewTermAndPolicyActivity.class);
+            startActivity(intent);
         });
         ivbtnBack_LA.setOnClickListener(click->{
             finish();

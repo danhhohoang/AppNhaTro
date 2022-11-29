@@ -53,8 +53,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:paddingBottom="2dp"
-                        android:drawableLeft="@drawable/ic_todolist"
-                        android:text="  Danh sách chủ trọ"
+                        android:text="Danh sách chủ trọ"
                         android:textSize="10pt"
                         android:textColor="@color/black" />
                 </LinearLayout>
@@ -99,8 +98,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:paddingBottom="2dp"
-                        android:drawableLeft="@drawable/ic_profile"
-                        android:text="  Account"
+                        android:text="Account"
                         android:textSize="10pt"
                         android:textColor="@color/black" />
                 </LinearLayout>
