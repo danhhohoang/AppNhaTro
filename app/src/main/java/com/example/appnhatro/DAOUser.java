@@ -13,16 +13,4 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 public class DAOUser {
-    private DatabaseReference databaseReference;
-    public DAOUser(){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("user/"+UserSignUp.getIdUser());
-    }
-    public Task<Void> add(user u){
-        return databaseReference.push().setValue(u);
-    }
-
-    public Task<Void> update(String key, HashMap<String,Object> hashMap){
-        return databaseReference.child(key).updateChildren(hashMap);
-    }
 }

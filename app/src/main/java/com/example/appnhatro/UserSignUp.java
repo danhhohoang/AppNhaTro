@@ -49,11 +49,12 @@ public class UserSignUp extends AppCompatActivity {
     StorageReference storageReference;
     String getIdPost = "";
     FirebaseUserSignUp firebaseUserSignUp = new FirebaseUserSignUp();
-    Uri imageUri = Uri.EMPTY;
+    Uri imageUri = Uri.parse("android.resource://" + R.class.getPackage().getName() + "/" + R.drawable.ic_user);
     DAOUser dao = new DAOUser();
     static ArrayList<user> arrUser = new ArrayList<>();
     DatabaseReference databaseReference;
     DatabaseReference databaseReferenceUR;
+    String idAuto;
 
     String formatEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
@@ -63,6 +64,8 @@ public class UserSignUp extends AppCompatActivity {
         setContentView(R.layout.layout_activity_signup);
         getSizeUser();
         openFolder();
+        getID();
+
 
         name = findViewById(R.id.edt_suName);
         email = findViewById(R.id.edt_suEmail);
@@ -123,7 +126,7 @@ public class UserSignUp extends AppCompatActivity {
 
     public void Click(){
         Handler handler = new Handler();
-        storageReference = FirebaseStorage.getInstance().getReference("images/user/"+getIdUser());
+        storageReference = FirebaseStorage.getInstance().getReference("images/user/"+idAuto);
         final  Dialog dialog = new Dialog(UserSignUp.this);
         openDialogNotifyNoButton(dialog,Gravity.CENTER,"Tạo tài khoản thành công",R.layout.layout_dialog_notify_no_button);
         storageReference.putFile(imageUri)
@@ -138,13 +141,12 @@ public class UserSignUp extends AppCompatActivity {
                                 }
                             },2000);
                         }
-
                     }
                 });
-        databaseReference = FirebaseDatabase.getInstance().getReference("user/"+getIdUser());
-        user um = new user(getIdUser(),name.getText().toString(),email.getText().toString(),phone.getText().toString(),password.getText().toString(),"test",getIdUser());
-        databaseReferenceUR = FirebaseDatabase.getInstance().getReference("User_Role/"+getIdUser());
-        USER_ROLE ur = new USER_ROLE("1",getIdUser());
+        databaseReference = FirebaseDatabase.getInstance().getReference("user/"+idAuto);
+        user um = new user(idAuto,name.getText().toString(),email.getText().toString(),phone.getText().toString(),password.getText().toString(),"test",idAuto);
+        databaseReferenceUR = FirebaseDatabase.getInstance().getReference("User_Role/"+idAuto);
+        USER_ROLE ur = new USER_ROLE("2",idAuto);
         databaseReferenceUR.setValue(ur);
         databaseReference.setValue(um, new DatabaseReference.CompletionListener() {
             @Override
@@ -188,14 +190,31 @@ public class UserSignUp extends AppCompatActivity {
         }
     }
 
-    public static final String getIdUser(){
-        String str ="";
-        if(arrUser.size() < 10 && arrUser.size() > 0){
-            str = "KH0"+(arrUser.size() + 1);
-        }else if(arrUser.size() > 9){
-            str = "KH"+(arrUser.size());
-        }
-        return str;
+    public void getID() {
+        FirebaseDatabase firebaseDatabaseID = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReferenceID = firebaseDatabaseID.getReference("HistoryTransaction");
+        databaseReferenceID.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> dsPost = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    dsPost.add(dataSnapshot.getKey());
+                }
+                String[] temp = dsPost.get(dsPost.size() - 1).split("HT");
+                String id = "";
+                if (Integer.parseInt(temp[1]) < 10) {
+                    id = "HT0" + (Integer.parseInt(temp[1]) + 1);
+                } else {
+                    id = "HT" + (Integer.parseInt(temp[1]) + 1);
+                }
+                idAuto = id;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void getSizeUser() {

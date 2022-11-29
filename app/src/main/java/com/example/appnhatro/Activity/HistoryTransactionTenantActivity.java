@@ -1,10 +1,8 @@
 package com.example.appnhatro.Activity;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
 
@@ -14,8 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appnhatro.Adapters.HistoryTransactionTenantAdapter;
 import com.example.appnhatro.Adapters.HistoryTranstionAdapter;
-import com.example.appnhatro.Adapters.UpdateStatusLandlordAdapter;
 import com.example.appnhatro.Models.TransactionModel;
 import com.example.appnhatro.R;
 import com.google.firebase.database.ChildEventListener;
@@ -26,44 +24,44 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class HistoryTransactionActivity extends AppCompatActivity {
+public class HistoryTransactionTenantActivity extends AppCompatActivity {
     RecyclerView rc;
     ArrayList<TransactionModel> list;
-    SearchView sv_htSearch;
+    SearchView sv_httSearch;
     ImageView back;
-    HistoryTranstionAdapter historyTranstionAdapter;
+    HistoryTransactionTenantAdapter historyTransactionTenantAdapter;
     DatabaseReference databaseReference;
     SharedPreferences sharedPreferences;
     String getID;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.history_transaction);
+        setContentView(R.layout.history_transaction_tenant);
         setControl();
         sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
         getID = sharedPreferences.getString("idUser", "");
 
-        rc = findViewById(R.id.rcv_ht);
+        rc = findViewById(R.id.rcv_htt);
         rc.setHasFixedSize(true);
         rc.setLayoutManager(new LinearLayoutManager(this));
 
         list = new ArrayList<>();
-        historyTranstionAdapter = new HistoryTranstionAdapter(this,list);
-        rc.setAdapter(historyTranstionAdapter);
+        historyTransactionTenantAdapter = new HistoryTransactionTenantAdapter(this,list);
+        rc.setAdapter(historyTransactionTenantAdapter);
 
         onRead("");
     }
 
     private void setControl() {
-        sv_htSearch = findViewById(R.id.sv_ht);
-        back = findViewById(R.id.iv_htBack);
+        sv_httSearch = findViewById(R.id.sv_htt);
+        back = findViewById(R.id.iv_httBack);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-        sv_htSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        sv_httSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 list.clear();
@@ -86,13 +84,13 @@ public class HistoryTransactionActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 TransactionModel transactionModel = snapshot.getValue(TransactionModel.class);
-                if (transactionModel.getStatus().equals("1") && transactionModel.getId_landlord().equals(getID) ){
+                if (transactionModel.getStatus().equals("0")&&transactionModel.getId_user().equals(getID)){
                     if(transactionModel!=null){
                         if(transactionModel.getPrice().toLowerCase().contains(keyword.toLowerCase())){
                             list.add(transactionModel);
-                            historyTranstionAdapter.notifyDataSetChanged();
+                            historyTransactionTenantAdapter.notifyDataSetChanged();
                         }
-                        historyTranstionAdapter.notifyDataSetChanged();
+                        historyTransactionTenantAdapter.notifyDataSetChanged();
                     }
                 }
             }
@@ -100,11 +98,13 @@ public class HistoryTransactionActivity extends AppCompatActivity {
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 TransactionModel transactionModel = snapshot.getValue(TransactionModel.class);
-                for (int i = 0;i< list.size();i++ ){
-                    if (transactionModel.getId() == list.get(i).getId()){
-                        list.set(i,transactionModel);
-                        historyTranstionAdapter.notifyDataSetChanged();
-                        break;
+                if (transactionModel.getStatus().equals("1")){
+                    if(transactionModel!=null){
+                        if(transactionModel.getPrice().toLowerCase().contains(keyword.toLowerCase())){
+                            list.add(transactionModel);
+                            historyTransactionTenantAdapter.notifyDataSetChanged();
+                        }
+                        historyTransactionTenantAdapter.notifyDataSetChanged();
                     }
                 }
             }
@@ -112,11 +112,13 @@ public class HistoryTransactionActivity extends AppCompatActivity {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
                 TransactionModel transactionModel = snapshot.getValue(TransactionModel.class);
-                for (int i = 0;i< list.size();i++ ){
-                    if (transactionModel.getId() == list.get(i).getId()){
-                        list.set(i,transactionModel);
-                        historyTranstionAdapter.notifyDataSetChanged();
-                        break;
+                if (transactionModel.getStatus().equals("1")){
+                    if(transactionModel!=null){
+                        if(transactionModel.getPrice().toLowerCase().contains(keyword.toLowerCase())){
+                            list.add(transactionModel);
+                            historyTransactionTenantAdapter.notifyDataSetChanged();
+                        }
+                        historyTransactionTenantAdapter.notifyDataSetChanged();
                     }
                 }
             }
@@ -124,11 +126,13 @@ public class HistoryTransactionActivity extends AppCompatActivity {
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 TransactionModel transactionModel = snapshot.getValue(TransactionModel.class);
-                for (int i = 0;i< list.size();i++ ){
-                    if (transactionModel.getId() == list.get(i).getId()){
-                        list.set(i,transactionModel);
-                        historyTranstionAdapter.notifyDataSetChanged();
-                        break;
+                if (transactionModel.getStatus().equals("1")){
+                    if(transactionModel!=null){
+                        if(transactionModel.getPrice().toLowerCase().contains(keyword.toLowerCase())){
+                            list.add(transactionModel);
+                            historyTransactionTenantAdapter.notifyDataSetChanged();
+                        }
+                        historyTransactionTenantAdapter.notifyDataSetChanged();
                     }
                 }
             }

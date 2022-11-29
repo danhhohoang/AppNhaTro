@@ -66,7 +66,7 @@ public class TenantPostListAdapter extends RecyclerView.Adapter<TenantPostListAd
         holder.address.setText(post.getAddress());
         holder.area.setText(post.getArea());
         BitMap bitMap = new BitMap(post.getImage(),null);
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference(bitMap.getTenHinh());
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference("images/post/"+bitMap.getTenHinh());
         try {
             final File file= File.createTempFile(bitMap.getTenHinh().substring(0,bitMap.getTenHinh().length()-4),"jpg");
             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {

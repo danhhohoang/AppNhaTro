@@ -41,7 +41,10 @@ public class UpdateStatusLandlordAdapter extends RecyclerView.Adapter<UpdateStat
         TransactionModel transactionModel = transactionModels.get(position);
         holder.user.setText(transactionModel.getId_user());
         holder.price.setText(transactionModel.getDeposits());
-        holder.status.setText(transactionModel.getStatus());
+        if (transactionModel.getStatus().equals("0")){
+            holder.status.setText("Đang chờ xác nhận thanh toán");
+        }
+        holder.date.setText(transactionModel.getDate());
     }
 
     @Override
@@ -53,7 +56,7 @@ public class UpdateStatusLandlordAdapter extends RecyclerView.Adapter<UpdateStat
     }
 
     public static class UpdateStatusLandlord extends RecyclerView.ViewHolder{
-        TextView user,price,status;
+        TextView user,price,status,date;
         Button accept;
         public UpdateStatusLandlord(@NonNull View itemView,RecycleViewUpdateStatus recycleViewUpdateStatus) {
             super(itemView);
@@ -61,6 +64,7 @@ public class UpdateStatusLandlordAdapter extends RecyclerView.Adapter<UpdateStat
             price = itemView.findViewById(R.id.tv_usapPrice);
             status = itemView.findViewById(R.id.tv_usapStatus);
             accept = itemView.findViewById(R.id.btn_usapAccept);
+            date = itemView.findViewById(R.id.tv_usapDate);
 
             accept.setOnClickListener(new View.OnClickListener() {
                 @Override

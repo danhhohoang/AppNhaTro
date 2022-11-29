@@ -1,5 +1,6 @@
 package com.example.appnhatro.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,15 +14,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Adapters.TenantListAdapter;
+import com.example.appnhatro.AdminLandlordListActivity;
 import com.example.appnhatro.Adapters.TenantSearchAdapter;
 import com.example.appnhatro.Firebase.FireBaseTenantList;
 import com.example.appnhatro.Models.user;
 import com.example.appnhatro.R;
+import com.example.appnhatro.tool.RecyclerViewTenantList;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class AdminTenantListActivity extends AppCompatActivity {
+public class AdminTenantListActivity extends AppCompatActivity implements RecyclerViewTenantList {
 
     ArrayList<user> userArrayList = new ArrayList<>();
     ArrayList<user> appearanceList = new ArrayList<>();
@@ -39,17 +42,15 @@ public class AdminTenantListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_tenant_list_activity_layout);
         setControl();
-
-        adapter = new TenantListAdapter(this, R.layout.item_admin_tenant_list, userArrayList);
+        adapter = new TenantListAdapter(this, R.layout.item_admin_tenant_list, userArrayList,this);
         fireBaseTenantList.getAllUserByRole(this, userArrayList, adapter);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         setEvent();
     }
 
     public void setData() {
-        adapter = new TenantListAdapter(this, R.layout.item_admin_tenant_list, userArrayList);
+        adapter = new TenantListAdapter(this, R.layout.item_admin_tenant_list, userArrayList,this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -59,7 +60,7 @@ public class AdminTenantListActivity extends AppCompatActivity {
 //        appearanceList.addAll(userArrayList);
         searchView.clearFocus();
         searchView.setQuery("",false);
-        adapter = new TenantListAdapter(this, R.layout.item_admin_tenant_list, userArrayList);
+        adapter = new TenantListAdapter(this, R.layout.item_admin_tenant_list, userArrayList,this);
 
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -76,7 +77,7 @@ public class AdminTenantListActivity extends AppCompatActivity {
             }
         }
 
-        adapter = new TenantListAdapter(this, R.layout.item_admin_tenant_list, appearanceList);
+        adapter = new TenantListAdapter(this, R.layout.item_admin_tenant_list, appearanceList,this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -116,5 +117,12 @@ public class AdminTenantListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_admin_tenant_list);
         cardView = findViewById(R.id.cardView_item_admin_tenant_list);
         btnBack = findViewById(R.id.image_admin_tenant_list_back);
+    }
+
+    @Override
+    public void onClick(int postion) {
+        Intent intent = new Intent(AdminTenantListActivity.this, LostPostOfLandLord.class);
+        intent.putExtra("idpost",userArrayList.get(postion).getId());
+        startActivity(intent);
     }
 }

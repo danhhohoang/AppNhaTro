@@ -64,9 +64,9 @@ public class TenantPostRentingAdapter extends RecyclerView.Adapter<TenantPostRen
         }
         holder.house_name.setText(post.getHouse_name() );
         DecimalFormat formatter = new DecimalFormat("#,###,###");
-        holder.price.setText(formatter.format(Integer.valueOf(post.getPrice())));
+        holder.price.setText(formatter.format(Integer.valueOf(post.getPrice()))+" VND");
         holder.address.setText(post.getAddress());
-        holder.area.setText(formatter.format(Integer.valueOf(post.getArea())));
+        holder.area.setText(formatter.format(Integer.valueOf(post.getArea()))+" m2");
         BitMap bitMap = new BitMap(post.getImage(),null);
         StorageReference storageReference = FirebaseStorage.getInstance().getReference("images/post/" + post.getImage());
         try {

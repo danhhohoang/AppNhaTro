@@ -2,6 +2,7 @@ package com.example.appnhatro;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -45,6 +46,8 @@ public class TenantPostList extends AppCompatActivity implements RecyclerCRUD{
     private ViewHolderImageHome adapter;
     DatabaseReference databaseReference;
 
+    String getID;
+    SharedPreferences sharedPreferences;
     ArrayList<Post> list;
     SearchView sv_tpl;
     ImageView back;
@@ -59,6 +62,9 @@ public class TenantPostList extends AppCompatActivity implements RecyclerCRUD{
         ListPost();
         setControl();
         onRead("");
+        sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        getID = sharedPreferences.getString("idUser", "");
+
 
         rc = findViewById(R.id.rcv_tpl);
         rc.setHasFixedSize(true);
@@ -100,14 +106,11 @@ public class TenantPostList extends AppCompatActivity implements RecyclerCRUD{
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Post post = snapshot.getValue(Post.class);
-                ArrayList<Post> posts = new ArrayList<>();
-                if (post.getUserID().equals("KH02")){
+                if (post.getUserID().equals(getID)){
                     if(post!=null){
                         if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
-                            posts.add(post);
+                            list.add(post);
                         }
-                        list.clear();
-                        list.addAll(posts);
                         tenantPostListAdapter.notifyDataSetChanged();
                     }
                 }
@@ -117,52 +120,37 @@ public class TenantPostList extends AppCompatActivity implements RecyclerCRUD{
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Post post = snapshot.getValue(Post.class);
-                ArrayList<Post> posts = new ArrayList<>();
-                if (post.getUserID().equals("KH02")){
-                    if(post!=null){
-                        if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
-                            posts.add(post);
-                        }
-                        list.clear();
-                        list.addAll(posts);
-                        tenantPostListAdapter.notifyDataSetChanged();
+                for (int i = 0;i< posts.size();i++ ){
+                    if (post.getId() == posts.get(i).getId()){
+                        posts.set(i,post);
+                        tenantPostListAdapter.notifyItemChanged(i);
+                        break;
                     }
                 }
-                tenantPostListAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
                 Post post = snapshot.getValue(Post.class);
-                ArrayList<Post> posts = new ArrayList<>();
-                if (post.getUserID().equals("KH02")){
-                    if(post!=null){
-                        if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
-                            posts.add(post);
-                        }
-                        list.clear();
-                        list.addAll(posts);
-                        tenantPostListAdapter.notifyDataSetChanged();
+                for (int i = 0;i< posts.size();i++ ){
+                    if (post.getId() == posts.get(i).getId()){
+                        posts.remove(i);
+                        tenantPostListAdapter.notifyItemChanged(i);
+                        break;
                     }
                 }
-                tenantPostListAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Post post = snapshot.getValue(Post.class);
-                ArrayList<Post> posts = new ArrayList<>();
-                if (post.getUserID().equals("KH02")){
-                    if(post!=null){
-                        if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
-                            posts.add(post);
-                        }
-                        list.clear();
-                        list.addAll(posts);
-                        tenantPostListAdapter.notifyDataSetChanged();
+                for (int i = 0;i< posts.size();i++ ){
+                    if (post.getId() == posts.get(i).getId()){
+                        posts.remove(i);
+                        tenantPostListAdapter.notifyItemChanged(i);
+                        break;
                     }
                 }
-                tenantPostListAdapter.notifyDataSetChanged();
             }
 
             @Override
