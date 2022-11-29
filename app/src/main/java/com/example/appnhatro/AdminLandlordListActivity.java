@@ -2,9 +2,7 @@ package com.example.appnhatro;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,18 +11,16 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appnhatro.Activity.LostPostOfLandLord;
 import com.example.appnhatro.Models.USER_ROLE;
-import com.example.appnhatro.Models.UserRoleModel;
 import com.example.appnhatro.Models.user;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AdminLandlordListActivity extends AppCompatActivity {
     RecyclerView al;
@@ -56,7 +52,7 @@ public class AdminLandlordListActivity extends AppCompatActivity {
 
             @Override
             public void onClick(int position) {
-                Intent intent = new Intent(AdminLandlordListActivity.this, com.example.appnhatro.Activity.AdminLandlordListActivity.class);
+                Intent intent = new Intent(AdminLandlordListActivity.this, LostPostOfLandLord.class);
                 intent.putExtra("idpost",list.get(position).getId());
                 startActivity(intent);
             }

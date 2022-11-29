@@ -6,10 +6,6 @@
     android:layout_margin="10dp"
     app:cardCornerRadius="20dp">
 
-    <FrameLayout
-        android:background="#83EA0C"
-        android:layout_width="4dp"
-        android:layout_height="match_parent"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,12 +26,12 @@
                 android:textSize="8pt"
                 android:textStyle="bold"/>
             <TextView
-                android:id="@+id/tv_htDate"
+                android:id="@+id/tv_httDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Trần Văn Hậu"
                 android:textSize="8pt"
-                android:layout_weight="3"/>
+                android:layout_weight="4"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,7 +49,7 @@
                 android:textSize="8pt"
                 android:textStyle="bold"/>
             <TextView
-                android:id="@+id/tv_htName"
+                android:id="@+id/tv_httName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Trần Văn Hậu"
@@ -70,13 +66,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp"
                 android:text="Số tiền đặt cọc :"
+                android:paddingTop="5dp"
                 android:layout_weight="6.4"
                 android:textSize="8pt"
                 android:textStyle="bold"/>
             <TextView
-                android:id="@+id/tv_htPrice"
+                android:id="@+id/tv_httPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="100000"
@@ -94,14 +90,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
-                android:paddingBottom="10dp"
+                android:paddingBottom="5dp"
                 android:text="Trạng thái :"
-                android:layout_weight="7.3"
+                android:layout_weight="7.4"
                 android:textSize="8pt"
                 android:textStyle="bold"/>
             <TextView
                 android:paddingBottom="10dp"
-                android:id="@+id/tv_htStatus"
+                android:id="@+id/tv_httStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Đã trả tiền"

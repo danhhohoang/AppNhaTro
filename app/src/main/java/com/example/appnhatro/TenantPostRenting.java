@@ -47,6 +47,7 @@ public class TenantPostRenting extends AppCompatActivity {
     ImageView back;
     SearchView sv_tpr;
     String iduser;
+    String getID;
     SharedPreferences sharedPreferences;
     FireBasePostRenting fireBasePostRenting = new FireBasePostRenting();
     DatabaseReference databaseReferenceHistory;
@@ -58,6 +59,8 @@ public class TenantPostRenting extends AppCompatActivity {
         setContentView(R.layout.layout_activity_tenant_post_renting);
         ListPost();
         onRead("");
+        sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        getID = sharedPreferences.getString("idUser", "");
 
         rc = findViewById(R.id.rcv_tpr);
         rc.setHasFixedSize(true);
@@ -108,19 +111,16 @@ public class TenantPostRenting extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 TransactionModel transactionModel = snapshot.getValue(TransactionModel.class);
-                if (transactionModel.getId_user().equals("KH02")){
+                if (transactionModel.getId_user().equals(getID)){
                     databaseReferencePost.addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                             Post post = snapshot.getValue(Post.class);
-                            ArrayList<Post> list = new ArrayList<>();
-                            if (post.getUserID().equals("KH02")){
+                            if (post.getId().equals(transactionModel.getPost())){
                                 if(post!=null){
                                     if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
-                                        list.add(post);
+                                        posts.add(post);
                                     }
-                                    posts.clear();
-                                    posts.addAll(list);
                                     tenantPostRentingAdapter.notifyDataSetChanged();
                                 }
                             }
@@ -128,17 +128,38 @@ public class TenantPostRenting extends AppCompatActivity {
 
                         @Override
                         public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                            Post post = snapshot.getValue(Post.class);
+                            for (int i = 0;i< posts.size();i++ ){
+                                if (post.getId() == posts.get(i).getId()){
+                                    posts.set(i,post);
+                                    tenantPostRentingAdapter.notifyItemChanged(i);
+                                    break;
+                                }
+                            }
                         }
 
                         @Override
                         public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
+                            Post post = snapshot.getValue(Post.class);
+                            for (int i = 0;i< posts.size();i++ ){
+                                if (post.getId() == posts.get(i).getId()){
+                                    posts.remove(i);
+                                    tenantPostRentingAdapter.notifyItemChanged(i);
+                                    break;
+                                }
+                            }
                         }
 
                         @Override
                         public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                            Post post = snapshot.getValue(Post.class);
+                            for (int i = 0;i< posts.size();i++ ){
+                                if (post.getId() == posts.get(i).getId()){
+                                    posts.remove(i);
+                                    tenantPostRentingAdapter.notifyItemChanged(i);
+                                    break;
+                                }
+                            }
                         }
 
                         @Override
@@ -151,136 +172,37 @@ public class TenantPostRenting extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                TransactionModel transactionModel = snapshot.getValue(TransactionModel.class);
-                if (transactionModel.getId_user().equals("KH02")){
-                    databaseReferencePost.addChildEventListener(new ChildEventListener() {
-                        @Override
-                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                            Post post = snapshot.getValue(Post.class);
-                            ArrayList<Post> list = new ArrayList<>();
-                            if (post.getUserID().equals("KH02")){
-                                if(post!=null){
-                                    if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
-                                        list.add(post);
-                                    }
-                                    posts.clear();
-                                    posts.addAll(posts);
-                                    tenantPostRentingAdapter.notifyDataSetChanged();
-                                }
-                            }
-
-                        }
-
-                        @Override
-                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                        }
-
-                        @Override
-                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                        }
-
-                        @Override
-                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
+                Post post = snapshot.getValue(Post.class);
+                for (int i = 0;i< posts.size();i++ ){
+                    if (post.getId() == posts.get(i).getId()){
+                        posts.set(i, post);
+                        tenantPostRentingAdapter.notifyItemChanged(i);
+                        break;
+                    }
                 }
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                TransactionModel transactionModel = snapshot.getValue(TransactionModel.class);
-                if (transactionModel.getId_user().equals("KH02")){
-                    databaseReferencePost.addChildEventListener(new ChildEventListener() {
-                        @Override
-                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                            Post post = snapshot.getValue(Post.class);
-                            ArrayList<Post> list = new ArrayList<>();
-                            if (post.getUserID().equals("KH02")){
-                                if(post!=null){
-                                    if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
-                                        list.add(post);
-                                    }
-                                    posts.clear();
-                                    posts.addAll(posts);
-                                    tenantPostRentingAdapter.notifyDataSetChanged();
-                                }
-                            }
-
-                        }
-
-                        @Override
-                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                        }
-
-                        @Override
-                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                        }
-
-                        @Override
-                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
+                Post post = snapshot.getValue(Post.class);
+                for (int i = 0;i< posts.size();i++ ){
+                    if (post.getId() == posts.get(i).getId()){
+                        posts.remove(i);
+                        tenantPostRentingAdapter.notifyItemChanged(i);
+                        break;
+                    }
                 }
             }
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                TransactionModel transactionModel = snapshot.getValue(TransactionModel.class);
-                if (transactionModel.getId_user().equals("KH02")){
-                    databaseReferencePost.addChildEventListener(new ChildEventListener() {
-                        @Override
-                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                            Post post = snapshot.getValue(Post.class);
-                            ArrayList<Post> list = new ArrayList<>();
-                            if (post.getUserID().equals("KH02")){
-                                if(post!=null){
-                                    if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
-                                        list.add(post);
-                                    }
-                                    posts.clear();
-                                    posts.addAll(posts);
-                                    tenantPostRentingAdapter.notifyDataSetChanged();
-                                }
-                            }
-
-                        }
-
-                        @Override
-                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                        }
-
-                        @Override
-                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                        }
-
-                        @Override
-                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
+                Post post = snapshot.getValue(Post.class);
+                for (int i = 0;i< posts.size();i++ ){
+                    if (post.getId() == posts.get(i).getId()){
+                        posts.remove(i);
+                        tenantPostRentingAdapter.notifyItemChanged(i);
+                        break;
+                    }
                 }
             }
 

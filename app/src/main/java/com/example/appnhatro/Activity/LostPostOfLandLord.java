@@ -1,6 +1,5 @@
 package com.example.appnhatro.Activity;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -16,9 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Adapters.AdminLandlordListAdapter;
-import com.example.appnhatro.Adapters.UpdateStatusLandlordAdapter;
 import com.example.appnhatro.Models.Post;
-import com.example.appnhatro.Models.TransactionModel;
 import com.example.appnhatro.Models.user;
 import com.example.appnhatro.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -39,13 +36,14 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class AdminLandlordListActivity extends AppCompatActivity {
+public class LostPostOfLandLord extends AppCompatActivity {
     RecyclerView rc;
     ArrayList<Post> list;
     ImageView back;
     SearchView sv_alrSearch;
     AdminLandlordListAdapter adminLandlordListAdapter;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReferencePost;
+    DatabaseReference databaseReferencePostOghep;
     CircleImageView avt;
     String id;
     @Override
@@ -96,19 +94,70 @@ public class AdminLandlordListActivity extends AppCompatActivity {
 
 
     public void onRead(String keyword){
-        databaseReference = FirebaseDatabase.getInstance().getReference("Post");
-        databaseReference.addChildEventListener(new ChildEventListener() {
+        databaseReferencePost = FirebaseDatabase.getInstance().getReference("Post");
+        databaseReferencePostOghep = FirebaseDatabase.getInstance().getReference("Post_Oghep");
+        databaseReferencePost.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Post post = snapshot.getValue(Post.class);
-                ArrayList<Post> posts = new ArrayList<>();
                 if (post.getUserID().equals(id)){
                     if(post!=null){
                         if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
-                            posts.add(post);
+                            list.add(post);
                         }
-                        list.clear();
-                        list.addAll(posts);
+                        adminLandlordListAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Post post = snapshot.getValue(Post.class);
+                for (int i = 0;i< list.size();i++ ){
+                    if (post.getId() == list.get(i).getId()){
+                        list.set(i,post);
+                        adminLandlordListAdapter.notifyItemChanged(i);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                Post post = snapshot.getValue(Post.class);
+                for (int i = 0;i< list.size();i++ ){
+                    if (post.getId() == list.get(i).getId()){
+                        list.remove(i);
+                        adminLandlordListAdapter.notifyItemChanged(i);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Post post = snapshot.getValue(Post.class);
+                for (int i = 0;i< list.size();i++ ){
+                    if (post.getId() == list.get(i).getId()){
+                        list.remove(i);
+                        adminLandlordListAdapter.notifyItemChanged(i);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+        databaseReferencePostOghep.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Post post = snapshot.getValue(Post.class);
+                if (post.getUserID().equals(id)){
+                    if(post!=null){
+                        if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
+                            list.add(post);
+                        }
                         adminLandlordListAdapter.notifyDataSetChanged();
                     }
                 }
@@ -117,15 +166,11 @@ public class AdminLandlordListActivity extends AppCompatActivity {
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Post post = snapshot.getValue(Post.class);
-                ArrayList<Post> posts = new ArrayList<>();
-                if (post.getUserID().equals(id)){
-                    if(post!=null){
-                        if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
-                            posts.add(post);
-                        }
-                        list.clear();
-                        list.addAll(posts);
-                        adminLandlordListAdapter.notifyDataSetChanged();
+                for (int i = 0;i< list.size();i++ ){
+                    if (post.getId() == list.get(i).getId()){
+                        list.set(i,post);
+                        adminLandlordListAdapter.notifyItemChanged(i);
+                        break;
                     }
                 }
             }
@@ -133,15 +178,11 @@ public class AdminLandlordListActivity extends AppCompatActivity {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
                 Post post = snapshot.getValue(Post.class);
-                ArrayList<Post> posts = new ArrayList<>();
-                if (post.getUserID().equals(id)){
-                    if(post!=null){
-                        if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
-                            posts.add(post);
-                        }
-                        list.clear();
-                        list.addAll(posts);
-                        adminLandlordListAdapter.notifyDataSetChanged();
+                for (int i = 0;i< list.size();i++ ){
+                    if (post.getId() == list.get(i).getId()){
+                        list.remove(i);
+                        adminLandlordListAdapter.notifyItemChanged(i);
+                        break;
                     }
                 }
             }
@@ -149,21 +190,18 @@ public class AdminLandlordListActivity extends AppCompatActivity {
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Post post = snapshot.getValue(Post.class);
-                ArrayList<Post> posts = new ArrayList<>();
-                if (post.getUserID().equals(id)){
-                    if(post!=null){
-                        if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
-                            posts.add(post);
-                        }
-                        list.clear();
-                        list.addAll(posts);
-                        adminLandlordListAdapter.notifyDataSetChanged();
+                for (int i = 0;i< list.size();i++ ){
+                    if (post.getId() == list.get(i).getId()){
+                        list.remove(i);
+                        adminLandlordListAdapter.notifyItemChanged(i);
+                        break;
                     }
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

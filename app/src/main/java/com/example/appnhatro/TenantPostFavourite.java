@@ -3,6 +3,7 @@ package com.example.appnhatro;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -31,6 +32,7 @@ public class TenantPostFavourite extends AppCompatActivity{
     SharedPreferences sharedPreferences;
     ImageView back;
 
+    String getID;
     RecyclerView rc;
     //List horizone
     private TenantPostFavouriteAdapter tenantPostFavouriteAdapter;
@@ -45,8 +47,8 @@ public class TenantPostFavourite extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_activity_tenant_post_favourite);
         sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
-        idUser = sharedPreferences.getString("idUser", "");
-        back = findViewById(R.id.iv_tpfback);
+        sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        getID = sharedPreferences.getString("idUser", "");
         ListPost();
         onRead("");
 
@@ -67,6 +69,7 @@ public class TenantPostFavourite extends AppCompatActivity{
 
     @SuppressLint("MissingInflatedId")
     public void ListPost(){
+        back = findViewById(R.id.iv_tpfback);
         sv_tpf = findViewById(R.id.sv_tpf);
         sv_tpf.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
@@ -102,34 +105,56 @@ public class TenantPostFavourite extends AppCompatActivity{
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                         Favorite favorite = snapshot.getValue(Favorite.class);
-                        if(favorite.getIdUser().equals("KH02")){
+                        if(favorite.getIdUser().equals(getID)){
                             databaseReferencePost.addChildEventListener(new ChildEventListener() {
                                 @Override
                                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                                     Post post = snapshot.getValue(Post.class);
-                                    ArrayList<Post> postArrayList = new ArrayList<>();
                                     if (post.getId().equals(favorite.getIdPost())){
-                                        postArrayList.add(post);
+                                        if(post!=null){
+                                            if(post.getHouse_name().toLowerCase().contains(keyword.toLowerCase())){
+                                                posts.add(post);
+                                            }
+                                            tenantPostFavouriteAdapter.notifyDataSetChanged();
+                                        }
                                     }
-                                    posts.clear();
-                                    posts.addAll(postArrayList);
-                                    tenantPostFavouriteAdapter.notifyDataSetChanged();
 
                                 }
 
                                 @Override
                                 public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                                    Post post = snapshot.getValue(Post.class);
+                                    for (int i = 0;i< posts.size();i++ ){
+                                        if (post.getId() == posts.get(i).getId()){
+                                            posts.set(i,post);
+                                            tenantPostFavouriteAdapter.notifyItemChanged(i);
+                                            break;
+                                        }
+                                    }
                                 }
 
                                 @Override
                                 public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
+                                    Post post = snapshot.getValue(Post.class);
+                                    for (int i = 0;i< posts.size();i++ ){
+                                        if (post.getId() == posts.get(i).getId()){
+                                            posts.remove(i);
+                                            tenantPostFavouriteAdapter.notifyItemChanged(i);
+                                            break;
+                                        }
+                                    }
                                 }
 
                                 @Override
                                 public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                                    Post post = snapshot.getValue(Post.class);
+                                    for (int i = 0;i< posts.size();i++ ){
+                                        if (post.getId() == posts.get(i).getId()){
+                                            posts.remove(i);
+                                            tenantPostFavouriteAdapter.notifyItemChanged(i);
+                                            break;
+                                        }
+                                    }
                                 }
 
                                 @Override
@@ -141,28 +166,46 @@ public class TenantPostFavourite extends AppCompatActivity{
                                 @Override
                                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                                     Post post = snapshot.getValue(Post.class);
-                                    ArrayList<Post> postArrayList = new ArrayList<>();
                                     if (post.getId().equals(favorite.getIdPost())){
-                                        postArrayList.add(post);
+                                        posts.add(post);
                                     }
-                                    posts.clear();
-                                    posts.addAll(postArrayList);
                                     tenantPostFavouriteAdapter.notifyDataSetChanged();
                                 }
 
                                 @Override
                                 public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                                    Post post = snapshot.getValue(Post.class);
+                                    for (int i = 0;i< posts.size();i++ ){
+                                        if (post.getId() == posts.get(i).getId()){
+                                            posts.set(i, post);
+                                            tenantPostFavouriteAdapter.notifyItemChanged(i);
+                                            break;
+                                        }
+                                    }
                                 }
 
                                 @Override
                                 public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
+                                    Post post = snapshot.getValue(Post.class);
+                                    for (int i = 0;i< posts.size();i++ ){
+                                        if (post.getId() == posts.get(i).getId()){
+                                            posts.remove(i);
+                                            tenantPostFavouriteAdapter.notifyItemChanged(i);
+                                            break;
+                                        }
+                                    }
                                 }
 
                                 @Override
                                 public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                                    Post post = snapshot.getValue(Post.class);
+                                    for (int i = 0;i< posts.size();i++ ){
+                                        if (post.getId() == posts.get(i).getId()){
+                                            posts.remove(i);
+                                            tenantPostFavouriteAdapter.notifyItemChanged(i);
+                                            break;
+                                        }
+                                    }
                                 }
 
                                 @Override
@@ -175,17 +218,38 @@ public class TenantPostFavourite extends AppCompatActivity{
 
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                        Post post = snapshot.getValue(Post.class);
+                        for (int i = 0;i< posts.size();i++ ){
+                            if (post.getId() == posts.get(i).getId()){
+                                posts.set(i, post);
+                                tenantPostFavouriteAdapter.notifyItemChanged(i);
+                                break;
+                            }
+                        }
                     }
 
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
+                        Post post = snapshot.getValue(Post.class);
+                        for (int i = 0;i< posts.size();i++ ){
+                            if (post.getId() == posts.get(i).getId()){
+                                posts.remove(i);
+                                tenantPostFavouriteAdapter.notifyItemChanged(i);
+                                break;
+                            }
+                        }
                     }
 
                     @Override
                     public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                        Post post = snapshot.getValue(Post.class);
+                        for (int i = 0;i< posts.size();i++ ){
+                            if (post.getId() == posts.get(i).getId()){
+                                posts.remove(i);
+                                tenantPostFavouriteAdapter.notifyItemChanged(i);
+                                break;
+                            }
+                        }
                     }
 
                     @Override
@@ -197,17 +261,38 @@ public class TenantPostFavourite extends AppCompatActivity{
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                Post post = snapshot.getValue(Post.class);
+                for (int i = 0;i< posts.size();i++ ){
+                    if (post.getId() == posts.get(i).getId()){
+                        posts.set(i, post);
+                        tenantPostFavouriteAdapter.notifyItemChanged(i);
+                        break;
+                    }
+                }
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
+                Post post = snapshot.getValue(Post.class);
+                for (int i = 0;i< posts.size();i++ ){
+                    if (post.getId() == posts.get(i).getId()){
+                        posts.remove(i);
+                        tenantPostFavouriteAdapter.notifyItemChanged(i);
+                        break;
+                    }
+                }
             }
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                Post post = snapshot.getValue(Post.class);
+                for (int i = 0;i< posts.size();i++ ){
+                    if (post.getId() == posts.get(i).getId()){
+                        posts.remove(i);
+                        tenantPostFavouriteAdapter.notifyItemChanged(i);
+                        break;
+                    }
+                }
             }
 
             @Override

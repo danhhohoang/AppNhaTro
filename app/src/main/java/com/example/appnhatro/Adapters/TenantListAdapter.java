@@ -19,6 +19,7 @@ import com.example.appnhatro.Activity.AdminTenantDetaiActivity;
 import com.example.appnhatro.Models.BitMap;
 import com.example.appnhatro.Models.user;
 import com.example.appnhatro.R;
+import com.example.appnhatro.tool.RecyclerViewTenantList;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
@@ -30,21 +31,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TenantListAdapter extends RecyclerView.Adapter<TenantListAdapter.TenantListViewHolder> {
+    private final RecyclerViewTenantList recyclerViewTenantList;
     private final ArrayList<user> userArrayList;
     private final Activity context;
     private final int resource;
 
-    public TenantListAdapter(Activity context, int resource, ArrayList<user> userArrayList) {
+    public TenantListAdapter(Activity context, int resource, ArrayList<user> userArrayList,RecyclerViewTenantList recyclerViewTenantList) {
         this.userArrayList = userArrayList;
         this.context = context;
         this.resource = resource;
+        this.recyclerViewTenantList = recyclerViewTenantList;
     }
 
     @NonNull
     @Override
     public TenantListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_admin_tenant_list, parent, false);
-        return new TenantListViewHolder(view);
+        return new TenantListViewHolder(view,recyclerViewTenantList);
     }
 
     @Override
@@ -104,7 +107,7 @@ public class TenantListAdapter extends RecyclerView.Adapter<TenantListAdapter.Te
         TextView textViewPhoneStatic;
         TextView textViewPhone;
 
-        public TenantListViewHolder(@NonNull View itemView) {
+        public TenantListViewHolder(@NonNull View itemView, RecyclerViewTenantList recyclerViewTenantList) {
             super(itemView);
             avatar = itemView.findViewById(R.id.img_item_admin_tenant_list_avatar);
             textViewID = itemView.findViewById(R.id.txt_item_admin_tenant_list_id);
@@ -114,6 +117,18 @@ public class TenantListAdapter extends RecyclerView.Adapter<TenantListAdapter.Te
             textViewNameStatic = itemView.findViewById(R.id.txt_item_admin_tenant_list_name_static);
             textViewPhoneStatic = itemView.findViewById(R.id.txt_item_admin_tenant_list_phone_static);
             textViewPhone = itemView.findViewById(R.id.txt_item_admin_tenant_list_phone);
+
+            avatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(recyclerViewTenantList != null){
+                        int pos = getBindingAdapterPosition();
+                        if(pos != RecyclerView.NO_POSITION){
+                            recyclerViewTenantList.onClick(pos);
+                        }
+                    }
+                }
+            });
         }
     }
 
