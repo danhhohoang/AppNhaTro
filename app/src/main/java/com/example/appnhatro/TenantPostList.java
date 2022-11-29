@@ -169,7 +169,10 @@ public class TenantPostList extends AppCompatActivity implements RecyclerCRUD{
         intent.putExtra("it_price", list.get(position).getPrice());
         intent.putExtra("it_area", list.get(position).getArea());
         intent.putExtra("it_housename", list.get(position).getHouse_name());
+        intent.putExtra("it_status", list.get(position).getStatus());
         intent.putExtra("it_image", list.get(position).getImage());
+        intent.putExtra("it_image1", list.get(position).getImage1());
+        intent.putExtra("it_image2", list.get(position).getImage2());
         startActivity(intent);
     }
 
@@ -209,7 +212,7 @@ public class TenantPostList extends AppCompatActivity implements RecyclerCRUD{
         final Dialog dialog = new Dialog(TenantPostList.this);
         openDialogNotifyNoButton(dialog, Gravity.CENTER,"Xóa bài đăng thành công",R.layout.layout_dialog_notify_no_button);
         DatabaseReference databaseReferenceDelete;
-        databaseReferenceDelete = FirebaseDatabase.getInstance().getReference("Post");
+        databaseReferenceDelete = FirebaseDatabase.getInstance().getReference("Post_Oghep");
         databaseReferenceDelete.child(list.get(position).getId()).removeValue(new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
