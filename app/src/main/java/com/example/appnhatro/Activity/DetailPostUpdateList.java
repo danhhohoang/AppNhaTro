@@ -45,12 +45,13 @@ public class DetailPostUpdateList extends AppCompatActivity {
     ImageView image;
     Uri imageUri = Uri.EMPTY;
     StorageReference storageReference;
-    String id;
+    String id,userID,image0,image1,image2,status;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_detail_update_post);
         setControl();
+        openFolder();
         setText();
     }
 
@@ -61,8 +62,12 @@ public class DetailPostUpdateList extends AppCompatActivity {
         String ex_address_district = getIntent().getStringExtra("it_address_district");
         String ex_area = getIntent().getStringExtra("it_area");
         String ex_price = getIntent().getStringExtra("it_price");
-        String ex_image = getIntent().getStringExtra("it_image");
+        image0 = getIntent().getStringExtra("it_image");
+        image1 = getIntent().getStringExtra("it_image1");
+        image2 = getIntent().getStringExtra("it_image2");
         id = getIntent().getStringExtra("it_id");
+        status = getIntent().getStringExtra("it_status");
+        userID = getIntent().getStringExtra("it_userID");
 
         housename.setText(ex_housename);
         title.setText(ex_title);
@@ -70,7 +75,7 @@ public class DetailPostUpdateList extends AppCompatActivity {
         address_district.setText(ex_address_district);
         area.setText(ex_area);
         price.setText(ex_price);
-        setAvatarUser(image,ex_image);
+        setAvatarUser(image,image0);
     }
 
     private void setControl() {
@@ -190,8 +195,8 @@ public class DetailPostUpdateList extends AppCompatActivity {
         String exp = area.getText().toString();
         String rk = price.getText().toString();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference("Post/"+id);
-        Post post = new Post();
+        DatabaseReference databaseReference = database.getReference("Post_Oghep/"+id);
+        Post post = new Post(id,userID,cd,cn,des,rk,exp,ad,image0,status,image1,image2);
         databaseReference.setValue(post);
         if (dialog.isShowing()){
             handler.postDelayed(new Runnable() {

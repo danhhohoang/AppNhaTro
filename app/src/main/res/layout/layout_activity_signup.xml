@@ -75,6 +75,15 @@
             android:inputType="phone"
             android:paddingLeft="20dp"/>
         <EditText
+            android:id="@+id/edt_suCMND"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/txt_background_login"
+            android:layout_marginTop="10dp"
+            android:hint="Nhập cmnd"
+            android:inputType="phone"
+            android:paddingLeft="20dp"/>
+        <EditText
             android:id="@+id/edt_suEmail"
             android:layout_width="match_parent"
             android:layout_height="60dp"

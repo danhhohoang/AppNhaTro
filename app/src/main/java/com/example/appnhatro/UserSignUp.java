@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -42,7 +44,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserSignUp extends AppCompatActivity {
-    EditText name, email, password, phone, repass;
+    EditText name, email, password, phone, cmnd, repass;
     TextView titleRule;
     Button signup;
     ImageView back;
@@ -58,6 +60,7 @@ public class UserSignUp extends AppCompatActivity {
     DatabaseReference databaseReferenceUR;
     DatabaseReference databaseReferenceCheck;
     String idAuto;
+    int checkEmail = 0;
 
     String formatEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
@@ -73,12 +76,29 @@ public class UserSignUp extends AppCompatActivity {
 
         name = findViewById(R.id.edt_suName);
         email = findViewById(R.id.edt_suEmail);
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                checkEmail();
+            }
+        });
         password = findViewById(R.id.edt_suPass);
         repass = findViewById(R.id.edt_suRePass);
         phone = findViewById(R.id.edt_suSDT);
         signup = findViewById(R.id.btn_suSignUp);
         back = findViewById(R.id.btn_suBack);
         rule = findViewById(R.id.cb_suRule);
+        cmnd = findViewById(R.id.edt_suCMND);
         titleRule = findViewById(R.id.txt_suTitleRule);
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +127,10 @@ public class UserSignUp extends AppCompatActivity {
                     phone.setError("Trường sdt không được bỏ trống");
                     return;
                 }
+                if (TextUtils.isEmpty(cmnd.getText().toString())) {
+                    cmnd.setError("Trường cmnd không được bỏ trống");
+                    return;
+                }
                 if (TextUtils.isEmpty(password.getText().toString())) {
                     password.setError("Trường mật khẩu không được bỏ trống");
                     return;
@@ -121,6 +145,13 @@ public class UserSignUp extends AppCompatActivity {
                 }
                 if (!rule.isChecked()) {
                     titleRule.setError("Cần phải đồng ý với điều khoản sử dụng");
+                    return;
+                }
+                if (checkEmail == 1){
+                    final  Dialog dialog = new Dialog(UserSignUp.this);
+                    openDialogNotifyNoButton(dialog,Gravity.CENTER,"Email đã có người sử dụng",R.layout.layout_dialog_notify_no_button);
+                    checkEmail = 0;
+                    email.getText().clear();
                     return;
                 }
                 Click();
@@ -141,7 +172,7 @@ public class UserSignUp extends AppCompatActivity {
                     }
                 });
         databaseReference = FirebaseDatabase.getInstance().getReference("user/"+idAuto);
-        user um = new user(idAuto,name.getText().toString(),email.getText().toString(),phone.getText().toString(),password.getText().toString(),"test",idAuto,"0");
+        user um = new user(idAuto,name.getText().toString(),email.getText().toString(),phone.getText().toString(),password.getText().toString(),cmnd.getText().toString(),idAuto,"0");
         databaseReferenceUR = FirebaseDatabase.getInstance().getReference("User_Role/"+idAuto);
         USER_ROLE ur = new USER_ROLE("1",idAuto);
         databaseReferenceUR.setValue(ur);
@@ -240,10 +271,30 @@ public class UserSignUp extends AppCompatActivity {
     }
 
     private void openDialogNotifyNoButton(final Dialog dialog, int gravity, String noidung, int duongdanlayout) {
-        setContentNotify(dialog, gravity, Gravity.BOTTOM, duongdanlayout);
+        setContentNotify(dialog, gravity, Gravity.CENTER, duongdanlayout);
         TextView tvNoidung = dialog.findViewById(R.id.tvNoidung_NotifyNoButton);
         tvNoidung.setText(noidung);
         dialog.show();
     }
 
+    public void checkEmail(){
+        DatabaseReference databaseReference;
+        databaseReference = FirebaseDatabase.getInstance().getReference("user");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    user _user = dataSnapshot.getValue(user.class);
+                    if (_user.getEmail().equals(email.getText().toString())){
+                        checkEmail = 1;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }
