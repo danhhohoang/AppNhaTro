@@ -38,11 +38,18 @@
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search_bar_admin_tenant_list"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="6"
             android:background="@drawable/shape_search_bar"
             android:iconifiedByDefault="false" />
 
+        <ImageView
+            android:id="@+id/img_admin_tenant_list_refresh"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_refresh" />
     </LinearLayout>
 
     <LinearLayout
