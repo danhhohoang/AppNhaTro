@@ -13,8 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appnhatro.Interface.Admininterface;
 import com.example.appnhatro.Models.BitMap;
-import com.example.appnhatro.Models.DatLichModels;
+import com.example.appnhatro.Models.NotifiAdminmodels;
+import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.Models.user;
 import com.example.appnhatro.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,42 +31,43 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class Landlord_Notification_Adapter extends RecyclerView.Adapter<Landlord_Notification_Adapter.LandlordNotification> implements Filterable {
-
+public class Tenant_report_notifi_adapter extends RecyclerView.Adapter<Tenant_report_notifi_adapter.Tenantreport> implements Filterable {
     private Activity context;
     private int resource;
-    private ArrayList<DatLichModels> mBookingLists;
-    private ArrayList<DatLichModels> mBookingListsOld;
-    private OnItemClickListener onItemClickLisner;
-
-    public Landlord_Notification_Adapter(Activity context, int resource, ArrayList<DatLichModels> mBookingLists) {
+    private ArrayList<NotifiAdminmodels> mReportLists;
+    private ArrayList<NotifiAdminmodels> mReportListsOld;
+    private Tenant_report_notifi_adapter.OnItemClickListener onItemClickLisner;
+    private Admininterface admininterface;
+    public Tenant_report_notifi_adapter(Activity context, int resource, ArrayList<NotifiAdminmodels> mBookingLists, Admininterface admininterface) {
         this.context = context;
         this.resource = resource;
-        this.mBookingLists = mBookingLists;
-        this.mBookingListsOld = mBookingLists;
+        this.mReportLists = mBookingLists;
+        this.mReportListsOld = mBookingLists;
+        this.admininterface = admininterface;
     }
 
     @NonNull
     @Override
-    public Landlord_Notification_Adapter.LandlordNotification onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Tenant_report_notifi_adapter.Tenantreport onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         CardView cardViewItem = (CardView) context.getLayoutInflater().
                 inflate(viewType, parent, false);
-        return new LandlordNotification(cardViewItem);
+        return new Tenantreport(cardViewItem, admininterface);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Landlord_Notification_Adapter.LandlordNotification holder, int position) {
-        DatLichModels datLichModels = mBookingLists.get(position);
-        if (datLichModels == null){
+    public void onBindViewHolder(@NonNull Tenant_report_notifi_adapter.Tenantreport holder, int position) {
+        NotifiAdminmodels notifiAdminmodels = mReportLists.get(position);
+        if (notifiAdminmodels == null){
             return;
         }
-        holder.name.setText(datLichModels.getName() );
-        holder.HouseName.setText(datLichModels.getHouname());
-        holder.date.setText(datLichModels.getDate());
-        holder.time.setText(datLichModels.getTime());
-        holder.notes.setText(datLichModels.getNotes());
+        holder.name.setText(notifiAdminmodels.getName());
+        DecimalFormat formatter = new DecimalFormat("#,###,###");
+        holder.id.setText(notifiAdminmodels.getIdAdmin());
+        holder.status.setText(notifiAdminmodels.getStatus());
+        holder.name_house.setText(notifiAdminmodels.getHouse_name());
         final int pos = position;
         holder.onClickListener= new View.OnClickListener() {
             @Override
@@ -76,11 +79,11 @@ public class Landlord_Notification_Adapter extends RecyclerView.Adapter<Landlord
         };
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
-        databaseReference.child("user").child(datLichModels.getIdUser()).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("user").child(notifiAdminmodels.getIdAdmin()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                user _use= snapshot.getValue(user.class);
-                BitMap bitMap = new BitMap(_use.getAvatar(), null);
+                user _user = snapshot.getValue(user.class);
+                BitMap bitMap = new BitMap(_user.getAvatar(), null);
                 StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/user/" + bitMap.getTenHinh());
                 try {
                     final File file = File.createTempFile(bitMap.getTenHinh(), "jpg");
@@ -105,8 +108,8 @@ public class Landlord_Notification_Adapter extends RecyclerView.Adapter<Landlord
 
     @Override
     public int getItemCount() {
-        if (mBookingLists != null){
-            return mBookingLists.size();
+        if (mReportLists != null){
+            return mReportLists.size();
         }
         return 0;
     }
@@ -123,47 +126,46 @@ public class Landlord_Notification_Adapter extends RecyclerView.Adapter<Landlord
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String strSearch = charSequence.toString();
                 if (strSearch.isEmpty()){
-                    mBookingLists = mBookingListsOld;
+                    mReportLists = mReportListsOld;
                 } else {
-                    ArrayList<DatLichModels> list = new ArrayList<>();
-                    for (DatLichModels datLichModels : mBookingListsOld){
-                        if (datLichModels.getName().toLowerCase().contains(strSearch.toLowerCase())){
-                            list.add(datLichModels);
+                    ArrayList<NotifiAdminmodels> list = new ArrayList<>();
+                    for (NotifiAdminmodels notifiAdminmodels : mReportListsOld){
+                        if (notifiAdminmodels.getIduser().toLowerCase().contains(strSearch.toLowerCase())){
+                            list.add(notifiAdminmodels);
                         }
                     }
-                    mBookingLists = list;
+                    mReportLists = list;
                 }
                 FilterResults filterResults = new FilterResults();
-                filterResults.values = mBookingLists;
+                filterResults.values = mReportLists;
                 return filterResults;
             }
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                mBookingLists = (ArrayList<DatLichModels>) filterResults.values;
+                mReportLists = (ArrayList<NotifiAdminmodels>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
     }
 
-    public static class LandlordNotification extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView idUser, name, HouseName, time, date, notes, id, idPost;
+    public static class Tenantreport extends RecyclerView.ViewHolder implements View.OnClickListener{
+        TextView idUser, name, status, name_house, tieude, notes, id, idPost;
         ImageView picture;
         View.OnClickListener onClickListener;
         CardView item;
 
-        public LandlordNotification(@NonNull View itemView) {
+        public Tenantreport(@NonNull View itemView, Admininterface admininterface) {
             super(itemView);
-            name = itemView.findViewById(R.id.txtName);
-            HouseName = itemView.findViewById(R.id.txthouname);
-            date = itemView.findViewById(R.id.txt_Ngay);
-            time = itemView.findViewById(R.id.txtGio);
-            notes = itemView.findViewById(R.id.txtnote);
-            picture = itemView.findViewById(R.id.imgavt);
-            item = itemView.findViewById(R.id.cv_tprCardView1);
+            name = itemView.findViewById(R.id.edt_rpname);
+            id = itemView.findViewById(R.id.edt_rpid);
+            name_house = itemView.findViewById(R.id.edt_rpnamehouse);
+            status = itemView.findViewById(R.id.edt_rpStatus);
+            picture = itemView.findViewById(R.id.img_AVTtn);
+            item = itemView.findViewById(R.id.carnotifitn);
             item.setOnClickListener(this);
-        }
 
+        }
 
         @Override
         public void onClick(View view) {
@@ -171,13 +173,17 @@ public class Landlord_Notification_Adapter extends RecyclerView.Adapter<Landlord
                 onClickListener.onClick(view);
             }
         }
+        private void Notification(Post post) {
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference databaseReference = firebaseDatabase.getReference("Notification");
+            databaseReference.child(post.getId()).setValue(post);
+        }
     }
     public interface OnItemClickListener {
         void onItemClickListener(int position, View view);
     }
 
-    public void setOnItemClickListener(Landlord_Notification_Adapter.OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(Tenant_report_notifi_adapter.OnItemClickListener onItemClickListener) {
         this.onItemClickLisner = onItemClickListener;
     }
-
 }

@@ -227,14 +227,7 @@ public class PostActivity extends AppCompatActivity {
         }
     }
     private void addToFavorite(Post post,Uri[] uri) {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference("Post_Oghep");
-        databaseReference.child(post.getId()).setValue(post, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                 fireBaseThueTro.addNewPosttn(PostActivity.this, post, uri);
-            }
-        });
     }
 
     private void setSpinner() {

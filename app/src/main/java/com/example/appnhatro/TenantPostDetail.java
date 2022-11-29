@@ -233,22 +233,18 @@ public class TenantPostDetail extends AppCompatActivity {
         btnReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String strname = house_name.getText().toString();
-                String strID = userId.getText().toString().replace("id:", "");
-                String strIDpost = it_id;
-                Intent intent = new Intent(TenantPostDetail.this, RepportActivity.class);
-                intent.putExtra("Name_hour", strname);
-                intent.putExtra("ID", strID);
-                intent.putExtra("IdPost", strIDpost);
-                startActivity(intent);
+                fireBaseThueTro.check(TenantPostDetail.this, it_id, it_idLogin);
             }
         });
         btnXemPhong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TenantPostDetail.this, BookingActivity.class);
-                String hinh = userId.getText().toString().replace("id:", "");
-                intent.putExtra("idpost", hinh);
+                String idlandlord = userId.getText().toString().replace("id:", "");
+                intent.putExtra("idlandlord", idlandlord);
+                intent.putExtra("idpost", it_id);
+                String TenPhong = house_name.getText().toString().replace("house_name","");
+                intent.putExtra("TenPhong", TenPhong);
                 startActivity(intent);
             }
         });
@@ -539,11 +535,11 @@ public class TenantPostDetail extends AppCompatActivity {
     //Get token callback from MoMo app an submit to server side
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("Tri", "code"+requestCode);
         if (requestCode == AppMoMoLib.getInstance().REQUEST_CODE_MOMO && resultCode == -1) {
             if (data != null) {
                 if (data.getIntExtra("status", -1) == 0) {
                     //TOKEN IS AVAILABLE
-                    Log.d("thanhcong", data.getStringExtra("message"));
                     if (data.getStringExtra("message").equals("Successful")) {
                         final Dialog dialog = new Dialog(TenantPostDetail.this);
                         openDialogNotifyNoButton(dialog,Gravity.CENTER,"Đặt cọc thành công", R.layout.layout_dialog_notify_no_button);

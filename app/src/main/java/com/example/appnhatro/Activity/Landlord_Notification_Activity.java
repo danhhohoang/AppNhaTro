@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,7 +32,7 @@ public class Landlord_Notification_Activity extends AppCompatActivity {
     FirebaseLandlordNotification firebaseLandlordNotification = new FirebaseLandlordNotification();
     DatabaseReference databaseReference;
     Button Huy, DongY;
-
+    ImageView back;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +40,13 @@ public class Landlord_Notification_Activity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
         getID = sharedPreferences.getString("idUser", "");
         ListPost();
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     public void ListPost() {
@@ -55,9 +63,11 @@ public class Landlord_Notification_Activity extends AppCompatActivity {
                 firebaseLandlordNotification.readFirebase(position, datLichModels, Landlord_Notification_Activity.this);
             }
         });
+
         sv_tpr = findViewById(R.id.sv_timkiem);
         Huy = findViewById(R.id.btn_huy);
         DongY = findViewById(R.id.btn_dY);
+        back = findViewById(R.id.btn_notifiback2);
         sv_tpr.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {

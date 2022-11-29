@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,12 +17,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Adapters.LandLordHomeListAdapter;
-//import com.example.appnhatro.FakeModels.PostFake;
 import com.example.appnhatro.Firebase.FireBaseLandLord;
+import com.example.appnhatro.LandlordAccountActivity;
 import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.Models.TransactionModel;
 import com.example.appnhatro.R;
-import com.example.appnhatro.TenantPostDetail;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,7 +30,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class LandLordHomeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -89,7 +85,7 @@ public class LandLordHomeActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         navigationView = (NavigationView) findViewById(R.id.navigationView);
 
-        itemMenu1 = findViewById(R.id.tv_lhlDSCT);
+
         itemMenu2 = findViewById(R.id.tv_lhlDSNTT);
         itemMenu3 = findViewById(R.id.tv_lhlCSVQL);
         itemMenu4 = findViewById(R.id.tv_lhlGDGD);
@@ -97,35 +93,32 @@ public class LandLordHomeActivity extends AppCompatActivity {
         itemMenu6 = findViewById(R.id.tv_lhlTKTT);
         itemMenu7 = findViewById(R.id.tv_lhlDX);
 
-        itemMenu1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
         itemMenu2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-        itemMenu3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LandLordHomeActivity.this, Landlord_Notification_Activity.class);
                 startActivity(intent);
             }
         });
+        itemMenu3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LandLordHomeActivity.this, TenantViewTermAndPolicyActivity.class);
+                startActivity(intent);
+            }
+        });
         itemMenu4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent =  new Intent(LandLordHomeActivity.this, UpdateStatusLandlordActivity.class);
+                startActivity(intent);
             }
         });
         itemMenu5.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
+            public void onClick( View view) {
+                Intent intent = new Intent(LandLordHomeActivity.this, LandlordAccountActivity.class);
+                startActivity(intent);
             }
         });
         itemMenu6.setOnClickListener(new View.OnClickListener() {
@@ -152,7 +145,7 @@ public class LandLordHomeActivity extends AppCompatActivity {
         itemMenu7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                finish();
             }
         });
     }

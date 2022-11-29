@@ -10,14 +10,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appnhatro.Firebase.FireBaseThueTro;
 import com.example.appnhatro.Models.ReportModels;
+import com.example.appnhatro.Models.user;
 import com.example.appnhatro.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class RepportActivity extends AppCompatActivity {
     EditText TenBaiDang;
@@ -27,7 +32,7 @@ public class RepportActivity extends AppCompatActivity {
     EditText NoiDung;
     Button Huy, Gui;
     ImageView back;
-    String tenbaidang,idbd, idPost,id_login, getIdPost = "", userid;
+    String tenbaidang,idbd, idPost,id_login, getIdPost = "", userid, idlandlord, newid;
     SharedPreferences sharedPreferences;
     private FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
 
@@ -44,10 +49,15 @@ public class RepportActivity extends AppCompatActivity {
         IDpost = findViewById(R.id.txtIDbaidang);
         Huy = findViewById(R.id.btnHuy);
         back = findViewById(R.id.btn_reportback);
-        id_login = getIntent().getStringExtra("it_ID");
+        idlandlord = getIntent().getStringExtra("idlandlord");
+        sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        userid = sharedPreferences.getString("idUser", "");
+        id_login = getIntent().getStringExtra("ID");
+        String[] parse = id_login. split(":");
+        newid = parse[1];
         setIntent();
         setEvent();
-
+        ten();
         //Tải dữ liệu lên firebase
         Gui.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +69,7 @@ public class RepportActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         ReportModels post = new ReportModels(getIdPost, TenBaiDang.getText().toString(), IDnguoiDang.getText().toString(),
-                                IDpost.getText().toString(), TenNguoiGui.getText().toString(), TieuDe.getText().toString(), NoiDung.getText().toString(), "1");
+                                IDpost.getText().toString(), TenNguoiGui.getText().toString(), TieuDe.getText().toString(), NoiDung.getText().toString(), "1", userid);
                         addToFavorite(post);
                         finish();
                     }
@@ -104,9 +114,29 @@ public class RepportActivity extends AppCompatActivity {
         });
     }
 
+    public void  ten(){
+        DatabaseReference databaseReference;
+        databaseReference = FirebaseDatabase.getInstance().getReference("user");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    user _user = dataSnapshot.getValue(user.class);
+                    if (_user.getId().equals(userid)){
+                        TenNguoiGui.setText(_user.getName());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
     public void setEvent(){
         TenBaiDang.setText(tenbaidang);
-        IDnguoiDang.setText(idbd);
+        IDnguoiDang.setText(newid);
         IDpost.setText(idPost);
         Gui.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -3,10 +3,8 @@ package com.example.appnhatro.Firebase;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -44,8 +42,6 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class FireBaseThueTro {
@@ -230,17 +226,23 @@ public class FireBaseThueTro {
         databaseReference.child("Report").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<String> dsPost = new ArrayList<>();
+                ArrayList<String> dsPostrp = new ArrayList<>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    dsPost.add(dataSnapshot.getKey());
+                    dsPostrp.add(dataSnapshot.getKey());
                 }
-                String[] temp = dsPost.get(dsPost.size() - 1).split("RP");
                 String id = "";
-                if (Integer.parseInt(temp[1]) < 9) {
-                    id = "RP0" + (Integer.parseInt(temp[1]) + 1);
-                } else {
-                    id = "RP" + (Integer.parseInt(temp[1]) + 1);
+                if (dsPostrp.size() == 0) {
+                    id = "RP01";
+                }else {
+                        String[] temp = dsPostrp.get(dsPostrp.size() - 1).split("RP");
+
+                        if (Integer.parseInt(temp[1]) < 9) {
+                            id = "RP0" + (Integer.parseInt(temp[1]) + 1);
+                        } else {
+                            id = "RP" + (Integer.parseInt(temp[1]) + 1);
+                        }
                 }
+
                 ((RepportActivity) context).SetID(id);
             }
 
@@ -261,16 +263,20 @@ public class FireBaseThueTro {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     dsPost.add(dataSnapshot.getKey());
                 }
-                String[] temp = dsPost.get(dsPost.size() - 1).split("P_tenant_");
                 String id = "";
-                if (Integer.parseInt(temp[1]) < 10) {
-                    id = "P_tenant_0" + (Integer.parseInt(temp[1]) + 1);
-                } else {
-                    id = "P_tenant_0" + (Integer.parseInt(temp[1]) + 1);
+                if (dsPost.size() == 0){
+                    id = "P_tenant_01";
+                }
+                else {
+                    String[] temp = dsPost.get(dsPost.size() - 1).split("P_tenant_");
+                    if (Integer.parseInt(temp[1]) < 9) {
+                        id = "P_tenant_0" + (Integer.parseInt(temp[1]) + 1);
+                    } else {
+                        id = "P_tenant_" + (Integer.parseInt(temp[1]) + 1);
+                    }
                 }
                 ((PostActivity) context).setID(id);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -288,16 +294,19 @@ public class FireBaseThueTro {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     dsBooking.add(dataSnapshot.getKey());
                 }
-                String[] temp = dsBooking.get(dsBooking.size() - 1).split("BK");
                 String id = "";
-                if (Integer.parseInt(temp[1]) < 10) {
-                    id = "BK0" + (Integer.parseInt(temp[1]) + 1);
-                } else {
-                    id = "BK01" + (Integer.parseInt(temp[1]) + 1);
+                if (dsBooking.size() == 0){
+                    id = "BK01";
+                }else {
+                    String[] temp = dsBooking.get(dsBooking.size() - 1).split("BK");
+                    if (Integer.parseInt(temp[1]) < 10) {
+                        id = "BK0" + (Integer.parseInt(temp[1]) + 1);
+                    } else {
+                        id = "BK01" + (Integer.parseInt(temp[1]) + 1);
+                    }
                 }
                 ((BookingActivity) context).IdBooking(id);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -315,12 +324,17 @@ public class FireBaseThueTro {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     dsNotification.add(dataSnapshot.getKey());
                 }
-                String[] temp = dsNotification.get(dsNotification.size() - 1).split("TB_");
                 String id = "";
-                if (Integer.parseInt(temp[1]) < 10) {
-                    id = "TB_0" + (Integer.parseInt(temp[1]) + 1);
-                } else {
-                    id = "TB_0" + (Integer.parseInt(temp[1]) + 1);
+                if (dsNotification.size() == 0){
+                    id = "TB_01";
+                }else {
+                    String[] temp = dsNotification.get(dsNotification.size() - 1).split("TB_");
+
+                    if (Integer.parseInt(temp[1]) < 9) {
+                        id = "TB_0" + (Integer.parseInt(temp[1]) + 1);
+                    } else {
+                        id = "TB_" + (Integer.parseInt(temp[1]) + 1);
+                    }
                 }
                 ((Detail_Notification_Landlor) context).IdNotification(id);
             }

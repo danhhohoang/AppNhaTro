@@ -21,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.appnhatro.Activity.AdminHomeActivity;
 import com.example.appnhatro.Activity.LandLordHomeActivity;
 import com.example.appnhatro.Activity.TenantViewTermAndPolicyActivity;
-import com.example.appnhatro.Activity.TermAndSerciveActivity;
 import com.example.appnhatro.Activity.VertifyPhoneNumberActivity;
 import com.example.appnhatro.Models.USER_ROLE;
 import com.example.appnhatro.Models.user;

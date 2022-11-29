@@ -61,13 +61,13 @@ public class VertifyPhoneNumberActivity extends AppCompatActivity {
         });
     }
 
-    private void setTitleToolbar(){
-        if (getSupportActionBar() != null){
+    private void setTitleToolbar() {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("VerifyPhone");
         }
     }
 
-    private void init(){
+    private void init() {
         edt_ipnPhone = findViewById(R.id.edt_ipnPhone);
         btn_ipnOK = findViewById(R.id.btn_ipnOK);
         back = findViewById(R.id.iv_pnBack);
@@ -93,13 +93,13 @@ public class VertifyPhoneNumberActivity extends AppCompatActivity {
 
                             @Override
                             public void onVerificationFailed(@NonNull FirebaseException e) {
-                                Toast.makeText(VertifyPhoneNumberActivity.this,"Vertification failed",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(VertifyPhoneNumberActivity.this, "Vertification failed", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
                             public void onCodeSent(@NonNull String vertificationID, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                                 super.onCodeSent(vertificationID, forceResendingToken);
-                                goToResetPasswordOTPActivity(strPhoneNumber,vertificationID);
+                                goToResetPasswordOTPActivity(strPhoneNumber, vertificationID);
 
                             }
                         })          // OnVerificationStateChangedCallbacks
@@ -124,7 +124,7 @@ public class VertifyPhoneNumberActivity extends AppCompatActivity {
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invalid
-                                Toast.makeText(VertifyPhoneNumberActivity.this,"The verification code entered was invalid",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(VertifyPhoneNumberActivity.this, "The verification code entered was invalid", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -132,8 +132,8 @@ public class VertifyPhoneNumberActivity extends AppCompatActivity {
     }
 
     private void goToResetPasswordChangeActivity(String phoneNumber) {
-        Intent intent = new Intent(this,ReserPasswordChangeActivity.class);
-        intent.putExtra("phone_number",phoneNumber);
+        Intent intent = new Intent(this, ReserPasswordChangeActivity.class);
+        intent.putExtra("phone_number", phoneNumber);
         startActivity(intent);
     }
 

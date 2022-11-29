@@ -3,8 +3,8 @@ package com.example.appnhatro;
 import static com.example.appnhatro.TenantPasswordChangeActivity.setContentNotify;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appnhatro.Activity.StatisticalAdminActivity;
-import com.example.appnhatro.Activity.StatisticalLandLordActivity;
+import com.example.appnhatro.Activity.TenantViewTermAndPolicyActivity;
 import com.example.appnhatro.Models.TransactionModel;
 import com.example.appnhatro.Models.user;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,7 +36,6 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -52,6 +50,7 @@ public class LandlordAccountActivity extends AppCompatActivity {
     public static final String PASS = "PASS";
     CircleImageView ivAccount_LA;
     String id, pass;
+    SharedPreferences sharedPreferences;
     int fee1,fee2,fee3,fee4,fee5,fee6,fee7,fee8,fee9,fee10,fee11,fee12;
     public static final String AVATAR = "AVATAR";
 
@@ -114,10 +113,6 @@ public class LandlordAccountActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
-        btnPhongdaluu_LA.setOnClickListener(click -> {
-            Intent intent = new Intent(LandlordAccountActivity.this, TenantPostFavourite.class);
-            startActivity(intent);
-        });
         btnLienhe_LA.setOnClickListener(click -> {
             Intent intent = new Intent(LandlordAccountActivity.this, TenantContactActivity.class);
             startActivity(intent);
@@ -159,6 +154,8 @@ public class LandlordAccountActivity extends AppCompatActivity {
             startActivity(intent);
         });
         btnDieuKhoan_LA.setOnClickListener(click -> {
+            Intent intent = new Intent(LandlordAccountActivity.this, TenantViewTermAndPolicyActivity.class);
+            startActivity(intent);
         });
         ivbtnBack_LA.setOnClickListener(click->{
             finish();
@@ -166,7 +163,6 @@ public class LandlordAccountActivity extends AppCompatActivity {
     }
 
     private void setControl() {
-        btnPhongdaluu_LA = findViewById(R.id.btnPhongdaluu_LA);
         btnDangxuat_LA = findViewById(R.id.btnDangxuat_LA);
         btnLienhe_LA = findViewById(R.id.btnLienhe_LA);
         btnDieuKhoan_LA = findViewById(R.id.btnDieukhoan_LA);
@@ -194,8 +190,8 @@ public class LandlordAccountActivity extends AppCompatActivity {
         return bundle;
     }
     private void getPutExtra(){
-        Intent intent = getIntent();
-        id = intent.getStringExtra("ID");
+        sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        id = sharedPreferences.getString("idUser", "");
     }
     private void data(){
         DatabaseReference databaseReference1;

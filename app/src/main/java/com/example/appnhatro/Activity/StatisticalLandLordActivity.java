@@ -1,36 +1,23 @@
 package com.example.appnhatro.Activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.appnhatro.Models.Post;
-import com.example.appnhatro.Models.StatiscalLandLord;
-import com.example.appnhatro.Models.TransactionModel;
 import com.example.appnhatro.R;
-import com.example.appnhatro.tool.GetValueFromLoop;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class StatisticalLandLordActivity extends AppCompatActivity{
     ArrayList barArray;
@@ -46,6 +33,7 @@ public class StatisticalLandLordActivity extends AppCompatActivity{
         getBundle();
         getData();
         BarChart barChart = findViewById(R.id.id_bc);
+        back = findViewById(R.id.iv_slBack);
         BarDataSet barDataSet = new BarDataSet(barArray,"test");
         BarData barData = new BarData(barDataSet);
         barChart.setData(barData);
@@ -54,8 +42,15 @@ public class StatisticalLandLordActivity extends AppCompatActivity{
         barDataSet.setValueTextSize(16f);
         barChart.getDescription().setEnabled(true);
         barChart.animateX(5000);
-        return;
 
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        return;
     }
 
 //    private void data(){

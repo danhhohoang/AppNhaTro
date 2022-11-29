@@ -32,7 +32,6 @@ public class HomeTenantActivity extends AppCompatActivity {
     FireBaseThueTro fireBaseThueTro = new FireBaseThueTro();
     ImageButton ivbtnAccount_HT, btn_pdt;
     SharedPreferences sharedPreferences;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
