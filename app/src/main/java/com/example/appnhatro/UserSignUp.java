@@ -196,7 +196,7 @@ public class UserSignUp extends AppCompatActivity {
 
     public void getID() {
         FirebaseDatabase firebaseDatabaseID = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReferenceID = firebaseDatabaseID.getReference("HistoryTransaction");
+        DatabaseReference databaseReferenceID = firebaseDatabaseID.getReference("user");
         databaseReferenceID.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -206,7 +206,7 @@ public class UserSignUp extends AppCompatActivity {
                 }
                 String[] temp = dsPost.get(dsPost.size() - 1).split("KH");
                 String id = "";
-                if (Integer.parseInt(temp[1]) < 10) {
+                if (Integer.parseInt(temp[1]) < 9) {
                     id = "KH0" + (Integer.parseInt(temp[1]) + 1);
                 } else {
                     id = "KH" + (Integer.parseInt(temp[1]) + 1);

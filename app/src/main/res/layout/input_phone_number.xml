@@ -51,6 +51,7 @@
             android:layout_weight="1"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
+            android:inputType="number"
             android:background="@drawable/txt_background_login"
             android:hint="Nhập số điện thoại"
             android:paddingLeft="20dp"/>
