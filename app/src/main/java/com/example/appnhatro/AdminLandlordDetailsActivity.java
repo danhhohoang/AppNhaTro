@@ -424,9 +424,9 @@ public class AdminLandlordDetailsActivity extends AppCompatActivity {
     }
     @SuppressLint("UseCompatLoadingForDrawables")
     public void checkInputdata() {
-        Pattern specialChar = Pattern.compile("^.*[#?!@$%^&+*-]+.*$");
-        Pattern specialCharPhone = Pattern.compile("^.*[#?!@$%^&*-]+.*$");
-        Pattern specialCharEmail = Pattern.compile("^.*[#?!$%^&*-]+.*$");
+        Pattern specialChar = Pattern.compile("^.*[#?!@$%^&+=*()/|-]+.*$");
+        Pattern specialCharPhone = Pattern.compile("^.*[#?!@$%^&=*()/|-]+.*$");
+        Pattern specialCharEmail = Pattern.compile("^.*[#?!$%^&*=()/|-]+.*$");
         Pattern specialString = Pattern.compile("^.*[a-zA-Z]+.*$");
         Pattern specialStringNumber = Pattern.compile("^.*[0-9]+.*$");
         if (txt_tenchutro.getText().toString().replaceAll(" ", "").length() == 0) {

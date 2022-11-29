@@ -38,6 +38,8 @@ import com.google.firebase.storage.UploadTask;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.regex.Pattern;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
@@ -81,7 +83,7 @@ public class TenantSettingProfileActivity extends AppCompatActivity {
         btnLuu_TSP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDialogNotifyYesNo(Gravity.CENTER, "Bạn có muốn lưu không ?",R.layout.layout_dialog_notify_yes_no);
+                checkThaydoi();
             }
         });
         ivBack_TSP.setOnClickListener(click -> {
@@ -178,7 +180,55 @@ public class TenantSettingProfileActivity extends AppCompatActivity {
         });
         dialog.show();
     }
-
+    public void checkThaydoi(){
+        if(txtHoten_TSP.getText().toString().equals(mListUser.getName())
+                &&txtCMND_TSP.getText().toString().equals(mListUser.getCitizenNumber())
+                &&txtEmail_TSP.getText().toString().equals(mListUser.getEmail())
+                &&txtSDT_TSP.getText().toString().equals(mListUser.getPhone())){
+            openDialogNotifyYesNo(Gravity.CENTER, "Bạn có muốn lưu không ?",R.layout.layout_dialog_notify_yes_no);
+        }else {
+            checkInputdata();
+        }
+    }
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public void checkInputdata() {
+        Pattern specialChar = Pattern.compile("^.*[#?!@$%^&+*=()/|-]+.*$");
+        Pattern specialCharPhone = Pattern.compile("^.*[#?!@$%^&*=()/|-]+.*$");
+        Pattern specialCharEmail = Pattern.compile("^.*[#?!$%^&*=()/|-]+.*$");
+        Pattern specialString = Pattern.compile("^.*[a-zA-Z]+.*$");
+        Pattern specialStringNumber = Pattern.compile("^.*[0-9]+.*$");
+        if (txtHoten_TSP.getText().toString().replaceAll(" ", "").length() == 0) {
+            txtHoten_TSP.setError("Họ tên không được phép để trống");
+        } else if (txtCMND_TSP.getText().toString().replaceAll(" ", "").length() == 0) {
+            txtCMND_TSP.setError("CMND không được phép để trống");
+        } else if (txtEmail_TSP.getText().toString().replaceAll(" ", "").length() == 0) {
+            txtEmail_TSP.setError("Email không được phép để trống");
+        } else if (txtSDT_TSP.getText().toString().replaceAll(" ", "").length() == 0) {
+            txtSDT_TSP.setError("Phone Number không được phép để trống");
+        } else if (specialStringNumber.matcher(txtHoten_TSP.getText().toString()).find() || specialChar.matcher(txtHoten_TSP.getText().toString()).find()) {
+            txtHoten_TSP.setError("Họ tên không được phép chứa số hoặc kí tự đặc biệt");
+        } else if (specialChar.matcher(txtCMND_TSP.getText().toString()).find() && txtCMND_TSP.getText().toString().length() > 0) {
+            txtCMND_TSP.setError("CMND không được phép chứa kí tự đặc biệt");
+        }else if (specialCharEmail.matcher(txtEmail_TSP.getText().toString()).find() && txtEmail_TSP.getText().toString().length() > 0) {
+            txtEmail_TSP.setError("Email không được phép chứa kí tự đặc biệt");
+        }else if (specialCharPhone.matcher(txtSDT_TSP.getText().toString()).find() && txtSDT_TSP.getText().toString().length() > 0) {
+            txtSDT_TSP.setError("Phone Number không được phép chứa kí tự đặc biệt");
+        } else if (specialString.matcher(txtCMND_TSP.getText().toString()).find() && txtCMND_TSP.getText().toString().length() > 0) {
+            txtCMND_TSP.setError("CMND không được phép chứa chữ");
+        }else if (specialString.matcher(txtSDT_TSP.getText().toString()).find() && txtSDT_TSP.getText().toString().length() > 0) {
+            txtSDT_TSP.setError("Phone Number không được phép chứa chữ");
+        } else if (!txtEmail_TSP.getText().toString().contains("@")) {
+            txtEmail_TSP.setError("Email sai định dạng thiếu @");
+        }else if (txtCMND_TSP.getText().toString().length() < 9) {
+            txtCMND_TSP.setError("CMND ít nhất từ 9 - 12 kí tự ");
+        } else if (txtEmail_TSP.getText().toString().contains(" ")) {
+            txtEmail_TSP.setError("Email không được phép chứa khoảng trắng");
+        }else if (txtEmail_TSP.getText().toString().length() < 11) {
+            txtEmail_TSP.setError("Email tối thiếu là 11 kí tự ");
+        } else {
+            openDialogNotifyYesNo(Gravity.CENTER, "Bạn có muốn lưu không ?",R.layout.layout_dialog_notify_yes_no);
+        }
+    }
     private void openDialogNotifyYesNo(int gravity, String noidung,int duongdanlayout) {
         final Dialog dialog = new Dialog(this);
         setContentNotify(dialog, gravity,Gravity.CENTER, duongdanlayout);
