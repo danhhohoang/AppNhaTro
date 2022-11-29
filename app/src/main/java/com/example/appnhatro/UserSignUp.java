@@ -4,6 +4,7 @@ import static com.example.appnhatro.TenantPasswordChangeActivity.setContentNotif
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appnhatro.Firebase.FirebaseUserSignUp;
@@ -40,7 +42,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserSignUp extends AppCompatActivity {
-    EditText name,email,password,phone,repass;
+    EditText name, email, password, phone, repass;
     TextView titleRule;
     Button signup;
     ImageView back;
@@ -54,9 +56,11 @@ public class UserSignUp extends AppCompatActivity {
     static ArrayList<user> arrUser = new ArrayList<>();
     DatabaseReference databaseReference;
     DatabaseReference databaseReferenceUR;
+    DatabaseReference databaseReferenceCheck;
     String idAuto;
 
     String formatEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,35 +91,35 @@ public class UserSignUp extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (TextUtils.isEmpty(name.getText().toString())){
+                if (TextUtils.isEmpty(name.getText().toString())) {
                     name.setError("Trường tên không được bỏ trống");
                     return;
                 }
-                if (TextUtils.isEmpty(email.getText().toString())){
+                if (TextUtils.isEmpty(email.getText().toString())) {
                     email.setError("Trường email không được bỏ trống");
                     return;
                 }
-                if (!email.getText().toString().matches(formatEmail)){
+                if (!email.getText().toString().matches(formatEmail)) {
                     email.setError("Trường email không đúng định dạng");
                     return;
                 }
-                if (TextUtils.isEmpty(phone.getText().toString())){
+                if (TextUtils.isEmpty(phone.getText().toString())) {
                     phone.setError("Trường sdt không được bỏ trống");
                     return;
                 }
-                if (TextUtils.isEmpty(password.getText().toString())){
+                if (TextUtils.isEmpty(password.getText().toString())) {
                     password.setError("Trường mật khẩu không được bỏ trống");
                     return;
                 }
-                if (TextUtils.isEmpty(repass.getText().toString())){
+                if (TextUtils.isEmpty(repass.getText().toString())) {
                     repass.setError("Trường nhập lại mật khẩu không được bỏ trống");
                     return;
                 }
-                if (!repass.getText().toString().equals(password.getText().toString())){
+                if (!repass.getText().toString().equals(password.getText().toString())) {
                     repass.setError("Trường nhập lại mật khẩu không khớp với mật khẩu trên");
                     return;
                 }
-                if (!rule.isChecked()){
+                if (!rule.isChecked()) {
                     titleRule.setError("Cần phải đồng ý với điều khoản sử dụng");
                     return;
                 }
@@ -163,7 +167,7 @@ public class UserSignUp extends AppCompatActivity {
 //        });
     }
 
-    public void openFolder(){
+    public void openFolder() {
         image = findViewById(R.id.iv_suImage);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,13 +182,13 @@ public class UserSignUp extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,100);
+        startActivityForResult(intent, 100);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && data!=null && data.getData() != null) {
+        if (requestCode == 100 && data != null && data.getData() != null) {
             imageUri = data.getData();
             image.setImageURI(imageUri);
         }
@@ -200,12 +204,12 @@ public class UserSignUp extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     dsPost.add(dataSnapshot.getKey());
                 }
-                String[] temp = dsPost.get(dsPost.size() - 1).split("HT");
+                String[] temp = dsPost.get(dsPost.size() - 1).split("KH");
                 String id = "";
                 if (Integer.parseInt(temp[1]) < 10) {
-                    id = "HT0" + (Integer.parseInt(temp[1]) + 1);
+                    id = "KH0" + (Integer.parseInt(temp[1]) + 1);
                 } else {
-                    id = "HT" + (Integer.parseInt(temp[1]) + 1);
+                    id = "KH" + (Integer.parseInt(temp[1]) + 1);
                 }
                 idAuto = id;
             }
@@ -223,23 +227,26 @@ public class UserSignUp extends AppCompatActivity {
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     user user1 = dataSnapshot.getValue(user.class);
                     arrUser.add(user1);
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(UserSignUp.this, "Get list user faild", Toast.LENGTH_LONG).show();
             }
         });
     }
+
     @Override
     protected void onResume() {
         super.onResume();
     }
-    private void openDialogNotifyNoButton(final Dialog dialog,int gravity, String noidung, int duongdanlayout) {
-        setContentNotify(dialog, gravity,Gravity.BOTTOM, duongdanlayout);
+
+    private void openDialogNotifyNoButton(final Dialog dialog, int gravity, String noidung, int duongdanlayout) {
+        setContentNotify(dialog, gravity, Gravity.BOTTOM, duongdanlayout);
         TextView tvNoidung = dialog.findViewById(R.id.tvNoidung_NotifyNoButton);
         tvNoidung.setText(noidung);
         dialog.show();

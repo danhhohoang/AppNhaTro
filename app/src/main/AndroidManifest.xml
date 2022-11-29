@@ -134,7 +134,10 @@
             android:exported="true"/>
         <activity android:name=".Activity.AdminTenantListActivity"/>
         <activity android:name=".Activity.AdminTenantDetaiActivity"/>
-
+        <activity android:name=".Activity.StatisticalAdminActivity"
+            android:exported="true"/>
+        <activity android:name=".Activity.AdminHistoryTransaction"
+            android:exported="true"/>
     </application>
 
 </manifest>

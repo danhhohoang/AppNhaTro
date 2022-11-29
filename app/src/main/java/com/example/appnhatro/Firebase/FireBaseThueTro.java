@@ -404,7 +404,7 @@ public class FireBaseThueTro {
                 boolean check = false;
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     HistoryTransaction historyTransaction = dataSnapshot.getValue(HistoryTransaction.class);
-                    if (historyTransaction.getId_user().equals(idUser) && historyTransaction.getPost().equals(idPost)) {
+                    if (historyTransaction.getId_user().equals(idUser) && !historyTransaction.getPost().equals(idPost)&&historyTransaction.getStatus().equals("0")) {
                         check = true;
                     }
                 }

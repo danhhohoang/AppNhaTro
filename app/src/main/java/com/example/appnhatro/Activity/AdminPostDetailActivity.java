@@ -61,23 +61,7 @@ public class AdminPostDetailActivity extends AppCompatActivity {
         btnXoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(AdminPostDetailActivity.this);
-                builder.setTitle("Thông báo");
-                builder.setMessage("Bạn chắc chắn muốn xoá bài");
-                builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        firebaseAdmin.deletePost(idpost);
-                        finish();
-                    }
-                });
-                builder.setNegativeButton("Không đồng ý", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                builder.show();
+                firebaseAdmin.deletePost(idpost,AdminPostDetailActivity.this);
             }
         });
     }
