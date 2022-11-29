@@ -1,7 +1,6 @@
 package com.example.appnhatro.Activity;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -9,18 +8,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.appnhatro.Adapters.AdminHomeAdapter;
 import com.example.appnhatro.AdminLandlordListActivity;
 import com.example.appnhatro.Firebase.FirebaseAdmin;
+import com.example.appnhatro.LoginActivity;
 import com.example.appnhatro.Models.HistoryTransaction;
 import com.example.appnhatro.Models.TransactionModel;
 import com.example.appnhatro.R;
@@ -36,7 +32,6 @@ import java.util.ArrayList;
 public class AdminHomeActivity extends AppCompatActivity {
     private AdminHomeAdapter adapter;
     private RecyclerView rcvHomeAdmin;
-    private ImageView menuAdmin;
     private ArrayList<HistoryTransaction> historyTransactions = new ArrayList<>();
     private FirebaseAdmin firebaseAdmin = new FirebaseAdmin();
     TextView itemMenu1, itemMenu2, itemMenu3, itemMenu4, itemMenu5, itemMenu6, itemMenu7,itemMenuAccount;
@@ -66,28 +61,30 @@ public class AdminHomeActivity extends AppCompatActivity {
         itemMenu2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(AdminHomeActivity.this, AdminTenantListActivity.class);
+                startActivity(intent);
             }
         });
 
         itemMenu3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(AdminHomeActivity.this,TermAndSerciveActivity.class);
+                startActivity(intent);
             }
         });
 
         itemMenu4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(AdminHomeActivity.this,AdminHistoryTransaction.class);
+                startActivity(intent);
             }
         });
 
         itemMenu5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
             }
         });
 
@@ -116,7 +113,8 @@ public class AdminHomeActivity extends AppCompatActivity {
         itemMenu7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(AdminHomeActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
         itemMenuAccount.setOnClickListener(new View.OnClickListener() {
@@ -171,10 +169,7 @@ public class AdminHomeActivity extends AppCompatActivity {
 
     private void data(){
         DatabaseReference databaseReference1;
-        DatabaseReference databaseReference2;
         databaseReference1 = FirebaseDatabase.getInstance().getReference("HistoryTransaction");
-        databaseReference2 = FirebaseDatabase.getInstance().getReference("Post");
-
         databaseReference1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -258,7 +253,6 @@ public class AdminHomeActivity extends AppCompatActivity {
                         }
                     }
                 }
-                Log.d("TAG", "onDataChange: " + fee11);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

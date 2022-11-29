@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appnhatro.Activity.AdminHomeActivity;
 import com.example.appnhatro.Activity.LandLordHomeActivity;
+import com.example.appnhatro.Activity.TenantViewTermAndPolicyActivity;
 import com.example.appnhatro.Activity.TermAndSerciveActivity;
 import com.example.appnhatro.Activity.VertifyPhoneNumberActivity;
 import com.example.appnhatro.Models.USER_ROLE;
@@ -169,7 +170,7 @@ public class LoginActivity extends AppCompatActivity {
         tvDieuKhoan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, TermAndSerciveActivity.class);
+                Intent intent = new Intent(LoginActivity.this, TenantViewTermAndPolicyActivity.class);
                 startActivity(intent);
             }
         });

@@ -1,6 +1,7 @@
 package com.example.appnhatro.Firebase;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 import com.example.appnhatro.Activity.LandLordAddNewPost;
 import com.example.appnhatro.Activity.LandLordFeedBack;
@@ -17,6 +19,7 @@ import com.example.appnhatro.Adapters.ImagePostDetailAdapter;
 import com.example.appnhatro.Adapters.LandLordCommentAdapter;
 import com.example.appnhatro.Adapters.LandLordHomeListAdapter;
 import com.example.appnhatro.Models.BitMap;
+import com.example.appnhatro.Models.HistoryTransaction;
 import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.Models.user;
 import com.example.appnhatro.TenantPostDetail;
@@ -204,7 +207,7 @@ public class FireBaseLandLord {
                 images.add(data.getImage());
                 images.add(data.getImage1());
                 images.add(data.getImage2());
-                ((LandLordUpdatePostActivity) context).setDistrictAndStatus(data.getAddress_district(),data.getStatus());
+                ((LandLordUpdatePostActivity) context).setDistrictAndStatus(data.getAddress_district(), data.getStatus());
                 final int[] dem = {0};
                 for (String image : images) {
                     BitMap bitMap = new BitMap(image, null);
@@ -243,12 +246,57 @@ public class FireBaseLandLord {
         });
     }
 
-    public void deletePost(String idPost) {
+    public void deletePost(String idPost, Context context) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
-        databaseReference.child("Post").child(idPost).removeValue();
-        databaseReference.child("Like").child(idPost).removeValue();
-        databaseReference.child("Rating").child(idPost).removeValue();
+        databaseReference.child("HistoryTransaction").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean check = false;
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    HistoryTransaction data = dataSnapshot.getValue(HistoryTransaction.class);
+                    if (data.getPost().equals(idPost)) {
+                        check = true;
+                        break;
+                    }
+                }
+                if (check) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Thông báo");
+                    builder.setMessage("Không thể xoá bài đăng");
+                    builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    builder.show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Thông báo");
+                    builder.setMessage("Bạn chắc chắn muốn xoá bài");
+                    builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            databaseReference.child("Post").child(idPost).removeValue();
+                            databaseReference.child("Like").child(idPost).removeValue();
+                            ((LandLordPostDetailActivity) context).finish();
+                        }
+                    });
+                    builder.setNegativeButton("Không đồng ý", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void readOnePostLandLord(Context context, String idPost, ArrayList<Rating> listRating, LandLordCommentAdapter commentAdapter, ArrayList<String> imagePost) {
@@ -256,30 +304,39 @@ public class FireBaseLandLord {
         DatabaseReference databaseReference = firebaseDatabase.getReference();
         DatabaseReference rating = firebaseDatabase.getReference("Rating");
         DatabaseReference like = firebaseDatabase.getReference("Like");
-        databaseReference.child("Post").child(idPost).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("Post").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Post data = snapshot.getValue(Post.class);
-                imagePost.clear();
-                imagePost.add(data.getImage());
-                imagePost.add(data.getImage1());
-                imagePost.add(data.getImage2());
-                ((LandLordPostDetailActivity) context).setDuLieu(data);
-                rating.child(idPost).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        ArrayList<Rating> ratings = new ArrayList<>();
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            Rating data = dataSnapshot.getValue(Rating.class);
-                            ratings.add(data);
-                        }
-                        listRating.clear();
-                        listRating.addAll(ratings);
-                        commentAdapter.notifyDataSetChanged();
-                        like.child(idPost).addValueEventListener(new ValueEventListener() {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Post data = dataSnapshot.getValue(Post.class);
+                    if (data.getId().equals(idPost)) {
+                        imagePost.clear();
+                        imagePost.add(data.getImage());
+                        imagePost.add(data.getImage1());
+                        imagePost.add(data.getImage2());
+                        ((LandLordPostDetailActivity) context).setDuLieu(data);
+                        rating.child(idPost).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                ((LandLordPostDetailActivity) context).setLike(String.valueOf(snapshot.getChildrenCount()));
+                                ArrayList<Rating> ratings = new ArrayList<>();
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    Rating data = dataSnapshot.getValue(Rating.class);
+                                    ratings.add(data);
+                                }
+                                listRating.clear();
+                                listRating.addAll(ratings);
+                                commentAdapter.notifyDataSetChanged();
+                                like.child(idPost).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        ((LandLordPostDetailActivity) context).setLike(String.valueOf(snapshot.getChildrenCount()));
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
                             }
 
                             @Override
@@ -287,36 +344,32 @@ public class FireBaseLandLord {
 
                             }
                         });
-                    }
+                        rating.child(data.getId()).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                int sum = 0;
+                                int sl = 0;
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    Rating rating = dataSnapshot.getValue(Rating.class);
+                                    sum = sum + Integer.valueOf(rating.getRating() + "");
+                                    sl = sl + 1;
+                                }
+                                if (sl != 0) {
+                                    int tong = sum / sl;
+                                    ((LandLordPostDetailActivity) context).setRating(tong);
+                                } else {
+                                    ((LandLordPostDetailActivity) context).setRating(0);
+                                }
+                            }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
 
+                            }
+                        });
+                        break;
                     }
-                });
-                rating.child(data.getId()).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        int sum = 0;
-                        int sl = 0;
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            Rating rating = dataSnapshot.getValue(Rating.class);
-                            sum = sum + Integer.valueOf(rating.getRating() + "");
-                            sl = sl + 1;
-                        }
-                        if (sl != 0) {
-                            int tong = sum / sl;
-                            ((LandLordPostDetailActivity) context).setRating(tong);
-                        } else {
-                            ((LandLordPostDetailActivity) context).setRating(0);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+                }
             }
 
             @Override
