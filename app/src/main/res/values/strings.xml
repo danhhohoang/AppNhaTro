@@ -60,6 +60,12 @@
 
 
     </string-array>
+    <string-array name="spiner_lydo">
+        <item>Vui lòng chọn lý do....</item>
+        <item>Hình ảnh avatar sai điều khoản</item>
+        <item>Bị khiếu nại</item>
+        <item>Lý do khác</item>
+    </string-array>
     <string-array name="string_spn_area">
         <item>--Chọn diện tích--</item>
         <item>dưới 20m2</item>

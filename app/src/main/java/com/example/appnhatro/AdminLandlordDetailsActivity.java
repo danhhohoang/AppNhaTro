@@ -8,17 +8,23 @@ import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.example.appnhatro.Models.user;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -30,26 +36,36 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AdminLandlordDetailsActivity extends AppCompatActivity {
     EditText txt_id, txt_tenchutro, txt_email, txt_phone, txt_cmnd, txt_password;
-    String avt, id, name, email, phone, cmnd, pass, status;
+    String [] email;
     CircleImageView civImage_ALD;
     Button btnKhoaTK_ALD, btnSuaTK_ALD;
     ImageButton ibtnBack_ALD;
+    boolean passwordVisible;
+    Date date;
     user userOld;
     int ttButton;
+    String newrole;
+    String title ="TÀI KHOẢN BẠN ĐÃ BỊ KHOÁ";
+    String doly;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_landlord_details);
+        date = new Date();
+        date.getDate();
         setControl();
         getSetBundle();
         setEvent();
+
     }
 
     private void setEvent() {
@@ -63,6 +79,13 @@ public class AdminLandlordDetailsActivity extends AppCompatActivity {
         btnSuaTK_ALD.setOnClickListener(click ->{
             ttButton = 1;
             checkThaydoi(ttButton);
+        });
+        txt_password.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                showHidePass(motionEvent,txt_password);
+                return false;
+            }
         });
     }
 
@@ -137,7 +160,16 @@ public class AdminLandlordDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                upData(txt_id.getText().toString(),status);
+                if(status.equals(userOld.getStatus())){
+                    upData(txt_id.getText().toString(),status);
+                }else{
+                    if(status.equals("0")){
+                        sendEmail("TÀI KHOẢN CỦA BẠN ĐÃ ĐƯỢC MỞ","Tài khoản đã được mở");
+                        upData(txt_id.getText().toString(),status);
+                    }else{
+                        openDialogNotifyEdit(Gravity.CENTER,R.layout.layout_dialog_spn_lydo,0,status);
+                    }
+                }
             }
         });
         dialog.show();
@@ -160,7 +192,7 @@ public class AdminLandlordDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 dialog.dismiss();
                 if(userOld.getStatus().equals("0")){
-                    upDataStatus(userOld.getId(),"1");
+                    openDialogNotifyEdit(Gravity.CENTER,R.layout.layout_dialog_spn_lydo,1,"");
                 }else{
                     upDataStatus(userOld.getId(),"0");
                 }
@@ -198,10 +230,41 @@ public class AdminLandlordDetailsActivity extends AppCompatActivity {
                 openDialogNotifyFinish(Gravity.CENTER,"Thay đổi thành công",R.layout.layout_dialog_notify_finish);
             }
         });
-
-
+    }
+    public boolean showHidePass(MotionEvent motionEvent, EditText edittext) {
+        final int Right = 2;
+        if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+            if (motionEvent.getRawX() >= edittext.getRight() - edittext.getCompoundDrawables()[Right].getBounds().width()) {
+                int selection = edittext.getSelectionEnd();
+                if (passwordVisible) {
+                    //set drawable image
+                    edittext.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.eye_hide, 0);
+                    //for hide password
+                    edittext.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    passwordVisible = false;
+                } else {
+                    edittext.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.eye_open, 0);
+                    edittext.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    passwordVisible = true;
+                }
+                edittext.setSelection(selection);
+                return true;
+            }
+        }
+        return false;
+    }
+    private void upDataStatusNoSend(String id,String status) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference userRef = database.getReference("user");
+        userRef.child(id).child("status").setValue(status).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                openDialogNotifyFinish(Gravity.CENTER,"Thay đổi thành công",R.layout.layout_dialog_notify_finish);
+            }
+        });
     }
     private void upDataStatus(String id,String status) {
+        sendEmail("TÀI KHOẢN CỦA BẠN ĐÃ ĐƯỢC MỞ","Tài khoản đã được mở");
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference userRef = database.getReference("user");
         userRef.child(id).child("status").setValue(status).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -262,6 +325,15 @@ public class AdminLandlordDetailsActivity extends AppCompatActivity {
         });
         dialog.show();
     }
+    public void sendEmail(String title,String lydo){
+        doly =lydo+". Vui lòng liên hệ với số 0394682138 để cần được hỗ trợ";
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL,new String []{userOld.getEmail()});
+        intent.putExtra(Intent.EXTRA_SUBJECT,title);
+        intent.putExtra(Intent.EXTRA_TEXT,doly);
+        startActivity(intent);
+    }
     public void checkThaydoi(int ttButton) {
         if (txt_tenchutro.getText().toString().length() == 0 &&
                 txt_email.getText().toString().length() == 0 &&
@@ -290,6 +362,104 @@ public class AdminLandlordDetailsActivity extends AppCompatActivity {
                 }
             }
         }else{
+            if(txt_tenchutro.getText().toString().equals(userOld.getName())&&
+                    txt_email.getText().toString().equals(userOld.getEmail())&&
+                    txt_phone.getText().toString().equals(userOld.getPhone())&&
+                    txt_cmnd.getText().toString().equals(userOld.getCitizenNumber())&&
+                    txt_password.getText().toString().equals(userOld.getPassword())){
+                openDialogNotifyYesNo1(Gravity.CENTER,"Bạn có muốn thay đổi thông tin không ?",R.layout.layout_dialog_notify_yes_no,userOld.getStatus());
+            }else{
+                checkInputdata();
+            }
+
+        }
+    }
+    private void openDialogNotifyEdit(int gravity,int duongdanlayout,int truefalse ,String status) {
+        email = new String[]{userOld.getEmail()};
+        final Dialog dialog = new Dialog(this);
+        setContentNotify(dialog, gravity, Gravity.CENTER, duongdanlayout);
+        Button btnLeft = dialog.findViewById(R.id.btnLeft_SelectRole);
+        Button btnRight = dialog.findViewById(R.id.btnRight_SelectRole);
+        Spinner spnRole = dialog.findViewById(R.id.spnRole);
+
+        String[] arr = getResources().getStringArray(R.array.spiner_lydo);
+        spnRole.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                newrole = arr[i];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        btnLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        btnRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(newrole.equals(arr[0])){
+                    openDialogNotify(Gravity.CENTER,"Vui lòng chọn trước khi lưu",R.layout.layout_dialog_notify);
+                }else{
+                    if(truefalse == 1){
+                        dialog.dismiss();
+                        sendEmail(title,newrole);
+                        upDataStatusNoSend(userOld.getId(),"1");
+                    }else{
+                        dialog.dismiss();
+                        sendEmail(title,newrole);
+                        upData(txt_id.getText().toString(),status);
+                    }
+                }
+            }
+        });
+
+        dialog.show();
+    }
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public void checkInputdata() {
+        Pattern specialChar = Pattern.compile("^.*[#?!@$%^&+=*()/|-]+.*$");
+        Pattern specialCharPhone = Pattern.compile("^.*[#?!@$%^&=*()/|-]+.*$");
+        Pattern specialCharEmail = Pattern.compile("^.*[#?!$%^&*=()/|-]+.*$");
+        Pattern specialString = Pattern.compile("^.*[a-zA-Z]+.*$");
+        Pattern specialStringNumber = Pattern.compile("^.*[0-9]+.*$");
+        if (txt_tenchutro.getText().toString().replaceAll(" ", "").length() == 0) {
+            txt_tenchutro.setError("Họ tên không được phép để trống");
+        } else if (txt_cmnd.getText().toString().replaceAll(" ", "").length() == 0) {
+            txt_cmnd.setError("CMND không được phép để trống");
+        } else if (txt_email.getText().toString().replaceAll(" ", "").length() == 0) {
+            txt_email.setError("Email không được phép để trống");
+        } else if (txt_phone.getText().toString().replaceAll(" ", "").length() == 0) {
+            txt_phone.setError("Phone Number không được phép để trống");
+        } else if (specialStringNumber.matcher(txt_tenchutro.getText().toString()).find() || specialChar.matcher(txt_tenchutro.getText().toString()).find()) {
+            txt_tenchutro.setError("Họ tên không được phép chứa số hoặc kí tự đặc biệt");
+        } else if (specialChar.matcher(txt_cmnd.getText().toString()).find() && txt_cmnd.getText().toString().length() > 0) {
+            txt_cmnd.setError("CMND không được phép chứa kí tự đặc biệt");
+        }else if (specialCharEmail.matcher(txt_email.getText().toString()).find() && txt_email.getText().toString().length() > 0) {
+            txt_email.setError("Email không được phép chứa kí tự đặc biệt");
+        }else if (specialCharPhone.matcher(txt_phone.getText().toString()).find() && txt_phone.getText().toString().length() > 0) {
+            txt_phone.setError("Phone Number không được phép chứa kí tự đặc biệt");
+        } else if (specialString.matcher(txt_cmnd.getText().toString()).find() && txt_cmnd.getText().toString().length() > 0) {
+            txt_cmnd.setError("CMND không được phép chứa chữ");
+        }else if (specialString.matcher(txt_phone.getText().toString()).find() && txt_phone.getText().toString().length() > 0) {
+            txt_phone.setError("Phone Number không được phép chứa chữ");
+        } else if (!txt_email.getText().toString().contains("@")) {
+            txt_email.setError("Email sai định dạng thiếu @");
+        }else if (txt_cmnd.getText().toString().length() < 9) {
+            txt_cmnd.setError("CMND ít nhất từ 9 - 12 kí tự ");
+        } else if (txt_email.getText().toString().contains(" ")) {
+            txt_email.setError("Email không được phép chứa khoảng trắng");
+        }else if (txt_email.getText().toString().length() < 11) {
+            txt_email.setError("Email tối thiếu là 11 kí tự ");
+        } else if (txt_password.getText().toString().length() < 6) {
+            txt_password.setError("Mật khẩu tối thiếu là 6 kí tự ");
+        } else {
             openDialogNotifyYesNo1(Gravity.CENTER,"Bạn có muốn thay đổi thông tin không ?",R.layout.layout_dialog_notify_yes_no,userOld.getStatus());
         }
     }

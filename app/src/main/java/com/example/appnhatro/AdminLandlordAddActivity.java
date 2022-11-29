@@ -9,20 +9,28 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appnhatro.Models.UserRoleModel;
 import com.example.appnhatro.Models.user;
+import com.github.drjacky.imagepicker.ImagePicker;
+import com.github.drjacky.imagepicker.constant.ImageProvider;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -34,6 +42,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,6 +52,9 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+import kotlin.jvm.internal.Intrinsics;
 
 public class AdminLandlordAddActivity extends AppCompatActivity {
     CircleImageView crivAccount_ALA;
@@ -52,7 +65,8 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
     private UserRoleModel userRoles;
     private ArrayList<user> arrUser;
     private ArrayList<UserRoleModel> arrURole;
-    Dialog progressDialog;
+    boolean passwordVisible;
+    private ActivityResultLauncher<Intent> launcher;
     Uri imgUri = Uri.EMPTY;
     Date now;
     SimpleDateFormat formatter;
@@ -65,6 +79,7 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
         arrURole = new ArrayList<>();
         setContentView(R.layout.admin_landlord_add);
         setControl();
+        setImage();
         getIDUser();
         getIDUserRole();
         setEvent();
@@ -87,6 +102,14 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
                 finish();
             }
         });
+        txtMatkhau_ALA.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                showHidePass(motionEvent,txtMatkhau_ALA);
+                return false;
+            }
+        });
+
     }
 
     public void getIDUser() {
@@ -144,21 +167,55 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
     }
 
     private void selectImage() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, 100);
-    }
+        ImagePicker.Companion.with(AdminLandlordAddActivity.this)
+                .crop()
+                .cropOval()
+                .maxResultSize(512, 512, true)
+                .provider(ImageProvider.BOTH)
+                .createIntentFromDialog((Function1) (new Function1() {
+                    public Object invoke(Object var1) {
+                        this.invoke((Intent) var1);
+                        return Unit.INSTANCE;
+                    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && data != null && data.getData() != null) {
-            imgUri = data.getData();
-            crivAccount_ALA.setImageURI(imgUri);
+                    public void invoke(@NotNull Intent it) {
+                        Intrinsics.checkNotNullParameter(it, "it");
+                        launcher.launch(it);
+                    }
+                }));
+    }
+    private void setImage(){
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), (ActivityResult result) -> {
+            if (result.getResultCode() == RESULT_OK) {
+                imgUri = result.getData().getData();
+                crivAccount_ALA.setImageURI(imgUri);
+            } else if (result.getResultCode() == ImagePicker.RESULT_ERROR) {
+                openDialogNotify(Gravity.CENTER,"Image fail load",R.layout.layout_dialog_notify);
+            }
+        });
+    }
+    public boolean showHidePass(MotionEvent motionEvent, EditText edittext) {
+        final int Right = 2;
+        if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+            if (motionEvent.getRawX() >= edittext.getRight() - edittext.getCompoundDrawables()[Right].getBounds().width()) {
+                int selection = edittext.getSelectionEnd();
+                if (passwordVisible) {
+                    //set drawable image
+                    edittext.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.eye_hide, 0);
+                    //for hide password
+                    edittext.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    passwordVisible = false;
+                } else {
+                    edittext.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.eye_open, 0);
+                    edittext.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    passwordVisible = true;
+                }
+                edittext.setSelection(selection);
+                return true;
+            }
         }
+        return false;
     }
-
     private void addUserRole(String idURole, String idUser) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference userRef = database.getReference("User_Role/" + idURole);
@@ -170,7 +227,20 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
             }
         });
     }
-
+    private void openDialogNotify(int gravity, String noidung, int duongdanlayout) {
+        final Dialog dialog = new Dialog(this);
+        setContentNotify(dialog, gravity,Gravity.CENTER, duongdanlayout);
+        TextView tvNoidung = dialog.findViewById(R.id.tvNoidung_Notify);
+        Button btnLeft = dialog.findViewById(R.id.btnCenter_Notify);
+        tvNoidung.setText(noidung);
+        btnLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
     private void addLandlord(String fileName, String id) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference userRef = database.getReference("user/" + id);
@@ -185,7 +255,7 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
         userRef.setValue(users, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                addUserRole(IdURole, IdAuto);
+                addUserRole(IdURole, id);
             }
         });
     }
@@ -298,13 +368,12 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     public void checkInputdata() {
-        Pattern specialChar = Pattern.compile("^.*[#?!@$%^&+*-]+.*$");
-        Pattern specialCharPhone = Pattern.compile("^.*[#?!@$%^&*-]+.*$");
-        Pattern specialCharEmail = Pattern.compile("^.*[#?!$%^&*-]+.*$");
+        Pattern specialChar = Pattern.compile("^.*[#?!@$%^&+*=()/|-]+.*$");
+        Pattern specialCharPhone = Pattern.compile("^.*[#?!@$%^&*=()/|-]+.*$");
+        Pattern specialCharEmail = Pattern.compile("^.*[#?!$%^&*=()/|-]+.*$");
         Pattern specialString = Pattern.compile("^.*[a-zA-Z]+.*$");
         Pattern specialStringNumber = Pattern.compile("^.*[0-9]+.*$");
         if (txtHoten_ALA.getText().toString().replaceAll(" ", "").length() == 0) {
-//            openDiglogNotify(Gravity.CENTER, "Họ tên không được phép để trống", R.layout.layout_dialog_notify);
             txtHoten_ALA.setError("Họ tên không được phép để trống");
         } else if (txtCMND_ALA.getText().toString().replaceAll(" ", "").length() == 0) {
             txtCMND_ALA.setError("CMND không được phép để trống");
@@ -331,7 +400,7 @@ public class AdminLandlordAddActivity extends AppCompatActivity {
         } else if (txtEmail_ALA.getText().toString().contains(" ")) {
             txtEmail_ALA.setError("Email không được phép chứa khoảng trắng");
         }else if (txtEmail_ALA.getText().toString().length() < 11) {
-            txtSdt_ALA.setError("Email tối thiếu là 11 kí tự ");
+            txtEmail_ALA.setError("Email tối thiếu là 11 kí tự ");
         } else if (txtMatkhau_ALA.getText().toString().length() < 6) {
             txtMatkhau_ALA.setError("Mật khẩu tối thiếu là 6 kí tự ");
         } else {

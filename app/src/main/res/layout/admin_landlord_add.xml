@@ -1,91 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="10"
         android:background="@drawable/background"
-        android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:layout_weight="0.7"
-        android:minHeight="100dp"
-        android:layout_marginBottom="20dp"
-        android:orientation="horizontal">
-        <Button
-            style="@style/al_ButtonNavigationbar_add_detail"
-            android:id="@+id/btnBack_ALA"
-            android:background="?android:attr/selectableItemBackground"
-            android:drawableLeft="@drawable/ic_baseline_arrow_back_ios_24"
-            tools:ignore="SpeakableTextPresentCheck" />
-        <TextView
-            style="@style/al_textviewNavigationbar_add_detail"
-            android:paddingLeft="-50dp"
-            android:text="THÊM CHỦ TRỌ" />
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_weight="9.3"
-        android:weightSum="32"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp">
+        android:weightSum="10">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/crivAccount_ALA"
-            style="@style/al_imglandlord_add_detail"
-            android:src="@drawable/ic_user"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="0.7"
+            android:gravity="center"
+            android:minHeight="100dp"
+            android:orientation="horizontal">
 
-        <TextView
-            style="@style/al_textview_add_detail"
-            android:text="Tên chủ trọ:"/>
-        <EditText
-            android:id="@+id/txtHoten_ALA"
-            style="@style/al_edittext_add_detail"
-            android:hint="Hoàng Danh" />
+            <Button
+                android:id="@+id/btnBack_ALA"
+                style="@style/al_ButtonNavigationbar_add_detail"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawableLeft="@drawable/ic_baseline_arrow_back_ios_24"
+                tools:ignore="SpeakableTextPresentCheck" />
 
-        <TextView
-            style="@style/al_textview_add_detail"
-            android:text="CMND:"/>
-        <EditText
-            android:id="@+id/txtCMND_ALA"
-            style="@style/al_edittext_add_detail"
-            android:hint="0232165654" />
-        <TextView
-            style="@style/al_textview_add_detail"
-            android:text="Email:"/>
-        <EditText
-            style="@style/al_edittext_add_detail"
-            android:id="@+id/txtEmail_ALA"
-            android:hint="abc123@gmail.com" />
-        <TextView
-            style="@style/al_textview_add_detail"
-            android:text="Mật khẩu:"/>
-        <EditText
-            style="@style/al_edittext_add_detail"
-            android:id="@+id/txtMatkhau_ALA"
-            android:hint="123456" />
-        <TextView
-            style="@style/al_textview_add_detail"
-            android:text="Phone Number:"/>
-        <EditText
-            style="@style/al_edittext_add_detail"
-            android:id="@+id/txtSdt_ALA"
-            android:hint="0123456789" />
-        <Button
-            android:id="@+id/btnThemCT_ALA"
-            style="@style/al_Button_add"
-            app:backgroundTint="@null"
-            android:background="@drawable/button_themct_admin_border"
-            android:text="Thêm" />
-    </LinearLayout>
+            <TextView
+                style="@style/al_textviewNavigationbar_add_detail"
+                android:paddingLeft="-50dp"
+                android:text="THÊM CHỦ TRỌ" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_weight="9.3"
+            android:orientation="vertical"
+            android:weightSum="25">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/crivAccount_ALA"
+                style="@style/al_imglandlord_add_detail"
+                android:src="@drawable/ic_user" />
+
+            <TextView
+                style="@style/al_textview_add_detail"
+                android:text="Tên chủ trọ:" />
+
+            <EditText
+                android:id="@+id/txtHoten_ALA"
+                style="@style/al_edittext_add_detail"
+                android:hint="Hoàng Danh" />
+
+            <TextView
+                style="@style/al_textview_add_detail"
+                android:text="CMND:" />
+
+            <EditText
+                android:id="@+id/txtCMND_ALA"
+                style="@style/al_edittext_add_detail"
+                android:hint="0232165654" />
+
+            <TextView
+                style="@style/al_textview_add_detail"
+                android:text="Email:" />
+
+            <EditText
+                android:id="@+id/txtEmail_ALA"
+                style="@style/al_edittext_add_detail"
+                android:hint="abc123@gmail.com" />
+
+            <TextView
+                style="@style/al_textview_add_detail"
+                android:text="Mật khẩu:" />
+
+            <EditText
+                android:id="@+id/txtMatkhau_ALA"
+                style="@style/al_edittext_add_detail"
+                android:drawableRight="@drawable/eye_hide"
+                android:hint="123456"
+                android:inputType="textPassword" />
+
+            <TextView
+                style="@style/al_textview_add_detail"
+                android:text="Phone Number:" />
+
+            <EditText
+                android:id="@+id/txtSdt_ALA"
+                style="@style/al_edittext_add_detail"
+                android:hint="0123456789" />
+
+            <Button
+                android:id="@+id/btnThemCT_ALA"
+                style="@style/al_Button_add"
+                android:background="@drawable/button_themct_admin_border"
+                android:text="Thêm"
+                app:backgroundTint="@null" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

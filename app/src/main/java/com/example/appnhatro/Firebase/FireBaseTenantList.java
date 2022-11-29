@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.appnhatro.Activity.AdminTenantDetaiActivity;
+import com.example.appnhatro.Activity.AdminTenantListActivity;
 import com.example.appnhatro.Adapters.TenantListAdapter;
 import com.example.appnhatro.Models.USER_ROLE;
 import com.example.appnhatro.Models.user;
@@ -21,26 +22,31 @@ import java.util.Locale;
 
 public class FireBaseTenantList {
 
-    public void getAllUser(Activity activity, ArrayList<user> userArrayList, TenantListAdapter adapter) {
+    public void getAllUserByRole( Activity activity,ArrayList<user> userArrayList, TenantListAdapter adapter) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference userFirebase = firebaseDatabase.getReference("user");
         DatabaseReference roleFirebase = firebaseDatabase.getReference("User_Role");
         roleFirebase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                userArrayList.clear();
                 for (DataSnapshot dataSnapshotRole : snapshot.getChildren()) {
                     USER_ROLE user_role = dataSnapshotRole.getValue(USER_ROLE.class);
                     if (user_role.getId_role().equals("1")) {
                         userFirebase.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                ArrayList<user> tempList = new ArrayList<>();
                                 for (DataSnapshot dataSnapshotUser : snapshot.getChildren()) {
                                     user _user = dataSnapshotUser.getValue(user.class);
                                     if (_user.getId().equals(user_role.getId_user())) {
-                                        userArrayList.add(_user);
-                                        adapter.notifyDataSetChanged();
+                                        tempList.add(_user);
+
                                     }
                                 }
+                                userArrayList.addAll(tempList);
+
+                                ((AdminTenantListActivity)activity).setData();
                                 adapter.notifyDataSetChanged();
                             }
                             @Override
@@ -215,49 +221,5 @@ public class FireBaseTenantList {
         });
     }
 
-    public void reTurnUserByFilter(String newText, ArrayList<user> userArrayList, TenantListAdapter adapter) {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference userDatabaseReference = firebaseDatabase.getReference("user");
-        DatabaseReference roleFirebase = firebaseDatabase.getReference("User_Role");
-        roleFirebase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    USER_ROLE user_role = dataSnapshot.getValue(USER_ROLE.class);
-                    if (user_role.getId_role().equalsIgnoreCase("1")) {
-                        userDatabaseReference.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshotUser) {
-                                for (DataSnapshot dataSnapshotUser : snapshotUser.getChildren()) {
-                                    user _user = dataSnapshotUser.getValue(user.class);
-                                    if (_user.getId().equals(user_role.getId_user())) {
-
-                                        if (snapshotUser != null) {
-                                            if (_user.getId().toLowerCase().contains(newText.toLowerCase(Locale.ROOT)) || _user.getName().toLowerCase().contains(newText.toLowerCase())) {
-                                                userArrayList.add(_user);
-                                                adapter.notifyDataSetChanged();
-                                            }
-                                        } else {
-
-                                        }
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
 }
 

@@ -1,4 +1,4 @@
-package com.example.appnhatro;
+package com.example.appnhatro.Activity;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -23,6 +23,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appnhatro.Models.user;
+import com.example.appnhatro.R;
+import com.example.appnhatro.TenantSettingActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,10 +32,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class TenantPasswordChangeActivity extends AppCompatActivity {
-    EditText txtMatkhaucu_TPC, txtMatkhaumoi1_TPC, txtMatkhaumoi2_TPC;
-    ImageView ivBack_TPC;
-    Button btnLuu_TPC;
+public class AdminPasswordChangeActivity extends AppCompatActivity {
+    EditText txtMatkhaucu_APC, txtMatkhaumoi1_APC, txtMatkhaumoi2_APC;
+    ImageView ivBack_APC;
+    Button btnLuu_APC;
     private user mUser;
     boolean passwordVisible;
     private String id, pass;
@@ -41,7 +43,7 @@ public class TenantPasswordChangeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tenant_password_change);
+        setContentView(R.layout.admin_password_change);
         setControl();
         getBundle();
         setEvent();
@@ -49,37 +51,37 @@ public class TenantPasswordChangeActivity extends AppCompatActivity {
 
     public void setEvent() {
         onReadPassWord();
-        txtMatkhaucu_TPC.setOnTouchListener(new View.OnTouchListener() {
+        txtMatkhaucu_APC.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                return showHidePass(motionEvent, txtMatkhaucu_TPC);
+                return showHidePass(motionEvent, txtMatkhaucu_APC);
             }
         });
-        txtMatkhaumoi1_TPC.setOnTouchListener(new View.OnTouchListener() {
+        txtMatkhaumoi1_APC.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                return showHidePass(motionEvent, txtMatkhaumoi1_TPC);
+                return showHidePass(motionEvent, txtMatkhaumoi1_APC);
             }
         });
-        txtMatkhaumoi2_TPC.setOnTouchListener(new View.OnTouchListener() {
+        txtMatkhaumoi2_APC.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                return showHidePass(motionEvent, txtMatkhaumoi2_TPC);
+                return showHidePass(motionEvent, txtMatkhaumoi2_APC);
             }
         });
-        ivBack_TPC.setOnClickListener(click -> {
+        ivBack_APC.setOnClickListener(click -> {
             finish();
         });
-        btnLuu_TPC.setOnClickListener(new View.OnClickListener() {
+        btnLuu_APC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (txtMatkhaucu_TPC.getText().toString().length() == 0&&txtMatkhaumoi1_TPC.getText().toString().length() == 0 && txtMatkhaumoi2_TPC.getText().toString().length() == 0) {
+                if (txtMatkhaucu_APC.getText().toString().length() == 0&&txtMatkhaumoi1_APC.getText().toString().length() == 0 && txtMatkhaumoi2_APC.getText().toString().length() == 0) {
                     openDiglogNotify(Gravity.CENTER, "Vui lòng nhập vào", R.layout.layout_dialog_notify);
-                } else if (!txtMatkhaumoi1_TPC.getText().toString().equals(txtMatkhaumoi2_TPC.getText().toString())) {
+                } else if (!txtMatkhaumoi1_APC.getText().toString().equals(txtMatkhaumoi2_APC.getText().toString())) {
                     openDiglogNotify(Gravity.CENTER, "Mật mẩu mới không trùng khớp", R.layout.layout_dialog_notify);
-                } else if (txtMatkhaumoi1_TPC.getText().toString().length() == 0 && txtMatkhaumoi2_TPC.getText().toString().length() == 0) {
+                } else if (txtMatkhaumoi1_APC.getText().toString().length() == 0 && txtMatkhaumoi2_APC.getText().toString().length() == 0) {
                     openDiglogNotify(Gravity.CENTER, "Vui lòng nhập mật khẩu mới", R.layout.layout_dialog_notify);
-                }else if (!txtMatkhaucu_TPC.getText().toString().equals(pass)) {
+                }else if (!txtMatkhaucu_APC.getText().toString().equals(pass)) {
                     openDiglogNotify(Gravity.CENTER, "Mật khẩu cũ sai", R.layout.layout_dialog_notify);
                 }
                 else {
@@ -178,7 +180,7 @@ public class TenantPasswordChangeActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(TenantPasswordChangeActivity.this, "Get password fail", Toast.LENGTH_LONG).show();
+                Toast.makeText(AdminPasswordChangeActivity.this, "Get password fail", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -190,7 +192,7 @@ public class TenantPasswordChangeActivity extends AppCompatActivity {
                 mUser.getName(),
                 mUser.getEmail(),
                 mUser.getPhone(),
-                txtMatkhaumoi1_TPC.getText().toString(),
+                txtMatkhaumoi1_APC.getText().toString(),
                 mUser.getCitizenNumber(),
                 mUser.getAvatar(),
                 mUser.getStatus());
@@ -227,11 +229,11 @@ public class TenantPasswordChangeActivity extends AppCompatActivity {
     }
 
     public void setControl() {
-        txtMatkhaucu_TPC = findViewById(R.id.txtMatkhaucu_TPC);
-        txtMatkhaumoi1_TPC = findViewById(R.id.txtMatkhaumoi1_TPC);
-        txtMatkhaumoi2_TPC = findViewById(R.id.txtMatkhaumoi2_TPC);
-        ivBack_TPC = findViewById(R.id.ivBack_TPC);
-        btnLuu_TPC = findViewById(R.id.btnLuu_TPC);
+        txtMatkhaucu_APC = findViewById(R.id.txtMatkhaucu_APC);
+        txtMatkhaumoi1_APC = findViewById(R.id.txtMatkhaumoi1_APC);
+        txtMatkhaumoi2_APC = findViewById(R.id.txtMatkhaumoi2_APC);
+        ivBack_APC = findViewById(R.id.ivBack_APC);
+        btnLuu_APC = findViewById(R.id.btnLuu_APC);
     }
 
     public void getBundle() {

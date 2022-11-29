@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.appnhatro.Adapters.AdminHomeAdapter;
+import com.example.appnhatro.AdminLandlordListActivity;
 import com.example.appnhatro.Firebase.FirebaseAdmin;
 import com.example.appnhatro.Models.HistoryTransaction;
 import com.example.appnhatro.Models.TransactionModel;
@@ -38,7 +39,7 @@ public class AdminHomeActivity extends AppCompatActivity {
     private ImageView menuAdmin;
     private ArrayList<HistoryTransaction> historyTransactions = new ArrayList<>();
     private FirebaseAdmin firebaseAdmin = new FirebaseAdmin();
-    TextView itemMenu1, itemMenu2, itemMenu3, itemMenu4, itemMenu5, itemMenu6, itemMenu7;
+    TextView itemMenu1, itemMenu2, itemMenu3, itemMenu4, itemMenu5, itemMenu6, itemMenu7,itemMenuAccount;
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -57,7 +58,8 @@ public class AdminHomeActivity extends AppCompatActivity {
         itemMenu1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(AdminHomeActivity.this, AdminLandlordListActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -117,6 +119,14 @@ public class AdminHomeActivity extends AppCompatActivity {
 
             }
         });
+        itemMenuAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AdminHomeActivity.this,AdminAccountActivity.class);
+                intent.putExtra("ID","KH01");
+                startActivity(intent);
+            }
+        });
     }
 
     private void control() {
@@ -127,6 +137,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         itemMenu5 = findViewById(R.id.tv_ahGYND);
         itemMenu6 = findViewById(R.id.tv_ahTKTT);
         itemMenu7 = findViewById(R.id.tv_ahDX);
+        itemMenuAccount = findViewById(R.id.tv_ahAccount);
         toolbar = findViewById(R.id.ah_toolbar);
         drawerLayout = findViewById(R.id.ah_drawerLayout);
         navigationView = findViewById(R.id.ah_navigationView);
