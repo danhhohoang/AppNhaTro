@@ -97,7 +97,7 @@ public class UpdateStatusLandlordActivity extends AppCompatActivity implements R
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 TransactionModel transactionModel = snapshot.getValue(TransactionModel.class);
-                if (transactionModel.getStatus().equals("0") && transactionModel.getId_landlord().equals("KH01")){
+                if (transactionModel.getStatus().equals("0") && transactionModel.getId_landlord().equals(getID)){
                     if(transactionModel!=null){
                         if(transactionModel.getDate().toLowerCase().contains(keyword.toLowerCase())){
                             list.add(0,transactionModel);
