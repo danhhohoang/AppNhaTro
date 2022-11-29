@@ -200,12 +200,12 @@ public class UserSignUp extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     dsPost.add(dataSnapshot.getKey());
                 }
-                String[] temp = dsPost.get(dsPost.size() - 1).split("HT");
+                String[] temp = dsPost.get(dsPost.size() - 1).split("KH");
                 String id = "";
                 if (Integer.parseInt(temp[1]) < 10) {
-                    id = "HT0" + (Integer.parseInt(temp[1]) + 1);
+                    id = "KH0" + (Integer.parseInt(temp[1]) + 1);
                 } else {
-                    id = "HT" + (Integer.parseInt(temp[1]) + 1);
+                    id = "KH" + (Integer.parseInt(temp[1]) + 1);
                 }
                 idAuto = id;
             }
