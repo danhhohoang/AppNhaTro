@@ -11,64 +11,59 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appnhatro.Adapters.Tenant_Notification_Adapter;
-import com.example.appnhatro.Firebase.FirebaseTenantNofication;
-import com.example.appnhatro.Models.Notificationbooking;
+import com.example.appnhatro.Adapters.Tenant_report_notifi_adapter;
+import com.example.appnhatro.Firebase.Firebase_report_notifi;
+import com.example.appnhatro.Interface.Admininterface;
+import com.example.appnhatro.Models.NotifiAdminmodels;
 import com.example.appnhatro.R;
 import com.example.appnhatro.ViewHolderImageHome;
 
 import java.util.ArrayList;
 
-public class Tenant_notification_activity extends AppCompatActivity {
+public class Tenant_report_notifi_activity extends AppCompatActivity implements Admininterface {
     private ArrayList<String> persons = new ArrayList<>();
     private ViewHolderImageHome adapter;
-    //List horizone
-    private Tenant_Notification_Adapter tenant_notification_adapter;
-    private ArrayList<Notificationbooking> notificationbookings = new ArrayList<>();
-    SearchView sv_tpr;
-    String iduser;
+    String getID;
     ImageView back;
     SharedPreferences sharedPreferences;
-    FirebaseTenantNofication firebaseTenantNofication = new FirebaseTenantNofication();
+    private Tenant_report_notifi_adapter tenant_report_notifi_adapter;
+    private ArrayList<NotifiAdminmodels> notifiAdminmodels = new ArrayList<>();
+    SearchView sv_tpr;
+    Firebase_report_notifi firebase_report_notifi = new Firebase_report_notifi();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tenant_notification_list);
+        setContentView(R.layout.tenant_report_list);
         sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
-        iduser = sharedPreferences.getString("idUser", "");
-        back = findViewById(R.id.btn_notifiback);
+        getID = sharedPreferences.getString("idUser", "");
+        back = findViewById(R.id.btn_notifibackrp);
         ListPost();
     }
 
     public void ListPost() {
-
         RecyclerView recyclerView = findViewById(R.id.listnotifilecation);
-        tenant_notification_adapter = new Tenant_Notification_Adapter(this, R.layout.tenant_post_notification_item, notificationbookings);
+        tenant_report_notifi_adapter = new Tenant_report_notifi_adapter(this, R.layout.tenant_report_item, notifiAdminmodels, this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
-        firebaseTenantNofication.readPostFindPeople(notificationbookings, tenant_notification_adapter, iduser);
-        recyclerView.setAdapter(tenant_notification_adapter);
-        tenant_notification_adapter.setOnItemClickListener(new Tenant_Notification_Adapter.OnItemClickListener() {
-            @Override
-            public void onItemClickListener(int position, View view) {
-            }
-        });
+        recyclerView.setAdapter(tenant_report_notifi_adapter);
+        firebase_report_notifi.readPostFindPeople(notifiAdminmodels, tenant_report_notifi_adapter, getID);
         sv_tpr = findViewById(R.id.timkiem);
         sv_tpr.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                tenant_notification_adapter.getFilter().filter(s);
+                tenant_report_notifi_adapter.getFilter().filter(s);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                tenant_notification_adapter.getFilter().filter(s);
+                tenant_report_notifi_adapter.getFilter().filter(s);
                 return false;
             }
         });
+
         recyclerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,6 +76,12 @@ public class Tenant_notification_activity extends AppCompatActivity {
                 finish();
             }
         });
+
+
     }
 
+    @Override
+    public void onclick(int potision) {
+
+    }
 }

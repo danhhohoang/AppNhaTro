@@ -2,7 +2,6 @@ package com.example.appnhatro.Firebase;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -30,7 +29,6 @@ public class FirebaseAdminNotification {
                 ArrayList<ReportModels> data = new ArrayList<>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     ReportModels reportModels = dataSnapshot.getValue(ReportModels.class);
-                    Toast.makeText(context, "haha", Toast.LENGTH_SHORT).show();
                     if (reportModels.getID_NguoiDang().equals("KH01") && reportModels.getStatus().equals("1")) {
                         data.add(reportModels);
                     }
@@ -48,7 +46,7 @@ public class FirebaseAdminNotification {
                         }
                         String[] temp = dsNotification.get(dsNotification.size() - 1).split("N");
                         String id = "";
-                        if (Integer.parseInt(temp[1]) < 10) {
+                        if (Integer.parseInt(temp[1]) < 9) {
                             id = "N0" + (Integer.parseInt(temp[1]) + 1);
                         } else {
                             id = "N" + (Integer.parseInt(temp[1]) + 1);

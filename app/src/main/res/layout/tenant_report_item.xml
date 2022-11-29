@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cv_tprCardView1"
+    android:id="@+id/carnotifitn"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginRight="10dp"
-    android:orientation="vertical"
-    app:cardCornerRadius="10dp">
+    android:layout_margin="10dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_weight="1">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,8 +16,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border_radius"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
@@ -29,16 +28,18 @@
                 app:cardCornerRadius="12dp">
 
                 <ImageView
-                    android:id="@+id/imgavt"
+                    android:id="@+id/img_AVTtn"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:src="@drawable/ic_baseline_person_24" />
             </androidx.cardview.widget.CardView>
 
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -53,7 +54,7 @@
                         android:text="Tên" />
 
                     <EditText
-                        android:id="@+id/txtName"
+                        android:id="@+id/edt_rpname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -68,73 +69,63 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="104dp"
+                        android:layout_width="225dp"
                         android:layout_height="wrap_content"
-                        android:text="Ngày đặt phòng" />
+                        android:layout_weight="1"
+                        android:text="ID" />
 
                     <EditText
-                        android:id="@+id/txt_Ngay"
+                        android:id="@+id/edt_rpid"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="20dp"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="104dp"
-                        android:layout_height="wrap_content"
-                        android:text="Thời gian" />
-
-                    <EditText
-                        android:id="@+id/txtGio"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="20dp"
+                        android:layout_weight="1"
+                        android:enabled="false"
                         android:textColor="@color/black" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="horizontal">
+
             <TextView
-                android:layout_width="104dp"
+                android:layout_width="161dp"
                 android:layout_height="wrap_content"
-                android:text="Tên Phòng" />
+                android:layout_weight="1"
+                android:text="Tên phòng" />
 
             <EditText
-                android:id="@+id/txthouname"
+                android:id="@+id/edt_rpnamehouse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
+                android:layout_weight="1"
+                android:enabled="false"
                 android:textColor="@color/black" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="horizontal">
+
             <TextView
-                android:layout_width="104dp"
+                android:layout_width="142dp"
                 android:layout_height="wrap_content"
-                android:text="Ghi Chú" />
+                android:layout_weight="1"
+                android:text="Trang Thái" />
 
             <EditText
-                android:id="@+id/txtnote"
+                android:id="@+id/edt_rpStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
+                android:layout_weight="1"
+                android:enabled="false"
                 android:textColor="@color/black" />
         </LinearLayout>
-
     </LinearLayout>
-
-
-
 </androidx.cardview.widget.CardView>

@@ -2,22 +2,14 @@ package com.example.appnhatro;
 
 import static com.example.appnhatro.TenantPasswordChangeActivity.setContentNotify;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -27,7 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.appnhatro.Models.BitMap;
+import com.example.appnhatro.Activity.TenantViewTermAndPolicyActivity;
+import com.example.appnhatro.Activity.Tenant_report_notifi_activity;
 import com.example.appnhatro.Models.user;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,13 +35,11 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TenantAccountActivity extends AppCompatActivity {
-    Button btnPhongdaluu_TA, btnLienhe_TA, btnDangxuat_TA, btnCaidat_TA, btnDieuKhoan_TA, btnBaidang_TA;
+    Button btnPhongdaluu_TA, btnLienhe_TA, btnDangxuat_TA, btnCaidat_TA, btnDieuKhoan_TA, btnBaidang_TA, btnReport;
     private user mUsers;
     TextView tvHoten_TA, tvIdaccount_TA;
     ImageButton ivbtnBack_TA;
@@ -140,11 +131,20 @@ public class TenantAccountActivity extends AppCompatActivity {
             startActivity(intent);
         });
         btnDieuKhoan_TA.setOnClickListener(click -> {
+            Intent intent = new Intent(TenantAccountActivity.this, TenantViewTermAndPolicyActivity.class);
+            startActivity(intent);
         });
         ivbtnBack_TA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+        btnReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =  new Intent(TenantAccountActivity.this, Tenant_report_notifi_activity.class);
+                startActivity(intent);
             }
         });
     }
@@ -159,6 +159,7 @@ public class TenantAccountActivity extends AppCompatActivity {
         btnCaidat_TA = findViewById(R.id.btnCaidat_TA);
         btnDieuKhoan_TA = findViewById(R.id.btnDieukhoan_TA);
         btnBaidang_TA = findViewById(R.id.btnBaidang_TA);
+        btnReport = findViewById(R.id.btnThongBaoRP_TA);
         tvHoten_TA = findViewById(R.id.tvHoten_TA);
         tvIdaccount_TA = findViewById(R.id.tvIdaccount_TA);
         ivAccount_TA = findViewById(R.id.ivAccount_TA);

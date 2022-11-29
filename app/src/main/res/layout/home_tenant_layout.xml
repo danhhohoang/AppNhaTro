@@ -23,17 +23,18 @@
             <ImageButton
                 android:id="@+id/btn_DSP"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="2"
-                android:background="@drawable/ic_accommodation"/>
+                android:background="@drawable/ic_accommodation" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Danh sách phòng"
                 android:textColor="@color/white"
-                android:textSize="9sp" />
+                android:textSize="10sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -55,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="Đăng Bài Ở ghép"
+                android:text="Đăng Bài"
                 android:textColor="@color/white"
                 android:textSize="10sp" />
         </LinearLayout>

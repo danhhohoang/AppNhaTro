@@ -62,12 +62,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <Button
-            android:id="@+id/btnPhongdaluu_LA"
-            android:drawableLeft="@drawable/ic_phongdaluu"
-            android:text="   Phòng đã lưu "
-            style="@style/tenant_account_button"
-            app:backgroundTint="@null"/>
-        <Button
             android:id="@+id/btnBaidang_LA"
             android:drawableLeft="@drawable/ic_post"
             android:text="   Bài đăng"

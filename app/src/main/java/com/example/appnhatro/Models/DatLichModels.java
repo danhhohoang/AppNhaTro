@@ -9,9 +9,11 @@ public class DatLichModels {
     private String Notes;
     private String id;
     private String idPost;
+    private String idLandlord;
+    private  String houname;
+    private String tt;
 
-
-    public DatLichModels(String idUser, String name, String phone, String time, String date, String notes, String id, String idPost) {
+    public DatLichModels(String idUser, String name, String phone, String time, String date, String notes, String id, String idPost, String idLandlord, String houname, String tt) {
         this.idUser = idUser;
         this.name = name;
         Phone = phone;
@@ -20,6 +22,9 @@ public class DatLichModels {
         Notes = notes;
         this.id = id;
         this.idPost = idPost;
+        this.idLandlord = idLandlord;
+        this.houname = houname;
+        this.tt = tt;
     }
 
     public DatLichModels() {
@@ -87,5 +92,29 @@ public class DatLichModels {
 
     public void setIdPost(String idPost) {
         this.idPost = idPost;
+    }
+
+    public String getIdLandlord() {
+        return idLandlord;
+    }
+
+    public void setIdLandlord(String idLandlord) {
+        this.idLandlord = idLandlord;
+    }
+
+    public String getHouname() {
+        return houname;
+    }
+
+    public void setHouname(String houname) {
+        this.houname = houname;
+    }
+
+    public String getTt() {
+        return tt;
+    }
+
+    public void setTt(String tt) {
+        this.tt = tt;
     }
 }
