@@ -2,10 +2,12 @@ package com.example.appnhatro.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +35,7 @@ public class ResetPasswordOTPActivity extends AppCompatActivity {
     private EditText edt_roOTP;
     private Button btn_ipnOK;
     private TextView txt_roSendOTPAgain;
+    private ImageView back;
 
     private FirebaseAuth mAuth;
 
@@ -53,7 +56,12 @@ public class ResetPasswordOTPActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String strOTP = edt_roOTP.getText().toString().trim();
+                if (TextUtils.isEmpty(strOTP)){
+                    edt_roOTP.setError("Không được bỏ trống trường OTP");
+                    return;
+                }
                 onClickSendOTPCode(strOTP);
+                edt_roOTP.getText().clear();
             }
         });
 
@@ -76,6 +84,13 @@ public class ResetPasswordOTPActivity extends AppCompatActivity {
         edt_roOTP = findViewById(R.id.edt_roOTP);
         btn_ipnOK = findViewById(R.id.btn_roOK);
         txt_roSendOTPAgain = findViewById(R.id.txt_roSendOTPAgain);
+        back = findViewById(R.id.iv_roBack);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void getDataIntent(){
@@ -142,10 +157,8 @@ public class ResetPasswordOTPActivity extends AppCompatActivity {
     }
 
     private void goToResetPasswordChangeActivity(String phoneNumber) {
-        String data = getIntent().getExtras().getString("email_check2","Null");
         Intent intent = new Intent(this,ReserPasswordChangeActivity.class);
         intent.putExtra("phone_number",phoneNumber);
-        intent.putExtra("email_check3",data);
         startActivity(intent);
     }
 }

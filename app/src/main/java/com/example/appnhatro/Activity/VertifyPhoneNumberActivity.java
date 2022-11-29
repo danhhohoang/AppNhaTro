@@ -1,11 +1,14 @@
 package com.example.appnhatro.Activity;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,6 +35,7 @@ public class VertifyPhoneNumberActivity extends AppCompatActivity {
     private EditText edt_ipnPhone;
     private Button btn_ipnOK;
     private FirebaseAuth mAuth;
+    private ImageView back;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,7 +51,12 @@ public class VertifyPhoneNumberActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String strPhoneNumber = edt_ipnPhone.getText().toString().trim();
-                onClickVerifyPhoneNumber(strPhoneNumber);
+                if (TextUtils.isEmpty(strPhoneNumber)){
+                    edt_ipnPhone.setError("Không được bỏ trống trường sdt");
+                    return;
+                }
+                onClickVerifyPhoneNumber("+84" + strPhoneNumber);
+                edt_ipnPhone.getText().clear();
             }
         });
     }
@@ -61,6 +70,13 @@ public class VertifyPhoneNumberActivity extends AppCompatActivity {
     private void init(){
         edt_ipnPhone = findViewById(R.id.edt_ipnPhone);
         btn_ipnOK = findViewById(R.id.btn_ipnOK);
+        back = findViewById(R.id.iv_pnBack);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void onClickVerifyPhoneNumber(String strPhoneNumber) {
@@ -125,8 +141,6 @@ public class VertifyPhoneNumberActivity extends AppCompatActivity {
         Intent intent = new Intent(this,ResetPasswordOTPActivity.class);
         intent.putExtra("phone_number",strPhoneNumber);
         intent.putExtra("vertification_ID",vertificationID);
-        String data = getIntent().getExtras().getString("email_check");
-        intent.putExtra("email_check2",data);
         startActivity(intent);
     }
 }

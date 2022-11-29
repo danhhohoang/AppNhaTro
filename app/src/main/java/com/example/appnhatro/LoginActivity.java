@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText txtPassword;
     TextView tvQuenMatKhau, tvDangKyTaiKhoan, tvDieuKhoan;
     Button btnSignIn;
+    boolean passwordVisible;
     String formatEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     SharedPreferences sharedPreferences;
 
@@ -55,6 +59,29 @@ public class LoginActivity extends AppCompatActivity {
     public void event() {
         txtEmail = findViewById(R.id.txtTenDangNhap);
         txtPassword = findViewById(R.id.txtMatKhauLogin);
+        txtPassword.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                final int Right = 2;
+                if (motionEvent.getAction()==MotionEvent.ACTION_UP){
+                    if (motionEvent.getRawX()>=txtPassword.getRight()-txtPassword.getCompoundDrawables()[Right].getBounds().width()){
+                        int selection = txtPassword.getSelectionEnd();
+                        if (passwordVisible){
+                            txtPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_hide_pass,0);
+                            txtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                            passwordVisible=false;
+                        }else {
+                            txtPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_show_pass,0);
+                            txtPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                            passwordVisible=true;
+                        }
+                        txtPassword.setSelection(selection);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
         btnSignIn = findViewById(R.id.btnDangNhap);
         tvQuenMatKhau = findViewById(R.id.tvQuenMatKhau);
         tvDangKyTaiKhoan = findViewById(R.id.tvDangKy);
@@ -144,9 +171,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Tài khoản hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
                         }
                     });
-
                 }
-
             }
         });
 
@@ -155,6 +180,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, VertifyPhoneNumberActivity.class);
+                txtEmail.getText().clear();
+                txtPassword.getText().clear();
                 startActivity(intent);
             }
         });
