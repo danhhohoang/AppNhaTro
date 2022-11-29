@@ -15,11 +15,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appnhatro.Models.user;
+import com.github.drjacky.imagepicker.ImagePicker;
+import com.github.drjacky.imagepicker.constant.ImageProvider;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -31,7 +36,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.regex.Pattern;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+import kotlin.jvm.internal.Intrinsics;
 
 public class TenantSettingProfileActivity extends AppCompatActivity {
     EditText txtHoten_TSP, txtCMND_TSP, txtEmail_TSP, txtSDT_TSP;
@@ -42,8 +54,9 @@ public class TenantSettingProfileActivity extends AppCompatActivity {
     StorageReference storageReference;
     Uri imgUri = Uri.EMPTY;
     String extensionFile = ".jpg";
-    String id, avatar, fileName,namefile,b1,b2;
 
+    String id, avatar, fileName,namefile,b1,b2;
+    private ActivityResultLauncher<Intent> launcher;
     int temp = 1;
 
     @Override
@@ -52,6 +65,7 @@ public class TenantSettingProfileActivity extends AppCompatActivity {
         setContentView(R.layout.tenant_setting_profile);
         setControl();
         getBundle();
+        setImage();
         setEvent();
         TenantAccountActivity tenantAccountActivity = new TenantAccountActivity();
         tenantAccountActivity.setImage(ivImage_TSP, avatar);
@@ -69,7 +83,7 @@ public class TenantSettingProfileActivity extends AppCompatActivity {
         btnLuu_TSP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDialogNotifyYesNo(Gravity.CENTER, "Bạn có muốn lưu không ?",R.layout.layout_dialog_notify_yes_no);
+                checkThaydoi();
             }
         });
         ivBack_TSP.setOnClickListener(click -> {
@@ -166,7 +180,55 @@ public class TenantSettingProfileActivity extends AppCompatActivity {
         });
         dialog.show();
     }
-
+    public void checkThaydoi(){
+        if(txtHoten_TSP.getText().toString().equals(mListUser.getName())
+                &&txtCMND_TSP.getText().toString().equals(mListUser.getCitizenNumber())
+                &&txtEmail_TSP.getText().toString().equals(mListUser.getEmail())
+                &&txtSDT_TSP.getText().toString().equals(mListUser.getPhone())){
+            openDialogNotifyYesNo(Gravity.CENTER, "Bạn có muốn lưu không ?",R.layout.layout_dialog_notify_yes_no);
+        }else {
+            checkInputdata();
+        }
+    }
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public void checkInputdata() {
+        Pattern specialChar = Pattern.compile("^.*[#?!@$%^&+*=()/|-]+.*$");
+        Pattern specialCharPhone = Pattern.compile("^.*[#?!@$%^&*=()/|-]+.*$");
+        Pattern specialCharEmail = Pattern.compile("^.*[#?!$%^&*=()/|-]+.*$");
+        Pattern specialString = Pattern.compile("^.*[a-zA-Z]+.*$");
+        Pattern specialStringNumber = Pattern.compile("^.*[0-9]+.*$");
+        if (txtHoten_TSP.getText().toString().replaceAll(" ", "").length() == 0) {
+            txtHoten_TSP.setError("Họ tên không được phép để trống");
+        } else if (txtCMND_TSP.getText().toString().replaceAll(" ", "").length() == 0) {
+            txtCMND_TSP.setError("CMND không được phép để trống");
+        } else if (txtEmail_TSP.getText().toString().replaceAll(" ", "").length() == 0) {
+            txtEmail_TSP.setError("Email không được phép để trống");
+        } else if (txtSDT_TSP.getText().toString().replaceAll(" ", "").length() == 0) {
+            txtSDT_TSP.setError("Phone Number không được phép để trống");
+        } else if (specialStringNumber.matcher(txtHoten_TSP.getText().toString()).find() || specialChar.matcher(txtHoten_TSP.getText().toString()).find()) {
+            txtHoten_TSP.setError("Họ tên không được phép chứa số hoặc kí tự đặc biệt");
+        } else if (specialChar.matcher(txtCMND_TSP.getText().toString()).find() && txtCMND_TSP.getText().toString().length() > 0) {
+            txtCMND_TSP.setError("CMND không được phép chứa kí tự đặc biệt");
+        }else if (specialCharEmail.matcher(txtEmail_TSP.getText().toString()).find() && txtEmail_TSP.getText().toString().length() > 0) {
+            txtEmail_TSP.setError("Email không được phép chứa kí tự đặc biệt");
+        }else if (specialCharPhone.matcher(txtSDT_TSP.getText().toString()).find() && txtSDT_TSP.getText().toString().length() > 0) {
+            txtSDT_TSP.setError("Phone Number không được phép chứa kí tự đặc biệt");
+        } else if (specialString.matcher(txtCMND_TSP.getText().toString()).find() && txtCMND_TSP.getText().toString().length() > 0) {
+            txtCMND_TSP.setError("CMND không được phép chứa chữ");
+        }else if (specialString.matcher(txtSDT_TSP.getText().toString()).find() && txtSDT_TSP.getText().toString().length() > 0) {
+            txtSDT_TSP.setError("Phone Number không được phép chứa chữ");
+        } else if (!txtEmail_TSP.getText().toString().contains("@")) {
+            txtEmail_TSP.setError("Email sai định dạng thiếu @");
+        }else if (txtCMND_TSP.getText().toString().length() < 9) {
+            txtCMND_TSP.setError("CMND ít nhất từ 9 - 12 kí tự ");
+        } else if (txtEmail_TSP.getText().toString().contains(" ")) {
+            txtEmail_TSP.setError("Email không được phép chứa khoảng trắng");
+        }else if (txtEmail_TSP.getText().toString().length() < 11) {
+            txtEmail_TSP.setError("Email tối thiếu là 11 kí tự ");
+        } else {
+            openDialogNotifyYesNo(Gravity.CENTER, "Bạn có muốn lưu không ?",R.layout.layout_dialog_notify_yes_no);
+        }
+    }
     private void openDialogNotifyYesNo(int gravity, String noidung,int duongdanlayout) {
         final Dialog dialog = new Dialog(this);
         setContentNotify(dialog, gravity,Gravity.CENTER, duongdanlayout);
@@ -228,19 +290,32 @@ public class TenantSettingProfileActivity extends AppCompatActivity {
     }
 
     private void selectImage() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, 100);
-    }
+        ImagePicker.Companion.with(TenantSettingProfileActivity.this)
+                .crop()
+                .cropOval()
+                .maxResultSize(512, 512, true)
+                .provider(ImageProvider.BOTH)
+                .createIntentFromDialog((Function1) (new Function1() {
+                    public Object invoke(Object var1) {
+                        this.invoke((Intent) var1);
+                        return Unit.INSTANCE;
+                    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && data != null && data.getData() != null) {
-            imgUri = data.getData();
-            ivImage_TSP.setImageURI(imgUri);
-        }
+                    public void invoke(@NotNull Intent it) {
+                        Intrinsics.checkNotNullParameter(it, "it");
+                        launcher.launch(it);
+                    }
+                }));
+    }
+    private void setImage(){
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), (ActivityResult result) -> {
+            if (result.getResultCode() == RESULT_OK) {
+                imgUri = result.getData().getData();
+                ivImage_TSP.setImageURI(imgUri);
+            } else if (result.getResultCode() == ImagePicker.RESULT_ERROR) {
+                openDialogNotify(Gravity.CENTER,"Image fail load",R.layout.layout_dialog_notify);
+            }
+        });
     }
 
     private void setControl() {
