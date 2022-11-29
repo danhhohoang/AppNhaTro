@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     android:orientation="vertical"
     android:weightSum="24"
-    android:background="@drawable/background"
     tools:context=".Activity.TermAndSerciveActivity">
 
     <LinearLayout
@@ -15,20 +15,25 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_weight="2"
-        android:orientation="horizontal"
-        android:weightSum="12">
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/img_TermAndSerVice_back"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_back1" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="10"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="9"
+            android:gravity="center"
             android:text="CHÍNH SÁCH VÀ QUYỀN LỢI"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="24sp"
-            android:textStyle="bold"/>
-
+            android:textStyle="bold" />
 
 
     </LinearLayout>
@@ -46,10 +51,10 @@
             android:id="@+id/et_Term_and_Service"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp"
-            android:textSize="16sp"
             android:background="@drawable/shape_term_and_service_textview"
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:padding="10dp"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <!--    button submit-->
@@ -64,23 +69,23 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/btn_TermAndSerVice_Submit"
             android:layout_width="150sp"
             android:layout_height="50sp"
             android:background="@drawable/shape_button_term_and_service"
             android:text="SỬA"
-            app:backgroundTint="@null"
             android:visibility="visible"
-            android:id="@+id/btn_TermAndSerVice_Submit"
-            />
+            app:backgroundTint="@null" />
+
         <Button
-            android:layout_marginLeft="10dp"
+            android:id="@+id/btn_TermAndSerVice_Cancel"
             android:layout_width="150sp"
             android:layout_height="50sp"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/button_luu_tenant_border"
             android:text="hủy"
-            app:backgroundTint="@null"
-            android:id="@+id/btn_TermAndSerVice_Cancel"
-            android:visibility="visible"/>
+            android:visibility="visible"
+            app:backgroundTint="@null" />
     </LinearLayout>
 
 

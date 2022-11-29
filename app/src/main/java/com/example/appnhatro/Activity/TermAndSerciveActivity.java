@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.appnhatro.Firebase.FireBaseTermAndService;
@@ -28,7 +29,7 @@ public class TermAndSerciveActivity extends AppCompatActivity {
     EditText etTermAndSerVice;
     Button btnSubmit,
             btnCancel;
-
+    ImageView imgBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +40,18 @@ public class TermAndSerciveActivity extends AppCompatActivity {
         lockButton();
         lockEditText();
 
-        fireBaseTermAndService.getTermAndServiceFormDB(this,termAndPolicyList);
+        fireBaseTermAndService.getTermAndServiceFormDB(this, termAndPolicyList);
 
 
     }
 
     private void setEvent() {
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         etTermAndSerVice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +64,7 @@ public class TermAndSerciveActivity extends AppCompatActivity {
         etTermAndSerVice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     unLockButton();
                 }
 
@@ -76,7 +83,7 @@ public class TermAndSerciveActivity extends AppCompatActivity {
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 //chay lenh neu submit
-                                fireBaseTermAndService.getTermAndServiceFormDB(TermAndSerciveActivity.this,termAndPolicyList);
+                                fireBaseTermAndService.getTermAndServiceFormDB(TermAndSerciveActivity.this, termAndPolicyList);
 
                             }
                         })// A null listener allows the button to dismiss the dialog and take no further action.
@@ -120,21 +127,23 @@ public class TermAndSerciveActivity extends AppCompatActivity {
         etTermAndSerVice = findViewById(R.id.et_Term_and_Service);
         btnSubmit = findViewById(R.id.btn_TermAndSerVice_Submit);
         btnCancel = findViewById(R.id.btn_TermAndSerVice_Cancel);
+        imgBack = findViewById(R.id.img_TermAndSerVice_back);
     }
 
 
-    public void doSomeThing(){
+    public void doSomeThing() {
         etTermAndSerVice.setText(termAndPolicyList.get(0).getContent());
         unLockEditText();
     }
 
-    public void unLockButton(){
+    public void unLockButton() {
         btnSubmit.setBackgroundResource(R.drawable.shape_button_term_and_service);
         btnCancel.setBackgroundResource(R.drawable.button_luu_tenant_border);
         btnSubmit.setClickable(true);
         btnCancel.setClickable(true);
     }
-    public void lockButton(){
+
+    public void lockButton() {
         btnSubmit.setBackgroundResource(R.drawable.shape_locked_button);
         btnCancel.setBackgroundResource(R.drawable.shape_locked_button);
         btnSubmit.setClickable(false);
@@ -147,6 +156,7 @@ public class TermAndSerciveActivity extends AppCompatActivity {
         etTermAndSerVice.setEnabled(false);
         etTermAndSerVice.setClickable(false);
     }
+
     private void unLockEditText() {
 
         etTermAndSerVice.setEnabled(true);
