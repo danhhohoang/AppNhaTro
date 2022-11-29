@@ -46,19 +46,23 @@ public class VertifyPhoneNumberActivity extends AppCompatActivity {
         btn_ipnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String strPhoneNumber = edt_ipnPhone.getText().toString().trim();
-                onClickVerifyPhoneNumber(strPhoneNumber);
+                if (edt_ipnPhone.getText().toString().equals(null)) {
+                    String strPhoneNumber = edt_ipnPhone.getText().toString().trim();
+                    onClickVerifyPhoneNumber(strPhoneNumber);
+                }else {
+                    edt_ipnPhone.setError("Vui lòng điền số điện thoại");
+                }
             }
         });
     }
 
-    private void setTitleToolbar(){
-        if (getSupportActionBar() != null){
+    private void setTitleToolbar() {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("VerifyPhone");
         }
     }
 
-    private void init(){
+    private void init() {
         edt_ipnPhone = findViewById(R.id.edt_ipnPhone);
         btn_ipnOK = findViewById(R.id.btn_ipnOK);
     }
@@ -77,13 +81,13 @@ public class VertifyPhoneNumberActivity extends AppCompatActivity {
 
                             @Override
                             public void onVerificationFailed(@NonNull FirebaseException e) {
-                                Toast.makeText(VertifyPhoneNumberActivity.this,"Vertification failed",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(VertifyPhoneNumberActivity.this, "Vertification failed", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
                             public void onCodeSent(@NonNull String vertificationID, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                                 super.onCodeSent(vertificationID, forceResendingToken);
-                                goToResetPasswordOTPActivity(strPhoneNumber,vertificationID);
+                                goToResetPasswordOTPActivity(strPhoneNumber, vertificationID);
 
                             }
                         })          // OnVerificationStateChangedCallbacks
@@ -108,7 +112,7 @@ public class VertifyPhoneNumberActivity extends AppCompatActivity {
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invalid
-                                Toast.makeText(VertifyPhoneNumberActivity.this,"The verification code entered was invalid",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(VertifyPhoneNumberActivity.this, "The verification code entered was invalid", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -116,17 +120,17 @@ public class VertifyPhoneNumberActivity extends AppCompatActivity {
     }
 
     private void goToResetPasswordChangeActivity(String phoneNumber) {
-        Intent intent = new Intent(this,ReserPasswordChangeActivity.class);
-        intent.putExtra("phone_number",phoneNumber);
+        Intent intent = new Intent(this, ReserPasswordChangeActivity.class);
+        intent.putExtra("phone_number", phoneNumber);
         startActivity(intent);
     }
 
     private void goToResetPasswordOTPActivity(String strPhoneNumber, String vertificationID) {
-        Intent intent = new Intent(this,ResetPasswordOTPActivity.class);
-        intent.putExtra("phone_number",strPhoneNumber);
-        intent.putExtra("vertification_ID",vertificationID);
+        Intent intent = new Intent(this, ResetPasswordOTPActivity.class);
+        intent.putExtra("phone_number", strPhoneNumber);
+        intent.putExtra("vertification_ID", vertificationID);
         String data = getIntent().getExtras().getString("email_check");
-        intent.putExtra("email_check2",data);
+        intent.putExtra("email_check2", data);
         startActivity(intent);
     }
 }
