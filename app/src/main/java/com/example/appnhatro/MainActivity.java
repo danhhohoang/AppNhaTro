@@ -7,7 +7,12 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appnhatro.Activity.AdminHomeActivity;
+import com.example.appnhatro.Activity.AdminListAllPostActivity;
+import com.example.appnhatro.Activity.AdminTenantListActivity;
+import com.example.appnhatro.Activity.Admin_notification_Activity;
 import com.example.appnhatro.Activity.LandLordHomeActivity;
+import com.example.appnhatro.Activity.PostActivity;
+import com.example.appnhatro.Activity.TermAndSerciveActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                Intent i = new Intent(MainActivity.this, TermAndSerciveActivity.class);
                 startActivity(i);
                 finish();
             }
