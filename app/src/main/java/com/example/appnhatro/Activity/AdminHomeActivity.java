@@ -35,11 +35,12 @@ public class AdminHomeActivity extends AppCompatActivity {
     private RecyclerView rcvHomeAdmin;
     private ArrayList<HistoryTransaction> historyTransactions = new ArrayList<>();
     private FirebaseAdmin firebaseAdmin = new FirebaseAdmin();
-    TextView itemMenu1, itemMenu2, itemMenu3, itemMenu4, itemMenu5, itemMenu6, itemMenu7,itemMenuAccount;
+    TextView itemMenu1, itemMenu2, itemMenu3, itemMenu4, itemMenu5, itemMenu6, itemMenu7, itemMenuAccount, itemListPost;
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     int fee1, fee2, fee3, fee4, fee5, fee6, fee7, fee8, fee9, fee10, fee11, fee12 = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +71,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         itemMenu3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AdminHomeActivity.this,TermAndSerciveActivity.class);
+                Intent intent = new Intent(AdminHomeActivity.this, TermAndSerciveActivity.class);
                 startActivity(intent);
             }
         });
@@ -78,7 +79,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         itemMenu4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AdminHomeActivity.this,AdminHistoryTransaction.class);
+                Intent intent = new Intent(AdminHomeActivity.this, AdminHistoryTransaction.class);
                 startActivity(intent);
             }
         });
@@ -86,6 +87,8 @@ public class AdminHomeActivity extends AppCompatActivity {
         itemMenu5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(AdminHomeActivity.this, Admin_notification_Activity.class);
+                startActivity(intent);
             }
         });
 
@@ -94,19 +97,19 @@ public class AdminHomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(AdminHomeActivity.this, StatisticalAdminActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putInt("fee1",fee1);
-                bundle.putInt("fee2",fee2);
-                bundle.putInt("fee3",fee3);
-                bundle.putInt("fee4",fee4);
-                bundle.putInt("fee5",fee5);
-                bundle.putInt("fee6",fee6);
-                bundle.putInt("fee7",fee7);
-                bundle.putInt("fee8",fee8);
-                bundle.putInt("fee9",fee9);
-                bundle.putInt("fee10",fee10);
-                bundle.putInt("fee11",fee11);
-                bundle.putInt("fee12",fee12);
-                intent.putExtra("month",bundle);
+                bundle.putInt("fee1", fee1);
+                bundle.putInt("fee2", fee2);
+                bundle.putInt("fee3", fee3);
+                bundle.putInt("fee4", fee4);
+                bundle.putInt("fee5", fee5);
+                bundle.putInt("fee6", fee6);
+                bundle.putInt("fee7", fee7);
+                bundle.putInt("fee8", fee8);
+                bundle.putInt("fee9", fee9);
+                bundle.putInt("fee10", fee10);
+                bundle.putInt("fee11", fee11);
+                bundle.putInt("fee12", fee12);
+                intent.putExtra("month", bundle);
                 startActivity(intent);
             }
         });
@@ -123,8 +126,16 @@ public class AdminHomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
                 String idUser = sharedPreferences.getString("idUser", "");
-                Intent intent = new Intent(AdminHomeActivity.this,AdminAccountActivity.class);
-                intent.putExtra("ID",idUser);
+                Intent intent = new Intent(AdminHomeActivity.this, AdminAccountActivity.class);
+                intent.putExtra("ID", idUser);
+                startActivity(intent);
+            }
+        });
+
+        itemListPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminHomeActivity.this, AdminListAllPostActivity.class);
                 startActivity(intent);
             }
         });
@@ -138,12 +149,13 @@ public class AdminHomeActivity extends AppCompatActivity {
         itemMenu5 = findViewById(R.id.tv_ahGYND);
         itemMenu6 = findViewById(R.id.tv_ahTKTT);
         itemMenu7 = findViewById(R.id.tv_ahDX);
+        itemListPost = findViewById(R.id.tv_ListPost);
         itemMenuAccount = findViewById(R.id.tv_ahAccount);
         toolbar = findViewById(R.id.ah_toolbar);
         drawerLayout = findViewById(R.id.ah_drawerLayout);
         navigationView = findViewById(R.id.ah_navigationView);
         rcvHomeAdmin = (RecyclerView) findViewById(R.id.rcvHomeAdmin);
-        adapter = new AdminHomeAdapter(this, R.layout.admin_item_home_layout,historyTransactions);
+        adapter = new AdminHomeAdapter(this, R.layout.admin_item_home_layout, historyTransactions);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         rcvHomeAdmin.setLayoutManager(gridLayoutManager);
@@ -154,7 +166,7 @@ public class AdminHomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        firebaseAdmin.readItemInHome(adapter,historyTransactions);
+        firebaseAdmin.readItemInHome(adapter, historyTransactions);
     }
 
     private void actionToolBar() {
@@ -170,93 +182,94 @@ public class AdminHomeActivity extends AppCompatActivity {
         });
     }
 
-    private void data(){
+    private void data() {
         DatabaseReference databaseReference1;
         databaseReference1 = FirebaseDatabase.getInstance().getReference("HistoryTransaction");
         databaseReference1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     TransactionModel transactionModel = dataSnapshot.getValue(TransactionModel.class);
-                    if (transactionModel.getStatus().equals("2")){
+                    if (transactionModel.getStatus().equals("2")) {
                         String[] parse = transactionModel.getDate().split("-");
                         String month;
                         month = parse[1];
                         if (month.equals("1")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m1 = 0;
-                            m1 += price *5/100;
+                            m1 += price * 5 / 100;
                             fee1 = m1;
                         }
                         if (month.equals("2")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m2 = 0;
-                            m2 += price*5/100;
+                            m2 += price * 5 / 100;
                             fee2 = m2;
                         }
                         if (month.equals("3")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m3 = 0;
-                            m3 += price*5/100;
+                            m3 += price * 5 / 100;
                             fee3 = m3;
                         }
                         if (month.equals("4")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m4 = 0;
-                            m4 += price*5/100;
+                            m4 += price * 5 / 100;
                             fee4 = m4;
                         }
                         if (month.equals("5")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m5 = 0;
-                            m5 += price*5/100;
+                            m5 += price * 5 / 100;
                             fee5 = m5;
                         }
                         if (month.equals("6")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m6 = 0;
-                            m6 += price*5/100;
+                            m6 += price * 5 / 100;
                             fee6 = m6;
                         }
                         if (month.equals("7")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m7 = 0;
-                            m7 += price*5/100;
+                            m7 += price * 5 / 100;
                             fee7 = m7;
                         }
                         if (month.equals("8")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m8 = 0;
-                            m8 += price*5/100;
+                            m8 += price * 5 / 100;
                             fee8 = m8;
                         }
                         if (month.equals("9")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m9 = 0;
-                            m9 += price*5/100;
+                            m9 += price * 5 / 100;
                             fee9 = m9;
                         }
                         if (month.equals("10")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m10 = 0;
-                            m10 += price*5/100;
+                            m10 += price * 5 / 100;
                             fee10 = m10;
                         }
                         if (month.equals("11")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m11 = 0;
-                            m11 += price*5/100;
+                            m11 += price * 5 / 100;
                             fee11 = m11;
                         }
                         if (month.equals("12")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m12 = 0;
-                            m12 += price*5/100;
+                            m12 += price * 5 / 100;
                             fee12 = m12;
                         }
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }

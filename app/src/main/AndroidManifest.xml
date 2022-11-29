@@ -126,8 +126,8 @@
             android:exported="true"/>
         <activity android:name=".Activity.DetailPostUpdateList"
             android:exported="true"/>
-<!--        <activity android:name=".Activity.Admin_notification_Activity"-->
-<!--            android:exported="true"/>-->
+        <activity android:name=".Activity.Admin_notification_Activity"
+            android:exported="true"/>
         <activity android:name=".Activity.LostPostOfLandLord"
             android:exported="true"/>
         <activity android:name=".Activity.HistoryTransactionActivity"

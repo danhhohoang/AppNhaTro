@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +33,7 @@ public class Admin_notification_Activity extends AppCompatActivity implements Ad
     SharedPreferences sharedPreferences;
     private Admin_notification_adapter admin_notification_adapter;
     private ArrayList<ReportModels> reportModels = new ArrayList<>();
+    ImageView back;
     SearchView sv_tpr;
     FireBaseThueTro fireBaseThueTro;
     FirebaseAdminNotification firebaseAdminNotification = new FirebaseAdminNotification();
@@ -61,6 +63,7 @@ public class Admin_notification_Activity extends AppCompatActivity implements Ad
                 firebaseAdminNotification.readFirebases(position, reportModels, Admin_notification_Activity.this);
             }
         });
+        back = findViewById(R.id.imgBackAdminNotification);
         sv_tpr = findViewById(R.id.sv_admintimkiem);
         DongY = findViewById(R.id.btn_danhan);
         sv_tpr.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
@@ -83,7 +86,12 @@ public class Admin_notification_Activity extends AppCompatActivity implements Ad
 
             }
         });
-
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
