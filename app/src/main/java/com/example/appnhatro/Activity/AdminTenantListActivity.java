@@ -1,5 +1,6 @@
 package com.example.appnhatro.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -10,13 +11,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Adapters.TenantListAdapter;
+import com.example.appnhatro.AdminLandlordListActivity;
 import com.example.appnhatro.Firebase.FireBaseTenantList;
 import com.example.appnhatro.Models.user;
 import com.example.appnhatro.R;
+import com.example.appnhatro.tool.RecyclerViewTenantList;
 
 import java.util.ArrayList;
 
-public class AdminTenantListActivity extends AppCompatActivity {
+public class AdminTenantListActivity extends AppCompatActivity implements RecyclerViewTenantList {
 
     ArrayList<user> userArrayList = new ArrayList<>();
     TenantListAdapter adapter;
@@ -30,7 +33,7 @@ public class AdminTenantListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_tenant_list_activity_layout);
         setControl();
-        adapter = new TenantListAdapter(this, R.layout.item_admin_tenant_list, userArrayList);
+        adapter = new TenantListAdapter(this, R.layout.item_admin_tenant_list, userArrayList,this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         setEvent();
@@ -72,5 +75,12 @@ public class AdminTenantListActivity extends AppCompatActivity {
         searchView = findViewById(R.id.search_bar_admin_tenant_list);
         recyclerView = findViewById(R.id.recycler_admin_tenant_list);
         cardView = findViewById(R.id.cardView_item_admin_tenant_list);
+    }
+
+    @Override
+    public void onClick(int postion) {
+        Intent intent = new Intent(AdminTenantListActivity.this, LostPostOfLandLord.class);
+        intent.putExtra("idpost",userArrayList.get(postion).getId());
+        startActivity(intent);
     }
 }

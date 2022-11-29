@@ -125,6 +125,10 @@
             android:exported="true"/>
         <activity android:name=".Activity.Admin_notification_Activity"
             android:exported="true"/>
+        <activity android:name=".Activity.LostPostOfLandLord"
+            android:exported="true"/>
+        <activity android:name=".Activity.HistoryTransactionActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

@@ -534,8 +534,6 @@ public class TenantPostDetail extends AppCompatActivity {
 
         eventValue.put("extra", "");
         AppMoMoLib.getInstance().requestMoMoCallBack(this, eventValue);
-
-
     }
 
     //Get token callback from MoMo app an submit to server side
@@ -557,6 +555,7 @@ public class TenantPostDetail extends AppCompatActivity {
 //                    tvMessage.setText("message: " + "Get token " + data.getStringExtra("message"));
                     String token = data.getStringExtra("data"); //Token response
                     String phoneNumber = data.getStringExtra("phonenumber");
+                    Log.d("dsad", "onActivityResult: "+data.getStringExtra("phonenumber"));
                     String env = data.getStringExtra("env");
                     if (env == null) {
                         env = "app";

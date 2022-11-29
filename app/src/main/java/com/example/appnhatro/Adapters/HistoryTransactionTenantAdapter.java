@@ -11,32 +11,33 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Models.TransactionModel;
 import com.example.appnhatro.R;
-import com.example.appnhatro.tool.RecycleViewUpdateStatus;
 
 import java.util.List;
 
-public class HistoryTranstionAdapter extends RecyclerView.Adapter<HistoryTranstionAdapter.HistoryTranstion> {
+public class HistoryTransactionTenantAdapter extends RecyclerView.Adapter<HistoryTransactionTenantAdapter.HistoryTransactionTenant> {
     Context context;
     List<TransactionModel> transactionModels;
 
-    public HistoryTranstionAdapter(Context context, List<TransactionModel> transactionModels) {
+    public HistoryTransactionTenantAdapter(Context context, List<TransactionModel> transactionModels) {
         this.context = context;
         this.transactionModels = transactionModels;
     }
 
     @NonNull
     @Override
-    public HistoryTranstion onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_history_transaction,parent,false);
-        return new HistoryTranstion(v);
+    public HistoryTransactionTenant onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_history_transaction_tentant,parent,false);
+        return new HistoryTransactionTenant(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HistoryTranstion holder, int position) {
+    public void onBindViewHolder(@NonNull HistoryTransactionTenant holder, int position) {
         TransactionModel transactionModel = transactionModels.get(position);
         holder.user.setText(transactionModel.getId_user());
         holder.price.setText(transactionModel.getDeposits());
-        if (transactionModel.getStatus().equals("1")){
+        if (transactionModel.getStatus().equals("0")){
+            holder.status.setText("Đang chờ xác nhận");
+        }if (transactionModel.getStatus().equals("1")){
             holder.status.setText("Đã xác nhận thanh toán");
         }
         holder.date.setText(transactionModel.getDate());
@@ -50,14 +51,14 @@ public class HistoryTranstionAdapter extends RecyclerView.Adapter<HistoryTransti
         return 0;
     }
 
-    public static class HistoryTranstion extends RecyclerView.ViewHolder{
+    public static class HistoryTransactionTenant extends RecyclerView.ViewHolder{
         TextView user,price,status,date;
-        public HistoryTranstion(@NonNull View itemView) {
+        public HistoryTransactionTenant(@NonNull View itemView) {
             super(itemView);
-            date = itemView.findViewById(R.id.tv_htDate);
-            user = itemView.findViewById(R.id.tv_htName);
-            price = itemView.findViewById(R.id.tv_htPrice);
-            status = itemView.findViewById(R.id.tv_htStatus);
+            date = itemView.findViewById(R.id.tv_httDate);
+            user = itemView.findViewById(R.id.tv_httName);
+            price = itemView.findViewById(R.id.tv_httPrice);
+            status = itemView.findViewById(R.id.tv_httStatus);
         }
     }
 }

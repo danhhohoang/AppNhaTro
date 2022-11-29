@@ -1,6 +1,7 @@
 package com.example.appnhatro.Activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -35,12 +36,16 @@ public class UpdateStatusLandlordActivity extends AppCompatActivity implements R
     SearchView sv_usapSearch;
     UpdateStatusLandlordAdapter updateStatusLandlordAdapter;
     DatabaseReference databaseReference;
+    SharedPreferences sharedPreferences;
+    String getID;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.update_status_accept_payment);
         setControl();
         onRead("");
+        sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        getID = sharedPreferences.getString("idUser", "");
 
         rc = findViewById(R.id.rcv_usap);
         rc.setHasFixedSize(true);
@@ -91,25 +96,12 @@ public class UpdateStatusLandlordActivity extends AppCompatActivity implements R
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//                TransactionModel transactionModel = snapshot.getValue(TransactionModel.class);
-//                ArrayList<TransactionModel> transactionModelArrayList = new ArrayList<>();
-//                if (transactionModel.getStatus().equals("1")){
-//                    if(transactionModel!=null){
-//                        if(transactionModel.getPrice().toLowerCase().contains(keyword.toLowerCase())){
-//                            transactionModelArrayList.add(transactionModel);
-//                        }
-//                        list.clear();
-//                        list.addAll(transactionModelArrayList);
-//                        updateStatusLandlordAdapter.notifyDataSetChanged();
-//                    }
-//                }
                 TransactionModel transactionModel = snapshot.getValue(TransactionModel.class);
-                if (transactionModel.getStatus().equals("1")){
+                if (transactionModel.getStatus().equals("0") && transactionModel.getId_landlord().equals("KH01")){
                     if(transactionModel!=null){
-                        if(transactionModel.getPrice().toLowerCase().contains(keyword.toLowerCase())){
+                        if(transactionModel.getDate().toLowerCase().contains(keyword.toLowerCase())){
                             list.add(0,transactionModel);
                         }
-
                     }
                 }
                 updateStatusLandlordAdapter.notifyDataSetChanged();
@@ -130,15 +122,11 @@ public class UpdateStatusLandlordActivity extends AppCompatActivity implements R
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
                 TransactionModel transactionModel = snapshot.getValue(TransactionModel.class);
-                ArrayList<TransactionModel> transactionModelArrayList = new ArrayList<>();
-                if (transactionModel.getStatus().equals("1")){
-                    if(transactionModel!=null){
-                        if(transactionModel.getPrice().toLowerCase().contains(keyword.toLowerCase())){
-                            transactionModelArrayList.add(transactionModel);
-                        }
-                        list.clear();
-                        list.addAll(transactionModelArrayList);
+                for (int i = 0;i< list.size();i++ ){
+                    if (transactionModel.getId() == list.get(i).getId()){
+                        list.remove(i);
                         updateStatusLandlordAdapter.notifyDataSetChanged();
+                        break;
                     }
                 }
             }
@@ -146,15 +134,11 @@ public class UpdateStatusLandlordActivity extends AppCompatActivity implements R
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 TransactionModel transactionModel = snapshot.getValue(TransactionModel.class);
-                ArrayList<TransactionModel> transactionModelArrayList = new ArrayList<>();
-                if (transactionModel.getStatus().equals("1")){
-                    if(transactionModel!=null){
-                        if(transactionModel.getPrice().toLowerCase().contains(keyword.toLowerCase())){
-                            transactionModelArrayList.add(transactionModel);
-                        }
-                        list.clear();
-                        list.addAll(transactionModelArrayList);
+                for (int i = 0;i< list.size();i++ ){
+                    if (transactionModel.getId() == list.get(i).getId()){
+                        list.remove(i);
                         updateStatusLandlordAdapter.notifyDataSetChanged();
+                        break;
                     }
                 }
             }

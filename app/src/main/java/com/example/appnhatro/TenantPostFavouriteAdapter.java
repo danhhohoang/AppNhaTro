@@ -17,7 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appnhatro.Models.BitMap;
 import com.example.appnhatro.Models.Post;
+import com.example.appnhatro.Models.user;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -28,6 +34,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TenantPostFavouriteAdapter extends RecyclerView.Adapter<TenantPostFavouriteAdapter.TenantPostFavourite> implements Filterable {
     private Activity context;
@@ -56,11 +64,11 @@ public class TenantPostFavouriteAdapter extends RecyclerView.Adapter<TenantPostF
         Post post = mPostLists.get(position);
         holder.house_name.setText(post.getHouse_name() );
         DecimalFormat formatter = new DecimalFormat("#,###,###");
-        holder.price.setText(formatter.format(Integer.valueOf(post.getPrice())));
+        holder.price.setText(formatter.format(Integer.valueOf(post.getPrice()))+" VND");
         holder.address.setText(post.getAddress());
-        holder.area.setText(formatter.format(Integer.valueOf(post.getArea())));
+        holder.area.setText(formatter.format(Integer.valueOf(post.getArea())) + " m2");
         BitMap bitMap = new BitMap(post.getImage(),null);
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference(bitMap.getTenHinh());
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference("images/post/" + bitMap.getTenHinh());
         try {
             final File file= File.createTempFile(bitMap.getTenHinh().substring(0,bitMap.getTenHinh().length()-4),"jpg");
             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -73,6 +81,36 @@ public class TenantPostFavouriteAdapter extends RecyclerView.Adapter<TenantPostF
         } catch (IOException e) {
             e.printStackTrace();
         }
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("user").child(post.getUserID()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                user _user = snapshot.getValue(user.class);
+                BitMap bitMap2 = new BitMap(_user.getAvatar(), null);
+                StorageReference storageReference2 = FirebaseStorage.getInstance().getReference().child("images/user/" + bitMap2.getTenHinh());
+
+                try {
+                    final File file2 = File.createTempFile(bitMap2.getTenHinh(), "jpg");
+                    storageReference2.getFile(file2).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            bitMap2.setHinh(BitmapFactory.decodeFile(file2.getAbsolutePath()));
+                            holder.circleImageView.setImageBitmap(bitMap2.getHinh());
+                        }
+                    });
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         //Event processing
         final int pos = position;
         holder.onClickListener= new View.OnClickListener() {
@@ -103,6 +141,7 @@ public class TenantPostFavouriteAdapter extends RecyclerView.Adapter<TenantPostF
 
         TextView post_id,user_id,area,price,house_name,address,attachment,status,wishlist;
         ImageView picture;
+        CircleImageView circleImageView;
         View.OnClickListener onClickListener;
         CardView item;
 
@@ -113,6 +152,7 @@ public class TenantPostFavouriteAdapter extends RecyclerView.Adapter<TenantPostF
             area = itemView.findViewById(R.id.txt_tpfArea);
             price = itemView.findViewById(R.id.txt_tpfPrice);
             picture = itemView.findViewById(R.id.iv_tpfPicture);
+            circleImageView = itemView.findViewById(R.id.ci_tpfAVT);
             item = itemView.findViewById(R.id.cv_tpfCardView);
             item.setOnClickListener(this);
         }

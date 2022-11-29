@@ -33,7 +33,7 @@ import java.util.HashMap;
 
 public class ReserPasswordChangeActivity extends AppCompatActivity {
     Button btnLuuMatKhauMoi;
-    EditText txtMatKhauMoi,txtNhapLaiMatKhauMoi;
+    EditText txtMatKhauMoi,txtNhapLaiMatKhauMoi,txtEmail;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +52,7 @@ public class ReserPasswordChangeActivity extends AppCompatActivity {
 //                dao.update("KH01",hashMap).addOnSuccessListener(suc->{
 //                    Toast.makeText(ReserPasswordChangeActivity.this,"Thay đổi mật khẩu thành công",Toast.LENGTH_SHORT).show();
 //                });
+                String mail = txtEmail.getText().toString();
                 String pass = txtMatKhauMoi.getText().toString();
                 String repass = txtNhapLaiMatKhauMoi.getText().toString();
                 if (!repass.equals(pass)){
@@ -69,7 +70,7 @@ public class ReserPasswordChangeActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                             user User = dataSnapshot.getValue(user.class);
-                            if(User.getEmail().equals(data)) {
+                            if(User.getEmail().equals(mail)) {
                                 dataSnapshot.getRef().child("password").setValue(pass);
                             }
                         }
@@ -95,6 +96,7 @@ public class ReserPasswordChangeActivity extends AppCompatActivity {
     }
     private void init(){
         btnLuuMatKhauMoi = findViewById(R.id.btnLuuMatKhauMoi);
+        txtEmail = findViewById(R.id.txtEmail);
         txtMatKhauMoi = findViewById(R.id.txtMatKhauMoi);
         txtNhapLaiMatKhauMoi = findViewById(R.id.txtNhapLaiMatKhauMoi);
     }
