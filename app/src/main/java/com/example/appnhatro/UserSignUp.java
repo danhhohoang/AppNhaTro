@@ -130,41 +130,35 @@ public class UserSignUp extends AppCompatActivity {
 
     public void Click(){
         Handler handler = new Handler();
-        storageReference = FirebaseStorage.getInstance().getReference("images/user/"+idAuto);
+        storageReference = FirebaseStorage.getInstance().getReference("images/user/"+idAuto+".jpg");
         final  Dialog dialog = new Dialog(UserSignUp.this);
         openDialogNotifyNoButton(dialog,Gravity.CENTER,"Tạo tài khoản thành công",R.layout.layout_dialog_notify_no_button);
         storageReference.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        if (dialog.isShowing()){
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    dialog.dismiss();
-                                }
-                            },2000);
-                        }
+
                     }
                 });
         databaseReference = FirebaseDatabase.getInstance().getReference("user/"+idAuto);
-        user um = new user(idAuto,name.getText().toString(),email.getText().toString(),phone.getText().toString(),password.getText().toString(),"test",idAuto);
+        user um = new user(idAuto,name.getText().toString(),email.getText().toString(),phone.getText().toString(),password.getText().toString(),"test",idAuto,"0");
         databaseReferenceUR = FirebaseDatabase.getInstance().getReference("User_Role/"+idAuto);
-        USER_ROLE ur = new USER_ROLE("2",idAuto);
+        USER_ROLE ur = new USER_ROLE("1",idAuto);
         databaseReferenceUR.setValue(ur);
         databaseReference.setValue(um, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                finish();
+                if (dialog.isShowing()){
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    },2000);
+                }
             }
         });
-//        dao.add(um).addOnSuccessListener(suc->{
-//            Toast.makeText(this,"Đăng ký thành công",Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(this,TenantPostFavourite.class);
-//            startActivity(intent);
-//        }).addOnFailureListener(er->{
-//            Toast.makeText(this,"Đăng ký không thành công",Toast.LENGTH_SHORT).show();
-//        });
     }
 
     public void openFolder() {
