@@ -7,6 +7,7 @@
     android:layout_marginRight="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="10dp"
+    app:cardCornerRadius="15dp"
     android:id="@+id/cv_tplCardView">
 
     <LinearLayout
@@ -21,8 +22,6 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="110dp"
                 android:layout_height="120dp"
-                android:layout_marginTop="1.4dp"
-                android:layout_marginLeft="2dp"
                 app:cardCornerRadius="12dp">
                 <ImageView
                     android:id="@+id/iv_tplImage"
@@ -32,12 +31,12 @@
                     android:src="@drawable/house">
                 </ImageView>
             </androidx.cardview.widget.CardView>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="14dp"
-                android:paddingLeft="6dp"
-                android:text="Trạng thái:còn chỗ"/>
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingTop="14dp"-->
+<!--                android:paddingLeft="6dp"-->
+<!--                android:text="Trạng thái:còn chỗ"/>-->
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,7 +60,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ci_tplAVT"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/ic_search"
