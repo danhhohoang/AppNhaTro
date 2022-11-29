@@ -549,7 +549,7 @@ public class TenantPostDetail extends AppCompatActivity {
                         openDialogNotifyNoButton(dialog,Gravity.CENTER,"Đặt cọc thành công", R.layout.layout_dialog_notify_no_button);
                         DatabaseReference databaseReference;
                         databaseReference = FirebaseDatabase.getInstance().getReference("HistoryTransaction/" + idAuto);
-                        TransactionModel transactionModel = new TransactionModel(idAuto, pricePost, it_idLogin,idUser, it_id, "1", currentDate, String.valueOf(deposits));
+                        TransactionModel transactionModel = new TransactionModel(idAuto, pricePost, it_idLogin,idUser, it_id, "0", currentDate, String.valueOf(deposits));
                         databaseReference.setValue(transactionModel);
                     }
 //                    tvMessage.setText("message: " + "Get token " + data.getStringExtra("message"));
