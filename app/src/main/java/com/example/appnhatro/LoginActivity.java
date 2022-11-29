@@ -153,12 +153,7 @@ public class LoginActivity extends AppCompatActivity {
         tvQuenMatKhau.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (TextUtils.isEmpty(txtEmail.getText().toString())) {
-                    txtEmail.setError("Cần nhập tên đăng nhập");
-                    return;
-                }
                 Intent intent = new Intent(LoginActivity.this, VertifyPhoneNumberActivity.class);
-                intent.putExtra("email_check", txtEmail.getText().toString());
                 startActivity(intent);
             }
         });

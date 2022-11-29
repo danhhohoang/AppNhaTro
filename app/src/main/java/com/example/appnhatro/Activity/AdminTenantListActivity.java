@@ -50,7 +50,7 @@ public class AdminTenantListActivity extends AppCompatActivity implements Recycl
     }
 
     public void setData() {
-        adapter = new TenantListAdapter(this, R.layout.item_admin_tenant_list, userArrayList);
+        adapter = new TenantListAdapter(this, R.layout.item_admin_tenant_list, userArrayList,this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -60,7 +60,7 @@ public class AdminTenantListActivity extends AppCompatActivity implements Recycl
 //        appearanceList.addAll(userArrayList);
         searchView.clearFocus();
         searchView.setQuery("",false);
-        adapter = new TenantListAdapter(this, R.layout.item_admin_tenant_list, userArrayList);
+        adapter = new TenantListAdapter(this, R.layout.item_admin_tenant_list, userArrayList,this);
 
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -77,7 +77,7 @@ public class AdminTenantListActivity extends AppCompatActivity implements Recycl
             }
         }
 
-        adapter = new TenantListAdapter(this, R.layout.item_admin_tenant_list, appearanceList);
+        adapter = new TenantListAdapter(this, R.layout.item_admin_tenant_list, appearanceList,this);
         recyclerView.setAdapter(adapter);
     }
 
