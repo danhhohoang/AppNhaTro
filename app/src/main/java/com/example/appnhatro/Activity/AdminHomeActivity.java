@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -120,8 +121,10 @@ public class AdminHomeActivity extends AppCompatActivity {
         itemMenuAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+                String idUser = sharedPreferences.getString("idUser", "");
                 Intent intent = new Intent(AdminHomeActivity.this,AdminAccountActivity.class);
-                intent.putExtra("ID","KH01");
+                intent.putExtra("ID",idUser);
                 startActivity(intent);
             }
         });
