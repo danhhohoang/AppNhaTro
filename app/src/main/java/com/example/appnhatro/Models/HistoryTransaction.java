@@ -2,12 +2,13 @@ package com.example.appnhatro.Models;
 
 public class HistoryTransaction {
     private String id;
+    private String price;
     private String id_user;
     private String id_landlord;
     private String post;
     private String status;
-    private String price;
     private String date;
+    private String deposits;
 
     public String getId_landlord() {
         return id_landlord;
@@ -17,14 +18,23 @@ public class HistoryTransaction {
         this.id_landlord = id_landlord;
     }
 
-    public HistoryTransaction(String id, String id_user, String id_landlord, String post, String status, String price, String date) {
+    public String getDeposits() {
+        return deposits;
+    }
+
+    public void setDeposits(String deposits) {
+        this.deposits = deposits;
+    }
+
+    public HistoryTransaction(String id, String price, String id_user, String id_landlord, String post, String status, String date, String deposits) {
         this.id = id;
+        this.price = price;
         this.id_user = id_user;
         this.id_landlord = id_landlord;
         this.post = post;
         this.status = status;
-        this.price = price;
         this.date = date;
+        this.deposits = deposits;
     }
 
     public HistoryTransaction() {

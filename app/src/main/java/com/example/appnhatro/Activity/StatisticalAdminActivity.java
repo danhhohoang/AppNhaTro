@@ -34,8 +34,6 @@ import java.util.List;
 public class StatisticalAdminActivity extends AppCompatActivity {
     ArrayList barArray;
     ArrayList barArrayFilter = new ArrayList();
-    DatabaseReference databaseReference1;
-    DatabaseReference databaseReference2;
     Spinner spinner;
     DatabaseReference databaseReferenceSp;
     List<String> names;
@@ -51,7 +49,6 @@ public class StatisticalAdminActivity extends AppCompatActivity {
         getBundle();
         getData();
         setControl();
-        Log.d("oncreate", "onCreate: "+feefilter11);
         BarChart barChart = findViewById(R.id.bc_saAll);
         BarDataSet barDataSet = new BarDataSet(barArray,"test");
         BarData barData = new BarData(barDataSet);
@@ -143,7 +140,6 @@ public class StatisticalAdminActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedItem = adapterView.getItemAtPosition(i).toString();
                 spDefaultValue = selectedItem;
-                Log.d("TAG", "onItemClick: "+selectedItem);
                 data(selectedItem);
             }
 
@@ -165,6 +161,7 @@ public class StatisticalAdminActivity extends AppCompatActivity {
                 barDataSet.setValueTextSize(16f);
                 barChart.getDescription().setEnabled(true);
                 barDataSet.notifyDataSetChanged();
+                barChart.invalidate();
             }
         });
     }
@@ -182,16 +179,12 @@ public class StatisticalAdminActivity extends AppCompatActivity {
         feefilter11 = 0;
         feefilter12 = 0;
         DatabaseReference databaseReference1;
-        DatabaseReference databaseReference2;
         databaseReference1 = FirebaseDatabase.getInstance().getReference("HistoryTransaction");
-        databaseReference2 = FirebaseDatabase.getInstance().getReference("Post");
-
         databaseReference1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     TransactionModel transactionModel = dataSnapshot.getValue(TransactionModel.class);
-                    Log.d("haha", "onDataChange: "+onSelected);
                     if (transactionModel.getId_landlord().equals(onSelected)) {
                         String[] parse = transactionModel.getDate().split("-");
                         String month;
@@ -261,7 +254,6 @@ public class StatisticalAdminActivity extends AppCompatActivity {
                             int m11 = 0;
                             m11 += price;
                             feefilter11 = m11;
-                            Log.d("TAG", "onDataChange: "+feefilter11);
                         }
                         if (month.equals("12")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());

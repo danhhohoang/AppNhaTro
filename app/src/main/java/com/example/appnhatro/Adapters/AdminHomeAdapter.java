@@ -61,9 +61,16 @@ public class AdminHomeAdapter extends RecyclerView.Adapter<AdminHomeAdapter.MyVi
         HistoryTransaction post = historyTransactions.get(position);
         holder.tvIdPost.setText(post.getPost());
         DecimalFormat formatter = new DecimalFormat("#,###,###");
-        holder.tvPrice.setText(formatter.format(Integer.valueOf(post.getPrice())*2/100));
+        holder.tvPrice.setText(formatter.format(Integer.valueOf(post.getPrice())*5/100));
         holder.tvIdUser.setText(post.getId_user());
         holder.tvDate.setText(post.getDate());
+        if(post.getStatus().equals("2")){
+            holder.btnXacNhan.setVisibility(View.GONE);
+            holder.tvTienCanThu.setText("Tiền Hoa Hồng");
+        }else {
+            holder.btnXacNhan.setVisibility(View.VISIBLE);
+            holder.tvTienCanThu.setText("Tiền Cần Thu");
+        }
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
         databaseReference.child("Post").addValueEventListener(new ValueEventListener() {
@@ -152,7 +159,7 @@ public class AdminHomeAdapter extends RecyclerView.Adapter<AdminHomeAdapter.MyVi
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         View.OnClickListener onItemClickLisner;
         ImageView hinh;
-        TextView tvIdUser,tvNameUser,tvIdPost,tvPrice,tvDate;
+        TextView tvIdUser,tvNameUser,tvIdPost,tvPrice,tvDate,tvTienCanThu;
         Button btnXacNhan;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -163,6 +170,7 @@ public class AdminHomeAdapter extends RecyclerView.Adapter<AdminHomeAdapter.MyVi
             btnXacNhan = itemView.findViewById(R.id.btnXacNhanAdmin);
             tvDate = itemView.findViewById(R.id.tvDateHomeAdmin);
             hinh = itemView.findViewById(R.id.imgItemHomeAdmin);
+            tvTienCanThu = itemView.findViewById(R.id.tvTienCanThu);
         }
 
         @Override
