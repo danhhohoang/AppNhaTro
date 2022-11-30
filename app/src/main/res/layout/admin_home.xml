@@ -1,52 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    android:orientation="vertical">
 
 
     <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/ah_drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:id="@+id/ah_drawerLayout">
+        android:fitsSystemWindows="true">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <androidx.appcompat.widget.Toolbar
+                android:id="@+id/ah_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title="Danh sách"
-                app:titleTextColor="@color/white"
                 android:background="#0000FD"
-                android:id="@+id/ah_toolbar"/>
+                app:title="Danh sách"
+                app:titleTextColor="@color/white" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvHomeAdmin"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="10"/>
+                android:layout_weight="10" />
         </LinearLayout>
+
         <com.google.android.material.navigation.NavigationView
+            android:id="@+id/ah_navigationView"
             android:layout_width="wrap_content"
-            android:layout_marginTop="85dp"
             android:layout_height="wrap_content"
-            android:minHeight="350dp"
             android:layout_gravity="start"
-            android:fitsSystemWindows="true"
+            android:layout_marginTop="85dp"
             android:background="@drawable/custom_navigationview"
-            android:id="@+id/ah_navigationView">
+            android:fitsSystemWindows="true"
+            android:minHeight="350dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/line_nav_bar_menu">
+
                     <TextView
                         android:id="@+id/tv_ahDSCT"
                         android:layout_width="match_parent"
@@ -54,14 +61,16 @@
                         android:layout_marginLeft="15dp"
                         android:paddingBottom="2dp"
                         android:text="Danh sách chủ trọ"
-                        android:textSize="10pt"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/line_nav_bar_menu">
+
                     <TextView
                         android:id="@+id/tv_ahDSNTT"
                         android:layout_width="match_parent"
@@ -69,6 +78,21 @@
                         android:layout_marginLeft="15dp"
                         android:paddingBottom="2dp"
                         android:text="Danh sách người thuê trọ"
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/line_nav_bar_menu">
+                    <TextView
+                        android:id="@+id/tv_ListPost"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:paddingBottom="2dp"
+                        android:text="Danh Sách Bài Đăng"
                         android:textSize="10pt"
                         android:textColor="@color/black" />
                 </LinearLayout>
@@ -77,6 +101,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/line_nav_bar_menu">
+
                     <TextView
                         android:id="@+id/tv_ahCSVQL"
                         android:layout_width="match_parent"
@@ -84,14 +109,16 @@
                         android:layout_marginLeft="15dp"
                         android:paddingBottom="2dp"
                         android:text="Chính sách và quyền lợi"
-                        android:textSize="10pt"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/line_nav_bar_menu">
+
                     <TextView
                         android:id="@+id/tv_ahAccount"
                         android:layout_width="match_parent"
@@ -99,14 +126,16 @@
                         android:layout_marginLeft="15dp"
                         android:paddingBottom="2dp"
                         android:text="Account"
-                        android:textSize="10pt"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/line_nav_bar_menu">
+
                     <TextView
                         android:id="@+id/tv_ahGDGD"
                         android:layout_width="match_parent"
@@ -114,29 +143,33 @@
                         android:layout_marginLeft="15dp"
                         android:paddingBottom="2dp"
                         android:text="Giao dịch gần đây"
-                        android:textSize="10pt"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/line_nav_bar_menu">
+
                     <TextView
                         android:id="@+id/tv_ahGYND"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:paddingBottom="2dp"
-                        android:text="Danh sách lịch sử report"
-                        android:textSize="10pt"
-                        android:textColor="@color/black" />
+                        android:text="Danh sách report"
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/line_nav_bar_menu">
+
                     <TextView
                         android:id="@+id/tv_ahTKTT"
                         android:layout_width="match_parent"
@@ -144,13 +177,15 @@
                         android:layout_marginLeft="15dp"
                         android:paddingBottom="2dp"
                         android:text="Thống kê theo tháng"
-                        android:textSize="10pt"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp">
+
                     <TextView
                         android:id="@+id/tv_ahDX"
                         android:layout_width="match_parent"
@@ -158,8 +193,8 @@
                         android:layout_marginLeft="15dp"
                         android:paddingBottom="2dp"
                         android:text="Đăng xuất"
-                        android:textSize="10pt"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textSize="10pt" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.navigation.NavigationView>
