@@ -30,6 +30,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class LoginActivity extends AppCompatActivity {
     EditText txtEmail;
     EditText txtPassword;
@@ -105,49 +107,37 @@ public class LoginActivity extends AppCompatActivity {
                     String pass = txtPassword.getText().toString();
                     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                     DatabaseReference databaseReference = firebaseDatabase.getReference();
-                    databaseReference.child("user").addValueEventListener(new ValueEventListener() {
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             boolean check = false;
-                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            for (DataSnapshot dataSnapshot : snapshot.child("user").getChildren()) {
                                 user User = dataSnapshot.getValue(user.class);
                                 if (User.getEmail().equals(email) && User.getPassword().equals(pass) && User.getStatus().equals("0")) {
-                                    DatabaseReference databaseReference = firebaseDatabase.getReference();
                                     check = true;
-                                    databaseReference.child("User_Role").child(User.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            USER_ROLE userRole = snapshot.getValue(USER_ROLE.class);
-                                            if (userRole.getId_role().equals("1")) {
-                                                sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
-                                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                                editor.putString("idUser", userRole.getId_user());
-                                                editor.apply();
-                                                Intent intent = new Intent(LoginActivity.this, HomeTenantActivity.class);
-                                                startActivity(intent);
-                                            } else if (userRole.getId_role().equals("2")) {
-                                                sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
-                                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                                editor.putString("idUser", userRole.getId_user());
-                                                editor.apply();
-                                                Intent intent = new Intent(LoginActivity.this, LandLordHomeActivity.class);
-                                                startActivity(intent);
-                                            } else {
-                                                sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
-                                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                                editor.putString("idUser", userRole.getId_user());
-                                                editor.apply();
-                                                Intent intent = new Intent(LoginActivity.this, AdminHomeActivity.class);
-                                                startActivity(intent);
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-
-                                        }
-                                    });
-                                    break;
+                                    USER_ROLE userRole = snapshot.child("User_Role").child(User.getId()).getValue(USER_ROLE.class);
+                                    if (userRole.getId_role().equals("1")) {
+                                        sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("idUser", userRole.getId_user());
+                                        editor.apply();
+                                        Intent intent = new Intent(LoginActivity.this, HomeTenantActivity.class);
+                                        startActivity(intent);
+                                    } else if (userRole.getId_role().equals("2")) {
+                                        sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("idUser", userRole.getId_user());
+                                        editor.apply();
+                                        Intent intent = new Intent(LoginActivity.this, LandLordHomeActivity.class);
+                                        startActivity(intent);
+                                    } else {
+                                        sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("idUser", userRole.getId_user());
+                                        editor.apply();
+                                        Intent intent = new Intent(LoginActivity.this, AdminHomeActivity.class);
+                                        startActivity(intent);
+                                    }
                                 }
                             }
                             if (!check) {
@@ -164,10 +154,9 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }
 
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(LoginActivity.this, "Tài khoản hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
+
                         }
                     });
                 }
