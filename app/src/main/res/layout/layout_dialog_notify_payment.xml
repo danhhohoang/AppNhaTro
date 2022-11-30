@@ -37,7 +37,7 @@
             android:paddingTop="10dp"
             android:gravity="center"
             android:textSize="16dp"
-            android:textColor="@color/black"
+            android:textColor="@color/green"
             android:text="Số tiền đặt cọc cần phải trả là" />
         <TextView
             android:layout_width="match_parent"
@@ -46,7 +46,17 @@
             android:gravity="center"
             android:textSize="16dp"
             android:textColor="@color/black"
-            android:text="Nếu đã đồng ý xin thanh toán bằng MOMO" />
+            android:text="Nếu đã đồng ý xin thanh toán bằng tài khoản VCB:" />
+        <TextView
+            android:id="@+id/tv_dnpSTK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:gravity="center"
+            android:textSize="16dp"
+            android:textColor="@color/red"
+            android:textStyle="bold"
+            android:text="0071000630947" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:textSize="16dp"
-            android:text="MOMO"
+            android:text="Đồng ý"
             android:textColor="@color/black"
             android:background="@drawable/bg_buttonright_notify"
             app:backgroundTint="@null"
