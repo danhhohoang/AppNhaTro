@@ -230,10 +230,10 @@ public class LandLordHomeActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     TransactionModel transactionModel = dataSnapshot.getValue(TransactionModel.class);
-                    if (transactionModel.getId_user().equals(getID)) {
-                        String[] parse = transactionModel.getDate().split(" ");
+                    if (transactionModel.getId_landlord().equals(getID) && !transactionModel.getStatus().equals("0")) {
+                        String[] parse = transactionModel.getDate().split("-");
                         String month;
-                        month = parse[0];
+                        month = parse[1];
                         if (month.equals("1")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m1 = 0;
