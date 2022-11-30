@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -418,7 +419,9 @@ public class FireBaseThueTro {
                 boolean check = false;
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     HistoryTransaction historyTransaction = dataSnapshot.getValue(HistoryTransaction.class);
-                    if (historyTransaction.getId_user().equals(idUser) && !historyTransaction.getPost().equals(idPost)&&!historyTransaction.getStatus().equals("0")) {
+                    Log.d("Tri", "idUser"+historyTransaction.getId_user()+"| id Post:"+historyTransaction.getPost()+"| status:"+historyTransaction.getStatus());
+                    if (historyTransaction.getId_user().equals(idUser) && historyTransaction.getPost().equals(idPost)&&!historyTransaction.getStatus().equals("0")) {
+                        Log.d("Tri", "trong if ");
                         check = true;
                     }
                 }
@@ -669,7 +672,7 @@ public class FireBaseThueTro {
                 boolean check = false;
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     HistoryTransaction historyTransaction = dataSnapshot.getValue(HistoryTransaction.class);
-                    if (historyTransaction.getId_user().equals(idUser) && historyTransaction.getPost().equals(idPost)) {
+                    if (historyTransaction.getId_user().equals(idUser) && historyTransaction.getPost().equals(idPost)&&!historyTransaction.getStatus().equals("0")) {
                         check = true;
                     }
                 }
