@@ -152,7 +152,7 @@ public class UpdateStatusLandlordActivity extends AppCompatActivity implements R
 
     @Override
     public void onclick(int position) {
-        TransactionModel transactionModel = new TransactionModel(list.get(position).getId(),list.get(position).getPrice(),list.get(position).getId_user(),list.get(position).getId_landlord(),list.get(position).getPost(),"2",list.get(position).getDate(),list.get(position).getDeposits());
+        TransactionModel transactionModel = new TransactionModel(list.get(position).getId(),list.get(position).getPrice(),list.get(position).getId_user(),list.get(position).getId_landlord(),list.get(position).getPost(),"1",list.get(position).getDate(),list.get(position).getDeposits());
         DatabaseReference databaseReference2;
         databaseReference2 = FirebaseDatabase.getInstance().getReference("HistoryTransaction");
         databaseReference2.child(list.get(position).getId()).child("status").setValue(transactionModel.getStatus());
