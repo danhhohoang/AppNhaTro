@@ -10,6 +10,8 @@
     android:layout_weight="1">
 
     <LinearLayout
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -48,10 +50,10 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="204dp"
+                        android:layout_width="62dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Tên" />
+                        android:text="  Tên" />
 
                     <EditText
                         android:id="@+id/edt_rpname"
@@ -69,10 +71,10 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="225dp"
+                        android:layout_width="67dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="ID" />
+                        android:text="  ID" />
 
                     <EditText
                         android:id="@+id/edt_rpid"
