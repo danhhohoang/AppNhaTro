@@ -24,14 +24,16 @@ public class FirebaseTenantNofication {
         databaseReference2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                ArrayList<Notificationbooking> notifi = new ArrayList<>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Notificationbooking notificationbooking = dataSnapshot.getValue(Notificationbooking.class);
                     if (notificationbooking.getIdUser().equals(idUser))
                         {
-                        list.add(notificationbooking);
+                            notifi.add(notificationbooking);
                     }
                 }
+                list.clear();
+                list.addAll(notifi);
                 tenant_notification_adapter.notifyDataSetChanged();
             }
 

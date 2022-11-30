@@ -25,12 +25,16 @@ public class Firebase_report_notifi {
         databaseReference2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<NotifiAdminmodels> notifi = new ArrayList<>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     NotifiAdminmodels notifiAdminmodels = dataSnapshot.getValue(NotifiAdminmodels.class);
-                    if (notifiAdminmodels.getIduser().equals(getID)) {
-                        list.add(notifiAdminmodels);
+                    if (notifiAdminmodels.getIduser().equals(getID))
+                    {
+                        notifi.add(notifiAdminmodels);
                     }
                 }
+                list.clear();
+                list.addAll(notifi);
                 tenant_report_notifi_adapter.notifyDataSetChanged();
             }
 
