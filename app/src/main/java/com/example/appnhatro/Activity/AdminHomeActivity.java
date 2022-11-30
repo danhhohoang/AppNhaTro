@@ -211,6 +211,7 @@ public class AdminHomeActivity extends AppCompatActivity {
                             int m3 = 0;
                             m3 += price*5/100;
                             fee3 += m3;
+
                         }
                         if (month.equals("4")) {
                             int price = Integer.valueOf(transactionModel.getPrice());
@@ -235,6 +236,7 @@ public class AdminHomeActivity extends AppCompatActivity {
                             int m7 = 0;
                             m7 += price*5/100;
                             fee7 += m7;
+
                         }
                         if (month.equals("8")) {
                             int price = Integer.valueOf(transactionModel.getPrice());
@@ -265,6 +267,7 @@ public class AdminHomeActivity extends AppCompatActivity {
                             int m12 = 0;
                             m12 += price*5/100;
                             fee12 += m12;
+
                         }
                     }
                 }
