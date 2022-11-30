@@ -207,7 +207,7 @@ public class StatisticalAdminActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     TransactionModel transactionModel = dataSnapshot.getValue(TransactionModel.class);
-                    if (transactionModel.getId_landlord().equals(onSelected)) {
+                    if (transactionModel.getId_landlord().equals(onSelected) && !transactionModel.getStatus().equals("0")) {
                         String[] parse = transactionModel.getDate().split("-");
                         String month;
                         month = parse[1];
