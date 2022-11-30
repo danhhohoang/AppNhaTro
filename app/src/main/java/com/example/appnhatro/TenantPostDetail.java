@@ -155,7 +155,7 @@ public class TenantPostDetail extends AppCompatActivity {
             rcvComment.setAdapter(adapterComment);
 
 
-            //Phong tro
+//            Phong tro
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rcvPostAnotherDetail);
             myRecyclerViewAdapterLienQuan = new MyRecyclerViewAdapter(this, R.layout.layout_item_list_horizontal, listLienQuan);
             GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
@@ -227,6 +227,9 @@ public class TenantPostDetail extends AppCompatActivity {
     public void setName(user User, Bitmap hinh) {
         nameUser.setText(User.getName());
         imgAvatar.setImageBitmap(hinh);
+    }
+    public void setNames(user User) {
+        nameUser.setText(User.getName());;
     }
 
     public void event() {
@@ -503,12 +506,12 @@ public class TenantPostDetail extends AppCompatActivity {
         eventValue.put("merchantname", merchantName); //Tên đối tác. được đăng ký tại https://business.momo.vn. VD: Google, Apple, Tiki , CGV Cinemas
         eventValue.put("merchantcode", merchantCode); //Mã đối tác, được cung cấp bởi MoMo tại https://business.momo.vn
         eventValue.put("amount", Integer.valueOf((int) deposits)); //Kiểu integer
-        eventValue.put("orderId", "123"); //uniqueue id cho Bill order, giá trị duy nhất cho mỗi đơn hàng
-        eventValue.put("orderLabel", "Mã đơn hàng"); //gán nhãn
+        eventValue.put("orderId", idAuto); //uniqueue id cho Bill order, giá trị duy nhất cho mỗi đơn hàng
+        eventValue.put("orderLabel", "Test"); //gán nhãn
 
         //client Optional - bill info
         eventValue.put("merchantnamelabel", merchantNameLabel);//gán nhãn
-        eventValue.put("fee", "0"); //Kiểu integer
+        eventValue.put("fee", Integer.valueOf((int) deposits)); //Kiểu integer
         eventValue.put("description", description); //mô tả đơn hàng - short description
 
         //client extra data
@@ -527,6 +530,7 @@ public class TenantPostDetail extends AppCompatActivity {
             e.printStackTrace();
         }
         eventValue.put("extraData", objExtraData.toString());
+
 
         eventValue.put("extra", "");
         AppMoMoLib.getInstance().requestMoMoCallBack(this, eventValue);
@@ -652,7 +656,13 @@ public class TenantPostDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                requestPayment();
+                final Dialog dialog = new Dialog(TenantPostDetail.this);
+                openDialogNotifyNoButton(dialog,Gravity.CENTER,"Đặt cọc thành công", R.layout.layout_dialog_notify_no_button);
+                DatabaseReference databaseReference;
+                databaseReference = FirebaseDatabase.getInstance().getReference("HistoryTransaction/" + idAuto);
+                TransactionModel transactionModel = new TransactionModel(idAuto, pricePost, it_idLogin,idUser, it_id, "0", currentDate, String.valueOf(deposits));
+                databaseReference.setValue(transactionModel);
+//                requestPayment();
             }
         });
         dialog.show();
