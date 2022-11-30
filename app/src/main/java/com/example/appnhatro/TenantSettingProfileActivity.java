@@ -275,7 +275,7 @@ public class TenantSettingProfileActivity extends AppCompatActivity {
         } else {
             fileName = mListUser.getAvatar();
             if (fileName.equals(mListUser.getId() +".jpg")){
-                String a1 = mListUser.getId()+"1.jpg";
+                String a1 = mListUser.getId()+"o.jpg";
                 upImage(a1);
 
             }else {
