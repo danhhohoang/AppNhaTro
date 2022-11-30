@@ -15,7 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.appnhatro.Models.Post;
 import com.example.appnhatro.Models.TransactionModel;
+import com.example.appnhatro.Models.USER_ROLE;
+import com.example.appnhatro.Models.user;
 import com.example.appnhatro.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
@@ -36,7 +39,9 @@ public class StatisticalAdminActivity extends AppCompatActivity {
     ArrayList barArrayFilter = new ArrayList();
     Spinner spinner;
     DatabaseReference databaseReferenceSp;
+    DatabaseReference databaseReferenceRole;
     List<String> names;
+    List<String> names2;
     String spDefaultValue;
     Bundle bundle;
     Button filter;
@@ -117,22 +122,39 @@ public class StatisticalAdminActivity extends AppCompatActivity {
         spinner = findViewById(R.id.sp_saUser);
         filter = findViewById(R.id.btn_saFilter);
         names = new ArrayList<>();
+        names2 = new ArrayList<>();
         databaseReferenceSp = FirebaseDatabase.getInstance().getReference();
+        databaseReferenceRole = FirebaseDatabase.getInstance().getReference("User_Role");
         databaseReferenceSp.child("user").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    String spinnerName = dataSnapshot.child("id").getValue(String.class);
-                    names.add(spinnerName);
+                    user _user = dataSnapshot.getValue(user.class);
+                    databaseReferenceRole.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                                USER_ROLE userRole = dataSnapshot1.getValue(USER_ROLE.class);
+                                if (userRole.getId_user().equals(_user.getId()) && userRole.getId_role().equals("2")){
+                                    String spinnerName = dataSnapshot.child("id").getValue(String.class);
+                                    names2.add(spinnerName);
+                                }
+                            }
+                            names.clear();
+                            names.addAll(names2);
+                            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(StatisticalAdminActivity.this, android.R.layout.simple_spinner_item,names);
+                            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                            spinner.setAdapter(arrayAdapter);
+                            arrayAdapter.notifyDataSetChanged();
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
                 }
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(StatisticalAdminActivity.this, android.R.layout.simple_spinner_item,names);
-                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-                spinner.setAdapter(arrayAdapter);
-                arrayAdapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -193,73 +215,73 @@ public class StatisticalAdminActivity extends AppCompatActivity {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m1 = 0;
                             m1 += price;
-                            feefilter1 = m1;
+                            feefilter1 += m1;
                         }
                         if (month.equals("2")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m2 = 0;
                             m2 += price;
-                            feefilter2 = m2;
+                            feefilter2 += m2;
                         }
                         if (month.equals("3")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m3 = 0;
                             m3 += price;
-                            feefilter3 = m3;
+                            feefilter3 += m3;
                         }
                         if (month.equals("4")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m4 = 0;
                             m4 += price;
-                            feefilter4 = m4;
+                            feefilter4 += m4;
                         }
                         if (month.equals("5")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m5 = 0;
                             m5 += price;
-                            feefilter5 = m5;
+                            feefilter5 += m5;
                         }
                         if (month.equals("6")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m6 = 0;
                             m6 += price;
-                            feefilter6 = m6;
+                            feefilter6 += m6;
                         }
                         if (month.equals("7")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m7 = 0;
                             m7 += price;
-                            feefilter7 = m7;
+                            feefilter7 += m7;
                         }
                         if (month.equals("8")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m8 = 0;
                             m8 += price;
-                            feefilter8 = m8;
+                            feefilter8 += m8;
                         }
                         if (month.equals("9")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m9 = 0;
                             m9 += price;
-                            feefilter9 = m9;
+                            feefilter9 += m9;
                         }
                         if (month.equals("10")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m10 = 0;
                             m10 += price;
-                            feefilter10 = m10;
+                            feefilter10 += m10;
                         }
                         if (month.equals("11")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m11 = 0;
                             m11 += price;
-                            feefilter11 = m11;
+                            feefilter11 += m11;
                         }
                         if (month.equals("12")) {
                             int price = Integer.valueOf(transactionModel.getDeposits());
                             int m12 = 0;
                             m12 += price;
-                            feefilter12 = m12;
+                            feefilter12 += m12;
                         }
                     }
                 }
