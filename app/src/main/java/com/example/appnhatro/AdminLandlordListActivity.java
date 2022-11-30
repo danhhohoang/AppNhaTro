@@ -79,7 +79,7 @@ public class AdminLandlordListActivity extends AppCompatActivity {
                                 user User = snapshot1.getValue(user.class);
                                 if (User != null) {
                                     if (User.getId().equals(user_role.getId_user())) {
-                                        if(User.getId().toLowerCase().contains(keywords.toLowerCase())){
+                                        if(User.getId().toLowerCase().contains(keywords.toLowerCase())||User.getName().toLowerCase().contains(keywords.toLowerCase())){
                                             list.add(0,User);
                                         }
                                     }
